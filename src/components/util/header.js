@@ -1,23 +1,21 @@
 import React, { Component} from 'react';
-import { fhe } from '../images/faculta_humanidades_educacion.png';
-import { ucv } from '../images/ucv.png';
-import './style_util.css';
+import { UCV, FHE } from '../../images/components/logos';
 
 
 class Header extends Component {
   render () {
     return (
-      <div>
-        <header className="header">
-          <table align="center">
-          <tbody>
-            <tr align="center">
-              <td height="25%" width="20%"><img src={ucv} width= '60%' height = '80%' /></td>
-              <td><h1>Sistema Automatizado del Movimiento de Personal <b>(SAMP)</b></h1></td>
-              <td height="25%" width="20%"><img src={fhe} width= '60%' height = '60%' padding = '0%' /></td>
-            </tr>
-            </tbody>
-          </table>
+      <div className="header" style = {{margin: 10, border: 50}}>
+        <header>
+              <div>
+                <UCV />
+              </div>
+              <div className= "text-center" style={{ margin: 1, padding: 10}}>
+                <h1>Sistema Automatizado del Movimiento de Personal <b>(SAMP)</b></h1>
+              </div>
+              <div>
+                <FHE />
+              </div>
         </header>
       </div>
     )
