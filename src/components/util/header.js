@@ -8,7 +8,7 @@ class Header extends Component {
   render () {
     return (
       <div>
-        <header className="Header">
+        <header className="header">
           <table align="center">
           <tbody>
             <tr align="center">
