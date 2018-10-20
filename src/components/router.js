@@ -13,7 +13,7 @@ class routerPrincipal extends Component {
       <div>
         <Router>
             <div>
-                <Route exact path="/" Component={login} />
+                <Route path="/" Component={login} />
                 <Route path="/Escuela" Component={school} />
                 <Route path="/Presupuesto" Component={budget} />
                 <Route path="/RRHH" Component={humanResources} />
