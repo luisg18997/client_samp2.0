@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 class Footer extends Component {
   render() {
     return(
-      <div className="text-bottom" style= {{marginTop: 1000}}>
+      <div className="text-bottom" style= {{marginTop: 100}}>
         <footer>
           <hr/>
           <div>

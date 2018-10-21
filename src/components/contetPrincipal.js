@@ -1,13 +1,13 @@
 import React, { Component} from 'react';
-import Routes from './redirectPrincipal';
-import data from './router';
+import Rout from './router';
+
 
 class ContetPrincipal extends Component {
   render() {
     return (
       <div>
-      	<Routes />
-      	<data />
+
+      	<Rout />
       </div>
     )
   }
