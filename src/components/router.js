@@ -1,5 +1,5 @@
-import react { Component} from 'react';
-import  { BrowserRouter as Router, Route } from 'react-router-dom';
+import React, { Component} from 'react';
+import  { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import login from './user/';
 import school from './school/';
@@ -11,9 +11,31 @@ class routerPrincipal extends Component {
   render () {
     return (
       <div>
+        <div>
+              <ul className="navbar-nav mr-auto">
+              <li className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
+            <Link to='/'>
+              home
+            </Link>
+              </li>
+              <li>
+                <Link>
+            </Link>
+              </li>
+              <li>
+                <Link>
+            </Link>
+              </li>
+              <li>
+                <Link>
+            </Link>
+              </li>
+              </ul>
+          
+      </div>
         <Router>
             <div>
-                <Route path="/" Component={login} />
+                <Route exact path="/" Component={login} />
                 <Route path="/Escuela" Component={school} />
                 <Route path="/Presupuesto" Component={budget} />
                 <Route path="/RRHH" Component={humanResources} />
@@ -24,3 +46,6 @@ class routerPrincipal extends Component {
     )
   }
 }
+
+
+export default routerPrincipal;
