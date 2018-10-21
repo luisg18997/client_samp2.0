@@ -1,14 +1,13 @@
 import React, { Component} from 'react';
-import main from './router';
+import Routes from './redirectPrincipal';
+import data from './router';
 
 class ContetPrincipal extends Component {
   render() {
     return (
       <div>
-      	<main />
-      	<div className="headerWebBlue" style={{ height: 15 }} >
-       
-       </div>
+      	<Routes />
+      	<data />
       </div>
     )
   }
