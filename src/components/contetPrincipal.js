@@ -6,7 +6,6 @@ class ContetPrincipal extends Component {
   render() {
     return (
       <div>
-
       	<Rout />
       </div>
     )
