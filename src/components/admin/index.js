@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
 import { getAllRolesList, getAllUbicationsList } from '../connect_api/user/userAPI'
 
-
 class admin extends Component {
 
     constructor(){
@@ -11,7 +10,7 @@ class admin extends Component {
       apellido: "",
       email: "",
       rol: [],
-      ubicacion: {},
+      ubicacion: [],
       status: ""
     }
   }
@@ -22,7 +21,7 @@ class admin extends Component {
     this.setState({
       rol: result
     })
-    console.log(this.state);
+    console.log(this.state.rol[0].ROL);
   });
   getAllUbicationsList()
   .then(result => {
@@ -70,7 +69,6 @@ class admin extends Component {
   }
 
   render() {
-    const { rolesList } = this.props
     return (
       <div className="container">
         <br></br>
@@ -92,9 +90,6 @@ class admin extends Component {
 
       <div className="form-group">
             <label htmlFor="rol"> Rol</label>
-            <select className="form-control" id="rol" name="rol" value={this.state.rol} onChange={this.updateRol.bind(this)}>
-              <option value=""> Seleccione un Valor </option>
-            </select>
       </div>
 
       <div className="form-group">
@@ -104,11 +99,6 @@ class admin extends Component {
 
       <div className="form-group">
             <label htmlFor="status"> Status</label>
-            <select className="form-control" id="status" name="status" value={this.state.status} onChange={this.updateStatus.bind(this)}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="Activo"> Activo </option>
-              <option value="Inactivo"> Inactivo </option>
-            </select>
       </div>
 
         <br></br>
