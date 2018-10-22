@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
-// import * as UserApi from '../connect_api/user/userAPI'
-const api = process.env.URL_API || 'http://localhost:5000/users/'; 
+import { getAllRolesList, getAllUbicationsList } from '../connect_api/user/userAPI'
+
 
 class admin extends Component {
 
@@ -10,33 +10,28 @@ class admin extends Component {
       nombre: "",
       apellido: "",
       email: "",
-      rol: "",
-      ubicacion: "",
+      rol: [],
+      ubicacion: {},
       status: ""
     }
   }
 
  componentDidMount() {
- const roles  =	fetch(`${api}Roles`, 
-	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		} else {
-			return data 
-		}
-	})
-	.then(roles => roles.map(roles =>({
-		ID : roles.id,
-		description : roles.description
-	})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
-    
-  }
+  getAllRolesList()
+  .then(result => {
+    this.setState({
+      rol: result
+    })
+    console.log(this.state);
+  });
+  getAllUbicationsList()
+  .then(result => {
+    this.setState({
+      ubicacion : result
+    });
+    console.log(this.state);
+  })
+ }
 
  updateNombre(event) {
     this.setState({
@@ -75,9 +70,9 @@ class admin extends Component {
   }
 
   render() {
+    const { rolesList } = this.props
     return (
       <div className="container">
-
         <br></br>
 
         <div className="form-group">
@@ -99,8 +94,6 @@ class admin extends Component {
             <label htmlFor="rol"> Rol</label>
             <select className="form-control" id="rol" name="rol" value={this.state.rol} onChange={this.updateRol.bind(this)}>
               <option value=""> Seleccione un Valor </option>
-              <option value="admin"> Administrador </option>
-              <option value="usuario"> Usuario </option>
             </select>
       </div>
 
@@ -120,7 +113,7 @@ class admin extends Component {
 
         <br></br>
 
-        <button class="btn btn-primary" onClick={this.enviar.bind(this)}>Enviar</button>
+        <button className="btn btn-primary" onClick={this.enviar.bind(this)}>Enviar</button>
 
       </div>
     );
