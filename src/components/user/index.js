@@ -1,10 +1,10 @@
 import React, { Component} from 'react';
-import login from './login';
+import Login from './login';
 class user extends Component  {
   render() {
     return (
       <div>
-      <login />
+      <Login />
       <p>user</p>
       </div>
     )

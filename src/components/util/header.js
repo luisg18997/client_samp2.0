@@ -5,7 +5,7 @@ import { UCV, FHE } from '../../images/components/logos';
 class Header extends Component {
   render () {
     return (
-      <div className="header" style = {{margin: 10, border: 50}}>
+      <div className="header" style = {{margin: 1, padding: 10 }}>
         <header>
               <div>
                 <UCV />
