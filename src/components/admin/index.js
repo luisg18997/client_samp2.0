@@ -17,7 +17,7 @@ class admin extends Component {
   }
 
  componentDidMount() {
- 	fetch(`${api}Roles`, 
+ const roles  =	fetch(`${api}Roles`, 
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -25,7 +25,7 @@ class admin extends Component {
 			console.log(data);
 			return data;
 		} else {
-			console.log(data.map);
+			return data 
 		}
 	})
 	.then(roles => roles.map(roles =>({
