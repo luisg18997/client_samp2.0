@@ -1,10 +1,11 @@
 import React, { Component} from 'react';
+import MenuSchool from './menuSchool';
 
 class school extends Component {
 	render(){
 		return (
 			<div>
-				<p>school</p>
+				<MenuSchool />
 			</div>
 		)
 	}
