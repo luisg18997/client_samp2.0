@@ -19,6 +19,8 @@ class admin extends Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeSelectrol = this.handleChangeSelectrol.bind(this);
+    this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
   }
 
  componentDidMount() {
@@ -82,8 +84,6 @@ class admin extends Component {
       <div className="form-group">
             <label htmlFor="rol"> Rol</label>
             <Select
-              id = "rol"
-              name = "rol"
               onChange={this.handleChangeSelectrol}
               options={this.state.rolList.map(rol =>(
               {label: rol.ROL, value : rol.ID}
@@ -94,7 +94,6 @@ class admin extends Component {
       <div className="form-group">
         <label htmlFor="ubicacion"> Ubicación</label>
         <Select
-        value={this.state.ubicacion}
         onChange={this.handleChangeSelectub}
         options={this.state.ubicacionList.map(ub =>(
           {label: ub.Ubicacion, value : ub.ID}
