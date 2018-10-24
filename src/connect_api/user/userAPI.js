@@ -12,6 +12,10 @@ export const getAllRolesList = () => fetch(`${api}Roles`,
     	console.log('The error is:', error.message);
   	});
 
+export const postuser = (data) => {
+	const result = data;
+	console.log('result: ', result);
+}
 export const getAllSecurityQuestionsList = () => fetch(`${api}SecurityQuestions`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())

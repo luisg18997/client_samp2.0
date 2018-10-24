@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { getAllRolesList, getAllUbicationsList } from '../connect_api/user/userAPI';
+import { getAllRolesList, getAllUbicationsList, postuser } from '../../connect_api/user/userAPI';
 import Select from 'react-select';
 
 class admin extends Component {
@@ -17,7 +17,7 @@ class admin extends Component {
       statusList:[],
       status: ""
     }
-
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelectrol = this.handleChangeSelectrol.bind(this);
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
@@ -40,32 +40,36 @@ class admin extends Component {
   })
  }
 
+ handleSubmit = event => {
+   event.preventDefault();
+   const data = this.state
+   console.log(data);
+   postuser(data);
+
+ }
+
  handleChange = event => {
    this.setState({
      [event.target.id]: event.target.value
    });
-   console.log(this.state)
  }
  handleChangeSelectrol = event => {
    this.setState({
      rol : event.value
    });
-   console.log(this.state)
  }
 
  handleChangeSelectub = event => {
    this.setState({
      ubicacion : event.value
    });
-   console.log(event.value)
-   console.log(this.state)
  }
 
   render() {
     return (
       <div className="container">
         <br></br>
-
+        <form onSubmit={this.handleSubmit} className="form-container">
         <div className="form-group">
             <label htmlFor="nombre"> Nombre</label>
             <input className="form-control" type="text" name="nombre" id="nombre" value={this.state.nombre} onChange={this.handleChange}/>
@@ -107,8 +111,8 @@ class admin extends Component {
 
         <br></br>
 
-        <button className="btn btn-primary" onClick={this.enviar.bind(this)}>Enviar</button>
-
+        <button className="btn btn-primary">Enviar</button>
+        </form>
       </div>
     );
   }
