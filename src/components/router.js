@@ -27,7 +27,7 @@ class routerPrincipal extends Component {
               <Link to='/RRHH'>RRHH</Link>
               </li>
                <li  className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
-              <Link to='/admin'>admin</Link>
+              <Link to='/Admin'>admin</Link>
               </li>
           </ul> 
 
@@ -36,7 +36,7 @@ class routerPrincipal extends Component {
                 <Route  path="/Escuela" component={school} />
                 <Route  path="/Presupuesto" component={budget} />
                 <Route  path="/RRHH" component={humanResources} />
-                <Route  path="/admin" component={admin} />
+                <Route  path="/Admin" component={admin} />
               </Switch>
               </div>
         </Router>
