@@ -6,6 +6,8 @@ import school from './school';
 import budget from './budget';
 import humanResources from './human_Resources';
 import admin from './admin';
+import UserRegister from './user/registroUsuario';
+import ClaveOlvidada from './user/olvidoClave';
 
 class routerPrincipal extends Component {
   render() {
@@ -37,6 +39,8 @@ class routerPrincipal extends Component {
                 <Route  path="/Presupuesto" component={budget} />
                 <Route  path="/RRHH" component={humanResources} />
                 <Route  path="/Admin" component={admin} />
+                <Route  path="/Registro" component={UserRegister} />
+                <Route  path="/OlvidoClave" component={ClaveOlvidada} />
               </Switch>
               </div>
         </Router>

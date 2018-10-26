@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
-import {Link} from 'react-router-dom';
+import  { Link } from 'react-router-dom';
+import Select from 'react-select';
 import { getAllUbicationsList } from '../../connect_api/user/userAPI';
 
 class RegistroUsuario extends Component {
@@ -13,7 +14,16 @@ class RegistroUsuario extends Component {
       ubicacionList: [],
 			ubicacion: ""
     }
+    this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  handleChangeSelectub = event => {
+   this.setState({
+     ubicacion : event.value
+   });
+ }
 
   handleChange = event => {
     this.setState({
@@ -38,9 +48,6 @@ class RegistroUsuario extends Component {
 		console.log(data);
   }
 	render(){
-		let optionsUb = this.state.ubicacionList.map(ub => (
-			<option key={ub.ID} value={ub.ID}>{ub.Ubicacion}</option>
-		))
 		return(
 			<div className="container">
 			<form onSubmit={this.handleSubmit} className="form-container">
@@ -65,10 +72,12 @@ class RegistroUsuario extends Component {
 		      </div>
 		      <div className="form-group">
        			 <label htmlFor="ubicacion"> Ubicación</label>
-						 <select className="form-control" id="ubicacion" name="ubicacion" value={this.state.ubicacion} onChange={this.handleChange}>
-						   <option value=""> Seleccione</option>
-							 {optionsUb}
-						 </select>
+					<Select
+			        onChange={this.handleChangeSelectub}
+			        options={this.state.ubicacionList.map(ub =>(
+			          {label: ub.Ubicacion, value : ub.ID}
+			        ))}
+			        />
       			</div>
 
       			 <br></br>
