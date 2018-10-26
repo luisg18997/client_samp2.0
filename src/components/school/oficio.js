@@ -26,113 +26,11 @@ class Oficio extends Component {
 	}
 }
 
-updateNombre(event) {
-	this.setState({
-		nombre: event.target.value
-	});
-}
-
-updateSNombre(event) {
-	this.setState({
-		snombre: event.target.value
-	});
-}
-
-updateApellido(event) {
-	this.setState({
-		apellido: event.target.value
-	});
-}
-
-updateSApellido(event) {
-	this.setState({
-		sapellido: event.target.value
-	});
-}
-
-updateEmail(event) {
-	this.setState({
-		email: event.target.value
-	});
-}
-
-updateCedula(event) {
-	this.setState({
-		cedula: event.target.value
-	});
-}
-
- updateGenero(event) {
-	this.setState({
-		genero: event.target.value
-	});
-}
-
- updateFechaNac(event) {
-	this.setState({
-		fec_nac: event.target.value
-	});
-}
-
-updateTeleMov(event) {
-	this.setState({
-		telef_mov: event.target.value
-	});
-}
-
- updateTeleLoC(event) {
-	this.setState({
-		telef_loc: event.target.value
-	});
-}
-
-updateTipoMov(event) {
-	this.setState({
-		tip_mov: event.target.value
-	});
-}
-
-updateDedicacion(event) {
-	this.setState({
-		dedicacion: event.target.value
-	});
-}
-
-updateDepartamento(event) {
-	this.setState({
-		departamento: event.target.value
-	});
-}
-
-updateCatedra(event) {
-	this.setState({
-		catedra: event.target.value
-	});
-}
-
-updateFechaIni(event) {
-	this.setState({
-		fecha_ini: event.target.value
-	});
-}
-
-updateFechaFin(event) {
-	this.setState({
-		fecha_fin: event.target.value
-	});
-}
-
-updateIdac(event) {
-	this.setState({
-		idac: event.target.value
-	});
-}
-
-updateUnidadEjec(event) {
-	this.setState({
-		unidad_ejec: event.target.value
-	});
-}
+ handleChange = event => {
+   this.setState({
+     [event.target.id]: event.target.value
+   });
+ }
 
 render() {
 	return (
@@ -148,37 +46,37 @@ render() {
 
 			<div className="form-group col-md-3">
 					<label htmlFor="nombre">Primer Nombre (*)</label>
-					<input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre" required value={this.state.nombre} onChange={this.updateNombre.bind(this)}/>
+					<input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre" required value={this.state.nombre} onChange={this.handleChange)}/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="snombre"> Segundo Nombre (*)</label>
-					<input className="form-control" type="text" name="snombre" id="snombre" placeholder="S. Nombre" required value={this.state.snombre} onChange={this.updateSNombre.bind(this)}/>
+					<input className="form-control" type="text" name="snombre" id="snombre" placeholder="S. Nombre" required value={this.state.snombre} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="apellido">Apellido Paterno (*)</label>
-					<input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido" required value={this.state.apellido} onChange={this.updateApellido.bind(this)}/>
+					<input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido" required value={this.state.apellido} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="sapellido">Apellido Materno</label>
-					<input className="form-control" type="text" name="sapellido" id="sapellido" placeholder="S. Apellido" value={this.state.sapellido} onChange={this.updateSApellido.bind(this)}/>
+					<input className="form-control" type="text" name="sapellido" id="sapellido" placeholder="S. Apellido" value={this.state.sapellido} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="cedula"> Cédula (*)</label>
-					<input className="form-control" type="text" name="cedula" id="cedula" placeholder="Cédula" required value={this.state.cedula} onChange={this.updateCedula.bind(this)}/>
+					<input className="form-control" type="text" name="cedula" id="cedula" placeholder="Cédula" required value={this.state.cedula} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 			<label htmlFor="email"> Email (*)</label>
-					<input className="form-control" type="text" name="email" id="email" placeholder="Correo" required value={this.state.email} onChange={this.updateEmail.bind(this)}/>
+					<input className="form-control" type="text" name="email" id="email" placeholder="Correo" required value={this.state.email} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="genero"> Género (*)</label>
-					<select className="form-control" id="genero" name="genero" placeholder="Género" required value={this.state.genero} onChange={this.updateGenero.bind(this)}>
+					<select className="form-control" id="genero" name="genero" placeholder="Género" required value={this.state.genero} onChange={this.handleChange}>
 						<option value=""> Seleccione un Valor </option>
 						<option value="a"> Masculino </option>
 						<option value="b"> Femenino </option>
@@ -187,12 +85,12 @@ render() {
 
 		<div className="form-group col-md-3">
 			<label htmlFor="fec_nac">Fecha de Nacimiento (*)</label>
-					<input className="form-control" type="date" name="fec_nac" id="fec_nac" required value={this.state.fec_nac} onChange={this.updateFechaNac.bind(this)}/>
+					<input className="form-control" type="date" name="fec_nac" id="fec_nac" required value={this.state.fec_nac} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 			<label htmlFor="telef_mov">Teléfono Móvil (*)</label>
-					<input className="form-control" type="text" name="telef_mov" id="telef_mov" placeholder="Teléfono Movil" required value={this.state.telef_mov} onChange={this.updateTeleMov.bind(this)}/>
+					<input className="form-control" type="text" name="telef_mov" id="telef_mov" placeholder="Teléfono Movil" required value={this.state.telef_mov} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
