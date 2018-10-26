@@ -1,4 +1,7 @@
 import React, { Component} from 'react';
+import Select from 'react-select';
+import {getAllDepartamentBySchoolList, getAllChairList} from '../../connect_api/faculty/FacultyAPI'
+import {getAllGenderList} from '../../connect_api/employee/EmployeeAPI'
 
 class Oficio extends Component {
 	constructor(){
@@ -11,17 +14,24 @@ class Oficio extends Component {
 		cedula: "",
 		email: "",
 		genero: "",
+		generoList : [],
 		fec_nac: "",
 		telef_mov: "",
 		telef_loc: "",
 		tip_mov: "",
+		tipoMovList: [],
 		dedicacion: "",
+		dedicacionList : [],
 		departamento: "",
+		departamentoList : [],
 		catedra: "",
+		catedraList: [],
 		fecha_ini: "",
 		fecha_fin: "",
 		idac: "",
-		unidad_ejec: ""
+		idacList: [],
+		unidad_ejec: "",
+		unidadejecList : []
 
 	}
 }
@@ -30,6 +40,45 @@ class Oficio extends Component {
    this.setState({
      [event.target.id]: event.target.value
    });
+ }
+
+handlechangeChair = data => {
+	this.setState({
+		catedraList: []
+	});
+	console.log(this.state.catedraList);
+	if(data !== 0) {
+		getAllChairList(data)
+		.then(result => {
+	    this.setState({
+	      catedraList: result
+	    })
+	    console.log(this.state.catedraList);
+	  });
+	}
+}
+ componentDidMount() {
+  getAllDepartamentBySchoolList()
+  .then(result => {
+    this.setState({
+      departamentoList: result
+    })
+    console.log(this.state.departamentoList);
+  });
+	getAllGenderList()
+  .then(result => {
+    this.setState({
+      generoList: result
+    })
+    console.log(this.state.generoList);
+  });
+ }
+
+ handleChangeSelectdept = event => {
+   this.setState({
+     departamento : event.value
+   });
+	 this.handlechangeChair(event.value);
  }
 
 render() {
@@ -46,7 +95,7 @@ render() {
 
 			<div className="form-group col-md-3">
 					<label htmlFor="nombre">Primer Nombre (*)</label>
-					<input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre" required value={this.state.nombre} onChange={this.handleChange)}/>
+					<input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre" required value={this.state.nombre} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
@@ -76,11 +125,11 @@ render() {
 
 		<div className="form-group col-md-3">
 					<label htmlFor="genero"> Género (*)</label>
-					<select className="form-control" id="genero" name="genero" placeholder="Género" required value={this.state.genero} onChange={this.handleChange}>
-						<option value=""> Seleccione un Valor </option>
-						<option value="a"> Masculino </option>
-						<option value="b"> Femenino </option>
-					</select>
+					<Select
+						options={this.state.generoList.map(gen =>(
+						{label: gen.Gender, value : gen.ID}
+					))}
+					/>
 		</div>
 
 		<div className="form-group col-md-3">
@@ -95,71 +144,72 @@ render() {
 
 		<div className="form-group col-md-3">
 			<label htmlFor="telef_loc">Teléfono Local (*)</label>
-					<input className="form-control" type="text" name="telef_loc" id="telef_loc" placeholder="Teléfono Local" required value={this.state.telef_loc} onChange={this.updateTeleLoC.bind(this)}/>
+					<input className="form-control" type="text" name="telef_loc" id="telef_loc" placeholder="Teléfono Local" required value={this.state.telef_loc} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="tip_mov">Tipo de Movimiento (*)</label>
-					<select className="form-control" id="tip_mov" name="tip_mov" required value={this.state.tip_mov} onChange={this.updateTipoMov.bind(this)}>
-						<option value=""> Seleccione un Valor </option>
-						<option value="a"> A </option>
-						<option value="b"> B </option>
-					</select>
+					<Select
+						options={this.state.tipoMovList.map(gen =>(
+						{label: gen.Gender, value : gen.ID}
+					))}
+					/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="dedicacion">Dedicación (*)</label>
-					<select className="form-control" id="dedicacion" name="dedicacion" required value={this.state.dedicacion} onChange={this.updateDedicacion.bind(this)}>
-						<option value=""> Seleccione un Valor </option>
-						<option value="a"> A </option>
-						<option value="b"> B </option>
-					</select>
+					<Select
+						options={this.state.dedicacionList.map(gen =>(
+						{label: gen.Gender, value : gen.ID}
+					))}
+					/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="departamento">Departamento (*)</label>
-					<select className="form-control" id="departamento" name="departamento" required value={this.state.departamento} onChange={this.updateDepartamento.bind(this)}>
-						<option value=""> Seleccione un Valor </option>
-						<option value="a"> A </option>
-						<option value="b"> B </option>
-					</select>
+					<Select
+						onChange={this.handleChangeSelectdept}
+						options={this.state.departamentoList.map(dept =>(
+						{label: dept.name, value : dept.ID}
+					))}
+					/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="catedra">Cátedra (*)</label>
-					<select className="form-control" id="catedra" name="catedra" required value={this.state.catedra} onChange={this.updateCatedra.bind(this)}>
-						<option value=""> Seleccione un Valor </option>
-						<option value="a"> A </option>
-						<option value="b"> B </option>
-					</select>
+					<Select
+						options={this.state.catedraList.map(cat =>(
+						{label: cat.name, value : cat.ID}
+					))}
+					/>
 		</div>
 
 		<div className="form-group col-md-3">
 			<label htmlFor="fecha_ini">Fecha de Inicio (*)</label>
-					<input className="form-control" type="date" name="fecha_ini" id="fecha_ini" required value={this.state.fecha_ini} onChange={this.updateFechaIni.bind(this)}/>
+					<input className="form-control" type="date" name="fecha_ini" id="fecha_ini" required value={this.state.fecha_ini} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 			<label htmlFor="fecha_fin">Fecha de Fin (*)</label>
-					<input className="form-control" type="date" name="fecha_fin" id="fecha_fin" required value={this.state.fecha_fin} onChange={this.updateFechaFin.bind(this)}/>
+					<input className="form-control" type="date" name="fecha_fin" id="fecha_fin" required value={this.state.fecha_fin} onChange={this.handleChange}/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="idac">IDAC (*)</label>
-					<select className="form-control" id="idac" name="idac" required value={this.state.idac} onChange={this.updateIdac.bind(this)}>
-						<option value=""> Seleccione un Valor </option>
-						<option value="a"> A </option>
-						<option value="b"> B </option>
-					</select>
+					<Select
+						options={this.state.idacList.map(gen =>(
+						{label: gen.Gender, value : gen.ID}
+					))}
+					/>
 		</div>
 
 		<div className="form-group col-md-3">
 					<label htmlFor="unidad_ejec">Unidad Ejecutora (*)</label>
-					<select className="form-control" id="unidad_ejec" name="unidad_ejec" required value={this.state.unidad_ejec} onChange={this.updateUnidadEjec.bind(this)}>
-						<option value=""> Seleccione un Valor </option>
-						<option value="a"> A </option>
-						<option value="b"> B </option>
-					</select>
+					<Select
+						options={this.state.unidadejecList.map(gen =>(
+						{label: gen.Gender, value : gen.ID}
+					))}
+					/>
 		</div>
 
 		<div className="form-group col-md-12">

@@ -1,17 +1,9 @@
 const api = process.env.URL_API || 'http://localhost:5000/faculty/';
 
-
-
-
-const getSchoolList = () => fetch(`${api}schools`, 
+export const getSchoolList = () => fetch(`${api}schools`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(schools => schools.map(schools =>({
+	.then(schools => schools.map(schools =>({
 		ID : schools.id,
 		code : schools.code,
 		name : schools.school
@@ -20,7 +12,7 @@ const getSchoolList = () => fetch(`${api}schools`,
     	console.log('The error is:', error.message);
   	});
 
-const getAllInstituteList = () => fetch(`${api}institutes`, 
+export const getAllInstituteList = () => fetch(`${api}institutes`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -39,15 +31,10 @@ const getAllInstituteList = () => fetch(`${api}institutes`,
 
 
 
-const getAllCoordinationList = () => fetch(`${api}coordinations`, 
+export const getAllCoordinationList = () => fetch(`${api}coordinations`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(coordinations => coordinations.map(coordinations =>({
+	.then(coordinations => coordinations.map(coordinations =>({
 		ID : coordinations.id,
 		code : coordinations.code,
 		name : coordinations.name
@@ -56,17 +43,10 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
     	console.log('The error is:', error.message);
   	});
 
-	
-
-	const getCoordination = () => fetch(`${api}coordination`, 
+	export const getCoordination = () => fetch(`${api}coordination`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(coordination => coordination.map(coordination =>({
+	.then(coordination => coordination.map(coordination =>({
 		ID : coordination.id,
 		code : coordination.code,
 		name : coordination.name
@@ -75,9 +55,64 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
     	console.log('The error is:', error.message);
   	});
 
-	
+	export const getAllDepartamentBySchoolList = () => fetch(`${api}school/departaments`,
+	{
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		},
+		body : JSON.stringify({
+			param_school_id : 1
+		})
+	})
+	.then(res => res.json())
+	.then(departaments => departaments.map(departaments =>({
+		ID : departaments.id,
+		code : departaments.code,
+		name : departaments.departament
+	})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+/*
+	export const getAllDepartamentByInstituteList = () => fetch(`${api}institute/departaments`,
+	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
+	.then(res => res.json())
+	.then(departaments => departaments.map(departaments =>({
+		ID : departaments.id,
+		code : departaments.code,
+		name : departaments.name
+	})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
 
-	const getAllDepartamentBySchoolList = () => fetch(`${api}school/departaments`, 
+*/
+		export const getAllChairList = (departamentID) => fetch(`${api}school/departament/chairs`,
+	{
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		},
+		body : JSON.stringify({
+			param_departament_id : departamentID
+		})
+	})
+	.then(res => res.json())
+	.then(chairs => chairs.map(chairs =>({
+		ID : chairs.id,
+		code : chairs.code,
+		name : chairs.chair
+	})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+
+
+/*
+	export const getSchool = () => fetch(`${api}school`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -85,55 +120,18 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
 			console.log(data);
 			return data;
 		}
-	}).then(school/departaments => school/departaments.map(school/departaments =>({
-		ID : school/departaments.id,
-		code : school/departaments.code,
-		name : school/departaments.name
+	}).then(school => school.map(school =>({
+		ID : school.id,
+		code : school.code,
+		name : school.name
 	})))
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
 
-	
 
-	const getAllDepartamentByInstituteList = () => fetch(`${api}institute/departaments`, 
-	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(institute/departaments => institute/departaments.map(institute/departaments =>({
-		ID : institute/departaments.id,
-		code : institute/departaments.code,
-		name : institute/departaments.name
-	})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
 
-	
-		const getAllChairList = () => fetch(`${api}school/departament/chairs`, 
-	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(school/departament/chairs => school/departament/chairs.map(school/departament/chairs =>({
-		ID : school/departament/chairs.id,
-		code : school/departament/chairs.code,
-		name : school/departament/chairs.name
-	})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
-
-	
-	
-		const getSchool = () => fetch(`${api}school`, 
+		const getSchool = () => fetch(`${api}school`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -151,28 +149,9 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
   	});
 
 
-	
-		const getSchool = () => fetch(`${api}school`, 
-	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(school => school.map(school =>({
-		ID : school.id,
-		code : school.code,
-		name : school.name
-	})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
 
-	
-	
-	
-		const getInstitute = () => fetch(`${api}institute`, 
+
+	export	const getInstitute = () => fetch(`${api}institute`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -191,8 +170,8 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
 
 
 
-		
-		const getDepartamentBySchool = () => fetch(`${api}school/departament`, 
+
+	export	const getDepartamentBySchool = () => fetch(`${api}school/departament`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -211,8 +190,8 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
 
 
 
-		
-		const getAllDepartamentByInstituteList = () => fetch(`${api}institute/departaments`, 
+
+	export	const getAllDepartamentByInstituteList = () => fetch(`${api}institute/departaments`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -231,7 +210,7 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
 
 
 
-		const getChair = () => fetch(`${api}school/departament/chair`, 
+	export	const getChair = () => fetch(`${api}school/departament/chair`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then((data) => {
@@ -247,4 +226,4 @@ const getAllCoordinationList = () => fetch(`${api}coordinations`,
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
-
+*/
