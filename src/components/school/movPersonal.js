@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAllStatesList,getAllCategoryTypesList,getAllExecuntingUnitList,  postMovPer } from '../../connect_api/employee/EmployeeAPI';
+import { getAllStatesList,getAllCategoryTypesList,getAllExecuntingUnitList, postMovPer } from '../../connect_api/employee/EmployeeAPI';
 import Select from 'react-select';
 
 class MovPersonal extends Component {
@@ -28,10 +28,13 @@ class MovPersonal extends Component {
       fecha_fin: "",
       idac: "",
       categoria: "",
+      CategoryTypeList: [],
       dedicacion: "",
       dedicacion_p: "",
       sueldo: "",
+      ExecuntingUnit: [],
       unidad_ejec: ""
+    
 
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,9 +42,9 @@ class MovPersonal extends Component {
     this.handleChangeSelectstate = this.handleChangeSelectstate.bind(this);
     this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
     this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
-  }
-
+}
  componentDidMount() {
+
   getAllStatesList()
   .then(result => {
     this.setState({
@@ -49,8 +52,8 @@ class MovPersonal extends Component {
     })
     console.log(this.state.StateList);
   });
-  
-   getAllCategoryTypesList()
+
+     getAllCategoryTypesList()
   .then(result => {
     this.setState({
       CategoryTypeList: result
@@ -86,7 +89,7 @@ class MovPersonal extends Component {
      estado : event.value
    });
  }
- 
+
  handleChangeSelectCategoryType = event => {
    this.setState({
      categoria : event.value
@@ -98,7 +101,6 @@ class MovPersonal extends Component {
      unidad_ejec : event.value
    });
  }
-
 
   render() {
     return (
@@ -280,7 +282,7 @@ class MovPersonal extends Component {
 
       <div className="form-group col-md-3">
             <label htmlFor="categoria">Categoria (*)</label>
-            <Select
+        <Select
               onChange={this.handleChangeSelectCategoryType}
               options={this.state.CategoryTypeList.map(ct =>(
               {label: ct.name, value : ct.ID}
