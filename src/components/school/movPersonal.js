@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAllStatesList, postMovPer } from '../../connect_api/employee/EmployeeAPI';
+import { getAllStatesList,getAllCategoryTypesList,getAllExecuntingUnitList,  postMovPer } from '../../connect_api/employee/EmployeeAPI';
 import Select from 'react-select';
 
 class MovPersonal extends Component {
@@ -37,6 +37,8 @@ class MovPersonal extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelectstate = this.handleChangeSelectstate.bind(this);
+    this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
+    this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
   }
 
  componentDidMount() {
@@ -46,6 +48,22 @@ class MovPersonal extends Component {
       StateList: result
     })
     console.log(this.state.StateList);
+  });
+  
+   getAllCategoryTypesList()
+  .then(result => {
+    this.setState({
+      CategoryTypeList: result
+    })
+    console.log(this.state.CategoryTypeList);
+  });
+
+    getAllExecuntingUnitList()
+  .then(result => {
+    this.setState({
+      ExecuntingUnitList: result
+    })
+    console.log(this.state.ExecuntingUnitList);
   });
 
  }
@@ -66,6 +84,18 @@ class MovPersonal extends Component {
  handleChangeSelectstate = event => {
    this.setState({
      estado : event.value
+   });
+ }
+ 
+ handleChangeSelectCategoryType = event => {
+   this.setState({
+     categoria : event.value
+   });
+ }
+
+ handleChangeSelectExecuntingUnit = event => {
+   this.setState({
+     unidad_ejec : event.value
    });
  }
 
@@ -213,11 +243,12 @@ class MovPersonal extends Component {
 
        <div className="form-group col-md-3">
             <label htmlFor="unidad_ejec">Unidad Ejecutora (*)</label>
-            <select className="form-control" id="unidad_ejec" name="unidad_ejec" required value={this.state.unidad_ejec} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
+         <Select
+              onChange={this.handleChangeSelectExecuntingUnit}
+              options={this.state.ExecuntingUnitList.map(EU =>(
+              {label: EU.name, value : EU.ID}
+            ))}
+            />
       </div>
 
       <div className="form-group col-md-3">
@@ -249,11 +280,12 @@ class MovPersonal extends Component {
 
       <div className="form-group col-md-3">
             <label htmlFor="categoria">Categoria (*)</label>
-            <select className="form-control" id="categoria" name="categoria" required value={this.state.categoria} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
+            <Select
+              onChange={this.handleChangeSelectCategoryType}
+              options={this.state.CategoryTypeList.map(ct =>(
+              {label: ct.name, value : ct.ID}
+            ))}
+            />
       </div>
 
       <div className="form-group col-md-3">
