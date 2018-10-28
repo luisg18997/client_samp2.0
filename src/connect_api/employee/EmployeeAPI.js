@@ -8,7 +8,7 @@ export const getAllStatesList = () => fetch(`${api}states`,
 	.then(res => res.json())
 	.then(states => states.map(states =>({
 		ID : states.id,
-		name : states.state
+		states : states.state
 	})))
 	.catch((error) => {
     	console.log('The error is:', error.message);
@@ -29,3 +29,76 @@ export const getAllGenderList = () => fetch(`${api}Genders`,
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
+
+
+export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`, 
+	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+	.then(res => res.json())
+	.then(CategoryTypes => CategoryTypes.map(CategoryTypes =>({
+		ID : CategoryTypes.id,
+		name : CategoryTypes.category_type
+		})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+
+  	export const getAllDedicationTypesList = () => fetch(`${api}DedicationTypes`, 
+	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+	.then(res => res.json())
+	.then(DedicationTypes => DedicationTypes.map(DedicationTypes =>({
+		ID : DedicationTypes.id,
+		dedi : DedicationTypes.dedication_type
+		})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+
+
+
+export const getAllExecuntingUnitList = () => fetch(`${api}ExecuntingUnitlist`, 
+	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+	.then(res => res.json())
+	.then(ExecuntingUnitlist => ExecuntingUnitlist.map(ExecuntingUnitlist =>({
+		ID : ExecuntingUnitlist.id,
+		des : ExecuntingUnitlist.execunting_unit
+		})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+
+export const getAllNacionalitiesList = () => fetch(`${api}Nacionalities`, 
+	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+	.then(res => res.json())
+	.then(Nacionalities => Nacionalities.map(Nacionalities =>({
+		ID : Nacionalities.id,
+		Name : Nacionalities.nacionality
+		})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+
+export const getAllIngressList = () => fetch(`${api}Ingress`, 
+	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+	.then(res => res.json())
+	.then(Ingress => Ingress.map(Ingress =>({
+		id : Ingress.id,
+		Ingress : Ingress.ingres
+		})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+
+
+
+export const getAllIncomeTypeList = () => fetch(`${api}IncomeType`, 
+	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+	.then(res => res.json())
+	.then(IncomeType => IncomeType.map(IncomeType =>({
+		ID : IncomeType.id,
+		income : IncomeType.income_type
+		})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
+
+
