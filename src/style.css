@@ -11,6 +11,12 @@
   color: white;
 }
 
+.footer{
+
+  background-color: #282c34;
+
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -39,4 +45,111 @@ code {
     margin: 0 auto;
     max-width: 320px;
   }
+}
+
+
+
+
+/*  definicion keyframe
+ *  =========================================================================
+ */
+
+ @-webkit-keyframes aparecer{
+  0% {
+    height: 0px;
+  }
+  100%{
+    height: 90px;
+  }
+}
+
+@-moz-keyframes aparecer{
+  0% {
+    height: 0px;
+  }
+  100%{
+    height: 90px;
+  }
+}
+
+/*  elementos
+ *  =========================================================================
+ */
+
+.menu_cabecera{color:#FFF;}
+
+
+.menu_gral{
+  
+     background-color: #282c34;
+    width: 200px;
+    height: 100%;
+    display: block;
+    position: fixed;
+    left: 0px;
+    top: 55%;
+  
+ 
+  
+}
+
+
+.menu_gral ul {
+  list-style-type: none;
+  text-align: center;
+  margin-left: -40px;
+  width: 200px;
+
+
+}
+.menu_gral > ul li {
+    background: #444;
+    width: 200px;
+    position: relative;
+  
+}
+
+
+
+.menu_gral li a {
+  display: block;
+  text-decoration: none;
+  font-size: 1rem;
+  line-height: 2.5rem;
+  color: #FFFFFF;
+
+}
+.menu_gral li:hover a, .menu_gral li a:focus {
+    background: #00638a;
+    color: #fff;
+
+}
+
+.menu_gral li ul {
+    height: 0;
+    overflow: hidden;
+}
+.menu_gral li:hover ul, .menu_gral li:focus ul {
+    height: auto;
+}
+.menu_gral li li {
+
+}
+.menu_gral li:hover li a, .menu_gral li:focus li a {
+    font-family: monospace;
+    font-size: .9rem;
+    line-height: 1.7rem;
+    border-top: 1px solid #e5e5e5;
+    background: #444;
+}
+.menu_gral li li a:hover, .menu_gral li li a:focus {
+    background: #8AA9B8;
+}
+
+
+/* animacion */
+.menu_gral ul li:hover ul {
+-webkit-animation: 500ms aparecer 1;
+-moz-animation: 500ms aparecer 1;
+
 }
