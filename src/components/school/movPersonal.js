@@ -1,5 +1,17 @@
 import React, { Component } from 'react';
-import { getAllStatesList,getAllCategoryTypesList,getAllExecuntingUnitList, postMovPer } from '../../connect_api/employee/EmployeeAPI';
+
+import routerPrincipal from '../school';
+import {
+ getAllStatesList,
+ getAllCategoryTypesList,
+ getAllExecuntingUnitList,
+ getAllNacionalitiesList, 
+ getAllDedicationTypesList,
+ getAllIngressList,
+ getAllIncomeTypeList,
+ getAllMunicipalitiesList,
+  postMovPer } from '../../connect_api/employee/EmployeeAPI';
+  import {getAllDepartamentBySchoolList, getAllChairList} from '../../connect_api/faculty/FacultyAPI'
 import Select from 'react-select';
 
 class MovPersonal extends Component {
@@ -12,25 +24,33 @@ class MovPersonal extends Component {
       snombre: "",
       sapellido: "",
       nacionalidad: "",
+      NacionalitiesList: [],
       cedula: "",
       estado: "",
       StateList: [],
       municipio: "",
+      municipalityList: [],
       parroquia: "",
       apartamento: "",
       ingreso: "",
+      ingressList: [],
       tip_ingreso: "",
+      IncomeType: [],
       fecha_ingreso: "",
       tip_mov: "",
       departamento: "",
+      departamentoList : [],
       catedra: "",
+      catedraList: [],
       fecha_ini: "",
       fecha_fin: "",
       idac: "",
       categoria: "",
       CategoryTypeList: [],
       dedicacion: "",
+      DedicationTypes: [],
       dedicacion_p: "",
+      DedicationTypes_p: [],
       sueldo: "",
       ExecuntingUnit: [],
       unidad_ejec: ""
@@ -42,8 +62,21 @@ class MovPersonal extends Component {
     this.handleChangeSelectstate = this.handleChangeSelectstate.bind(this);
     this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
     this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
+    this.handleChangeSelectNacionalities = this.handleChangeSelectNacionalities.bind(this);
+    this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
+    this.handleChangeSelectDedicationTypes_p = this.handleChangeSelectDedicationTypes_p.bind(this);
+    this.handleChangeSelectingress = this.handleChangeSelectingress.bind(this);
+    this.handleChangeSelectIncomeType = this.handleChangeSelectIncomeType.bind(this);
 }
  componentDidMount() {
+
+  getAllDepartamentBySchoolList()
+  .then(result => {
+    this.setState({
+      departamentoList: result
+    })
+    console.log(this.state.departamentoList);
+  });
 
   getAllStatesList()
   .then(result => {
@@ -64,11 +97,53 @@ class MovPersonal extends Component {
     getAllExecuntingUnitList()
   .then(result => {
     this.setState({
-      ExecuntingUnitList: result
+      ExecuntingUnit: result
     })
-    console.log(this.state.ExecuntingUnitList);
+    console.log(this.state.ExecuntingUnit);
+  });
+  getAllNacionalitiesList()
+  .then(result => {
+    this.setState({
+      NacionalitiesList: result
+    })
+    console.log(this.state.NacionalitiesList);
   });
 
+    getAllDedicationTypesList()
+  .then(result => {
+    this.setState({
+      DedicationTypes: result
+    })
+    console.log(this.state.DedicationTypes);
+  });
+
+      getAllDedicationTypesList()
+  .then(result => {
+    this.setState({
+      DedicationTypes_p: result
+    })
+    console.log(this.state.DedicationTypes_p);
+  });
+
+
+      getAllIngressList()
+  .then(result => {
+    this.setState({
+      ingressList: result
+    })
+    console.log(this.state.ingressList);
+  });
+
+
+      getAllIncomeTypeList()
+  .then(result => {
+    this.setState({
+      IncomeType: result
+    })
+    console.log(this.state.IncomeType);
+  });
+
+ 
  }
 
  handleSubmit = event => {
@@ -88,6 +163,9 @@ class MovPersonal extends Component {
    this.setState({
      estado : event.value
    });
+   
+     this.handlechangeMunicipalities(event.value);
+
  }
 
  handleChangeSelectCategoryType = event => {
@@ -101,6 +179,79 @@ class MovPersonal extends Component {
      unidad_ejec : event.value
    });
  }
+
+  handleChangeSelectNacionalities = event => {
+   this.setState({
+     nacionalidad : event.value
+   });
+ }
+
+   handleChangeSelectDedicationTypes = event => {
+   this.setState({
+     dedicacion : event.value
+   });
+ }
+
+   handleChangeSelectDedicationTypes_p = event => {
+   this.setState({
+     dedicacion_p : event.value
+   });
+ }
+
+   handleChangeSelectingress = event => {
+   this.setState({
+     ingreso : event.value
+   });
+ }
+
+   handleChangeSelectIncomeType = event => {
+   this.setState({
+     tip_ingreso : event.value
+   });
+ }
+
+
+ handlechangeMunicipalities = data => {
+  this.setState({
+    municipalityList: []
+  });
+  console.log(this.state.municipalityList);
+  if(data !== 0) {
+    getAllMunicipalitiesList(data)
+    .then(result => {
+      this.setState({
+        municipalityList: result
+      })
+      console.log(this.state.municipalityList);
+    });
+  }
+}
+
+handlechangeChair = data => {
+  this.setState({
+    catedraList: []
+  });
+  console.log(this.state.catedraList);
+  if(data !== 0) {
+    getAllChairList(data)
+    .then(result => {
+      this.setState({
+        catedraList: result
+      })
+      console.log(this.state.catedraList);
+    });
+  }
+}
+
+
+ handleChangeSelectdept = event => {
+   this.setState({
+     departamento : event.value
+   });
+   this.handlechangeChair(event.value);
+ }
+
+
 
   render() {
     return (
@@ -136,11 +287,12 @@ class MovPersonal extends Component {
 
       <div className="form-group col-md-3">
             <label htmlFor="nacionalidad"> Nacionalidad</label>
-            <select className="form-control" id="nacionalidad" name="nacionalidad" placeholder="Género" value={this.state.nacionalidad} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> V </option>
-              <option value="b"> E </option>
-            </select>
+         <Select
+              onChange={this.handleChangeSelectNacionalities}
+              options={this.state.NacionalitiesList.map(nac =>(
+              {label: nac.Name, value : nac.ID}
+            ))}
+            />
       </div>
 
       <div className="form-group col-md-3">
@@ -159,18 +311,18 @@ class MovPersonal extends Component {
          <Select
               onChange={this.handleChangeSelectstate}
               options={this.state.StateList.map(st =>(
-              {label: st.name, value : st.ID}
+              {label: st.states, value : st.ID}
             ))}
             />
       </div>
 
       <div className="form-group col-md-3">
             <label htmlFor="municipio">Municipio (*)</label>
-            <select className="form-control" id="municipio" name="municipio" placeholder="Género" required value={this.state.municipio} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> Masculino </option>
-              <option value="b"> Femenino </option>
-            </select>
+     <Select
+            options={this.state.catedraList.map(mun =>(
+            {label: mun.muni, value : mun.ID}
+          ))}
+          />
       </div>
 
       <div className="form-group col-md-3">
@@ -195,20 +347,24 @@ class MovPersonal extends Component {
 
       <div className="form-group col-md-3">
             <label htmlFor="ingreso">Ingreso (*)</label>
-            <select className="form-control" id="ingreso" name="ingreso" required value={this.state.ingreso} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
+        <Select
+              onChange={this.handleChangeSelectingress}
+              options={this.state.ingressList.map(ing =>(
+              {label: ing.ingres, value : ing.id}
+            ))}
+            />
       </div>
+
+
 
       <div className="form-group col-md-3">
             <label htmlFor="tip_ingreso">Tipo de Ingreso (*)</label>
-            <select className="form-control" id="tip_ingreso" name="tip_ingreso" required value={this.state.tip_ingreso} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
+        <Select
+              onChange={this.handleChangeSelectIncomeType}
+              options={this.state.IncomeType.map(income =>(
+              {label: income.income, value : income.ID}
+            ))}
+            />
       </div>
 
       <div className="form-group col-md-3">
@@ -225,30 +381,30 @@ class MovPersonal extends Component {
             </select>
       </div>
 
-      <div className="form-group col-md-3">
-            <label htmlFor="departamento">Departamento (*)</label>
-            <select className="form-control" id="departamento" name="departamento" required value={this.state.departamento} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
-      </div>
+  <div className="form-group col-md-3">
+          <label htmlFor="departamento">Departamento (*)</label>
+          <Select
+            onChange={this.handleChangeSelectdept}
+            options={this.state.departamentoList.map(dept =>(
+            {label: dept.name, value : dept.ID}
+          ))}
+          />
+    </div>
 
-      <div className="form-group col-md-3">
-            <label htmlFor="catedra">Cátedra (*)</label>
-            <select className="form-control" id="catedra" name="catedra" required value={this.state.catedra} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
-      </div>
-
+    <div className="form-group col-md-3">
+          <label htmlFor="catedra">Cátedra (*)</label>
+          <Select
+            options={this.state.catedraList.map(cat =>(
+            {label: cat.name, value : cat.ID}
+          ))}
+          />
+    </div>
        <div className="form-group col-md-3">
             <label htmlFor="unidad_ejec">Unidad Ejecutora (*)</label>
          <Select
               onChange={this.handleChangeSelectExecuntingUnit}
-              options={this.state.ExecuntingUnitList.map(EU =>(
-              {label: EU.name, value : EU.ID}
+              options={this.state.ExecuntingUnit.map(EU =>(
+              {label: EU.des, value : EU.ID}
             ))}
             />
       </div>
@@ -264,21 +420,24 @@ class MovPersonal extends Component {
 
       <div className="form-group col-md-3">
             <label htmlFor="dedicacion">Dedicación Actual (*)</label>
-            <select className="form-control" id="dedicacion" name="dedicacion" required value={this.state.dedicacion} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
+       <Select
+              onChange={this.handleChangeSelectDedicationTypes}
+              options={this.state.DedicationTypes.map(dt =>(
+              {label: dt.dedi, value : dt.ID}
+            ))}
+            />
       </div>
 
       <div className="form-group col-md-3">
             <label htmlFor="dedicacion_p">Dedicación Propuesta</label>
-            <select className="form-control" id="dedicacion_p" name="dedicacion_p" value={this.state.dedicacion_p} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
+       <Select
+              onChange={this.handleChangeSelectDedicationTypes_p}
+              options={this.state.DedicationTypes_p.map(dtp =>(
+              {label: dtp.dedi, value : dtp.ID}
+            ))}
+            />
       </div>
+  
 
       <div className="form-group col-md-3">
             <label htmlFor="categoria">Categoria (*)</label>
@@ -290,14 +449,13 @@ class MovPersonal extends Component {
             />
       </div>
 
-      <div className="form-group col-md-3">
-            <label htmlFor="sueldo">Sueldo (*)</label>
-            <select className="form-control" id="sueldo" name="sueldo" required value={this.state.sueldo} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
+
+
+         <div className="form-group col-md-3">
+            <label htmlFor="sueldo"> Sueldo</label>
+            <input className="form-control" type="number" name="sueldo" id="sueldo" placeholder="Sueldo" value={this.state.sueldo} onChange={this.handleChange}/>
       </div>
+
 
       <div className="form-group col-md-3">
         <label htmlFor="fecha_ini">Fecha de Inicio (*)</label>
