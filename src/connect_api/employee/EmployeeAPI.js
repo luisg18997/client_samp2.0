@@ -124,27 +124,3 @@ export const getAllStatesList = () => fetch(`${api}states`,
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
-
-
-export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`, 
-	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then(CategoryTypes => CategoryTypes.map(CategoryTypes =>({
-		ID : CategoryTypes.id,
-		name : CategoryTypes.category_type
-		})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
-
-
-export const getAllExecuntingUnitList = () => fetch(`${api}ExecuntingUnitlist`, 
-	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then(ExecuntingUnitlist => ExecuntingUnitlist.map(ExecuntingUnitlist =>({
-		ID : ExecuntingUnitlist.id,
-		name : ExecuntingUnitlist.execunting_unit
-		})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
