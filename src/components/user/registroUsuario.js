@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import  { Link } from 'react-router-dom';
 import Select from 'react-select';
-import { getAllUbicationsList } from '../../connect_api/user/userAPI';
+import { getAllUbicationsList, addNewUser } from '../../connect_api/user/userAPI';
 
 class RegistroUsuario extends Component {
 	constructor(){
@@ -44,8 +44,7 @@ class RegistroUsuario extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-		const data = new FormData(event.target);
-		console.log(data);
+		addNewUser(this.state);
   }
 	render(){
 		return(

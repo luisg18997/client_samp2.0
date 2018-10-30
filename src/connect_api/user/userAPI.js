@@ -49,3 +49,23 @@ export const getAllUserRoleList = () => fetch(`${api}Roles/UserRole`,
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
+
+		export const addNewUser = (userNew) => fetch(`${api}NewUser`,
+		{
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body : JSON.stringify({
+				param_name : userNew.nombre,
+				param_surname : userNew.apellido,
+				param_email : userNew.email,
+				param_password : userNew.clave,
+				param_ubication_id :  userNew.ubicacion
+			})
+		})
+		.then(res => res.json())
+		.catch((error) => {
+				console.log('The error is:', error.message);
+			});

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-
-import routerPrincipal from '../school';
 import {
  getAllStatesList,
  getAllCategoryTypesList,
  getAllExecuntingUnitList,
- getAllNacionalitiesList, 
+ getAllNacionalitiesList,
  getAllDedicationTypesList,
  getAllIngressList,
  getAllIncomeTypeList,
@@ -54,7 +52,7 @@ class MovPersonal extends Component {
       sueldo: "",
       ExecuntingUnit: [],
       unidad_ejec: ""
-    
+
 
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -143,7 +141,7 @@ class MovPersonal extends Component {
     console.log(this.state.IncomeType);
   });
 
- 
+
  }
 
  handleSubmit = event => {
@@ -163,7 +161,7 @@ class MovPersonal extends Component {
    this.setState({
      estado : event.value
    });
-   
+
      this.handlechangeMunicipalities(event.value);
 
  }
@@ -437,7 +435,7 @@ handlechangeChair = data => {
             ))}
             />
       </div>
-  
+
 
       <div className="form-group col-md-3">
             <label htmlFor="categoria">Categoria (*)</label>

@@ -16,7 +16,7 @@ export const getAllGenderList = () => fetch(`${api}Genders`,
   	});
 
 
-export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`, 
+export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then(CategoryTypes => CategoryTypes.map(CategoryTypes =>({
@@ -27,7 +27,7 @@ export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
     	console.log('The error is:', error.message);
   	});
 
-  	export const getAllDedicationTypesList = () => fetch(`${api}DedicationTypes`, 
+  	export const getAllDedicationTypesList = () => fetch(`${api}DedicationTypes`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then(DedicationTypes => DedicationTypes.map(DedicationTypes =>({
@@ -40,7 +40,7 @@ export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
 
 
 
-export const getAllExecuntingUnitList = () => fetch(`${api}ExecuntingUnitlist`, 
+export const getAllExecuntingUnitList = () => fetch(`${api}ExecuntingUnitlist`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then(ExecuntingUnitlist => ExecuntingUnitlist.map(ExecuntingUnitlist =>({
@@ -51,7 +51,7 @@ export const getAllExecuntingUnitList = () => fetch(`${api}ExecuntingUnitlist`,
     	console.log('The error is:', error.message);
   	});
 
-export const getAllNacionalitiesList = () => fetch(`${api}Nacionalities`, 
+export const getAllNacionalitiesList = () => fetch(`${api}Nacionalities`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then(Nacionalities => Nacionalities.map(Nacionalities =>({
@@ -62,7 +62,7 @@ export const getAllNacionalitiesList = () => fetch(`${api}Nacionalities`,
     	console.log('The error is:', error.message);
   	});
 
-export const getAllIngressList = () => fetch(`${api}Ingress`, 
+export const getAllIngressList = () => fetch(`${api}Ingress`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then(Ingress => Ingress.map(Ingress =>({
@@ -75,7 +75,7 @@ export const getAllIngressList = () => fetch(`${api}Ingress`,
 
 
 
-export const getAllIncomeTypeList = () => fetch(`${api}IncomeType`, 
+export const getAllIncomeTypeList = () => fetch(`${api}IncomeType`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
 	.then(IncomeType => IncomeType.map(IncomeType =>({
@@ -121,30 +121,6 @@ export const getAllStatesList = () => fetch(`${api}states`,
 		ID : municipalities.id,
 		muni : municipalities.municipality
 	})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
-
-
-export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`, 
-	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then(CategoryTypes => CategoryTypes.map(CategoryTypes =>({
-		ID : CategoryTypes.id,
-		name : CategoryTypes.category_type
-		})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
-
-
-export const getAllExecuntingUnitList = () => fetch(`${api}ExecuntingUnitlist`, 
-	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then(ExecuntingUnitlist => ExecuntingUnitlist.map(ExecuntingUnitlist =>({
-		ID : ExecuntingUnitlist.id,
-		name : ExecuntingUnitlist.execunting_unit
-		})))
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
