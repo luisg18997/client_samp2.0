@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import  { Link } from 'react-router-dom';
+import  { Link, Redirect } from 'react-router-dom';
 import Select from 'react-select';
 import { getAllUbicationsList, addNewUser } from '../../connect_api/user/userAPI';
 
@@ -44,7 +44,22 @@ class RegistroUsuario extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-		addNewUser(this.state);
+		addNewUser(this.state)
+		.then(result => {
+			if(result === 0) {
+				alert('usuario ya existente');
+			} else {
+				alert('usuario creado exitosamente');
+				this.props.history.push('/');
+			}
+		});
+		this.setState({
+				nombre: null,
+				apellido : null,
+				email: null,
+				clave: null,
+				ubicacion: null
+			})
   }
 	render(){
 		return(
