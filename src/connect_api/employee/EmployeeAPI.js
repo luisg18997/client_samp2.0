@@ -1,9 +1,5 @@
 const api = process.env.URL_API || 'http://localhost:5000/employee/';
 
-
-
-
-
 export const getAllGenderList = () => fetch(`${api}Genders`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())
@@ -14,7 +10,6 @@ export const getAllGenderList = () => fetch(`${api}Genders`,
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
-
 
 export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
 	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
@@ -103,8 +98,6 @@ export const getAllStatesList = () => fetch(`${api}states`,
     	console.log('The error is:', error.message);
   	});
 
-
-
 	export const getAllMunicipalitiesList = (stateID) => fetch(`${api}states/municipalities`,
 	{
 		method: 'post',
@@ -124,3 +117,23 @@ export const getAllStatesList = () => fetch(`${api}states`,
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
+
+		export const getAllParishList = (municipalityID) => fetch(`${api}states/municipality/parish`,
+		{
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body : JSON.stringify({
+				param_municipality_id : municipalityID
+			})
+		})
+		.then(res => res.json())
+		.then(chairs => chairs.map(chair =>({
+			ID : chair.id,
+			parish : chair.parish
+		})))
+		.catch((error) => {
+	    	console.log('The error is:', error.message);
+	  	});
