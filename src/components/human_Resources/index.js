@@ -1,13 +1,11 @@
-import React, { Component} from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-class humanResources extends Component {
-	render(){
-		return (
-			<div>
-				<p>Admin</p>
-			</div>
-		)
-	}
-}
+import human_Resources from './App';
 
-export default humanResources;
+
+ReactDOM.render(<human_Resources />, document.getElementById('root'));
+
+
+
+export default human_Resources;
