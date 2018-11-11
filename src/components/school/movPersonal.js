@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-
-import routerPrincipal from '../school';
 import {
  getAllStatesList,
  getAllCategoryTypesList,
  getAllExecuntingUnitList,
- getAllNacionalitiesList, 
+ getAllNacionalitiesList,
  getAllDedicationTypesList,
  getAllIngressList,
  getAllIncomeTypeList,
- getAllMunicipalitiesList,
+ getAllMunicipalitiesList, getAllParishList,
   postMovPer } from '../../connect_api/employee/EmployeeAPI';
   import {getAllDepartamentBySchoolList, getAllChairList} from '../../connect_api/faculty/FacultyAPI'
 import Select from 'react-select';
@@ -31,6 +29,7 @@ class MovPersonal extends Component {
       municipio: "",
       municipalityList: [],
       parroquia: "",
+      parroquiaList : [],
       apartamento: "",
       ingreso: "",
       ingressList: [],
@@ -54,7 +53,7 @@ class MovPersonal extends Component {
       sueldo: "",
       ExecuntingUnit: [],
       unidad_ejec: ""
-    
+
 
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -143,13 +142,13 @@ class MovPersonal extends Component {
     console.log(this.state.IncomeType);
   });
 
- 
+
  }
 
  handleSubmit = event => {
    event.preventDefault();
    const data = this.state
-   alert(data);
+   alert(JSON.stringify(data));
    postMovPer(data);
 
  }
@@ -163,8 +162,17 @@ class MovPersonal extends Component {
    this.setState({
      estado : event.value
    });
-   
+    console.log('estado: ', event.value)
      this.handlechangeMunicipalities(event.value);
+
+ }
+
+ handleChangeSelectMun = event => {
+   this.setState({
+     municipio : event.value
+   });
+    console.log('municipio: ', event.value)
+     this.handlechangeParish(event.value);
 
  }
 
@@ -215,7 +223,6 @@ class MovPersonal extends Component {
   this.setState({
     municipalityList: []
   });
-  console.log(this.state.municipalityList);
   if(data !== 0) {
     getAllMunicipalitiesList(data)
     .then(result => {
@@ -243,6 +250,20 @@ handlechangeChair = data => {
   }
 }
 
+handlechangeParish = data => {
+  this.setState({
+    parroquiaList: []
+  });
+  if(data !== 0) {
+    getAllParishList(data)
+    .then(result => {
+      this.setState({
+        parroquiaList: result
+      })
+      console.log(this.state.parroquiaList);
+    });
+  }
+}
 
  handleChangeSelectdept = event => {
    this.setState({
@@ -319,7 +340,8 @@ handlechangeChair = data => {
       <div className="form-group col-md-3">
             <label htmlFor="municipio">Municipio (*)</label>
      <Select
-            options={this.state.catedraList.map(mun =>(
+            onChange={this.handleChangeSelectMun}
+            options={this.state.municipalityList.map(mun =>(
             {label: mun.muni, value : mun.ID}
           ))}
           />
@@ -327,11 +349,11 @@ handlechangeChair = data => {
 
       <div className="form-group col-md-3">
             <label htmlFor="parroquia">Parroquia (*)</label>
-            <select className="form-control" id="parroquia" name="parroquia" placeholder="Parroquia" required value={this.state.genero} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> Masculino </option>
-              <option value="b"> Femenino </option>
-            </select>
+            <Select
+                   options={this.state.parroquiaList.map(mun =>(
+                   {label: mun.parish, value : mun.ID}
+                 ))}
+                 />
       </div>
 
       <div className="form-group col-md-3">
@@ -350,7 +372,7 @@ handlechangeChair = data => {
         <Select
               onChange={this.handleChangeSelectingress}
               options={this.state.ingressList.map(ing =>(
-              {label: ing.ingres, value : ing.id}
+              {label: ing.Ingress, value : ing.id}
             ))}
             />
       </div>
@@ -437,7 +459,7 @@ handlechangeChair = data => {
             ))}
             />
       </div>
-  
+
 
       <div className="form-group col-md-3">
             <label htmlFor="categoria">Categoria (*)</label>
