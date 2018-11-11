@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import Select from 'react-select';
 import {getAllDepartamentBySchoolList, getAllChairList} from '../../connect_api/faculty/FacultyAPI'
 import {getAllGenderList, getAllExecuntingUnitList, getAllDedicationTypesList } from '../../connect_api/employee/EmployeeAPI'
-
+import {getAllMovementTypeslist} from '../../connect_api/formData/formDataAPI'
 
 class Oficio extends Component {
 	constructor(){
@@ -38,6 +38,7 @@ class Oficio extends Component {
 
 	    this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
 	     this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
+	     this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
 
 
 
@@ -76,6 +77,13 @@ class Oficio extends Component {
     console.log(this.state.DedicationTypes);
   });
 
+ getAllMovementTypeslist()
+  .then(result => {
+    this.setState({
+      tipoMovList: result
+    })
+    console.log(this.state.tipoMovList);
+  });
 
  }
 
@@ -113,6 +121,13 @@ handlechangeChair = data => {
   handleChangeSelectExecuntingUnit = event => {
    this.setState({
      unidad_ejec : event.value
+   });
+ }
+
+
+ handleChangeSelectTypesMov = event => {
+   this.setState({
+     tip_mov : event.value
    });
  }
 
@@ -190,11 +205,12 @@ render() {
 
 		<div className="form-group col-md-3">
 					<label htmlFor="tip_mov">Tipo de Movimiento (*)</label>
-					<Select
-						options={this.state.tipoMovList.map(gen =>(
-						{label: gen.Gender, value : gen.ID}
-					))}
-					/>
+			 <Select
+              onChange={this.handleChangeSelectTypesMov}
+|              options={this.state.tipoMovList.map(mt =>(
+              {label: mt.name, value : mt.ID}
+            ))}
+            />
 		</div>
 
 		<div className="form-group col-md-3">
