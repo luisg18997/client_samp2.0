@@ -50,7 +50,7 @@ class TemporaryDrawer extends React.Component {
 
 
         <List>
-       <ListItem component={Link} to={"/Presupuesto"} button>
+       <ListItem component={Link} to={"/Presupuesto/menu"} button>
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>
@@ -93,9 +93,8 @@ class TemporaryDrawer extends React.Component {
 
 
          <Switch>
-                <Route exact path="/Presupuesto/" component={Principal} />
+                <Route exact path="/Presupuesto/menu" component={Principal} />
                <Route exact path="/Presupuesto/mainBudget2" component={Listado} />
-
       </Switch>
 
 
