@@ -11,8 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import  { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import principal from './mainBudget';
-import listado from './ListadoPlanillas';
+import Principal from './mainBudget';
+import Listado from './ListadoPlanillas';
 
 import MemoryRouter from 'react-router/MemoryRouter';
 
@@ -28,7 +28,7 @@ const styles = {
 
 class TemporaryDrawer extends React.Component {
   state = {
- 
+
     left: false,
 
   };
@@ -44,13 +44,13 @@ class TemporaryDrawer extends React.Component {
 
 
 
-     
+
     const sideList = (
       <div className={classes.list}>
-   
-        
+
+
         <List>
-       <ListItem component={Link} to={"/mainBudget"} button>
+       <ListItem component={Link} to={"/Presupuesto"} button>
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>
@@ -58,31 +58,22 @@ class TemporaryDrawer extends React.Component {
       <ListItemText primary="mainBudget" />
     </ListItem>
 
-       <ListItem component={Link} to={"/mainBudget2"} button>
+       <ListItem component={Link} to={"/Presupuesto/mainBudget2"} button>
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>
-    
+
       <ListItemText primary="mainBudget2" />
     </ListItem>
         </List>
-          <Divider />
-               <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-  
- 
+
+
       </div>
 
-        
+
     );
 
-      
+
 
 
     return (
@@ -102,8 +93,8 @@ class TemporaryDrawer extends React.Component {
 
 
          <Switch>
-                <Route exact path="/mainBudget" component={principal} />
-               <Route exact path="/mainBudget2" component={listado} />
+                <Route exact path="/Presupuesto/" component={Principal} />
+               <Route exact path="/Presupuesto/mainBudget2" component={Listado} />
 
       </Switch>
 
@@ -111,7 +102,7 @@ class TemporaryDrawer extends React.Component {
           </div>
         </Drawer>
              </div>
-              </Router> 
+              </Router>
     );
 
   }

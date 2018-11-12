@@ -72,10 +72,10 @@ class App extends Component {
                         overflowY: 'hidden'
                     }}>
 
-           
+
 
                     {this.canvLoaded && this.iconsToConvert.map((iconObject, index) => {
-                            return <img src={iconObject.icon} key={'img-' + index} alt={iconObject.alt} style={{ height: 25, width: 25 }} 
+                            return <img src={iconObject.icon} key={'img-' + index} alt={iconObject.alt} style={{ height: 25, width: 25 }}
 
 
 
@@ -83,7 +83,7 @@ class App extends Component {
                             />
                         })}
 
-                         <table  align="center" id="tab_planilla" border="1" class="table table-striped" >
+                         <table  align="center" id="tab_planilla" border="1" className="table table-striped" >
                 <thead>
                 <tr align="center">
                     <td>Primer Nombre</td>
@@ -105,23 +105,23 @@ class App extends Component {
                     <td>Estado</td>
                     <td>Municipio</td>
                 </tr>
-                <tr align="center">                    
+                <tr align="center">
                     <td>Parroquia</td>
                     <td>Apartamento</td>
                     <td>Facultad</td>
                     <td>Escuela</td>
                 </tr>
-                <tr align="center">                    
+                <tr align="center">
                     <td>Instituto</td>
                     <td>Coordinación</td>
                     <td>Ingreso</td>
                     <td>Tipo de ingreso</td>
                 </tr>
-                <tr align="center">                    
+                <tr align="center">
                     <td>Fecha de ingreso</td>
                     <td>Tipo de movimiento</td>
                     <td>Departamento</td>
-                    <td>Catedra</td>                   
+                    <td>Catedra</td>
                 </tr>
                 <tr align="center">
                     <td>Unidad Ejecutora</td>
