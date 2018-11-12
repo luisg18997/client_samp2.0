@@ -2,6 +2,18 @@
   text-align: center;
 }
 
+.logo_ucv {
+  width: 10%;
+  height: 20%;
+  display: flex;
+}
+
+.logo_fhe {
+  width: 10%;
+  height: 20%;
+  padding : auto;
+}
+
 .header {
   min-height: 100px;
   background-color: #282c34;
@@ -80,7 +92,7 @@ code {
 
 
 .menu_gral{
-  
+
      background-color: #282c34;
     width: 200px;
     height: 100%;
@@ -88,9 +100,9 @@ code {
     position: fixed;
     left: 0px;
     top: 55%;
-  
- 
-  
+
+
+
 }
 
 
@@ -106,7 +118,7 @@ code {
     background: #444;
     width: 200px;
     position: relative;
-  
+
 }
 
 
