@@ -207,7 +207,7 @@ render() {
 					<label htmlFor="tip_mov">Tipo de Movimiento (*)</label>
 			 <Select
               onChange={this.handleChangeSelectTypesMov}
-|              options={this.state.tipoMovList.map(mt =>(
+              options={this.state.tipoMovList.map(mt =>(
               {label: mt.name, value : mt.ID}
             ))}
             />
