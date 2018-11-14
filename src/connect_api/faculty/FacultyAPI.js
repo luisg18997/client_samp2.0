@@ -110,47 +110,25 @@ export const getAllCoordinationList = () => fetch(`${api}coordinations`,
     	console.log('The error is:', error.message);
   	});
 
-
+	export const getSchool = (schoolID) => fetch(`${api}school`,
+	{ method: 'post',
+	headers: {
+		'Content-Type': 'application/json'
+	},
+	body : JSON.stringify({
+		param_school_id : schoolID
+	})
+})
+	.then(res => res.json())
+	.then(schools => schools.map(schools =>({
+		ID : schools.id,
+		code : schools.code,
+		name : schools.school
+	})))
+	.catch((error) => {
+    	console.log('The error is:', error.message);
+  	});
 /*
-	export const getSchool = () => fetch(`${api}school`,
-	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(school => school.map(school =>({
-		ID : school.id,
-		code : school.code,
-		name : school.name
-	})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
-
-
-
-		const getSchool = () => fetch(`${api}school`,
-	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
-	.then(res => res.json())
-	.then((data) => {
-		if(data.messageError || data.parambad){
-			console.log(data);
-			return data;
-		}
-	}).then(school => school.map(school =>({
-		ID : school.id,
-		code : school.code,
-		name : school.name
-	})))
-	.catch((error) => {
-    	console.log('The error is:', error.message);
-  	});
-
-
-
-
 	export	const getInstitute = () => fetch(`${api}institute`,
 	{ method: 'post', headers: { 'Content-Type': 'application/json' } })
 	.then(res => res.json())

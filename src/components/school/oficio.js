@@ -1,13 +1,15 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
-import {getAllDepartamentBySchoolList, getAllChairList} from '../../connect_api/faculty/FacultyAPI'
+import {getAllDepartamentBySchoolList, getAllChairList, getSchool} from '../../connect_api/faculty/FacultyAPI'
 import {getAllGenderList, getAllExecuntingUnitList, getAllDedicationTypesList } from '../../connect_api/employee/EmployeeAPI'
-import {getAllMovementTypeslist} from '../../connect_api/formData/formDataAPI'
+import {getAllMovementTypeslist, addNewFormOfice, CodeOfice} from '../../connect_api/formData/formDataAPI'
 
 class Oficio extends Component {
 	constructor(){
 	super();
 	this.state = {
+		"empleado_id":0,
+		"codigo" : "",
 		nombre: "",
 		apellido: "",
 		snombre: "",
@@ -25,6 +27,7 @@ class Oficio extends Component {
 		DedicationTypes: [],
 		departamento: "",
 		departamentoList : [],
+		"schoolData": [],
 		catedra: "",
 		catedraList: [],
 		fecha_ini: "",
@@ -45,6 +48,59 @@ class Oficio extends Component {
 
 }
 
+handleSubmit = event => {
+	event.preventDefault();
+	CodeOfice()
+	.then(result => {
+    this.setState({
+      codigo: result
+    })
+    console.log(this.state.codigo);
+  });
+
+	const employee = {
+		nacionality_id : 1,
+		documentation_id : 1,
+		identification : this.state.cedula ,
+		first_name : this.state.nombre,
+		second_name: this.state.snombre,
+surname: this.state.apellido,
+second_surname : this.state.sapellido,
+birth_date : this.state.fec_nac,
+gender_id : this.state.genero,
+email: this.state.email,
+school_id : 1,
+institute_id : 0,
+coordination_id : 0,
+departament_id : this.state.departamento,
+chair_id : this.state.catedra,
+mobile_phone_number : this.state.telef_mov,
+local_phone_number : this.state.telef_loc
+};
+const ofice = {
+	code_form : this.state.codigo,
+	dedication_id : this.state.dedicacion,
+movement_type_id : this.state.tip_mov,
+start_date : this.state.fecha_ini,
+finish_date : this.state.fecha_fin,
+chool_id : 1,
+institute_id : 0,
+coordination_id : 0
+}
+const userID = 0;
+const empleadoID = this.state.empleado_id;
+addNewFormOfice(employee,ofice,userID,empleadoID )
+.then(result => {
+	if(result === 1) {
+		alert('planilla de oficio creado exitosamente');
+		this.props.history.push('/Escuela');
+	} else {
+		alert('planilla de oficio NO creado exitosamente');
+		this.props.history.push('/Escuela');
+	}
+});
+}
+
  componentDidMount() {
   getAllDepartamentBySchoolList()
   .then(result => {
@@ -53,6 +109,16 @@ class Oficio extends Component {
     })
     console.log(this.state.departamentoList);
   });
+
+	getSchool(1)
+	.then(result => {
+		this.setState({
+			schoolData:result
+		})
+		console.log(this.state.schoolData)
+	})
+
+
 	getAllGenderList()
   .then(result => {
     this.setState({
@@ -147,7 +213,7 @@ render() {
 
 			<br></br>
 
-			<form className="row justify-content-center">
+			<form className="row justify-content-center" onSubmit={this.handleSubmit}>
 
 			<div className="form-group col-md-3">
 					<label htmlFor="nombre">Primer Nombre (*)</label>

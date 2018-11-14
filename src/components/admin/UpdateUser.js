@@ -52,7 +52,6 @@ class UpdateUser extends Component {
    const data = this.state
    alert(data);
    postuser(data);
-
  }
 
  handleChange = event => {
