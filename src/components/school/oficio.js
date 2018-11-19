@@ -8,7 +8,7 @@ class Oficio extends Component {
 	constructor(){
 	super();
 	this.state = {
-		"empleado_id":0,
+		"empleado_id": 0,
 		"codigo" : "",
 		nombre: "",
 		apellido: "",
@@ -47,17 +47,19 @@ class Oficio extends Component {
 
 
 }
-
-handleSubmit = event => {
-	event.preventDefault();
+handleChangeCode = () => {
 	CodeOfice()
 	.then(result => {
     this.setState({
       codigo: result
     })
-    console.log(this.state.codigo);
+    console.log("codigo: ",this.state.codigo);
   });
+}
 
+handleSubmit = event => {
+	this.handleChangeCode();
+	event.preventDefault();
 	const employee = {
 		nacionality_id : 1,
 		documentation_id : 1,
@@ -69,7 +71,7 @@ second_surname : this.state.sapellido,
 birth_date : this.state.fec_nac,
 gender_id : this.state.genero,
 email: this.state.email,
-school_id : 1,
+school_id : this.state.schoolData[0].ID,
 institute_id : 0,
 coordination_id : 0,
 departament_id : this.state.departamento,
@@ -77,29 +79,38 @@ chair_id : this.state.catedra,
 mobile_phone_number : this.state.telef_mov,
 local_phone_number : this.state.telef_loc
 };
+console.log("employee: ", employee);
 const ofice = {
 	code_form : this.state.codigo,
 	dedication_id : this.state.dedicacion,
 movement_type_id : this.state.tip_mov,
 start_date : this.state.fecha_ini,
 finish_date : this.state.fecha_fin,
-chool_id : 1,
+school_id : this.state.schoolData[0].ID,
 institute_id : 0,
 coordination_id : 0
-}
+};
+console.log("ofice: ", ofice);
 const userID = 0;
 const empleadoID = this.state.empleado_id;
-addNewFormOfice(employee,ofice,userID,empleadoID )
-.then(result => {
-	if(result === 1) {
-		alert('planilla de oficio creado exitosamente');
-		this.props.history.push('/Escuela');
-	} else {
-		alert('planilla de oficio NO creado exitosamente');
-		this.props.history.push('/Escuela');
-	}
-});
+if (this.state.codigo !== '' ){
+	addNewFormOfice(employee, ofice, userID, empleadoID )
+	.then(result => {
+		if(result === 1) {
+			alert('planilla de oficio creado exitosamente');
+			this.props.history.push('/Escuela');
+		} else {
+			alert('planilla de oficio NO creado exitosamente');
+			this.props.history.push('/Escuela');
+		}
+	});
+} else {
+	this.handleChangeCode();
+	this.handleSubmit(event);
 }
+
+}
+
 
  componentDidMount() {
   getAllDepartamentBySchoolList()
@@ -107,7 +118,7 @@ addNewFormOfice(employee,ofice,userID,empleadoID )
     this.setState({
       departamentoList: result
     })
-    console.log(this.state.departamentoList);
+    console.log("departamentoList: ", this.state.departamentoList);
   });
 
 	getSchool(1)
@@ -115,7 +126,7 @@ addNewFormOfice(employee,ofice,userID,empleadoID )
 		this.setState({
 			schoolData:result
 		})
-		console.log(this.state.schoolData)
+		console.log("schoolData: ", this.state.schoolData)
 	})
 
 
@@ -124,7 +135,7 @@ addNewFormOfice(employee,ofice,userID,empleadoID )
     this.setState({
       generoList: result
     })
-    console.log(this.state.generoList);
+    console.log("generoList: ",this.state.generoList);
   });
 
     getAllExecuntingUnitList()
@@ -132,7 +143,7 @@ addNewFormOfice(employee,ofice,userID,empleadoID )
     this.setState({
       ExecuntingUnit: result
     })
-    console.log(this.state.ExecuntingUnit);
+    console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
   });
 
       getAllDedicationTypesList()
@@ -140,7 +151,7 @@ addNewFormOfice(employee,ofice,userID,empleadoID )
     this.setState({
       DedicationTypes: result
     })
-    console.log(this.state.DedicationTypes);
+    console.log("DedicationTypes: ",this.state.DedicationTypes);
   });
 
  getAllMovementTypeslist()
@@ -148,7 +159,7 @@ addNewFormOfice(employee,ofice,userID,empleadoID )
     this.setState({
       tipoMovList: result
     })
-    console.log(this.state.tipoMovList);
+    console.log("tipoMovList: ",this.state.tipoMovList);
   });
 
  }
@@ -170,7 +181,7 @@ handlechangeChair = data => {
 	    this.setState({
 	      catedraList: result
 	    })
-	    console.log(this.state.catedraList);
+	    console.log("catedraList: ",this.state.catedraList);
 	  });
 	}
 }
@@ -202,6 +213,18 @@ handlechangeChair = data => {
      dedicacion : event.value
    });
  }
+
+ handleChangeSelectGender = event => {
+this.setState({
+	genero : event.value
+});
+}
+
+handleChangeSelectcat = event => {
+this.setState({
+ catedra : event.value
+});
+}
 
 render() {
 	return (
@@ -248,6 +271,7 @@ render() {
 		<div className="form-group col-md-3">
 					<label htmlFor="genero"> Género (*)</label>
 					<Select
+						onChange={this.handleChangeSelectGender}
 						options={this.state.generoList.map(gen =>(
 						{label: gen.Gender, value : gen.ID}
 					))}
@@ -302,6 +326,7 @@ render() {
 		<div className="form-group col-md-3">
 					<label htmlFor="catedra">Cátedra (*)</label>
 					<Select
+						onChange={this.handleChangeSelectcat}
 						options={this.state.catedraList.map(cat =>(
 						{label: cat.name, value : cat.ID}
 					))}
