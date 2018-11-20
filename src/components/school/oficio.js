@@ -42,6 +42,7 @@ class Oficio extends Component {
 	    this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
 	     this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
 	     this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
+	     this.handleChangeCode = this.handleChangeCode.bind(this);
 
 
 
@@ -93,7 +94,6 @@ coordination_id : 0
 console.log("ofice: ", ofice);
 const userID = 0;
 const empleadoID = this.state.empleado_id;
-if (this.state.codigo !== '' ){
 	addNewFormOfice(employee, ofice, userID, empleadoID )
 	.then(result => {
 		if(result === 1) {
@@ -104,10 +104,6 @@ if (this.state.codigo !== '' ){
 			this.props.history.push('/Escuela');
 		}
 	});
-} else {
-	this.handleChangeCode();
-	this.handleSubmit(event);
-}
 
 }
 
