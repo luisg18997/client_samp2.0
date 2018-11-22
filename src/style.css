@@ -129,10 +129,10 @@ code {
     display: block;
     position: fixed;
     left: 0px;
-    top:85px;
-  
- 
-  
+    top: 55%;
+
+
+
 }
 
 
@@ -148,7 +148,7 @@ code {
     background: #00638a;
     width: 150px;
     position: relative;
-  
+
 }
 
 
