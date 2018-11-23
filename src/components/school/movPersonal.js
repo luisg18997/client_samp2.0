@@ -30,9 +30,7 @@ class MovPersonal extends Component {
       municipalityList: [],
       parroquia: "",
       parroquiaList : [],
-      sector: "",
-      calle: "",
-      num_casa_apart: "",
+      apartamento: "",
       ingreso: "",
       ingressList: [],
       tip_ingreso: "",
@@ -278,11 +276,8 @@ handlechangeParish = data => {
 
   render() {
     return (
-    <div  className="content">
 
-
-     <h1 align="center">Solicitud de Movimiento de Personal</h1>
-      <hr></hr>
+      <div className="container">
 
       <h1 align="center">Datos Personales</h1>
       <hr></hr>
@@ -292,7 +287,7 @@ handlechangeParish = data => {
         <form className="row justify-content">
 
         <div className="form-group col-md-3">
-            <label htmlFor="nombre">Primer Nombre <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="nombre">Primer Nombre (*)</label>
             <input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre" required value={this.state.nombre} onChange={this.handleChange}/>
       </div>
 
@@ -302,7 +297,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="apellido">Primer Apellido <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="apellido">Primer Apellido (*)</label>
             <input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido" required value={this.state.apellido} onChange={this.handleChange}/>
       </div>
 
@@ -311,7 +306,7 @@ handlechangeParish = data => {
             <input className="form-control" type="text" name="sapellido" id="sapellido" placeholder="S. Apellido" value={this.state.sapellido} onChange={this.handleChange}/>
       </div>
 
-        <div className="form-group col-md-3">
+      <div className="form-group col-md-3">
             <label htmlFor="nacionalidad"> Nacionalidad</label>
          <Select
               onChange={this.handleChangeSelectNacionalities}
@@ -322,7 +317,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="cedula">Cédula <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="cedula">Cédula (*)</label>
             <input className="form-control" type="text" name="cedula" id="cedula" placeholder="Cédula" required value={this.state.cedula} onChange={this.handleChange}/>
       </div>
 
@@ -333,7 +328,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="estado">Estado <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="estado">Estado (*)</label>
          <Select
               onChange={this.handleChangeSelectstate}
               options={this.state.StateList.map(st =>(
@@ -343,7 +338,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="municipio">Municipio <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="municipio">Municipio (*)</label>
      <Select
             onChange={this.handleChangeSelectMun}
             options={this.state.municipalityList.map(mun =>(
@@ -353,7 +348,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="parroquia">Parroquia <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="parroquia">Parroquia (*)</label>
             <Select
                    options={this.state.parroquiaList.map(mun =>(
                    {label: mun.parish, value : mun.ID}
@@ -362,18 +357,8 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="sector">Sector <a style={{color:'red'}}>*</a></label>
-            <input className="form-control" type="text" name="sector" id="sector" placeholder="Sector" value={this.state.sector} onChange={this.handleChange}/>
-      </div>
-
-      <div className="form-group col-md-3">
-            <label htmlFor="calle">Calle <a style={{color:'red'}}>*</a></label>
-            <input className="form-control" type="text" name="calle" id="calle" placeholder="Calle" value={this.state.calle} onChange={this.handleChange}/>
-      </div>
-
-      <div className="form-group col-md-3">
-            <label htmlFor="num_casa_apart">Num casa o Apartamento <a style={{color:'red'}}>*</a></label>
-            <input className="form-control" type="text" name="num_casa_apart" id="num_casa_apart" placeholder="Número de Casa o Apartamento" value={this.state.num_casa_apart} onChange={this.handleChange}/>
+            <label htmlFor="apartamento">Apartamento</label>
+            <input className="form-control" type="text" name="apartamento" id="apartamento" placeholder="Apartamento" value={this.state.apartamento} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-12">
@@ -383,7 +368,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="ingreso">Ingreso <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="ingreso">Ingreso (*)</label>
         <Select
               onChange={this.handleChangeSelectingress}
               options={this.state.ingressList.map(ing =>(
@@ -395,7 +380,7 @@ handlechangeParish = data => {
 
 
       <div className="form-group col-md-3">
-            <label htmlFor="tip_ingreso">Tipo de Ingreso <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="tip_ingreso">Tipo de Ingreso (*)</label>
         <Select
               onChange={this.handleChangeSelectIncomeType}
               options={this.state.IncomeType.map(income =>(
@@ -405,12 +390,12 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_ingreso">Fecha de Ingreso <a style={{color:'red'}}>*</a></label>
+        <label htmlFor="fecha_ingreso">Fecha de Ingreso (*)</label>
             <input className="form-control" type="date" name="fecha_ingreso" id="fecha_ingreso" required value={this.state.fecha_ingreso} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="tip_mov">Tipo de Movimiento <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="tip_mov">Tipo de Movimiento (*)</label>
             <select className="form-control" id="tip_mov" name="tip_mov" required value={this.state.tip_mov} onChange={this.handleChange}>
               <option value=""> Seleccione un Valor </option>
               <option value="a"> A </option>
@@ -419,7 +404,7 @@ handlechangeParish = data => {
       </div>
 
   <div className="form-group col-md-3">
-          <label htmlFor="departamento">Departamento <a style={{color:'red'}}>*</a></label>
+          <label htmlFor="departamento">Departamento (*)</label>
           <Select
             onChange={this.handleChangeSelectdept}
             options={this.state.departamentoList.map(dept =>(
@@ -429,7 +414,7 @@ handlechangeParish = data => {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="catedra">Cátedra <a style={{color:'red'}}>*</a></label>
+          <label htmlFor="catedra">Cátedra (*)</label>
           <Select
             options={this.state.catedraList.map(cat =>(
             {label: cat.name, value : cat.ID}
@@ -437,7 +422,7 @@ handlechangeParish = data => {
           />
     </div>
        <div className="form-group col-md-3">
-            <label htmlFor="unidad_ejec">Unidad Ejecutora <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="unidad_ejec">Unidad Ejecutora (*)</label>
          <Select
               onChange={this.handleChangeSelectExecuntingUnit}
               options={this.state.ExecuntingUnit.map(EU =>(
@@ -447,7 +432,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="idac">IDAC <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="idac">IDAC (*)</label>
             <select className="form-control" id="idac" name="idac" required value={this.state.idac} onChange={this.handleChange}>
               <option value=""> Seleccione un Valor </option>
               <option value="a"> A </option>
@@ -456,7 +441,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="dedicacion">Dedicación Actual <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="dedicacion">Dedicación Actual (*)</label>
        <Select
               onChange={this.handleChangeSelectDedicationTypes}
               options={this.state.DedicationTypes.map(dt =>(
@@ -477,7 +462,7 @@ handlechangeParish = data => {
 
 
       <div className="form-group col-md-3">
-            <label htmlFor="categoria">Categoria <a style={{color:'red'}}>*</a></label>
+            <label htmlFor="categoria">Categoria (*)</label>
         <Select
               onChange={this.handleChangeSelectCategoryType}
               options={this.state.CategoryTypeList.map(ct =>(
@@ -495,28 +480,28 @@ handlechangeParish = data => {
 
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_ini">Fecha de Inicio <a style={{color:'red'}}>*</a></label>
+        <label htmlFor="fecha_ini">Fecha de Inicio (*)</label>
             <input className="form-control" type="date" name="fecha_ini" id="fecha_ini" required value={this.state.fecha_ini} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_fin">Fecha de Fin <a style={{color:'red'}}>*</a></label>
+        <label htmlFor="fecha_fin">Fecha de Fin (*)</label>
             <input className="form-control" type="date" name="fecha_fin" id="fecha_fin" required value={this.state.fecha_fin} onChange={this.handleChange}/>
       </div>
 
   <div className="form-group col-md-3">
-    <label htmlFor="anexo">Anexos <a style={{color:'red'}}>*</a></label>
+    <label htmlFor="anexo">Anexos (*)</label>
         <textarea name="anexo" required placeholder="Curriculum con sus anexos"></textarea>
   </div>
 
   <div className="form-group col-md-3">
-    <label htmlFor="motivo">Motivos <a style={{color:'red'}}>*</a></label>
+    <label htmlFor="motivo">Motivos (*)</label>
         <textarea name="motivo" required placeholder="Indique el motivo de la Planilla"></textarea>
   </div>
 
   <div className="form-group col-md-12">
           <hr></hr>
-              <h6 align="center" :'red'}}>Campos Obligatorios *</h6>
+              <h6 align="center">Campos Obligatorios (*)</h6>
             <hr></hr>
       </div>
 
@@ -524,7 +509,7 @@ handlechangeParish = data => {
 
         <div className="row justify-content-center">
 
-          <button className="btn btn-primary col-md-3" style={{'margin-right':'100px'}}>Enviar</button>
+          <button className="btn btn-primary col-md-3">Enviar</button>
           <button className="btn btn-primary col-md-3">Restablecer</button>
 
         </div>
