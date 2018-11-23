@@ -1,11 +1,20 @@
 import React, { Component} from 'react';
 
 class mainSchool extends Component {
-	
+
 	render(){
 		return(
 			<div>
-			<p> Contenido Principal de Escuela</p>
+				<table border="1">
+					<thead>
+						<tr>
+							<td>Codigo</td>
+							<td>Tipo de Planilla</td>
+							<td>Ubicacion</td>
+							<td></td>
+						</tr>
+					</thead>
+				</table>
 			</div>
 		)
 	}
