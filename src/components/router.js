@@ -12,7 +12,7 @@ import ClaveOlvidada from './user/olvidoClave';
 class routerPrincipal extends Component {
   render() {
     return (
-        <div>
+        <div className="content">
         <Router>
         <div>
          <ul className="navbar-nav mr-auto">
@@ -31,7 +31,7 @@ class routerPrincipal extends Component {
                <li  className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
               <Link to='/Admin'>admin</Link>
               </li>
-          </ul> 
+          </ul>
 
             <Switch>
                 <Route exact path="/" component={login} />
