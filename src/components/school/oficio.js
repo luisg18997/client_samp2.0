@@ -43,11 +43,9 @@ class Oficio extends Component {
 	     this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
 	     this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
 	     this.handleChangeCode = this.handleChangeCode.bind(this);
-
-
-
-
 }
+
+
 handleChangeCode = () => {
 	CodeOfice()
 	.then(result => {
@@ -56,12 +54,11 @@ handleChangeCode = () => {
     })
     console.log("codigo: ",this.state.codigo);
   });
+  this.handleSubmitOfice();
 }
 
-handleSubmit = event => {
-	this.handleChangeCode();
-	event.preventDefault();
-	const employee = {
+handleSubmitOfice = () => {
+  const employee = {
 		nacionality_id : 1,
 		documentation_id : 1,
 		identification : this.state.cedula ,
@@ -104,6 +101,12 @@ const empleadoID = this.state.empleado_id;
 			this.props.history.push('/Escuela');
 		}
 	});
+}
+
+
+handleSubmit = event => {
+  event.preventDefault();
+	this.handleChangeCode();
 
 }
 
