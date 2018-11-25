@@ -35,12 +35,20 @@ export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
 
 
 
-export const getAllExecuntingUnitList = () => fetch(`${api}ExecuntingUnitlist`,
-	{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+export const getAllExecuntingUnitListFilter = (codeFilter) => fetch(`${api}ExecuntingUnitFilter`,
+	{ 
+		method: 'POST',
+	 	headers: { 
+	 		'Content-Type': 'application/json' 
+	 	},
+	 	body : JSON.stringify({
+				param_code_filter : codeFilter
+		})
+	 })
 	.then(res => res.json())
-	.then(ExecuntingUnitlist => ExecuntingUnitlist.map(ExecuntingUnitlist =>({
-		ID : ExecuntingUnitlist.id,
-		des : ExecuntingUnitlist.execunting_unit
+	.then(ExecuntingUnitlist => ExecuntingUnitlist.map(Exec =>({
+		ID : Exec.id,
+		des : Exec.execunting_unit
 		})))
 	.catch((error) => {
     	console.log('The error is:', error.message);

@@ -49,13 +49,14 @@ export const getAllCoordinationList = () => fetch(`${api}coordinations`,
 	.then(coordination => coordination.map(coordination =>({
 		ID : coordination.id,
 		code : coordination.code,
-		name : coordination.name
+		name : coordination.name,
+		codeFilter : coordination.code.substr(0, 4)
 	})))
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});
 
-	export const getAllDepartamentBySchoolList = () => fetch(`${api}school/departaments`,
+	export const getAllDepartamentBySchoolList = (schoolID) => fetch(`${api}school/departaments`,
 	{
 		method: 'post',
 		headers: {
@@ -63,14 +64,15 @@ export const getAllCoordinationList = () => fetch(`${api}coordinations`,
 			'Accept': 'application/json'
 		},
 		body : JSON.stringify({
-			param_school_id : 1
+			param_school_id : schoolID
 		})
 	})
 	.then(res => res.json())
 	.then(departaments => departaments.map(departaments =>({
 		ID : departaments.id,
 		code : departaments.code,
-		name : departaments.departament
+		name : departaments.departament,
+		codeFilter : departaments.code.substr(0, 6)
 	})))
 	.catch((error) => {
     	console.log('The error is:', error.message);
@@ -123,7 +125,8 @@ export const getAllCoordinationList = () => fetch(`${api}coordinations`,
 	.then(schools => schools.map(schools =>({
 		ID : schools.id,
 		code : schools.code,
-		name : schools.school
+		name : schools.school,
+		codeFilter : schools.code.substr(0, 4)
 	})))
 	.catch((error) => {
     	console.log('The error is:', error.message);

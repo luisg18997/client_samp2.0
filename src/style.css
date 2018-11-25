@@ -8,42 +8,12 @@
   padding: 0;
 }
 
-html
-{
- min-height: 100%;
-  position: relative;
-}
 
 .logo_fhe {
   width: 70px;
   height: 70px;
   padding: 0;
 }
-
-.content {
-  margin-left: 150px;
-  width: 80%;
-  padding: 5%;
-   color:#595959;
-}
-
-body
-{
-margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: Helvetica, Arial, sans-serif;
-  color: #666;
-  font-size: 1em;
-  line-height: 1.5em;
-  padding-top: 80px; /* Relleno superior igual a la altura de la cabecera*/
-  margin-bottom: 40px;
-}
-
 
 
 .header {
@@ -70,15 +40,6 @@ margin: 0;
   color: #61dafb;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

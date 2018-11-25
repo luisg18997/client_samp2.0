@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
  getAllStatesList,
  getAllCategoryTypesList,
- getAllExecuntingUnitList,
+ getAllExecuntingUnitListFilter,
  getAllNacionalitiesList,
  getAllDedicationTypesList,
  getAllIngressList,
@@ -93,7 +93,7 @@ class MovPersonal extends Component {
     console.log(this.state.CategoryTypeList);
   });
 
-    getAllExecuntingUnitList()
+    getAllExecuntingUnitListFilter()
   .then(result => {
     this.setState({
       ExecuntingUnit: result

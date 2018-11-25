@@ -1,15 +1,15 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
 import {getAllDepartamentBySchoolList, getAllChairList, getSchool} from '../../connect_api/faculty/FacultyAPI'
-import {getAllGenderList, getAllExecuntingUnitList, getAllDedicationTypesList } from '../../connect_api/employee/EmployeeAPI'
+import {getAllGenderList, getAllExecuntingUnitListFilter, getAllDedicationTypesList } from '../../connect_api/employee/EmployeeAPI'
 import {getAllMovementTypeslist, addNewFormOfice, CodeOfice} from '../../connect_api/formData/formDataAPI'
 
 class Oficio extends Component {
 	constructor(){
 	super();
 	this.state = {
-		"empleado_id": 0,
-		"codigo" : "",
+		empleado_id: 0,
+		codigo : "",
 		nombre: "",
 		apellido: "",
 		snombre: "",
@@ -27,7 +27,7 @@ class Oficio extends Component {
 		DedicationTypes: [],
 		departamento: "",
 		departamentoList : [],
-		"schoolData": [],
+		schoolData: [],
 		catedra: "",
 		catedraList: [],
 		fecha_ini: "",
@@ -50,7 +50,7 @@ handleChangeCode = () => {
 	CodeOfice()
 	.then(result => {
     this.setState({
-      codigo: result
+      codigo : result
     })
     console.log("codigo: ",this.state.codigo);
   });
@@ -112,15 +112,7 @@ handleSubmit = event => {
 
 
  componentDidMount() {
-  getAllDepartamentBySchoolList()
-  .then(result => {
-    this.setState({
-      departamentoList: result
-    })
-    console.log("departamentoList: ", this.state.departamentoList);
-  });
-
-	getSchool(1)
+  getSchool(1)
 	.then(result => {
 		this.setState({
 			schoolData:result
@@ -128,21 +120,12 @@ handleSubmit = event => {
 		console.log("schoolData: ", this.state.schoolData)
 	})
 
-
 	getAllGenderList()
   .then(result => {
     this.setState({
       generoList: result
     })
     console.log("generoList: ",this.state.generoList);
-  });
-
-    getAllExecuntingUnitList()
-  .then(result => {
-    this.setState({
-      ExecuntingUnit: result
-    })
-    console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
   });
 
       getAllDedicationTypesList()
@@ -160,8 +143,8 @@ handleSubmit = event => {
     })
     console.log("tipoMovList: ",this.state.tipoMovList);
   });
-
  }
+
 
  handleChange = event => {
    this.setState({
@@ -183,6 +166,26 @@ handlechangeChair = data => {
 	    console.log("catedraList: ",this.state.catedraList);
 	  });
 	}
+}
+
+obtaintExec = () => {
+	getAllExecuntingUnitListFilter(this.state.schoolData[0].codeFilter)
+  .then(result => {
+    this.setState({
+      ExecuntingUnit : result
+    })
+    console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+  });
+}
+
+obtaintDept = () => {
+	getAllDepartamentBySchoolList(this.state.schoolData[0].ID)
+  .then(result => {
+    this.setState({
+      departamentoList: result
+    })
+    console.log("departamentoList: ", this.state.departamentoList);
+  });
 }
 
 
