@@ -5,8 +5,8 @@ import logo2 from '../faculta_humanidades_educacion.png';
 export class UCV extends Component {
   render() {
     return (
-      <div style={{ marginLeft: '1%'}}>
-        <img src={logo} className="logo_ucv" alt= "ucv" />
+      <div style={{ marginLeft: '-10%'}}>
+        <img src={logo} style = {{width : '35%', height : '', padding : 0}}  alt= "ucv" />
       </div>
     )
   }
@@ -15,8 +15,8 @@ export class UCV extends Component {
 export class FHE extends Component {
   render() {
     return (
-      <div style={{ marginLeft: '92%', position: 'absolute' }}>
-        <img src={logo2} className="logo_fhe" alt = "fhe"/>
+      <div style={{ marginLeft: '79%', position: 'absolute' }}>
+        <img src={logo2} style = {{width : '90px', height : '100%', padding : 0}}  alt = "fhe"/>
       </div>
     )
   }

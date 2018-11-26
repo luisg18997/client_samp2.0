@@ -2,37 +2,25 @@
   text-align: center;
 }
 
-.logo_ucv {
-  width: 70px;
-  height: 70px;
-  padding: 0;
-}
-
-
-.logo_fhe {
-  width: 70px;
-  height: 70px;
-  padding: 0;
-}
-
-
 .header {
   color: white;
   height: 80%;
-    width: 100%; /* hacemos que la cabecera ocupe el ancho completo de la página */
+    width: 90%; /* hacemos que la cabecera ocupe el ancho completo de la página */
   left: 0; /* Posicionamos la cabecera al lado izquierdo */
   top: 0; /* Posicionamos la cabecera pegada arriba */
-  position: fixed; /* Hacemos que la cabecera tenga una posición fija */
+/*  position: fixed; /* Hacemos que la cabecera tenga una posición fija */
   z-index: 999;
+  padding: 0;
 
 }
 
 .footer {
   position: absolute;
-  bottom: 0;
   width: 100%;
   height: 40px;
   color: white;
+  font-style: oblique;
+  font-size: 150%;
   background-color : rgb(110, 166, 243);
 }
 
@@ -57,23 +45,17 @@ code {
   }
 }
 
-html 
+html
 {
- 
  min-height: 100%;
   position: relative;
-
 }
 
 .content {
-
   margin-left: 150px;
   width: 85%;
   padding:30px;
- 
    color:#595959;
-
-
 }
 
 
@@ -215,11 +197,11 @@ margin: 0;
   left: 0; /* Posicionamos la cabecera al lado izquierdo */
   top: 0; /* Posicionamos la cabecera pegada arriba */
   position: fixed; /* Hacemos que la cabecera tenga una posición fija */
-} 
+}
   .main-header a {
     color: white;
   }
- 
+
 /*
  * Logo
  */
@@ -231,13 +213,13 @@ margin: 0;
   .logo-header:hover {
     color: #0b76a6;
   }
-  
+
   .logo-header .site-name {
     display: block;
     font-weight: 700;
     font-size: 1.2em;
   }
-  
+
   .logo-header .site-desc {
     display: block;
     font-weight: 300;
