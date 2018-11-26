@@ -4,13 +4,10 @@ import React, {Component} from 'react';
 class Footer extends Component {
   render() {
     return(
-      <div className="text-bottom" style= {{marginTop: 10}}>
+      <div className="page-footer font-small footer" style= {{marginTop: 10}}>
         <footer>
-          <hr/>
           <div>
-            <h1>
-              footer
-            </h1>
+           © Luis González, Denis Osuna, Daniel Dávila, Leonardo Monascal (UNEXCA 2018-2019)
           </div>
         </footer>
       </div>

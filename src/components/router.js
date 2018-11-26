@@ -12,7 +12,7 @@ import ClaveOlvidada from './user/olvidoClave';
 class routerPrincipal extends Component {
   render() {
     return (
-        <div>
+        <div className="contet">
         <Router>
         <div>
          <ul className="navbar-nav mr-auto">
