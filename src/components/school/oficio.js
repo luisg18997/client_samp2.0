@@ -1,7 +1,12 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
 import {getAllDepartamentBySchoolList, getAllChairList, getSchool} from '../../connect_api/faculty/FacultyAPI'
-import {getAllGenderList, getAllExecuntingUnitListFilter, getAllDedicationTypesList } from '../../connect_api/employee/EmployeeAPI'
+import {
+	getAllGenderList, 
+	getAllExecuntingUnitListFilter, 
+	getAllDedicationTypesList,
+	getAllIdacCodesFilterVacantDateNotNullList
+} from '../../connect_api/employee/EmployeeAPI'
 import {getAllMovementTypeslist, addNewFormOfice, CodeOfice} from '../../connect_api/formData/formDataAPI'
 
 class Oficio extends Component {
@@ -42,23 +47,18 @@ class Oficio extends Component {
 	    this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
 	     this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
 	     this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
-	     this.handleChangeCode = this.handleChangeCode.bind(this);
 }
 
 
-handleChangeCode = () => {
-	CodeOfice()
+handleSubmit = event => {
+  event.preventDefault();
+  CodeOfice()
 	.then(result => {
     this.setState({
       codigo : result
     })
     console.log("codigo: ",this.state.codigo);
-  });
-  this.handleSubmitOfice();
-}
-
-handleSubmitOfice = () => {
-  const employee = {
+    const employee = {
 		nacionality_id : 1,
 		documentation_id : 1,
 		identification : this.state.cedula ,
@@ -69,7 +69,7 @@ second_surname : this.state.sapellido,
 birth_date : this.state.fec_nac,
 gender_id : this.state.genero,
 email: this.state.email,
-school_id : this.state.schoolData[0].ID,
+school_id : this.state.schoolData.ID,
 institute_id : 0,
 coordination_id : 0,
 departament_id : this.state.departamento,
@@ -79,12 +79,12 @@ local_phone_number : this.state.telef_loc
 };
 console.log("employee: ", employee);
 const ofice = {
-	code_form : this.state.codigo,
+	code_form : result,
 	dedication_id : this.state.dedicacion,
 movement_type_id : this.state.tip_mov,
 start_date : this.state.fecha_ini,
 finish_date : this.state.fecha_fin,
-school_id : this.state.schoolData[0].ID,
+school_id : this.state.schoolData.ID,
 institute_id : 0,
 coordination_id : 0
 };
@@ -101,23 +101,50 @@ const empleadoID = this.state.empleado_id;
 			this.props.history.push('/Escuela');
 		}
 	});
-}
-
-
-handleSubmit = event => {
-  event.preventDefault();
-	this.handleChangeCode();
-
+  });
 }
 
 
  componentDidMount() {
   getSchool(1)
 	.then(result => {
+		const school ={
+			ID : result.id,
+			code : result.code,
+			name : result.school,
+			codeFilter : result.code.substr(0, 4)
+		}
 		this.setState({
-			schoolData:result
+			schoolData : school
 		})
-		console.log("schoolData: ", this.state.schoolData)
+		console.log("schoolData: ", this.state.schoolData);
+		getAllDepartamentBySchoolList(school.ID)
+  		.then(result => {
+    		this.setState({
+      			departamentoList: result
+   			})
+    		console.log("departamentoList: ", this.state.departamentoList);
+  		});
+
+  		getAllExecuntingUnitListFilter(school.codeFilter)
+  		.then(result => {
+    		this.setState({
+      			ExecuntingUnit : result
+    		})
+    		console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+    		let ExecID = [];
+    		for (let i = 0; i< result.length; i++) {
+    			ExecID[i] = result[i].ID;
+    		}
+    		console.log('ExecID: ', ExecID);
+    		getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+    		.then(result => {
+    			this.setState({
+    				idacList : result
+    			})
+    			console.log("idacList: ", this.state.idacList);
+    		})
+  		});
 	})
 
 	getAllGenderList()
@@ -166,26 +193,6 @@ handlechangeChair = data => {
 	    console.log("catedraList: ",this.state.catedraList);
 	  });
 	}
-}
-
-obtaintExec = () => {
-	getAllExecuntingUnitListFilter(this.state.schoolData[0].codeFilter)
-  .then(result => {
-    this.setState({
-      ExecuntingUnit : result
-    })
-    console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
-  });
-}
-
-obtaintDept = () => {
-	getAllDepartamentBySchoolList(this.state.schoolData[0].ID)
-  .then(result => {
-    this.setState({
-      departamentoList: result
-    })
-    console.log("departamentoList: ", this.state.departamentoList);
-  });
 }
 
 
@@ -346,15 +353,6 @@ render() {
 		</div>
 
 		<div className="form-group col-md-3">
-					<label htmlFor="idac">IDAC (*)</label>
-					<Select
-						options={this.state.idacList.map(gen =>(
-						{label: gen.Gender, value : gen.ID}
-					))}
-					/>
-		</div>
-
-		<div className="form-group col-md-3">
 					<label htmlFor="unidad_ejec">Unidad Ejecutora (*)</label>
 			       <Select
               onChange={this.handleChangeSelectExecuntingUnit}
@@ -362,6 +360,15 @@ render() {
               {label: EU.des, value : EU.ID}
             ))}
             />
+		</div>
+
+		<div className="form-group col-md-3">
+					<label htmlFor="idac">IDAC (*)</label>
+					<Select
+						options={this.state.idacList.map(idac =>(
+						{label: idac.Codigo, value : idac.ID}
+					))}
+					/>
 		</div>
 		<div className="form-group col-md-12">
 				<hr></hr>
