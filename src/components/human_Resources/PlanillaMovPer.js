@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { PDFExport } from '@progress/kendo-react-pdf';
-import { faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import canvg from 'canvg';
-import ReactDOMServer from 'react-dom/server';
-import ReactDOM from 'react-dom';
+
+
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './estilo.css';
 import { UCV2 } from '../../images/components/logos';
 import ReactDOM from 'react-dom';
+
 class PlanillaMovPer extends Component {
     resume;
 
@@ -17,8 +16,6 @@ class PlanillaMovPer extends Component {
     exportPDF = () => {
         this.resume.save();
     }
-
-
 
 
 
@@ -185,4 +182,4 @@ class PlanillaMovPer extends Component {
 }
 
 export default PlanillaMovPer;
-ReactDOM.render(<human_Resources />, document.getElementById('root'));
+ReactDOM.render(<PlanillaMovPer />, document.getElementById('root'));

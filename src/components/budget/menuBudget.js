@@ -1,109 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import  { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Principal from './mainBudget';
-import Listado from './ListadoPlanillas';
+import React, {Component} from 'react';
+import  { BrowserRouter as Router,Switch, Route, Link } from 'react-router-dom';
+ import mainBudget from './mainBudget';
+import listado from './ListadoPlanillas';
 
-const styles = {
-  list: {
-    width: 200,
-  },
-  fullList: {
-    width: 'auto',
-  },
-};
-
-class TemporaryDrawer extends React.Component {
-  state = {
-
-    left: false,
-
-  };
-
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open,
-    });
-  };
-
+class MenuBudget extends Component {
   render() {
-    const { classes } = this.props;
+    return(
+       <div>
+        <Router>
 
 
+<div className="menu_gral">
+
+ <ul>
+     <li    style={{ background: '#0a6d84'}}><Link to='/Presupuesto' >Presupuesto</Link></li>
+
+     <li> <Link to="/Presupuesto/ListadoPlanillas">Listado Planillas</Link></li>
 
 
-    const sideList = (
-      <div className={classes.list}>
-
-
-        <List>
-       <ListItem component={Link} to={"/Presupuesto/menu"} button>
-      <ListItemIcon>
-        <InboxIcon />
-      </ListItemIcon>
-
-      <ListItemText primary="mainBudget" />
-    </ListItem>
-
-       <ListItem component={Link} to={"/Presupuesto/mainBudget2"} button>
-      <ListItemIcon>
-        <InboxIcon />
-      </ListItemIcon>
-
-      <ListItemText primary="mainBudget2" />
-    </ListItem>
-        </List>
-
-
+  </ul>
+            <Switch>
+            <Route exact path='/Presupuesto' component={mainBudget}/>
+            <Route path='/Presupuesto/ListadoPlanillas' component={listado}/>
+    </Switch>
+        
+        </div>
+        </Router>
       </div>
-
-
-    );
-
-
-
-
-    return (
-     <Router>
-      <div>
-        <Button onClick={this.toggleDrawer('left', true)}>Menu</Button>
-           <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
-          >
-
-
-            {sideList}
-
-
-         <Switch>
-                <Route exact path="/Presupuesto/menu" component={Principal} />
-               <Route exact path="/Presupuesto/mainBudget2" component={Listado} />
-      </Switch>
-
-
-          </div>
-        </Drawer>
-             </div>
-              </Router>
-    );
-
+    )
   }
 }
 
-TemporaryDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
-export default withStyles(styles)(TemporaryDrawer);
+export default MenuBudget;
+

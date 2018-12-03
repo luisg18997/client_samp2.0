@@ -9,13 +9,15 @@ import admin from './admin';
 import UserRegister from './user/registroUsuario';
 import ClaveOlvidada from './user/olvidoClave';
 
+
+
 class routerPrincipal extends Component {
   render() {
     return (
-        <div className="contet">
+        <div>
         <Router>
         <div>
-         <ul className="navbar-nav mr-auto">
+        {/*<ul className="navbar-nav mr-auto">
               <li className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
               <Link to='/'>home</Link>
               </li>
@@ -31,7 +33,7 @@ class routerPrincipal extends Component {
                <li  className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
               <Link to='/Admin'>admin</Link>
               </li>
-          </ul>
+          </ul>*/}
 
             <Switch>
                 <Route exact path="/" component={login} />
@@ -48,5 +50,6 @@ class routerPrincipal extends Component {
     )
   }
 }
+
 
 export default routerPrincipal;

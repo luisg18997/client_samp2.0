@@ -1,11 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import HumanResources from './App';
-
-
-ReactDOM.render(<HumanResources />, document.getElementById('root'));
+import React, { Component} from 'react';
+import MenuRRHH from './MenuRRHH';
 
 
 
-export default HumanResources;
+
+class human_Resources extends Component {
+	render(){
+		return (
+			<div>
+				<MenuRRHH />
+			</div>
+		)
+	}
+}
+
+export default human_Resources;
