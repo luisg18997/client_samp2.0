@@ -1,58 +1,53 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
 import {getAllDepartamentBySchoolList, getAllChairList, getSchool} from '../../connect_api/faculty/FacultyAPI'
-import {
-	getAllGenderList, 
-	getAllExecuntingUnitListFilter, 
-	getAllDedicationTypesList,
-	getAllIdacCodesFilterVacantDateNotNullList
-} from '../../connect_api/employee/EmployeeAPI'
+import {getAllGenderList, getAllExecuntingUnitListFilter, getAllDedicationTypesList, getAllIdacCodesFilterVacantDateNotNullList } from '../../connect_api/employee/EmployeeAPI'
 import {getAllMovementTypeslist, addNewFormOfice, CodeOfice} from '../../connect_api/formData/formDataAPI'
 
 class Oficio extends Component {
-	constructor(){
-	super();
-	this.state = {
-		empleado_id: 0,
-		codigo : "",
-		nombre: "",
-		apellido: "",
-		snombre: "",
-		sapellido: "",
-		cedula: "",
-		email: "",
-		genero: "",
-		generoList : [],
-		fec_nac: "",
-		telef_mov: "",
-		telef_loc: "",
-		tip_mov: "",
-		tipoMovList: [],
-		dedicacion: "",
-		DedicationTypes: [],
-		departamento: "",
-		departamentoList : [],
-		schoolData: [],
-		catedra: "",
-		catedraList: [],
-		fecha_ini: "",
-		fecha_fin: "",
-		idac: "",
-		idacList: [],
-		unidad_ejec: "",
-		ExecuntingUnit: [],
+  constructor(){
+  super();
+  this.state = {
+    empleado_id: 0,
+    codigo : "",
+    nombre: "",
+    apellido: "",
+    snombre: "",
+    sapellido: "",
+    cedula: "",
+    email: "",
+    genero: "",
+    generoList : [],
+    fec_nac: "",
+    telef_mov: "",
+    telef_loc: "",
+    tip_mov: "",
+    tipoMovList: [],
+    dedicacion: "",
+    DedicationTypes: [],
+    departamento: "",
+    departamentoList : [],
+    schoolData: [],
+    catedra: "",
+    catedraList: [],
+    fecha_ini: "",
+    fecha_fin: "",
+    idac: "",
+    idacList: [],
+    unidad_ejec: "",
+    ExecuntingUnit: [],
 
-	}
+  }
 
-	    this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
-	     this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
-	     this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
+      this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
+       this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
+       this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
 }
 
 
 handleSubmit = event => {
   event.preventDefault();
-  CodeOfice()
+  CodeOfice( this.state.schoolData.ID, 0,0)
 	.then(result => {
     this.setState({
       codigo : result
@@ -64,6 +59,7 @@ handleSubmit = event => {
 		identification : this.state.cedula ,
 		first_name : this.state.nombre,
 		second_name: this.state.snombre,
+    idac : this.state.idac,
 surname: this.state.apellido,
 second_surname : this.state.sapellido,
 birth_date : this.state.fec_nac,
@@ -108,6 +104,7 @@ const empleadoID = this.state.empleado_id;
  componentDidMount() {
   getSchool(1)
 	.then(result => {
+    console.log(result);
 		const school ={
 			ID : result.id,
 			code : result.code,
@@ -234,6 +231,11 @@ this.setState({
  catedra : event.value
 });
 }
+handleChangeSelecIdac = event => {
+  this.setState({
+   idac : event.value
+  });
+}
 
 render() {
 	return (
@@ -320,41 +322,51 @@ render() {
               {label: dt.dedi, value : dt.ID}
             ))}
             />
-		</div>
+    </div>
 
-		<div className="form-group col-md-3">
-					<label htmlFor="departamento">Departamento (*)</label>
-					<Select
-						onChange={this.handleChangeSelectdept}
-						options={this.state.departamentoList.map(dept =>(
-						{label: dept.name, value : dept.ID}
-					))}
-					/>
-		</div>
+    <div className="form-group col-md-3">
+          <label htmlFor="departamento">Departamento  <a style={{color:'red'}}>*</a></label>
+        <Select
+            onChange={this.handleChangeSelectdept}
+            options={this.state.departamentoList.map(dept =>(
+            {label: dept.name, value : dept.ID}
+          ))}
+          />
+    </div>
 
-		<div className="form-group col-md-3">
-					<label htmlFor="catedra">Cátedra (*)</label>
-					<Select
-						onChange={this.handleChangeSelectcat}
-						options={this.state.catedraList.map(cat =>(
-						{label: cat.name, value : cat.ID}
-					))}
-					/>
-		</div>
+    <div className="form-group col-md-3">
+          <label htmlFor="catedra">Cátedra  <a style={{color:'red'}}>*</a></label>
+      <Select
+            onChange={this.handleChangeSelectcat}
+            options={this.state.catedraList.map(cat =>(
+            {label: cat.name, value : cat.ID}
+          ))}
+          />
+    </div>
 
-		<div className="form-group col-md-3">
-			<label htmlFor="fecha_ini">Fecha de Inicio (*)</label>
-					<input className="form-control" type="date" name="fecha_ini" id="fecha_ini" required value={this.state.fecha_ini} onChange={this.handleChange}/>
-		</div>
+    <div className="form-group col-md-3">
+      <label htmlFor="fecha_ini">Fecha de Inicio  <a style={{color:'red'}}>*</a></label>
+          <input className="form-control" type="date" name="fecha_ini" id="fecha_ini" required value={this.state.fecha_ini} onChange={this.handleChange}/>
+    </div>
 
-		<div className="form-group col-md-3">
-			<label htmlFor="fecha_fin">Fecha de Fin (*)</label>
-					<input className="form-control" type="date" name="fecha_fin" id="fecha_fin" required value={this.state.fecha_fin} onChange={this.handleChange}/>
-		</div>
+    <div className="form-group col-md-3">
+      <label htmlFor="fecha_fin">Fecha de Fin  <a style={{color:'red'}}>*</a></label>
+          <input className="form-control" type="date" name="fecha_fin" id="fecha_fin" required value={this.state.fecha_fin} onChange={this.handleChange}/>
+    </div>
 
-		<div className="form-group col-md-3">
-					<label htmlFor="unidad_ejec">Unidad Ejecutora (*)</label>
-			       <Select
+    <div className="form-group col-md-3">
+          <label htmlFor="idac">IDAC  <a style={{color:'red'}}>*</a></label>
+          <Select
+            onChange={this.handleChangeSelecIdac}
+            options={this.state.idacList.map(idac =>(
+            {label: idac.Codigo, value : idac.ID}
+            ))}
+          />
+    </div>
+
+    <div className="form-group col-md-3">
+          <label htmlFor="unidad_ejec">Unidad Ejecutora  <a style={{color:'red'}}>*</a></label>
+         <Select
               onChange={this.handleChangeSelectExecuntingUnit}
               options={this.state.ExecuntingUnit.map(EU =>(
               {label: EU.des, value : EU.ID}

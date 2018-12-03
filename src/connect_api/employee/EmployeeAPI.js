@@ -36,10 +36,10 @@ export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
 
 
 export const getAllExecuntingUnitListFilter = (codeFilter) => fetch(`${api}ExecuntingUnitFilter`,
-	{ 
+	{
 		method: 'POST',
-	 	headers: { 
-	 		'Content-Type': 'application/json' 
+	 	headers: {
+	 		'Content-Type': 'application/json'
 	 	},
 	 	body : JSON.stringify({
 				param_code_filter : codeFilter

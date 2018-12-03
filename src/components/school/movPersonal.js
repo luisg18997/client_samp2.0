@@ -7,9 +7,10 @@ import {
  getAllDedicationTypesList,
  getAllIngressList,
  getAllIncomeTypeList,
- getAllMunicipalitiesList, getAllParishList,
+ getAllMunicipalitiesList, getAllParishList, getAllIdacCodesFilterVacantDateNotNullList,
   postMovPer } from '../../connect_api/employee/EmployeeAPI';
-  import {getAllDepartamentBySchoolList, getAllChairList} from '../../connect_api/faculty/FacultyAPI'
+  import {getAllDepartamentBySchoolList, getAllChairList, getSchool} from '../../connect_api/faculty/FacultyAPI'
+import {getAllMovementTypeslist, codeMovPer} from '../../connect_api/formData/formDataAPI'
 import Select from 'react-select';
 
 class MovPersonal extends Component {
@@ -44,6 +45,7 @@ class MovPersonal extends Component {
       fecha_ini: "",
       fecha_fin: "",
       idac: "",
+      idacList: [],
       categoria: "",
       CategoryTypeList: [],
       dedicacion: "",
@@ -68,8 +70,49 @@ class MovPersonal extends Component {
     this.handleChangeSelectIncomeType = this.handleChangeSelectIncomeType.bind(this);
 }
  componentDidMount() {
+   getSchool(1)
+ 	.then(result => {
+     console.log(result);
+ 		const school ={
+ 			ID : result.id,
+ 			code : result.code,
+ 			name : result.school,
+ 			codeFilter : result.code.substr(0, 4)
+ 		}
+ 		this.setState({
+ 			schoolData : school
+ 		})
+ 		console.log("schoolData: ", this.state.schoolData);
+ 		getAllDepartamentBySchoolList(school.ID)
+   		.then(result => {
+     		this.setState({
+       			departamentoList: result
+    			})
+     		console.log("departamentoList: ", this.state.departamentoList);
+   		});
 
-  getAllDepartamentBySchoolList(1)
+   		getAllExecuntingUnitListFilter(school.codeFilter)
+   		.then(result => {
+     		this.setState({
+       			ExecuntingUnit : result
+     		})
+     		console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+     		let ExecID = [];
+     		for (let i = 0; i< result.length; i++) {
+     			ExecID[i] = result[i].ID;
+     		}
+     		console.log('ExecID: ', ExecID);
+     		getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+     		.then(result => {
+     			this.setState({
+     				idacList : result
+     			})
+     			console.log("idacList: ", this.state.idacList);
+     		})
+   		});
+ 	})
+
+  getAllStatesList()
   .then(result => {
     this.setState({
       departamentoList: result
@@ -84,6 +127,7 @@ class MovPersonal extends Component {
     })
     console.log(this.state.StateList);
   });
+
 
      getAllCategoryTypesList()
   .then(result => {
@@ -147,9 +191,7 @@ class MovPersonal extends Component {
 
  handleSubmit = event => {
    event.preventDefault();
-   const data = this.state
-   alert(JSON.stringify(data));
-   postMovPer(data);
+   codeMovPer(this.state.school.ID, 0, 0);
 
  }
 
@@ -421,24 +463,25 @@ handlechangeParish = data => {
           ))}
           />
     </div>
-       <div className="form-group col-md-3">
-            <label htmlFor="unidad_ejec">Unidad Ejecutora (*)</label>
+    <div className="form-group col-md-3">
+          <label htmlFor="idac">IDAC  <a style={{color:'red'}}>*</a></label>
+          <Select
+            onChange={this.handleChangeSelecIdac}
+            options={this.state.idacList.map(idac =>(
+            {label: idac.Codigo, value : idac.ID}
+            ))}
+          />
+    </div>
+
+    <div className="form-group col-md-3">
+          <label htmlFor="unidad_ejec">Unidad Ejecutora  <a style={{color:'red'}}>*</a></label>
          <Select
               onChange={this.handleChangeSelectExecuntingUnit}
               options={this.state.ExecuntingUnit.map(EU =>(
               {label: EU.des, value : EU.ID}
             ))}
             />
-      </div>
-
-      <div className="form-group col-md-3">
-            <label htmlFor="idac">IDAC (*)</label>
-            <select className="form-control" id="idac" name="idac" required value={this.state.idac} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
-      </div>
+    </div>
 
       <div className="form-group col-md-3">
             <label htmlFor="dedicacion">Dedicación Actual (*)</label>

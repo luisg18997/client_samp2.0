@@ -30,14 +30,36 @@ export const getAllMovementTypeslist = () => fetch(`${api}MovementTypes`,
 	    	console.log('The error is:', error.message);
 	  	});
 
-			export const CodeOfice = () => fetch(`${api}ofice/CodeOfice`,
+			export const CodeOfice = (schoolID, instituteID, coordinationID) => fetch(`${api}ofice/CodeOfice`,
 				{
-					method: 'GET',
+					method: 'post',
 					headers: {
 						'Content-Type': 'application/json'
-					}
+					},
+					body : JSON.stringify({
+						param_school_id : schoolID,
+						param_institute_id : instituteID,
+						param_coordination_id : coordinationID
+					})
 				})
 				.then(res => res.json())
 				.catch((error) => {
 			    	console.log('The error is:', error.message);
 			  	});
+
+					export const codeMovPer = (schoolID, instituteID, coordinationID) => fetch(`${api}MovPersonal/CodeMovPer`,
+						{
+							method: 'post',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body : JSON.stringify({
+								param_school_id : schoolID,
+								param_institute_id : instituteID,
+								param_coordination_id : coordinationID
+							})
+						})
+						.then(res => res.json())
+						.catch((error) => {
+					    	console.log('The error is:', error.message);
+					  	});
