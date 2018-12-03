@@ -1,18 +1,15 @@
-
-import React, {Component} from 'react';
+import React, { Component} from 'react';
 import MenuAdmin from './menuAdmin';
 
 
-class budget extends Component {
+class Admin extends Component {
 	render(){
-		return (
-
-<div>
- <MenuAdmin/>
-         </div>
-
+		return(
+			<div>
+				<MenuAdmin />
+			</div>
 		)
 	}
 }
 
-export default budget;
+export default Admin;
