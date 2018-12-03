@@ -122,6 +122,12 @@ export const getAllCoordinationList = () => fetch(`${api}coordinations`,
 	})
 })
 	.then(res => res.json())
+	.then(schools => schools.map(schools =>({
+		ID : schools.id,
+		code : schools.code,
+		name : schools.school,
+		codeFilter : schools.code.substr(0, 4)
+	})))
 	.catch((error) => {
     	console.log('The error is:', error.message);
   	});

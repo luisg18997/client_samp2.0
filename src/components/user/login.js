@@ -58,7 +58,8 @@ export default class Login extends Component {
         </form>
         <br />
         <br />
-        <ul>
+        <ul style={{
+    'list-style': 'none'}}>
 	        <li>
 	        	<Link to='/Registro'>Registrate</Link>
 	        </li>

@@ -58,7 +58,11 @@ class RegistroUsuario extends Component {
 		const { selectedOptionUb } = this.state.ubicacion
 		const { nombre } = this.state.nombre;
 		return(
-			<div className="container">
+			<div className="registro">
+			    <h1 align="center">Registro de Usuario</h1>
+    <hr></hr>
+
+      <br></br>
 			<form onSubmit={this.handleSubmit} className="form-container">
 
 		        <div className="form-group">
@@ -93,9 +97,9 @@ class RegistroUsuario extends Component {
 
       			 <br></br>
 
-        		<button className="btn btn-primary">Enviar</button>
+        		<button className="btn btn-primary">Enviar</button>		<button className="btn btn-primary" ><Link to='/'  style={{color: 'white !important'}}> Volver </Link></button>	
 			</form>
-			<Link to='/'> Volver </Link>
+
 			</div>
 		)
 	}

@@ -12,3 +12,4 @@ class school extends Component {
 }
 
 export default school;
+
