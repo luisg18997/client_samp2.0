@@ -36,10 +36,10 @@ export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
 
 
 export const getAllExecuntingUnitListFilter = (codeFilter) => fetch(`${api}ExecuntingUnitFilter`,
-	{ 
+	{
 		method: 'POST',
-	 	headers: { 
-	 		'Content-Type': 'application/json' 
+	 	headers: {
+	 		'Content-Type': 'application/json'
 	 	},
 	 	body : JSON.stringify({
 				param_code_filter : codeFilter
@@ -141,6 +141,28 @@ export const getAllStatesList = () => fetch(`${api}states`,
 		.then(chairs => chairs.map(chair =>({
 			ID : chair.id,
 			parish : chair.parish
+		})))
+		.catch((error) => {
+	    	console.log('The error is:', error.message);
+	  	});
+
+	export const getAllIdacCodesFilterVacantDateNotNullList = (execUnitIds) => fetch(`${api}IdacCodes/FilterVacantDateNotNullExec`,
+		{
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body : JSON.stringify({
+				param_exec_unit_ids : execUnitIds
+			})
+		})
+		.then(res => res.json())
+		.then(idac => idac.map(idac =>({
+			ID : idac.id,
+			Codigo : idac.code,
+			UnidejecID : idac.execunting_unit_id,
+			UnidejecDesc : idac.execunting_unit
 		})))
 		.catch((error) => {
 	    	console.log('The error is:', error.message);

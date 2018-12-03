@@ -42,13 +42,12 @@ class Oficio extends Component {
       this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
        this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
        this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
-       this.handleChangeCode = this.handleChangeCode.bind(this);
 }
 
 
 handleSubmit = event => {
   event.preventDefault();
-  CodeOfice()
+  CodeOfice( this.state.schoolData.ID, 0,0)
 	.then(result => {
     this.setState({
       codigo : result
@@ -60,6 +59,7 @@ handleSubmit = event => {
 		identification : this.state.cedula ,
 		first_name : this.state.nombre,
 		second_name: this.state.snombre,
+    idac : this.state.idac,
 surname: this.state.apellido,
 second_surname : this.state.sapellido,
 birth_date : this.state.fec_nac,
@@ -104,6 +104,7 @@ const empleadoID = this.state.empleado_id;
  componentDidMount() {
   getSchool(1)
 	.then(result => {
+    console.log(result);
 		const school ={
 			ID : result.id,
 			code : result.code,
@@ -230,6 +231,11 @@ this.setState({
  catedra : event.value
 });
 }
+handleChangeSelecIdac = event => {
+  this.setState({
+   idac : event.value
+  });
+}
 
 render() {
   return (
@@ -353,6 +359,7 @@ render() {
     <div className="form-group col-md-3">
           <label htmlFor="idac">IDAC  <a style={{color:'red'}}>*</a></label>
           <Select
+            onChange={this.handleChangeSelecIdac}
             options={this.state.idacList.map(gen =>(
             {label: gen.Gender, value : gen.ID}
           ))}
