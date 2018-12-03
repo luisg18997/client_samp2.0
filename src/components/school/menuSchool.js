@@ -7,40 +7,49 @@ import FormMovPersonal from './movPersonal';
 class MenuSchool extends Component {
   render() {
     return(
-       <div>
-        <Router>
+      <div>
+      	<Router>
+      		<div>
+      			<ul>
+      				<li>
+      					<Link to='/Escuela'>Inicio</Link>
+      				</li>
+      				<li>
+      					Planilla
+      					<ul>
+      					<li>
+      						Oficio
+      						<ul>
+      							<li>
+      								<Link to="/Escuela/Oficio/Nuevo">Nuevo</Link>
+      							</li>
+                    <li>
+                      Existente
+                    </li>
+      						</ul>
+      					</li>
+      					<li>
+                  <Link to ="/Escuela/MovPersonal">Movimiento de Personal</Link>
+      					</li>
+      					</ul>
+      				</li>
+      				<li>
 
+      				</li>
+      				<li>
 
-<div className="menu_gral">
-
- <ul>
-       <li    style={{ background: '#0a6d84'}}><Link to='/Escuela' >Escuela</Link></li>
-
-     <li> <a>Planilla de oficio</a>
- <ul>
-       <li><Link to="/Escuela/Oficio/Nuevo">Nuevo</Link></li>
-            <li>Existente</li>
-
-
-
-
-         </ul>     </li>
-
-       <li><Link to ="/Escuela/MovPersonal">Movimiento de Personal</Link></li>
-    
-  </ul>
-            <Switch>
-            <Route exact path='/Escuela' component={MainSchool}/>
-            <Route path='/Escuela/Oficio/Nuevo' component={FormOfice}/>
+      				</li>
+      			</ul>
+      			<Switch>
+      			<Route exact path='/Escuela' component={MainSchool}/>
+      			<Route path='/Escuela/Oficio/Nuevo' component={FormOfice}/>
             <Route path='/Escuela/MovPersonal' component={FormMovPersonal}/>
-            </Switch>
-        </div>
-        </Router>
+      			</Switch>
+      		</div>
+      	</Router>
       </div>
     )
   }
 }
 
-
 export default MenuSchool;
-

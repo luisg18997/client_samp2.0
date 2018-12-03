@@ -2,14 +2,14 @@ import React, { Component} from 'react';
 
 
 class mainBudget extends Component {
-	  
+
 
 	render(){
 		return(
 
-			<div  class="contents">
+			<div>
 
-		<p> Contenido d de Presupuesto</p>
+			<p> Contenido de Presupuesto</p>
 			</div>
 		)
 	}

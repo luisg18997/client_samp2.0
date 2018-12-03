@@ -7,11 +7,9 @@ class mainBudget extends Component {
 	render(){
 		return(
 
-			<div style={{'padding':'10px','margin-top':'50px', 'margin-left':'65px',color:'#595959'}} class="content">
+			<div>
 
-
-     <h1 align="center">Listado de Solicitudes</h1>
-      <hr></hr>
+			<p> Contenido Principal de Presupuesto</p>
 			</div>
 		)
 	}

@@ -145,3 +145,25 @@ export const getAllStatesList = () => fetch(`${api}states`,
 		.catch((error) => {
 	    	console.log('The error is:', error.message);
 	  	});
+
+	export const getAllIdacCodesFilterVacantDateNotNullList = (execUnitIds) => fetch(`${api}IdacCodes/FilterVacantDateNotNullExec`,
+		{
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body : JSON.stringify({
+				param_exec_unit_ids : execUnitIds
+			})
+		})
+		.then(res => res.json())
+		.then(idac => idac.map(idac =>({
+			ID : idac.id,
+			Codigo : idac.code,
+			UnidejecID : idac.execunting_unit_id,
+			UnidejecDesc : idac.execunting_unit
+		})))
+		.catch((error) => {
+	    	console.log('The error is:', error.message);
+	  	});

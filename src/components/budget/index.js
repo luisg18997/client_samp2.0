@@ -1,15 +1,14 @@
 
 import React, {Component} from 'react';
-import MenuBudget from './menuBudget';
+import TemporaryDrawer from './menuBudget';
+
 
 
 class budget extends Component {
 	render(){
 		return (
 
-<div>
- <MenuBudget />
-         </div>
+				<TemporaryDrawer />
 
 		)
 	}
