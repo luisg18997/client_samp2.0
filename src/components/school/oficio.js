@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
 import {getAllDepartamentBySchoolList, getAllChairList, getSchool} from '../../connect_api/faculty/FacultyAPI'
-import {getAllGenderList, getAllExecuntingUnitListFilter, getAllDedicationTypesList } from '../../connect_api/employee/EmployeeAPI'
+import {getAllGenderList, getAllExecuntingUnitListFilter, getAllDedicationTypesList, getAllIdacCodesFilterVacantDateNotNullList } from '../../connect_api/employee/EmployeeAPI'
 import {getAllMovementTypeslist, addNewFormOfice, CodeOfice} from '../../connect_api/formData/formDataAPI'
 
 class Oficio extends Component {
@@ -46,30 +46,26 @@ class Oficio extends Component {
 }
 
 
-handleChangeCode = () => {
+handleSubmit = event => {
+  event.preventDefault();
   CodeOfice()
-  .then(result => {
+	.then(result => {
     this.setState({
       codigo : result
     })
     console.log("codigo: ",this.state.codigo);
-  });
-  this.handleSubmitOfice();
-}
-
-handleSubmitOfice = () => {
-  const employee = {
-    nacionality_id : 1,
-    documentation_id : 1,
-    identification : this.state.cedula ,
-    first_name : this.state.nombre,
-    second_name: this.state.snombre,
+    const employee = {
+		nacionality_id : 1,
+		documentation_id : 1,
+		identification : this.state.cedula ,
+		first_name : this.state.nombre,
+		second_name: this.state.snombre,
 surname: this.state.apellido,
 second_surname : this.state.sapellido,
 birth_date : this.state.fec_nac,
 gender_id : this.state.genero,
 email: this.state.email,
-school_id : this.state.schoolData[0].ID,
+school_id : this.state.schoolData.ID,
 institute_id : 0,
 coordination_id : 0,
 departament_id : this.state.departamento,
@@ -79,48 +75,75 @@ local_phone_number : this.state.telef_loc
 };
 console.log("employee: ", employee);
 const ofice = {
-  code_form : this.state.codigo,
-  dedication_id : this.state.dedicacion,
+	code_form : result,
+	dedication_id : this.state.dedicacion,
 movement_type_id : this.state.tip_mov,
 start_date : this.state.fecha_ini,
 finish_date : this.state.fecha_fin,
-school_id : this.state.schoolData[0].ID,
+school_id : this.state.schoolData.ID,
 institute_id : 0,
 coordination_id : 0
 };
 console.log("ofice: ", ofice);
 const userID = 0;
 const empleadoID = this.state.empleado_id;
-  addNewFormOfice(employee, ofice, userID, empleadoID )
-  .then(result => {
-    if(result === 1) {
-      alert('planilla de oficio creado exitosamente');
-      this.props.history.push('/Escuela');
-    } else {
-      alert('planilla de oficio NO creado exitosamente');
-      this.props.history.push('/Escuela');
-    }
+	addNewFormOfice(employee, ofice, userID, empleadoID )
+	.then(result => {
+		if(result === 1) {
+			alert('planilla de oficio creado exitosamente');
+			this.props.history.push('/Escuela');
+		} else {
+			alert('planilla de oficio NO creado exitosamente');
+			this.props.history.push('/Escuela');
+		}
+	});
   });
-}
-
-
-handleSubmit = event => {
-  event.preventDefault();
-  this.handleChangeCode();
-
 }
 
 
  componentDidMount() {
   getSchool(1)
-  .then(result => {
-    this.setState({
-      schoolData:result
-    })
-    console.log("schoolData: ", this.state.schoolData)
-  })
+	.then(result => {
+		const school ={
+			ID : result.id,
+			code : result.code,
+			name : result.school,
+			codeFilter : result.code.substr(0, 4)
+		}
+		this.setState({
+			schoolData : school
+		})
+		console.log("schoolData: ", this.state.schoolData);
+		getAllDepartamentBySchoolList(school.ID)
+  		.then(result => {
+    		this.setState({
+      			departamentoList: result
+   			})
+    		console.log("departamentoList: ", this.state.departamentoList);
+  		});
 
-  getAllGenderList()
+  		getAllExecuntingUnitListFilter(school.codeFilter)
+  		.then(result => {
+    		this.setState({
+      			ExecuntingUnit : result
+    		})
+    		console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+    		let ExecID = [];
+    		for (let i = 0; i< result.length; i++) {
+    			ExecID[i] = result[i].ID;
+    		}
+    		console.log('ExecID: ', ExecID);
+    		getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+    		.then(result => {
+    			this.setState({
+    				idacList : result
+    			})
+    			console.log("idacList: ", this.state.idacList);
+    		})
+  		});
+	})
+
+	getAllGenderList()
   .then(result => {
     this.setState({
       generoList: result
@@ -153,39 +176,19 @@ handleSubmit = event => {
  }
 
 handlechangeChair = data => {
-  this.setState({
-    catedraList: []
-  });
-  console.log(this.state.catedraList);
-  if(data !== 0) {
-    getAllChairList(data)
-    .then(result => {
-      this.setState({
-        catedraList: result
-      })
-      console.log("catedraList: ",this.state.catedraList);
-    });
-  }
-}
-
-obtaintExec = () => {
-  getAllExecuntingUnitListFilter(this.state.schoolData[0].codeFilter)
-  .then(result => {
-    this.setState({
-      ExecuntingUnit : result
-    })
-    console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
-  });
-}
-
-obtaintDept = () => {
-  getAllDepartamentBySchoolList(this.state.schoolData[0].ID)
-  .then(result => {
-    this.setState({
-      departamentoList: result
-    })
-    console.log("departamentoList: ", this.state.departamentoList);
-  });
+	this.setState({
+		catedraList: []
+	});
+	console.log(this.state.catedraList);
+	if(data !== 0) {
+		getAllChairList(data)
+		.then(result => {
+	    this.setState({
+	      catedraList: result
+	    })
+	    console.log("catedraList: ",this.state.catedraList);
+	  });
+	}
 }
 
 
@@ -193,7 +196,7 @@ obtaintDept = () => {
    this.setState({
      departamento : event.value
    });
-   this.handlechangeChair(event.value);
+	 this.handlechangeChair(event.value);
  }
 
 
@@ -218,7 +221,7 @@ obtaintDept = () => {
 
  handleChangeSelectGender = event => {
 this.setState({
-  genero : event.value
+	genero : event.value
 });
 }
 
