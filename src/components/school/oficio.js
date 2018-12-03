@@ -360,9 +360,9 @@ render() {
           <label htmlFor="idac">IDAC  <a style={{color:'red'}}>*</a></label>
           <Select
             onChange={this.handleChangeSelecIdac}
-            options={this.state.idacList.map(gen =>(
-            {label: gen.Gender, value : gen.ID}
-          ))}
+            options={this.state.idacList.map(idac =>(
+            {label: idac.Codigo, value : idac.ID}
+            ))}
           />
     </div>
 
