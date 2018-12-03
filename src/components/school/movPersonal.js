@@ -69,7 +69,7 @@ class MovPersonal extends Component {
 }
  componentDidMount() {
 
-  getAllDepartamentBySchoolList()
+  getAllDepartamentBySchoolList(1)
   .then(result => {
     this.setState({
       departamentoList: result
@@ -93,7 +93,7 @@ class MovPersonal extends Component {
     console.log(this.state.CategoryTypeList);
   });
 
-    getAllExecuntingUnitListFilter()
+    getAllExecuntingUnitListFilter('0710')
   .then(result => {
     this.setState({
       ExecuntingUnit: result
