@@ -52,14 +52,14 @@ handleSubmit = event => {
     this.setState({
       codigo : result
     })
-    console.log("codigo: ",this.state.codigo);
-    const employee = {
+    console.log("codigo: ", result);
+    /*const employee = {
 		nacionality_id : 1,
 		documentation_id : 1,
 		identification : this.state.cedula ,
 		first_name : this.state.nombre,
 		second_name: this.state.snombre,
-    idac : this.state.idac,
+    idac_id : this.state.idac,
 surname: this.state.apellido,
 second_surname : this.state.sapellido,
 birth_date : this.state.fec_nac,
@@ -96,7 +96,7 @@ const empleadoID = this.state.empleado_id;
 			alert('planilla de oficio NO creado exitosamente');
 			this.props.history.push('/Escuela');
 		}
-	});
+	});*/
   });
 }
 
