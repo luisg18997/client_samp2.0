@@ -18,6 +18,7 @@ class MovPersonal extends Component {
     constructor(){
     super();
     this.state = {
+      codigo: "",
       nombre: "",
       apellido: "",
       snombre: "",
@@ -54,6 +55,7 @@ class MovPersonal extends Component {
       dedicacion_p: "",
       DedicationTypes_p: [],
       sueldo: "",
+      sueldoList: [],
       ExecuntingUnit: [],
       unidad_ejec: ""
 
@@ -120,7 +122,7 @@ class MovPersonal extends Component {
     this.setState({
       StateList: result
     })
-    console.log(this.state.StateList);
+    console.log("StateList: ", this.state.StateList);
   });
 
    getAllMovementTypeslist()
@@ -137,7 +139,7 @@ class MovPersonal extends Component {
     this.setState({
       CategoryTypeList: result
     })
-    console.log(this.state.CategoryTypeList);
+    console.log("CategoryTypeList",this.state.CategoryTypeList);
   });
 
 
@@ -146,7 +148,7 @@ class MovPersonal extends Component {
     this.setState({
       NacionalitiesList: result
     })
-    console.log(this.state.NacionalitiesList);
+    console.log("NacionalitiesList: ",this.state.NacionalitiesList);
   });
 
 
@@ -164,7 +166,7 @@ class MovPersonal extends Component {
     this.setState({
       DedicationTypes_p: result
     })
-    console.log(this.state.DedicationTypes_p);
+    console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
   });
 
 
@@ -173,7 +175,7 @@ class MovPersonal extends Component {
     this.setState({
       ingressList: result
     })
-    console.log(this.state.ingressList);
+    console.log("ingressList: ",this.state.ingressList);
   });
 
 
@@ -182,7 +184,7 @@ class MovPersonal extends Component {
     this.setState({
       IncomeType: result
     })
-    console.log(this.state.IncomeType);
+    console.log("IncomeType: ",this.state.IncomeType);
   });
 
 
@@ -190,7 +192,13 @@ class MovPersonal extends Component {
 
  handleSubmit = event => {
    event.preventDefault();
-   codeMovPer(this.state.school.ID, 0, 0);
+   codeMovPer(this.state.school.ID, 0, 0)
+   .then(result => {
+    this.setState({
+      codigo : result
+    })
+    console.log("codigo: ",this.state.codigo);
+   });
 
  }
 
@@ -325,24 +333,71 @@ handlechangeParish = data => {
   }
 }
 
-obtaintDept = () => {
-  getAllDepartamentBySchoolList(this.state.schoolData[0].ID)
-  .then(result => {
-    this.setState({
-      departamentoList: result
-    })
-    console.log("departamentoList: ", this.state.departamentoList);
-  });
-}
 
-
- handleChangeSelectdept = event => {
+  handleChangeSelectdept = event => {
    this.setState({
      departamento : event.value
    });
-   this.handlechangeChair(event.value);
+   let codeFilterSelected = "";
+    for (var i = 0; i < this.state.departamentoList.length; i++) {
+      console.log('departamentoList: ',  this.state.departamentoList[i]);
+      if (this.state.departamentoList[i].ID === event.value){
+        codeFilterSelected = this.state.departamentoList[i].codeFilter;
+        getAllExecuntingUnitListFilter(codeFilterSelected)
+        .then(result => {
+          this.setState({
+              ExecuntingUnit : result
+        })
+        console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+        let ExecID = [];
+        for (let i = 0; i< result.length; i++) {
+          ExecID[i] = result[i].ID;
+        }
+        console.log('ExecID: ', ExecID);
+        getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+        .then(result => {
+          this.setState({
+            idacList : result
+          })
+          console.log("idacList: ", this.state.idacList);
+        })
+      });
+      }
+    }
+  this.handlechangeChair(event.value);
  }
 
+handleChangeSelectcat = event => {
+this.setState({
+ catedra : event.value
+});
+  let codeFilterSelected = "";
+    for (var i = 0; i < this.state.catedraList.length; i++) {
+      console.log('departamentoList: ',  this.state.catedraList[i]);
+      if (this.state.catedraList[i].ID === event.value){
+        codeFilterSelected = this.state.catedraList[i].code;
+        getAllExecuntingUnitListFilter(codeFilterSelected)
+        .then(result => {
+          this.setState({
+              ExecuntingUnit : result
+        })
+        console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+        let ExecID = [];
+        for (let i = 0; i< result.length; i++) {
+          ExecID[i] = result[i].ID;
+        }
+        console.log('ExecID: ', ExecID);
+        getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+        .then(result => {
+          this.setState({
+            idacList : result
+          })
+          console.log("idacList: ", this.state.idacList);
+        })
+      });
+      }
+    }
+}
 
 
   render() {
@@ -505,6 +560,7 @@ obtaintDept = () => {
     <div className="form-group col-md-3">
           <label htmlFor="catedra">Cátedra <a style={{color:'red'}}>*</a></label>
           <Select
+            onChange={this.handleChangeSelectcat}
             options={this.state.catedraList.map(cat =>(
             {label: cat.name, value : cat.ID}
           ))}

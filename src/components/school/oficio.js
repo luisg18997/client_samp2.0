@@ -197,7 +197,33 @@ handlechangeChair = data => {
    this.setState({
      departamento : event.value
    });
-	 this.handlechangeChair(event.value);
+   let codeFilterSelected = "";
+   	for (var i = 0; i < this.state.departamentoList.length; i++) {
+  		console.log('departamentoList: ',  this.state.departamentoList[i]);
+   		if (this.state.departamentoList[i].ID === event.value){
+   			codeFilterSelected = this.state.departamentoList[i].codeFilter;
+   			getAllExecuntingUnitListFilter(codeFilterSelected)
+  			.then(result => {
+    			this.setState({
+      				ExecuntingUnit : result
+    		})
+    		console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+    		let ExecID = [];
+    		for (let i = 0; i< result.length; i++) {
+    			ExecID[i] = result[i].ID;
+    		}
+    		console.log('ExecID: ', ExecID);
+    		getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+    		.then(result => {
+    			this.setState({
+    				idacList : result
+    			})
+    			console.log("idacList: ", this.state.idacList);
+    		})
+  		});
+   		}
+   	}
+	this.handlechangeChair(event.value);
  }
 
 
@@ -230,7 +256,34 @@ handleChangeSelectcat = event => {
 this.setState({
  catedra : event.value
 });
+	let codeFilterSelected = "";
+   	for (var i = 0; i < this.state.catedraList.length; i++) {
+  		console.log('departamentoList: ',  this.state.catedraList[i]);
+   		if (this.state.catedraList[i].ID === event.value){
+   			codeFilterSelected = this.state.catedraList[i].code;
+   			getAllExecuntingUnitListFilter(codeFilterSelected)
+  			.then(result => {
+    			this.setState({
+      				ExecuntingUnit : result
+    		})
+    		console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+    		let ExecID = [];
+    		for (let i = 0; i< result.length; i++) {
+    			ExecID[i] = result[i].ID;
+    		}
+    		console.log('ExecID: ', ExecID);
+    		getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+    		.then(result => {
+    			this.setState({
+    				idacList : result
+    			})
+    			console.log("idacList: ", this.state.idacList);
+    		})
+  		});
+   		}
+   	}
 }
+
 handleChangeSelecIdac = event => {
   this.setState({
    idac : event.value
@@ -263,12 +316,12 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="apellido">Apellido Paterno  <a style={{color:'red'}}>*</a></label>
+          <label htmlFor="apellido">Primer Apellido <a style={{color:'red'}}>*</a></label>
           <input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido" required value={this.state.apellido} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="sapellido">Apellido Materno</label>
+          <label htmlFor="sapellido">Segundo Apellido</label>
           <input className="form-control" type="text" name="sapellido" id="sapellido" placeholder="S. Apellido" value={this.state.sapellido} onChange={this.handleChange}/>
     </div>
 
@@ -307,7 +360,7 @@ render() {
     </div>
 
   <div className="form-group col-md-3">
-          <label htmlFor="tip_mov">Tipo de Movimiento (*)</label>
+          <label htmlFor="tip_mov">Tipo de Movimiento <a style={{color:'red'}}>*</a></label>
      <Select
               onChange={this.handleChangeSelectTypesMov}
               options={this.state.tipoMovList.map(mt =>(
