@@ -77,14 +77,10 @@ class UpdateUser extends Component {
 
   render() {
     return (
-      <div className="content">
-
-
-    <h1 align="center">Actualizar usuario</h1>
-    <hr></hr>
+      <div className="container">
         <br></br>
-        <form onSubmit={this.handleSubmit}  style={{width: '600px', 'margin-left':'150px','margin-right':' 300px'}} className="form-container">
-        <div  className="form-group">
+        <form onSubmit={this.handleSubmit} className="form-container">
+        <div className="form-group">
             <label htmlFor="nombre"> Nombre</label>
             <input className="form-control" type="text" name="nombre" id="nombre" value={this.state.nombre} onChange={this.handleChange}/>
       </div>

@@ -394,7 +394,7 @@ render() {
               {label: mt.name, value : mt.ID}
             ))}
             />
-    </div>
+		</div>
 
     <div className="form-group col-md-3">
           <label htmlFor="dedicacion">Dedicación  <label style={{color:'red'}}>*</label></label>
@@ -454,27 +454,38 @@ render() {
               {label: EU.des, value : EU.ID}
             ))}
             />
-    </div>
-    <div className="form-group col-md-12">
-        <hr></hr>
-            <h6 align="center" style={{color:'red'}}>Campos Obligatorios *</h6>
-          <hr></hr>
-    </div>
+		</div>
 
-  <div className="form-group col-md-12">
+		<div className="form-group col-md-3">
+					<label htmlFor="idac">IDAC (*)</label>
+					<Select
+						options={this.state.idacList.map(idac =>(
+						{label: idac.Codigo, value : idac.ID}
+					))}
+					/>
+		</div>
+		<div className="form-group col-md-12">
+				<hr></hr>
+						<h6 align="center">Campos Obligatorios (*)</h6>
+					<hr></hr>
+		</div>
 
-      <div className="row justify-content-center">
+	<div className="form-group col-md-12">
 
         <button className="btn btn-primary col-md-3" style={{marginRight:'100px'}}>Enviar</button>
         <button className="btn btn-primary col-md-3">Restablecer</button>
 
-      </div>
+				<button className="btn btn-primary col-md-3">Enviar</button>
+				<button className="btn btn-primary col-md-3">Restablecer</button>
 
-    </div>
+			</div>
 
-    </form>
-    </div>
-  )
+		</div>
+
+		</form>
+		</div>
+	)
 }
 }
+
 export default Oficio;

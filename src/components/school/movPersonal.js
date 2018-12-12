@@ -48,8 +48,7 @@ class MovPersonal extends Component {
       IncomeType: [],
       fecha_ingreso: "",
       tip_mov: "",
-    tipoMovList: [],
-     departamento: "",
+      departamento: "",
       departamentoList : [],
       catedra: "",
       catedraList: [],
@@ -74,14 +73,12 @@ class MovPersonal extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelectstate = this.handleChangeSelectstate.bind(this);
     this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
-      this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
-   this.handleChangeSelectNacionalities = this.handleChangeSelectNacionalities.bind(this);
+    this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
+    this.handleChangeSelectNacionalities = this.handleChangeSelectNacionalities.bind(this);
     this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
     this.handleChangeSelectDedicationTypes_p = this.handleChangeSelectDedicationTypes_p.bind(this);
     this.handleChangeSelectingress = this.handleChangeSelectingress.bind(this);
     this.handleChangeSelectIncomeType = this.handleChangeSelectIncomeType.bind(this);
-    this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
-
 }
  componentDidMount() {
    getSchool(1)
@@ -129,17 +126,17 @@ class MovPersonal extends Component {
   getAllStatesList()
   .then(result => {
     this.setState({
-      StateList: result
+      departamentoList: result
     })
     console.log("StateList: ", this.state.StateList);
   });
 
-   getAllMovementTypeslist()
+  getAllStatesList()
   .then(result => {
     this.setState({
-      tipoMovList: result
+      StateList: result
     })
-    console.log("tipoMovList: ",this.state.tipoMovList);
+    console.log(this.state.StateList);
   });
 
 
@@ -151,7 +148,13 @@ class MovPersonal extends Component {
     console.log("CategoryTypeList",this.state.CategoryTypeList);
   });
 
-
+    getAllExecuntingUnitListFilter('0710')
+  .then(result => {
+    this.setState({
+      ExecuntingUnit: result
+    })
+    console.log(this.state.ExecuntingUnit);
+  });
   getAllNacionalitiesList()
   .then(result => {
     this.setState({
@@ -159,8 +162,6 @@ class MovPersonal extends Component {
     })
     console.log("NacionalitiesList: ",this.state.NacionalitiesList);
   });
-
-
 
     getAllDedicationTypesList()
   .then(result => {
@@ -247,16 +248,9 @@ class MovPersonal extends Component {
    });
  }
 
-
   handleChangeSelectNacionalities = event => {
    this.setState({
      nacionalidad : event.value
-   });
- }
-
-  handleChangeSelectTypesMov = event => {
-   this.setState({
-     tip_mov : event.value
    });
  }
 
@@ -400,11 +394,8 @@ this.setState({
 
   render() {
     return (
-    <div  className="content">
 
-
-     <h1 align="center">Solicitud de Movimiento de Personal</h1>
-      <hr></hr>
+      <div className="container">
 
       <h1 align="center">Datos Personales</h1>
       <hr></hr>
@@ -433,7 +424,7 @@ this.setState({
             <input className="form-control" type="text" name="sapellido" id="sapellido" placeholder="S. Apellido" value={this.state.sapellido} onChange={this.handleChange}/>
       </div>
 
-        <div className="form-group col-md-3">
+      <div className="form-group col-md-3">
             <label htmlFor="nacionalidad"> Nacionalidad</label>
          <Select
               onChange={this.handleChangeSelectNacionalities}
@@ -464,7 +455,6 @@ this.setState({
             />
       </div>
 
-
       <div className="form-group col-md-3">
             <label htmlFor="municipio">Municipio <label style={{color:'red'}}>*</label></label>
      <Select
@@ -474,7 +464,6 @@ this.setState({
           ))}
           />
       </div>
-
 
       <div className="form-group col-md-3">
             <label htmlFor="parroquia">Parroquia <label style={{color:'red'}}>*</label></label>
@@ -528,7 +517,6 @@ this.setState({
             />
       </div>
 
-
       <div className="form-group col-md-3">
         <label htmlFor="fecha_ingreso">Fecha de Ingreso <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="date" name="fecha_ingreso" id="fecha_ingreso" required value={this.state.fecha_ingreso} onChange={this.handleChange}/>
@@ -553,7 +541,6 @@ this.setState({
           ))}
           />
     </div>
-
 
     <div className="form-group col-md-3">
           <label htmlFor="catedra">Cátedra <label style={{color:'red'}}>*</label></label>
@@ -616,6 +603,7 @@ this.setState({
       </div>
 
 
+
          <div className="form-group col-md-3">
             <label htmlFor="sueldo"> Sueldo</label>
             <input className="form-control" type="number" name="sueldo" id="sueldo" placeholder="Sueldo" value={this.state.sueldo} onChange={this.handleChange}/>
@@ -644,7 +632,7 @@ this.setState({
 
   <div className="form-group col-md-12">
           <hr></hr>
-              <h6 align="center"  style={{color:'red'}}>Campos Obligatorios *</h6>
+              <h6 align="center">Campos Obligatorios (*)</h6>
             <hr></hr>
       </div>
 

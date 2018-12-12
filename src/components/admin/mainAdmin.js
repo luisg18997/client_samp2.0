@@ -4,7 +4,7 @@ class MainAdmin extends Component {
 	
 	render(){
 		return(
-			<div className="contents">
+			<div>
 			<p> Contenido Principal de Administracion</p>
 			</div>
 		)
