@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { getAllRolesList, getAllUbicationsList, postuser } from '../../connect_api/user/userAPI';
+import { getAllRolesList, getAllUbicationsList } from '../../connect_api/user/userAPI';
 import Select from 'react-select';
 
 class UpdateUser extends Component {
@@ -49,9 +49,7 @@ class UpdateUser extends Component {
 
  handleSubmit = event => {
    event.preventDefault();
-   const data = this.state
-   alert(data);
-   postuser(data);
+
  }
 
  handleChange = event => {

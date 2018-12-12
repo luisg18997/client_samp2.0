@@ -7,10 +7,19 @@ import {
  getAllDedicationTypesList,
  getAllIngressList,
  getAllIncomeTypeList,
- getAllMunicipalitiesList, getAllParishList, getAllIdacCodesFilterVacantDateNotNullList,
-  postMovPer } from '../../connect_api/employee/EmployeeAPI';
-  import {getAllDepartamentBySchoolList, getAllChairList, getSchool} from '../../connect_api/faculty/FacultyAPI'
-import {getAllMovementTypeslist, codeMovPer} from '../../connect_api/formData/formDataAPI'
+ getAllMunicipalitiesList,
+ getAllParishList, 
+ getAllIdacCodesFilterVacantDateNotNullList
+} from '../../connect_api/employee/EmployeeAPI';
+  import {
+    getAllDepartamentBySchoolList, 
+    getAllChairList, 
+    getSchool
+  } from '../../connect_api/faculty/FacultyAPI'
+import {
+  getAllMovementTypeslist, 
+  codeMovPer
+} from '../../connect_api/formData/formDataAPI'
 import Select from 'react-select';
 
 class MovPersonal extends Component {
@@ -18,6 +27,7 @@ class MovPersonal extends Component {
     constructor(){
     super();
     this.state = {
+      codigo: "",
       nombre: "",
       apellido: "",
       snombre: "",
@@ -53,6 +63,7 @@ class MovPersonal extends Component {
       dedicacion_p: "",
       DedicationTypes_p: [],
       sueldo: "",
+      sueldoList: [],
       ExecuntingUnit: [],
       unidad_ejec: ""
 
@@ -117,7 +128,7 @@ class MovPersonal extends Component {
     this.setState({
       departamentoList: result
     })
-    console.log(this.state.departamentoList);
+    console.log("StateList: ", this.state.StateList);
   });
 
   getAllStatesList()
@@ -134,7 +145,7 @@ class MovPersonal extends Component {
     this.setState({
       CategoryTypeList: result
     })
-    console.log(this.state.CategoryTypeList);
+    console.log("CategoryTypeList",this.state.CategoryTypeList);
   });
 
     getAllExecuntingUnitListFilter('0710')
@@ -149,7 +160,7 @@ class MovPersonal extends Component {
     this.setState({
       NacionalitiesList: result
     })
-    console.log(this.state.NacionalitiesList);
+    console.log("NacionalitiesList: ",this.state.NacionalitiesList);
   });
 
     getAllDedicationTypesList()
@@ -165,7 +176,7 @@ class MovPersonal extends Component {
     this.setState({
       DedicationTypes_p: result
     })
-    console.log(this.state.DedicationTypes_p);
+    console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
   });
 
 
@@ -174,7 +185,7 @@ class MovPersonal extends Component {
     this.setState({
       ingressList: result
     })
-    console.log(this.state.ingressList);
+    console.log("ingressList: ",this.state.ingressList);
   });
 
 
@@ -183,7 +194,7 @@ class MovPersonal extends Component {
     this.setState({
       IncomeType: result
     })
-    console.log(this.state.IncomeType);
+    console.log("IncomeType: ",this.state.IncomeType);
   });
 
 
@@ -191,7 +202,13 @@ class MovPersonal extends Component {
 
  handleSubmit = event => {
    event.preventDefault();
-   codeMovPer(this.state.school.ID, 0, 0);
+   codeMovPer(this.state.school.ID, 0, 0)
+   .then(result => {
+    this.setState({
+      codigo : result
+    })
+    console.log("codigo: ",this.state.codigo);
+   });
 
  }
 
@@ -224,7 +241,8 @@ class MovPersonal extends Component {
    });
  }
 
- handleChangeSelectExecuntingUnit = event => {
+
+  handleChangeSelectExecuntingUnit = event => {
    this.setState({
      unidad_ejec : event.value
    });
@@ -307,13 +325,71 @@ handlechangeParish = data => {
   }
 }
 
- handleChangeSelectdept = event => {
+
+  handleChangeSelectdept = event => {
    this.setState({
      departamento : event.value
    });
-   this.handlechangeChair(event.value);
+   let codeFilterSelected = "";
+    for (var i = 0; i < this.state.departamentoList.length; i++) {
+      console.log('departamentoList: ',  this.state.departamentoList[i]);
+      if (this.state.departamentoList[i].ID === event.value){
+        codeFilterSelected = this.state.departamentoList[i].codeFilter;
+        getAllExecuntingUnitListFilter(codeFilterSelected)
+        .then(result => {
+          this.setState({
+              ExecuntingUnit : result
+        })
+        console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+        let ExecID = [];
+        for (let i = 0; i< result.length; i++) {
+          ExecID[i] = result[i].ID;
+        }
+        console.log('ExecID: ', ExecID);
+        getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+        .then(result => {
+          this.setState({
+            idacList : result
+          })
+          console.log("idacList: ", this.state.idacList);
+        })
+      });
+      }
+    }
+  this.handlechangeChair(event.value);
  }
 
+handleChangeSelectcat = event => {
+this.setState({
+ catedra : event.value
+});
+  let codeFilterSelected = "";
+    for (var i = 0; i < this.state.catedraList.length; i++) {
+      console.log('departamentoList: ',  this.state.catedraList[i]);
+      if (this.state.catedraList[i].ID === event.value){
+        codeFilterSelected = this.state.catedraList[i].code;
+        getAllExecuntingUnitListFilter(codeFilterSelected)
+        .then(result => {
+          this.setState({
+              ExecuntingUnit : result
+        })
+        console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+        let ExecID = [];
+        for (let i = 0; i< result.length; i++) {
+          ExecID[i] = result[i].ID;
+        }
+        console.log('ExecID: ', ExecID);
+        getAllIdacCodesFilterVacantDateNotNullList(ExecID)
+        .then(result => {
+          this.setState({
+            idacList : result
+          })
+          console.log("idacList: ", this.state.idacList);
+        })
+      });
+      }
+    }
+}
 
 
   render() {
@@ -329,7 +405,7 @@ handlechangeParish = data => {
         <form className="row justify-content">
 
         <div className="form-group col-md-3">
-            <label htmlFor="nombre">Primer Nombre (*)</label>
+            <label htmlFor="nombre">Primer Nombre <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre" required value={this.state.nombre} onChange={this.handleChange}/>
       </div>
 
@@ -339,7 +415,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="apellido">Primer Apellido (*)</label>
+            <label htmlFor="apellido">Primer Apellido <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido" required value={this.state.apellido} onChange={this.handleChange}/>
       </div>
 
@@ -359,7 +435,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="cedula">Cédula (*)</label>
+            <label htmlFor="cedula">Cédula <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="text" name="cedula" id="cedula" placeholder="Cédula" required value={this.state.cedula} onChange={this.handleChange}/>
       </div>
 
@@ -370,8 +446,8 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="estado">Estado (*)</label>
-         <Select
+            <label htmlFor="estado">Estado <label style={{color:'red'}}>*</label></label>
+        <Select
               onChange={this.handleChangeSelectstate}
               options={this.state.StateList.map(st =>(
               {label: st.states, value : st.ID}
@@ -380,7 +456,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="municipio">Municipio (*)</label>
+            <label htmlFor="municipio">Municipio <label style={{color:'red'}}>*</label></label>
      <Select
             onChange={this.handleChangeSelectMun}
             options={this.state.municipalityList.map(mun =>(
@@ -390,7 +466,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="parroquia">Parroquia (*)</label>
+            <label htmlFor="parroquia">Parroquia <label style={{color:'red'}}>*</label></label>
             <Select
                    options={this.state.parroquiaList.map(mun =>(
                    {label: mun.parish, value : mun.ID}
@@ -399,8 +475,18 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="apartamento">Apartamento</label>
-            <input className="form-control" type="text" name="apartamento" id="apartamento" placeholder="Apartamento" value={this.state.apartamento} onChange={this.handleChange}/>
+            <label htmlFor="sector">Sector <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="sector" id="sector" placeholder="Sector" value={this.state.sector} onChange={this.handleChange}/>
+      </div>
+
+      <div className="form-group col-md-3">
+            <label htmlFor="calle">Calle <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="calle" id="calle" placeholder="Calle" value={this.state.calle} onChange={this.handleChange}/>
+      </div>
+
+      <div className="form-group col-md-3">
+            <label htmlFor="num_casa_apart">Num casa o Apartamento <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="num_casa_apart" id="num_casa_apart" placeholder="Número de Casa o Apartamento" value={this.state.num_casa_apart} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-12">
@@ -410,8 +496,8 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="ingreso">Ingreso (*)</label>
-        <Select
+            <label htmlFor="ingreso">Ingreso <label style={{color:'red'}}>*</label></label>
+          <Select
               onChange={this.handleChangeSelectingress}
               options={this.state.ingressList.map(ing =>(
               {label: ing.Ingress, value : ing.id}
@@ -422,7 +508,7 @@ handlechangeParish = data => {
 
 
       <div className="form-group col-md-3">
-            <label htmlFor="tip_ingreso">Tipo de Ingreso (*)</label>
+            <label htmlFor="tip_ingreso">Tipo de Ingreso <label style={{color:'red'}}>*</label></label>
         <Select
               onChange={this.handleChangeSelectIncomeType}
               options={this.state.IncomeType.map(income =>(
@@ -432,22 +518,23 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_ingreso">Fecha de Ingreso (*)</label>
+        <label htmlFor="fecha_ingreso">Fecha de Ingreso <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="date" name="fecha_ingreso" id="fecha_ingreso" required value={this.state.fecha_ingreso} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="tip_mov">Tipo de Movimiento (*)</label>
-            <select className="form-control" id="tip_mov" name="tip_mov" required value={this.state.tip_mov} onChange={this.handleChange}>
-              <option value=""> Seleccione un Valor </option>
-              <option value="a"> A </option>
-              <option value="b"> B </option>
-            </select>
-      </div>
+            <label htmlFor="tip_mov">Tipo de Movimiento <label style={{color:'red'}}>*</label></label>
+      <Select
+              onChange={this.handleChangeSelectTypesMov}
+              options={this.state.tipoMovList.map(mt =>(
+              {label: mt.name, value : mt.ID}
+            ))}
+            />
+    </div>
 
   <div className="form-group col-md-3">
-          <label htmlFor="departamento">Departamento (*)</label>
-          <Select
+          <label htmlFor="departamento">Departamento <label style={{color:'red'}}>*</label></label>
+        <Select
             onChange={this.handleChangeSelectdept}
             options={this.state.departamentoList.map(dept =>(
             {label: dept.name, value : dept.ID}
@@ -456,15 +543,16 @@ handlechangeParish = data => {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="catedra">Cátedra (*)</label>
+          <label htmlFor="catedra">Cátedra <label style={{color:'red'}}>*</label></label>
           <Select
+            onChange={this.handleChangeSelectcat}
             options={this.state.catedraList.map(cat =>(
             {label: cat.name, value : cat.ID}
           ))}
           />
     </div>
     <div className="form-group col-md-3">
-          <label htmlFor="idac">IDAC  <a style={{color:'red'}}>*</a></label>
+          <label htmlFor="idac">IDAC  <label style={{color:'red'}}>*</label></label>
           <Select
             onChange={this.handleChangeSelecIdac}
             options={this.state.idacList.map(idac =>(
@@ -474,7 +562,7 @@ handlechangeParish = data => {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="unidad_ejec">Unidad Ejecutora  <a style={{color:'red'}}>*</a></label>
+          <label htmlFor="unidad_ejec">Unidad Ejecutora  <label style={{color:'red'}}>*</label></label>
          <Select
               onChange={this.handleChangeSelectExecuntingUnit}
               options={this.state.ExecuntingUnit.map(EU =>(
@@ -484,8 +572,8 @@ handlechangeParish = data => {
     </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="dedicacion">Dedicación Actual (*)</label>
-       <Select
+            <label htmlFor="dedicacion">Dedicación Actual <label style={{color:'red'}}>*</label></label>
+        <Select
               onChange={this.handleChangeSelectDedicationTypes}
               options={this.state.DedicationTypes.map(dt =>(
               {label: dt.dedi, value : dt.ID}
@@ -505,8 +593,8 @@ handlechangeParish = data => {
 
 
       <div className="form-group col-md-3">
-            <label htmlFor="categoria">Categoria (*)</label>
-        <Select
+            <label htmlFor="categoria">Categoria <label style={{color:'red'}}>*</label></label>
+      <Select
               onChange={this.handleChangeSelectCategoryType}
               options={this.state.CategoryTypeList.map(ct =>(
               {label: ct.name, value : ct.ID}
@@ -523,22 +611,22 @@ handlechangeParish = data => {
 
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_ini">Fecha de Inicio (*)</label>
+        <label htmlFor="fecha_ini">Fecha de Inicio <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="date" name="fecha_ini" id="fecha_ini" required value={this.state.fecha_ini} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_fin">Fecha de Fin (*)</label>
+        <label htmlFor="fecha_fin">Fecha de Fin <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="date" name="fecha_fin" id="fecha_fin" required value={this.state.fecha_fin} onChange={this.handleChange}/>
       </div>
 
   <div className="form-group col-md-3">
-    <label htmlFor="anexo">Anexos (*)</label>
+    <label htmlFor="anexo">Anexos <label style={{color:'red'}}>*</label></label>
         <textarea name="anexo" required placeholder="Curriculum con sus anexos"></textarea>
   </div>
 
   <div className="form-group col-md-3">
-    <label htmlFor="motivo">Motivos (*)</label>
+    <label htmlFor="motivo">Motivos <label style={{color:'red'}}>*</label></label>
         <textarea name="motivo" required placeholder="Indique el motivo de la Planilla"></textarea>
   </div>
 
@@ -552,7 +640,7 @@ handlechangeParish = data => {
 
         <div className="row justify-content-center">
 
-          <button className="btn btn-primary col-md-3">Enviar</button>
+          <button className="btn btn-primary col-md-3" style={{marginRight:'100px'}}>Enviar</button>
           <button className="btn btn-primary col-md-3">Restablecer</button>
 
         </div>
