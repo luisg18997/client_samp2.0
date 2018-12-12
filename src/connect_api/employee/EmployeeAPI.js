@@ -88,6 +88,23 @@ export const getAllNacionalitiesList = () => fetch(`${api}Nacionalities`,
 	console.log('The error is:', error.message);
 });
 
+export const getAllDocumentationList = () => fetch(`${api}Documentations`,
+{ 
+	method: 'GET', 
+	headers: { 
+		'Content-Type': 'application/json',
+		'Accept': 'application/json' 
+	} 
+})
+.then(res => res.json())
+.then(documentation => documentation.map(doc =>({
+	ID : doc.id,
+	Name : doc.documentation
+	})))
+.catch((error) => {
+	console.log('The error is:', error.message);
+});
+
 export const getAllIngressList = () => fetch(`${api}Ingress`,
 { 
 	method: 'GET', 
@@ -105,7 +122,7 @@ export const getAllIngressList = () => fetch(`${api}Ingress`,
 	console.log('The error is:', error.message);
 });
 
-export const getAllIncomeTypeList = () => fetch(`${api}IncomeType`,
+export const getAllIncomeTypeList = () => fetch(`${api}IncomeTypes`,
 { 
 	method: 'GET', 
 	headers: { 

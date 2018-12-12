@@ -61,8 +61,8 @@ export const getCoordination = (coordinationID) => fetch(`${api}coordination`,
 		'Content-Type': 'application/json',
 		'Accept': 'application/json'
 	},
-	body; JSON.stringify({
-		param_coordination_id = coordinationID
+	body: JSON.stringify({
+		param_coordination_id : coordinationID
 	})
 })
 .then(res => res.json())
@@ -98,7 +98,7 @@ export const getAllDepartamentBySchoolList = (schoolID) => fetch(`${api}school/d
 	console.log('The error is:', error.message);
 });
 
-export const getAllDepartamentByInstituteList = (instituteID) => fetch(`${api}institute/departaments`,
+export const getDepartamentByInstitute = (instituteID) => fetch(`${api}institute/departament`,
 { 
 	method: 'POST', 
 	headers: { 
@@ -106,7 +106,7 @@ export const getAllDepartamentByInstituteList = (instituteID) => fetch(`${api}in
 		'Accept': 'application/json' 
 	},
 	body: JSON.stringify({
-		param_institute_id = instituteID
+		param_institute_id: instituteID
 	})
 })
 .then(res => res.json())

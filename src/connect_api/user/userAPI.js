@@ -52,7 +52,13 @@ console.log('The error is:', error.message);
 });
 
 export const getAllUserRoleList = () => fetch(`${api}Roles/UserRole`,
-{ method: 'GET', headers: { 'Content-Type': 'application/json' } })
+{ 
+	method: 'GET', 
+	headers: { 
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
+	} 
+})
 .then(res => res.json())
 .then(UserRole => UserRole.map(UserRole =>({
 	ID : UserRole.id,
@@ -75,7 +81,7 @@ export const addNewUser = (userNew) => fetch(`${api}NewUser`,
 		param_surname : userNew.apellido,
 		param_email : userNew.email,
 		param_password : userNew.clave,
-		param_ubication_id :  userNew.ubicacion
+		param_ubication_id : userNew.ubicacion
 	})
 })
 .then(res => res.json())

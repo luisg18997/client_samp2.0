@@ -47,10 +47,12 @@ export const CodeOfice = (schoolID, instituteID, coordinationID) => fetch(`${api
 	body : JSON.stringify({
 		param_school_id : schoolID,
 		param_institute_id : instituteID,
-		param_coordination_id : coordinationID
+		param_coordination_id : coordinationID,
 	})
 })
-.then(res => res.json())
+.then(res => {
+	console.log(res);
+	res.json()})
 .catch((error) => {
 	console.log('The error is:', error.message);
 });

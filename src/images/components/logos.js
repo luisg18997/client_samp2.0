@@ -20,7 +20,7 @@ export class UCV extends Component {
 export class FHE extends Component {
   render() {
     return (
-      <div className = "text-right" style={{ 'margin-left': '90%', position: 'absolute' }}>
+      <div className = "text-right" style={{ marginLeft: '90%', position: 'absolute' }}>
         <img src={logo2} style= {{width: "90px", height: '90px', padding : '0'}} alt = "fhe"/>
       </div>
     )

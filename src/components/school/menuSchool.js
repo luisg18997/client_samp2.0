@@ -16,7 +16,7 @@ class MenuSchool extends Component {
  <ul>
        <li    style={{ background: '#0a6d84'}}><Link to='/Escuela' >Escuela</Link></li>
 
-     <li> <a>Planilla de oficio</a>
+     <li> <label>Planilla de oficio</label>
  <ul>
        <li><Link to="/Escuela/Oficio/Nuevo">Nuevo</Link></li>
             <li>Existente</li>
