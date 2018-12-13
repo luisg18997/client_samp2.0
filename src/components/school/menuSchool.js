@@ -33,12 +33,14 @@ class MenuSchool extends Component {
             <Route exact path='/Escuela' component={MainSchool}/>
             <Route path='/Escuela/Oficio/Nuevo' component={FormOfice}/>
             <Route path='/Escuela/MovPersonal' component={FormMovPersonal}/>
-      			</Switch>
-      		</div>
-      	</Router>
+            </Switch>
+        </div>
+        </Router>
       </div>
     )
   }
 }
 
+
 export default MenuSchool;
+
