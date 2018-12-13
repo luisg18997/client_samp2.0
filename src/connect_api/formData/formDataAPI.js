@@ -44,20 +44,18 @@ export const CodeOfice = (schoolID, instituteID, coordinationID) => fetch(`${api
 		'Content-Type': 'application/json',
 		'Accept': 'application/json'
 	},
-	body : JSON.stringify({
+	body: JSON.stringify({
 		param_school_id : schoolID,
 		param_institute_id : instituteID,
-		param_coordination_id : coordinationID,
+		param_coordination_id : coordinationID
 	})
 })
-.then(res => {
-	console.log(res);
-	res.json()})
+.then(res => res.json())
 .catch((error) => {
 	console.log('The error is:', error.message);
 });
 
-export const codeMovPer = (schoolID, instituteID, coordinationID) => fetch(`${api}MovPersonal/CodeMovPer`,
+export const codeMovPer = (schoolID, instituteID, coordinationID, code) => fetch(`${api}MovPersonal/CodeMovPer`,
 {
 	method: 'POST',
 	headers: {
@@ -67,7 +65,8 @@ export const codeMovPer = (schoolID, instituteID, coordinationID) => fetch(`${ap
 	body : JSON.stringify({
 		param_school_id : schoolID,
 		param_institute_id : instituteID,
-		param_coordination_id : coordinationID
+		param_coordination_id : coordinationID,
+		param_code : code
 	})
 })
 .then(res => res.json())

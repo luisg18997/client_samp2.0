@@ -65,56 +65,56 @@ class Oficio extends Component {
 
 handleSubmit = event => {
   event.preventDefault();
-  CodeOfice( this.state.schoolData.ID, 0, 0)
+  CodeOfice(this.state.schoolData.ID, 0, 0)
 	.then(result => {
     this.setState({
-      codigo : result
+      codigo : result.ofice
     })
-    console.log("codigo: ", result);
-    /*const employee = {
-		nacionality_id : 1,
-		documentation_id : 1,
-		identification : this.state.cedula ,
-		first_name : this.state.nombre,
-		second_name: this.state.snombre,
-    idac_id : this.state.idac,
-surname: this.state.apellido,
-second_surname : this.state.sapellido,
-birth_date : this.state.fec_nac,
-gender_id : this.state.genero,
-email: this.state.email,
-school_id : this.state.schoolData.ID,
-institute_id : 0,
-coordination_id : 0,
-departament_id : this.state.departamento,
-chair_id : this.state.catedra,
-mobile_phone_number : this.state.telef_mov,
-local_phone_number : this.state.telef_loc
-};
-console.log("employee: ", employee);
-const ofice = {
-	code_form : result,
-	dedication_id : this.state.dedicacion,
-movement_type_id : this.state.tip_mov,
-start_date : this.state.fecha_ini,
-finish_date : this.state.fecha_fin,
-school_id : this.state.schoolData.ID,
-institute_id : 0,
-coordination_id : 0
-};
-console.log("ofice: ", ofice);
-const userID = 0;
-const empleadoID = this.state.empleado_id;
-	addNewFormOfice(employee, ofice, userID, empleadoID )
-	.then(result => {
-		if(result === 1) {
-			alert('planilla de oficio creado exitosamente');
-			this.props.history.push('/Escuela');
-		} else {
-			alert('planilla de oficio NO creado exitosamente');
-			this.props.history.push('/Escuela');
-		}
-	});*/
+    console.log("codigo: ", this.state.codigo);
+    const employee = {
+  		nacionality_id : this.state.nacionalidad,
+  		documentation_id : this.state.documento,
+  		identification : this.state.cedula ,
+  		first_name : this.state.nombre,
+  		second_name: this.state.snombre,
+      idac_id : this.state.idac,
+      surname: this.state.apellido,
+      second_surname : this.state.sapellido,
+      birth_date : this.state.fec_nac,
+      gender_id : this.state.genero,
+      email: this.state.email,
+      school_id : this.state.schoolData.ID,
+      institute_id : 0,
+      coordination_id : 0,
+      departament_id : this.state.departamento,
+      chair_id : this.state.catedra,
+      mobile_phone_number : this.state.telef_mov,
+      local_phone_number : this.state.telef_loc
+    };
+    console.log("employee: ", employee);
+    const ofice = {
+    	code_form : result.ofice,
+    	dedication_id : this.state.dedicacion,
+      movement_type_id : this.state.tip_mov,
+      start_date : this.state.fecha_ini,
+      finish_date : this.state.fecha_fin,
+      school_id : this.state.schoolData.ID,
+      institute_id : 0,
+      coordination_id : 0
+    };
+    console.log("ofice: ", ofice);
+    const userID = 0;
+    const empleadoID = this.state.empleado_id;
+    addNewFormOfice(employee, ofice, userID, empleadoID )
+  	.then(result => {
+  		if(result === 1) {
+  			alert('planilla de oficio creado exitosamente');
+  			this.props.history.push('/Escuela');
+  		} else {
+  			alert('planilla de oficio NO creado exitosamente');
+  			this.props.history.push('/Escuela');
+  		}
+  	});
   });
 }
 
@@ -177,13 +177,21 @@ handleChangeExecUnit = data => {
     console.log("generoList: ",this.state.generoList);
   });
 
-
   getAllNacionalitiesList()
   .then(result => {
     this.setState({
       NacionalitiesList: result
     })
     console.log("NacionalitiesList: ",this.state.NacionalitiesList);
+  });
+
+
+  getAllDocumentationList()
+  .then(result => {
+    this.setState({
+      documentationList: result
+    })
+    console.log("documentationList: ",this.state.documentationList);
   });
 
       getAllDedicationTypesList()
@@ -315,17 +323,17 @@ render() {
 
       <div className="form-group col-md-3">
           <label htmlFor="nombre">Primer Nombre  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre" required value={this.state.nombre} onChange={this.handleChange}/>
+          <input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre"  value={this.state.nombre} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
           <label htmlFor="snombre"> Segundo Nombre  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="snombre" id="snombre" placeholder="S. Nombre" required value={this.state.snombre} onChange={this.handleChange}/>
+          <input className="form-control" type="text" name="snombre" id="snombre" placeholder="S. Nombre"  value={this.state.snombre} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
           <label htmlFor="apellido">Primer Apellido <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido" required value={this.state.apellido} onChange={this.handleChange}/>
+          <input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido"  value={this.state.apellido} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
@@ -354,17 +362,18 @@ render() {
     </div>
     <div className="form-group col-md-3">
           <label htmlFor="cedula"> Cédula  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="cedula" id="cedula" placeholder="Cédula" required value={this.state.cedula} onChange={this.handleChange}/>
+          <input className="form-control" type="text" name="cedula" id="cedula" placeholder="Cédula"  value={this.state.cedula} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
       <label htmlFor="email"> Email  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="email" id="email" placeholder="Correo" required value={this.state.email} onChange={this.handleChange}/>
+          <input className="form-control" type="text" name="email" id="email" placeholder="Correo"  value={this.state.email} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
           <label htmlFor="genero"> Género  <label style={{color:'red'}}>*</label></label>
           <Select
+            onChange={this.handleChangeSelectGender}
             options={this.state.generoList.map(gen =>(
             {label: gen.Gender, value : gen.ID}
           ))}
@@ -373,17 +382,17 @@ render() {
 
     <div className="form-group col-md-3">
       <label htmlFor="fec_nac">Fecha de Nacimiento  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="date" name="fec_nac" id="fec_nac" required value={this.state.fec_nac} onChange={this.handleChange}/>
+          <input className="form-control" type="date" name="fec_nac" id="fec_nac"  value={this.state.fec_nac} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
       <label htmlFor="telef_mov">Teléfono Móvil  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="telef_mov" id="telef_mov" placeholder="Teléfono Movil" required value={this.state.telef_mov} onChange={this.handleChange}/>
+          <input className="form-control" type="text" name="telef_mov" id="telef_mov" placeholder="Teléfono Movil"  value={this.state.telef_mov} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
       <label htmlFor="telef_loc">Teléfono Local  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="telef_loc" id="telef_loc" placeholder="Teléfono Local" required value={this.state.telef_loc} onChange={this.handleChange}/>
+          <input className="form-control" type="text" name="telef_loc" id="telef_loc" placeholder="Teléfono Local"  value={this.state.telef_loc} onChange={this.handleChange}/>
     </div>
 
   <div className="form-group col-md-3">
@@ -428,12 +437,22 @@ render() {
 
     <div className="form-group col-md-3">
       <label htmlFor="fecha_ini">Fecha de Inicio  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="date" name="fecha_ini" id="fecha_ini" required value={this.state.fecha_ini} onChange={this.handleChange}/>
+          <input className="form-control" type="date" name="fecha_ini" id="fecha_ini"  value={this.state.fecha_ini} onChange={this.handleChange}/>
     </div>
 
     <div className="form-group col-md-3">
       <label htmlFor="fecha_fin">Fecha de Fin  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="date" name="fecha_fin" id="fecha_fin" required value={this.state.fecha_fin} onChange={this.handleChange}/>
+          <input className="form-control" type="date" name="fecha_fin" id="fecha_fin"  value={this.state.fecha_fin} onChange={this.handleChange}/>
+    </div>
+
+    <div className="form-group col-md-3">
+          <label htmlFor="unidad_ejec">Unidad Ejecutora  <label style={{color:'red'}}>*</label></label>
+         <Select
+              onChange={this.handleChangeSelectExecuntingUnit}
+              options={this.state.ExecuntingUnit.map(EU =>(
+              {label: EU.des, value : EU.ID}
+            ))}
+            />
     </div>
 
     <div className="form-group col-md-3">
@@ -446,15 +465,6 @@ render() {
           />
     </div>
 
-    <div className="form-group col-md-3">
-          <label htmlFor="unidad_ejec">Unidad Ejecutora  <label style={{color:'red'}}>*</label></label>
-         <Select
-              onChange={this.handleChangeSelectExecuntingUnit}
-              options={this.state.ExecuntingUnit.map(EU =>(
-              {label: EU.des, value : EU.ID}
-            ))}
-            />
-    </div>
     <div className="form-group col-md-12">
         <hr></hr>
             <h6 align="center" style={{color:'red'}}>Campos Obligatorios *</h6>
