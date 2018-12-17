@@ -40,25 +40,27 @@ export default class Login extends Component {
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
+            <ControlLabel>Contraseña</ControlLabel>
             <FormControl
               value={this.state.password}
               onChange={this.handleChange}
               type="password"
             />
           </FormGroup>
+                <br />
           <Button
             block
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
           >
-            Login
+            Ingresar
           </Button>
         </form>
+
         <br />
-        <br />
-        <ul style={{listStyle: 'none'}}>
+        <ul style={{
+    'listStyle': 'none'}}>
 	        <li>
 	        	<Link to='/Registro'>Registrate</Link>
 	        </li>

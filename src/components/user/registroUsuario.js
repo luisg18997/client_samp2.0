@@ -96,8 +96,12 @@ class RegistroUsuario extends Component {
       			</div>
 
       			 <br></br>
-
-        		<button className="btn btn-primary">Enviar</button>		<button className="btn btn-primary" ><Link to='/'  style={{color: 'white !important'}}> Volver </Link></button>	
+<div  style={{ 'margin-bottom':'10px'}}>
+        		<button className="btn btn-primary " >Enviar</button>
+        			<button className="btn btn-primary"  style={{ 'margin-left':'5px'}} > Restablecer  </button>
+				<button className="btn btn-primary"  style={{ 'margin-left':'5px'}}><Link to='/'  style={{ 'text-decoration': 'none',
+    'color':' white'}}> Registro </Link> </button>
+</div>
 			</form>
 
 			</div>

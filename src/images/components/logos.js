@@ -10,9 +10,9 @@ export class UCV extends Component {
     return (
 
 
-    <div  style={{ marginLeft: 10 }}>
-        <img src={logo} style= {{width: "90px", height: '90px', padding : '0'}} alt= "ucv" />
-      </div>
+      <div  style={{ marginLeft: 10 }}>
+          <img src={logo} style= {{width: "75px", height: '75px', padding : '0'}} alt= "ucv" />
+        </div>
     )
   }
 }
@@ -20,8 +20,8 @@ export class UCV extends Component {
 export class FHE extends Component {
   render() {
     return (
-      <div className = "text-right" style={{ marginLeft: '90%', position: 'absolute' }}>
-        <img src={logo2} style= {{width: "90px", height: '90px', padding : '0'}} alt = "fhe"/>
+      <div className = "text-right" style={{ marginLeft : '88%', position: 'absolute' }}>
+        <img src={logo2} style= {{width: "75px", height: '75px', padding : '0'}} alt = "fhe"/>
       </div>
     )
   }
