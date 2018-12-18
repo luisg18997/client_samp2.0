@@ -11,7 +11,7 @@ export class UCV extends Component {
 
 
       <div  style={{ marginLeft: 10 }}>
-          <img src={logo} style= {{width: "75px", height: '75px', padding : '0'}} alt= "ucv" />
+          <img src={logo} style= {{width: "65px", height: '65px', padding : '0'}} alt= "ucv" />
         </div>
     )
   }
@@ -21,7 +21,7 @@ export class FHE extends Component {
   render() {
     return (
       <div className = "text-right" style={{ marginLeft : '88%', position: 'absolute' }}>
-        <img src={logo2} style= {{width: "75px", height: '75px', padding : '0'}} alt = "fhe"/>
+        <img src={logo2} style= {{width: "65px", height: '65px', padding : '0'}} alt = "fhe"/>
       </div>
     )
   }

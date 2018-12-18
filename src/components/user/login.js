@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import {Link} from 'react-router-dom';
 
 export default class Login extends Component {
@@ -29,33 +29,32 @@ export default class Login extends Component {
   render() {
     return (
       <div className="Login">
+        <MDBContainer>
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
-            <FormControl
-              autoFocus
+          <p className="h5 text-center mb-4">Ingresa</p>
+          <div className="grey-text">
+            <MDBInput
+              label="Correo"
+              icon="envelope"
+              group
               type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Contraseña</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-                <br />
-          <Button
-            block
-            bsSize="large"
+              validate
+              error="wrong"
+              success="let"
+              />
+            <MDBInput
+                label="Contraseña"
+                icon="lock"
+                type="password"
+                validate
+              />
+          </div>
+          <MDBBtn
             disabled={!this.validateForm()}
             type="submit"
           >
             Ingresar
-          </Button>
+          </MDBBtn>
         </form>
 
         <br />
@@ -68,6 +67,7 @@ export default class Login extends Component {
 	        	<Link to='/OlvidoClave'>Olvido Su clave?</Link>
 	        </li>
         </ul>
+ </MDBContainer>
       </div>
     );
   }

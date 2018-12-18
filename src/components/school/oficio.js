@@ -463,13 +463,13 @@ render() {
           />
     </div>
 
-    <div className="form-group col-md-2">
+    <div className="form-group col-md-4">
         <hr></hr>
             <h6 align="center" style={{color:'red'}}>Campos Obligatorios *</h6>
           <hr></hr>
     </div>
 
-  <div className="form-group col-md-12">
+  <div className="form-group col-md-10">
 
       <div className="row justify-content-center">
 

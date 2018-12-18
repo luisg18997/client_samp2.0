@@ -14,23 +14,32 @@ class mainBudget extends Component {
 						{
 							label:"Codigo de Planilla",
 							field: "code_form",
+	            width: 250
+						},
+						{
+							label:"Tipo de planilla",
+							 width: 250
+						},
+						{
+							label:"Tipo de Movimiento",
+							width: 350
+						},
+						{
+							label:"Ubicacion",
+							width: 750
+						},
+						{
+							label: "Fecha de Registro",
 							sort: 'asc',
-	            width: 100
+							width: 350
 						},
 						{
-							label:"Tipo de planilla"
+							label: "Status",
+							width: 250
 						},
 						{
-							label:"Tipo de Movimiento"
-						},
-						{
-							label:"Ubicacion"
-						},
-						{
-							label: "Fecha de Registro"
-						},
-						{
-							label: "Status"
+							label: "Acción",
+							width: 250
 						}
 					]
 				},
