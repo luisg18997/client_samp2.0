@@ -33,7 +33,8 @@ class mainBudget extends Component {
 							label: "Status"
 						}
 					]
-				}
+				},
+				isLoaded: false
 			}
 		}
 
@@ -52,12 +53,17 @@ class mainBudget extends Component {
 				}));
 				this.setState({
 					table,
+					isLoaded : true
 				})
 				console.log('rows: ', this.state)
 			})
 		}
 
 	render(){
+		if (!this.state.isLoaded) {
+			return (<div>Loading...</div>);
+		} else {
+
 		return(
 
 			<div style={{'padding':'10px',marginTop:'50px', marginLleft:'65px',color:'#595959'}} className="content">
@@ -65,11 +71,11 @@ class mainBudget extends Component {
 					striped
 					hover
 					small
-					columns={this.state.table.columns}
-					rows={this.state.table.rows}
+					data={this.state.table}
 				/>
 			</div>
 		)
+	}
 	}
 }
 
