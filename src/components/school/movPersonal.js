@@ -8,16 +8,16 @@ import {
  getAllIngressList,
  getAllIncomeTypeList,
  getAllMunicipalitiesList,
- getAllParishList, 
+ getAllParishList,
  getAllIdacCodesFilterVacantDateNotNullList
 } from '../../connect_api/employee/EmployeeAPI';
   import {
-    getAllDepartamentBySchoolList, 
-    getAllChairList, 
+    getAllDepartamentBySchoolList,
+    getAllChairList,
     getSchool
   } from '../../connect_api/faculty/FacultyAPI'
 import {
-  getAllMovementTypeslist, 
+  getAllMovementTypeslist,
   codeMovPer
 } from '../../connect_api/formData/formDataAPI'
 import Select from 'react-select';
@@ -403,10 +403,10 @@ this.setState({
     <div  className="content">
 
 
-     <h1 align="center">Solicitud de Movimiento de Personal</h1>
+     <h3 align="center">Solicitud de Movimiento de Personal</h3>
       <hr></hr>
 
-      <h1 align="center">Datos Personales</h1>
+      <h4 align="center">Datos Personales</h4>
       <hr></hr>
 
         <br></br>

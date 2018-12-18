@@ -1,21 +1,21 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
 import {
-  getAllDepartamentBySchoolList, 
-  getAllChairList, 
+  getAllDepartamentBySchoolList,
+  getAllChairList,
   getSchool
 } from '../../connect_api/faculty/FacultyAPI'
 import {
-  getAllGenderList, 
-  getAllExecuntingUnitListFilter, 
-  getAllDedicationTypesList, 
+  getAllGenderList,
+  getAllExecuntingUnitListFilter,
+  getAllDedicationTypesList,
   getAllIdacCodesFilterVacantDateNotNullList,
   getAllDocumentationList,
-  getAllNacionalitiesList 
+  getAllNacionalitiesList
 } from '../../connect_api/employee/EmployeeAPI'
 import {
   getAllMovementTypeslist,
- addNewFormOfice, 
+ addNewFormOfice,
  CodeOfice
 } from '../../connect_api/formData/formDataAPI'
 
@@ -314,10 +314,8 @@ render() {
     <div className="content">
 
 
-    <h1 align="center">Registro de Planilla Oficio</h1>
+    <h3 align="center"><strong>Registro de Planilla Oficio</strong></h3>
     <hr></hr>
-
-      <br></br>
 
       <form className="row justify-content-center" onSubmit={this.handleSubmit}>
 
@@ -465,7 +463,7 @@ render() {
           />
     </div>
 
-    <div className="form-group col-md-12">
+    <div className="form-group col-md-2">
         <hr></hr>
             <h6 align="center" style={{color:'red'}}>Campos Obligatorios *</h6>
           <hr></hr>
