@@ -3,11 +3,11 @@ const api = process.env.URL_API || 'http://localhost:5000/form/';
 export const getAllMovementTypeslist = () => fetch(`${api}MovementTypes`,
 {
 	method: 'GET',
-	headers: { 
+	headers: {
 		'Content-Type': 'application/json',
 		'Accept': 'application/json'
 	}
-	
+
 })
 .then(res => res.json())
 .then(MovementTypes => MovementTypes.map(MovementTypes =>({
@@ -67,6 +67,23 @@ export const codeMovPer = (schoolID, instituteID, coordinationID, code) => fetch
 		param_institute_id : instituteID,
 		param_coordination_id : coordinationID,
 		param_code : code
+	})
+})
+.then(res => res.json())
+.catch((error) => {
+	console.log('The error is:', error.message);
+});
+
+export const getFormsList = (ubicationID, ubicationFormID) => fetch(`${api}list`,
+{
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
+	},
+	body: JSON.stringify({
+		param_ubication_id: ubicationID,
+		param_ubication_form_id : ubicationFormID
 	})
 })
 .then(res => res.json())
