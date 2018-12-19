@@ -20,6 +20,7 @@ export default class Login extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
+    console.log(event.target.value)
   }
 
   handleSubmit = event => {
@@ -28,24 +29,27 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="Login">
-        <MDBContainer>
+      <div >
+        <MDBContainer className="Login">
+          <MDBRow>
+        <MDBCol>
         <form onSubmit={this.handleSubmit}>
-          <p className="h5 text-center mb-4">Ingresa</p>
+          <p className="h4 text-center mb-5">Ingresa</p>
           <div className="grey-text">
             <MDBInput
-              label="Correo"
               icon="envelope"
-              group
+              label="email"
               type="email"
+              id="email"
+              onChange={this.handleChange}
               validate
-              error="wrong"
-              success="let"
               />
             <MDBInput
                 label="Contraseña"
                 icon="lock"
                 type="password"
+                id="password"
+                onChange={this.handleChange}
                 validate
               />
           </div>
@@ -56,17 +60,18 @@ export default class Login extends Component {
             Ingresar
           </MDBBtn>
         </form>
-
-        <br />
-        <ul style={{
-    'listStyle': 'none'}}>
-	        <li>
-	        	<Link to='/Registro'>Registrate</Link>
-	        </li>
-	        <li>
-	        	<Link to='/OlvidoClave'>Olvido Su clave?</Link>
-	        </li>
-        </ul>
+      </MDBCol>
+    </MDBRow>
+    <br />
+    <ul style={{
+'listStyle': 'none'}}>
+      <li>
+        <Link to='/Registro'>Registrate</Link>
+      </li>
+      <li>
+        <Link to='/OlvidoClave'>Olvido Su clave?</Link>
+      </li>
+    </ul>
  </MDBContainer>
       </div>
     );

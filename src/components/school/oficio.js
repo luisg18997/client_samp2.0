@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
+import { MDBInput, MDBBtn } from 'mdbreact';
 import {
   getAllDepartamentBySchoolList,
   getAllChairList,
@@ -320,8 +321,15 @@ render() {
       <form className="row justify-content-center" onSubmit={this.handleSubmit}>
 
       <div className="form-group col-md-3">
-          <label htmlFor="nombre">Primer Nombre  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre"  value={this.state.nombre} onChange={this.handleChange}/>
+        <MDBInput
+          label="Primer Nombre"
+          type="text"
+          id="nombre"
+          value={this.state.nombre}
+          onChange={this.handleChange}
+          required
+          validate
+          />
     </div>
 
     <div className="form-group col-md-3">
@@ -473,8 +481,8 @@ render() {
 
       <div className="row justify-content-center">
 
-        <button className="btn btn-primary col-md-3" style={{marginRight:'100px'}}>Enviar</button>
-        <button className="btn btn-primary col-md-3">Restablecer</button>
+        <MDBBtn color="primary" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+        <MDBBtn color="primary" className=" col-md-3">Restablecer</MDBBtn>
 
       </div>
 

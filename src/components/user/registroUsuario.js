@@ -1,5 +1,6 @@
-import React, { Component} from 'react';
+import React, { Component,Fragment} from 'react';
 import  { Link } from 'react-router-dom';
+import { Container, Row, Col, MDBInput, MDBBtn } from 'mdbreact';
 import Select from 'react-select';
 import { getAllUbicationsList, addNewUser } from '../../connect_api/user/userAPI';
 
@@ -11,6 +12,7 @@ class RegistroUsuario extends Component {
       apellido: "",
       email: "",
       clave: "",
+			confiClave:"",
       ubicacionList: [],
 			ubicacion: ""
     }
@@ -55,56 +57,87 @@ class RegistroUsuario extends Component {
 		});
   }
 	render(){
-		const { selectedOptionUb } = this.state.ubicacion
-		const { nombre } = this.state.nombre;
 		return(
-			<div className="registro">
-			    <h1 align="center">Registro de Usuario</h1>
-    <hr></hr>
+			<Fragment>
+			<Container  className="mt-1">
+				<Row className="mt-2">
+			 <Col>
+			    <p className="h2 text-center mb-6">Registro de Usuario</p>
+		<form onSubmit={this.handleSubmit}>
+		        <div className="grey-text">
+							<MDBInput
+								label="nombre"
+								type="text"
+								onChange={this.handleChange}
+								id="nombre"
+								value={this.state.nombre}
+								required
+								validate
+								className="is-valid"
+								/>
 
-      <br></br>
-			<form onSubmit={this.handleSubmit} className="form-container">
-
-		        <div className="form-group">
-		            <label htmlFor="nombre"> Nombre</label>
-		            <input className="form-control" type="text" name="nombre" id="nombre" value={nombre} onChange={this.handleChange} required/>
-		      </div>
-
-		      <div className="form-group">
-		            <label htmlFor="apellido"> Apellido</label>
-		            <input className="form-control" type="text" name="apellido" id="apellido" value={this.state.apellido} onChange={this.handleChange} required/>
-		      </div>
-
-		      <div className="form-group">
-		        <label htmlFor="email"> Email</label>
-		            <input className="form-control" type="email" name="email" id="email" value={this.state.email} onChange={this.handleChange} required/>
-		      </div>
-		      <div className="form-group">
-		        <label htmlFor="clave"> Clave</label>
-		            <input className="form-control" type="password" name="clave" id="clave" value={this.state.clave} onChange={this.handleChange} required/>
-		      </div>
-		      <div className="form-group">
-       			 <label htmlFor="ubicacion"> Ubicación</label>
-					<Select
+						<MDBInput
+							label="Apellido"
+							type="text"
+							id="apellido"
+							onChange={this.handleChange}
+							value={this.state.apellido}
 							required
-							value={selectedOptionUb}
+							validate
+							/>
+					<MDBInput
+              label="email"
+              type="email"
+              id="email"
+              onChange={this.handleChange}
+							value={this.state.email}
+              validate
+							required
+              />
+						<MDBInput
+                label="clave"
+                type="password"
+                id="clave"
+                onChange={this.handleChange}
+								value={this.state.clave}
+								validate
+								required
+              />
+						<MDBInput
+	                label="Confirmar clave"
+	                type="password"
+	                id="confiClave"
+	                onChange={this.handleChange}
+									value={this.state.clave}
+									validate
+									required
+	              />
+					<Select
+							label={"ubicacion"}
+							id={"ubicacion"}
+							onInputChange={ubicacion => this.setState({ ubicacion })}
+							placeholder={'ubicacion'}
 			        onChange={this.handleChangeSelectub}
 			        options={this.state.ubicacionList.map(ub =>(
 			          {label: ub.Ubicacion, value : ub.ID}
 			        ))}
 			        />
-      			</div>
 
-      			 <br></br>
-<div  style={{ 'margin-bottom':'10px'}}>
-        		<button className="btn btn-primary " >Enviar</button>
-        			<button className="btn btn-primary"  style={{ 'margin-left':'5px'}} > Restablecer  </button>
-				<button className="btn btn-primary"  style={{ 'margin-left':'5px'}}><Link to='/'  style={{ 'text-decoration': 'none',
-    'color':' white'}}> Registro </Link> </button>
+					</div>
+					<br></br>
+<div  className="form-group col-md-12">
+	<div className="row justify-content-center">
+        		<MDBBtn color="primary" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+        			<MDBBtn color="primary"  className="col-md-3" > Restablecer  </MDBBtn>
+</div>
 </div>
 			</form>
-
-			</div>
+			<MDBBtn color="primary"><Link to='/'  style={{ textDecoration: 'none',
+	'color':' white'}}> Volver </Link> </MDBBtn>
+			</Col>
+		</Row>
+			</Container>
+			</Fragment>
 		)
 	}
 }

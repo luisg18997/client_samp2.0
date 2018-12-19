@@ -70,7 +70,7 @@ class mainBudget extends Component {
 
 	render(){
 		if (!this.state.isLoaded) {
-			return (<div>Loading...</div>);
+			return (<div className="loader"></div>);
 		} else {
 
 		return(
