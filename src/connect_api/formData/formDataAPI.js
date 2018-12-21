@@ -90,3 +90,37 @@ export const getFormsList = (ubicationID, ubicationFormID) => fetch(`${api}list`
 .catch((error) => {
 	console.log('The error is:', error.message);
 });
+
+
+export const getFormOficesList = (schoolID, instituteID, coordinationID) => fetch(`${api}ofice/list`, {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
+	},
+	body: JSON.stringify({
+		param_school_id : schoolID,
+		param_institute_id : instituteID,
+		param_coordination_id : coordinationID
+	})
+})
+.then(res => res.json())
+.catch((error) => {
+	console.log('The error is:', error.message);
+});
+
+export const getFormMovPersonal = (identification) => fetch(`${api}movPersonal`, {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
+	},
+	body: JSON.stringify({
+		param_identification : identification,
+
+	})
+})
+.then(res => res.json())
+.catch((error) => {
+	console.log('The error is:', error.message);
+});

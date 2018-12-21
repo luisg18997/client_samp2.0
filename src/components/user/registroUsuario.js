@@ -1,4 +1,4 @@
-import React, { Component,Fragment} from 'react';
+import React, { Component} from 'react';
 import  { Link } from 'react-router-dom';
 import { Container, Row, Col, MDBInput, MDBBtn } from 'mdbreact';
 import Select from 'react-select';
@@ -22,15 +22,18 @@ class RegistroUsuario extends Component {
   }
 
   handleChangeSelectub = event => {
+		console.log("event: ", event.value);
    this.setState({
      ubicacion : event.value
    });
+	 console.log("ubicacion: ", this.state.ubicacion);
  }
 
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
+		console.log(this.state);
   }
 
 	componentDidMount() {
@@ -58,7 +61,6 @@ class RegistroUsuario extends Component {
   }
 	render(){
 		return(
-			<Fragment>
 			<Container  className="mt-1">
 				<Row className="mt-2">
 			 <Col>
@@ -108,14 +110,12 @@ class RegistroUsuario extends Component {
 	                type="password"
 	                id="confiClave"
 	                onChange={this.handleChange}
-									value={this.state.clave}
+									value={this.state.confiClave}
 									validate
 									required
 	              />
+							<label htmlFor="ubicacion"> Ubicación</label>
 					<Select
-							label={"ubicacion"}
-							id={"ubicacion"}
-							onInputChange={ubicacion => this.setState({ ubicacion })}
 							placeholder={'ubicacion'}
 			        onChange={this.handleChangeSelectub}
 			        options={this.state.ubicacionList.map(ub =>(
@@ -127,8 +127,8 @@ class RegistroUsuario extends Component {
 					<br></br>
 <div  className="form-group col-md-12">
 	<div className="row justify-content-center">
-        		<MDBBtn color="primary" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
-        			<MDBBtn color="primary"  className="col-md-3" > Restablecer  </MDBBtn>
+        		<MDBBtn color="primary" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+        			<MDBBtn color="primary" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
 </div>
 </div>
 			</form>
@@ -137,7 +137,6 @@ class RegistroUsuario extends Component {
 			</Col>
 		</Row>
 			</Container>
-			</Fragment>
 		)
 	}
 }

@@ -18,15 +18,17 @@ import {
   } from '../../connect_api/faculty/FacultyAPI'
 import {
   getAllMovementTypeslist,
-  codeMovPer
+  codeMovPer,
+  getFormMovPersonal
 } from '../../connect_api/formData/formDataAPI'
 import Select from 'react-select';
 
 class MovPersonal extends Component {
-
-    constructor(){
-    super();
+    constructor(props){
+      console.log(props);
+    super(props);
     this.state = {
+      empleadoID: "",
       codigo: "",
       nombre: "",
       apellido: "",
@@ -34,7 +36,7 @@ class MovPersonal extends Component {
       sapellido: "",
       nacionalidad: "",
       NacionalitiesList: [],
-      cedula: "",
+      cedula: this.props.history.location.state.cedula,
       estado: "",
       StateList: [],
       municipio: "",
@@ -83,7 +85,21 @@ class MovPersonal extends Component {
     this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
 
 }
+  handleDataReceived(identification){
+    console.log("movPersonal: ", identification);
+    getFormMovPersonal(identification)
+    .then(result => {
+      console.log('result: ', result);
+      this.setState({
+        empleadoID : result.employee_id,
+        nombre : result.name
+
+      })
+    });
+  }
+
  componentDidMount() {
+   console.log(this.props.history.location.state.cedula);
    getSchool(1)
  	.then(result => {
      console.log(result);

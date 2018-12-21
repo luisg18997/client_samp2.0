@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import  { BrowserRouter as Router,Switch, Route, Link } from 'react-router-dom';
 import MainSchool from './mainSchool';
 import FormOfice from './oficio';
-import FormMovPersonal from './movPersonal';
+import listOficio from './listOficio';
+import MovPersonal from './movPersonal';
 
 class MenuSchool extends Component {
   render() {
@@ -26,13 +27,14 @@ class MenuSchool extends Component {
 
          </ul>     </li>
 
-       <li><Link to ="/Escuela/MovPersonal">Movimiento de Personal</Link></li>
-    
+       <li><Link to ="/Escuela/Oficio/Listado">Movimiento de Personal</Link></li>
+
   </ul>
             <Switch>
             <Route exact path='/Escuela' component={MainSchool}/>
             <Route path='/Escuela/Oficio/Nuevo' component={FormOfice}/>
-            <Route path='/Escuela/MovPersonal' component={FormMovPersonal}/>
+            <Route path='/Escuela/Oficio/Listado' component={listOficio}/>
+            <Route path='/Escuela/MovPersonal' component={MovPersonal}/>
             </Switch>
         </div>
         </Router>
@@ -43,4 +45,3 @@ class MenuSchool extends Component {
 
 
 export default MenuSchool;
-
