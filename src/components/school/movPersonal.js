@@ -20,57 +20,64 @@ import { MDBBtn } from 'mdbreact';
 
 class MovPersonal extends Component {
     constructor(props){
-    super(props);
-    this.state = {
-      empleadoID: "",
-      codigo: "",
-      nombre: "",
-      apellido: "",
-      snombre: "",
-      sapellido: "",
-      documentacion:"",
-      nacionalidad: "",
-      cedula: this.props.history.location.state.cedula,
-      estado: "",
-      StateList: [],
-      municipio: "",
-      municipalityList: [],
-      parroquia: "",
-      parroquiaList : [],
-      apartamento: "",
-      ingreso: "",
-      ingressList: [],
-      tip_ingreso: "",
-      IncomeType: [],
-      fecha_ingreso: "",
-      tip_mov: "",
-     departamento: "",
-      catedra: "",
-      fecha_ini: "",
-      fecha_fin: "",
-      idac: "",
-      categoria: "",
-      CategoryTypeList: [],
-      dedicacion: "",
-      dedicacion_p: "",
-      DedicationTypes_p: [],
-      sueldo: "",
-      unidad_ejec: "",
-      isLoaded: false
-    }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChangeSelectstate = this.handleChangeSelectstate.bind(this);
-    this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
-    this.handleChangeSelectDedicationTypes_p = this.handleChangeSelectDedicationTypes_p.bind(this);
-    this.handleChangeSelectingress = this.handleChangeSelectingress.bind(this);
-    this.handleChangeSelectIncomeType = this.handleChangeSelectIncomeType.bind(this);
+        super();
+        this.state = {
+          empleadoID: "",
+          empleadoSalarioID: "",
+          codigo: "",
+          nombre: "",
+          apellido: "",
+          snombre: "",
+          sapellido: "",
+          documentacion:"",
+          nacionalidad: "",
+          cedula: "",
+          estado: "",
+          StateList: [],
+          municipio: "",
+          municipalityList: [],
+          parroquia: "",
+          parroquiaList : [],
+          ubicacion: "",
+          direccion: "",
+          tip_vivienda: "",
+          viviendaID: "",
+          apartamento: "",
+          ingreso: "",
+          ingressList: [],
+          tip_ingreso: "",
+          IncomeType: [],
+          fecha_ingreso: "",
+          tip_mov: "",
+          departamento: "",
+          catedra: "",
+          fecha_ini: "",
+          fecha_fin: "",
+          idac: "",
+          categoria: "",
+          CategoryTypeList: [],
+          dedicacion: "",
+          dedicacion_p: "",
+          DedicationTypes_p: [],
+          sueldo: "",
+          unidad_ejec: "",
+          school: "",
+          isLoaded: false
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeSelectstate = this.handleChangeSelectstate.bind(this);
+        this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
+        this.handleChangeSelectDedicationTypes_p = this.handleChangeSelectDedicationTypes_p.bind(this);
+        this.handleChangeSelectingress = this.handleChangeSelectingress.bind(this);
+        this.handleChangeSelectIncomeType = this.handleChangeSelectIncomeType.bind(this);
 
 }
+
   componentWillMount(){
     console.log("this.props: ", this.props);
     console.log(this.props.history.location.state.cedula);
-    getFormMovPersonal(this.state.cedula)
+    getFormMovPersonal(this.props.history.location.state.cedula)
     .then(result => {
       console.log('result: ', result);
       this.setState({
@@ -90,6 +97,19 @@ class MovPersonal extends Component {
         fecha_fin: result.finish_date,
         dedicacion: result.current_dedication,
         sueldo: result.salary,
+        dedicacion_p: result.proposed_dedication,
+        ingreso: result.ingres,
+        tip_ingreso: result.income_type,
+        ubicacion: result.ubication,
+        direccion: result.address,
+        tip_vivienda: result.housing_type,
+        viviendaID: result.housing_identifier,
+        apartamento: result.apartament,
+        categoria: result.category_type,
+        estado: result.state,
+        municipio: result.municipality,
+        parroquia: result.parish,
+        empleadoSalarioID: result.employee_salary_id,
         isLoaded: true
       })
       console.log("this.state: ", this.state)
@@ -100,7 +120,6 @@ class MovPersonal extends Component {
 
    getSchool(1)
  	.then(result => {
-     console.log(result);
  		const school ={
  			ID : result.id,
  			code : result.code,
@@ -108,9 +127,9 @@ class MovPersonal extends Component {
  			codeFilter : result.code.substr(0, 4)
  		}
  		this.setState({
- 			schoolData : school
+ 			 school
  		})
- 		console.log("schoolData: ", this.state.schoolData);
+ 		console.log("school: ", this.state.school);
  	})
 
   getAllStatesList()
@@ -138,8 +157,7 @@ class MovPersonal extends Component {
     console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
   });
 
-
-      getAllIngressList()
+  getAllIngressList()
   .then(result => {
     this.setState({
       ingressList: result
@@ -147,8 +165,7 @@ class MovPersonal extends Component {
     console.log("ingressList: ",this.state.ingressList);
   });
 
-
-      getAllIncomeTypeList()
+  getAllIncomeTypeList()
   .then(result => {
     this.setState({
       IncomeType: result
@@ -159,7 +176,7 @@ class MovPersonal extends Component {
 
  handleSubmit = event => {
    event.preventDefault();
-   codeMovPer(this.state.school.ID, 0, 0)
+   codeMovPer(this.state.school.ID, 0, 0, this.state.school.codeFilter)
    .then(result => {
     this.setState({
       codigo : result
@@ -176,45 +193,68 @@ class MovPersonal extends Component {
  }
 
  handleChangeSelectstate = event => {
+   const  estado  = this.state.estado;
+   estado.id = event.value;
    this.setState({
-     estado : event.value
+     estado
    });
-    console.log('estado: ', event.value)
+    console.log('estado: ', estado)
      this.handlechangeMunicipalities(event.value);
+ }
 
+ handleChangeSelectPar = event => {
+   const parroquia = this.state.parroquia;
+   parroquia.id= event.value;
+   this.setState({
+     parroquia
+   });
+    console.log('parroquia: ', parroquia)
  }
 
  handleChangeSelectMun = event => {
+   const municipio = this.state.municipio;
+   municipio.id= event.value;
    this.setState({
-     municipio : event.value
+     municipio
    });
-    console.log('municipio: ', event.value)
+    console.log('municipio: ', municipio)
      this.handlechangeParish(event.value);
-
  }
 
  handleChangeSelectCategoryType = event => {
+   const categoria = this.state.categoria;
+   categoria.id = event.value;
    this.setState({
-     categoria : event.value
+     categoria
    });
- }
+   console.log("categoria: ", categoria);
+}
 
    handleChangeSelectDedicationTypes_p = event => {
-   this.setState({
-     dedicacion_p : event.value
-   });
+     const dedicacion_p = this.state.dedicacion_p;
+     dedicacion_p.id = event.value;
+     this.setState({
+       dedicacion_p
+     });
+     console.log("dedicacion_p: ", dedicacion_p);
  }
 
    handleChangeSelectingress = event => {
-   this.setState({
-     ingreso : event.value
-   });
+     const ingreso = this.state.ingreso;
+     ingreso.id = event.value
+     this.setState({
+       ingreso
+     });
+     console.log("ingreso: ", ingreso);
  }
 
    handleChangeSelectIncomeType = event => {
-   this.setState({
-     tip_ingreso : event.value
-   });
+     const tip_ingreso = this.state.tip_ingreso;
+     tip_ingreso.id = event.value;
+     this.setState({
+       tip_ingreso
+     });
+     console.log("tip_ingreso: ", tip_ingreso);
  }
 
 
@@ -228,7 +268,7 @@ class MovPersonal extends Component {
       this.setState({
         municipalityList: result
       })
-      console.log(this.state.municipalityList);
+      console.log("municipalityList: ",this.state.municipalityList);
     });
   }
 }
@@ -243,12 +283,15 @@ handlechangeParish = data => {
       this.setState({
         parroquiaList: result
       })
-      console.log(this.state.parroquiaList);
+      console.log("parroquiaList: ",this.state.parroquiaList);
     });
   }
 }
 
   render() {
+    const dedicacion_p = this.state.dedicacion_p;
+    const tip_ingreso = this.state.tip_ingreso;
+    const ingreso = this.state.ingreso;
     if (!this.state.isLoaded) {
       return (<div className="loader content"></div>);
     } else {
@@ -263,7 +306,7 @@ handlechangeParish = data => {
 
         <br></br>
 
-        <form className="row justify-content">
+        <form className="row justify-content" onSubmit={this.handleSubmit}>
 
         <div className="form-group col-md-3">
             <label htmlFor="nombre">Primer Nombre</label>
@@ -331,6 +374,7 @@ handlechangeParish = data => {
       <div className="form-group col-md-3">
             <label htmlFor="parroquia">Parroquia <label style={{color:'red'}}>*</label></label>
             <Select
+                   onChange={this.handleChangeSelectPar}
                    options={this.state.parroquiaList.map(mun =>(
                    {label: mun.parish, value : mun.ID}
                  ))}
@@ -338,18 +382,28 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="sector">Sector <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="sector" id="sector" placeholder="Sector" value={this.state.sector} onChange={this.handleChange}/>
+            <label htmlFor="ubicacion">Urbanizacion/Sector/Barrio <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="sector" id="sector" value={this.state.sector} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="calle">Calle <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="calle" id="calle" placeholder="Calle" value={this.state.calle} onChange={this.handleChange}/>
+            <label htmlFor="direccion">Calle/Av./Vereda <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="direccion" id="direccion" value={this.state.direccion} onChange={this.handleChange}/>
       </div>
 
-      <div className="form-group col-md-5">
-            <label htmlFor="num_casa_apart">Num casa o Apartamento <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="num_casa_apart" id="num_casa_apart" placeholder="Número de Casa o Apartamento" value={this.state.num_casa_apart} onChange={this.handleChange}/>
+      <div className="form-group col-md-3">
+            <label htmlFor="tip_vivienda">Resd./Edif./Casa <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="tip_vivienda" id="tip_vivienda" value={this.state.tip_vivienda} onChange={this.handleChange}/>
+      </div>
+
+      <div className="form-group col-md-3">
+            <label htmlFor="viviendaID">Piso/Nivel/Num. <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="viviendaID" id="viviendaID" value={this.state.viviendaID} onChange={this.handleChange}/>
+      </div>
+
+      <div className="form-group col-md-3">
+            <label htmlFor="apartamento">Apartamento <label style={{color:'red'}}>*</label></label>
+            <input className="form-control" type="text" name="apartamento" id="apartamento" value={this.state.apartamento} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-12">
@@ -359,25 +413,29 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="ingreso">Ingreso <label style={{color:'red'}}>*</label></label>
-          <Select
+          <label htmlFor="ingreso">Ingreso <label style={{color:'red'}}>*</label></label>
+        {ingreso.description !== '' && ingreso.id !== 0?
+          <input className="form-control" readOnly type="text" name="ingreso" value={this.state.ingreso.description}/>:
+        <Select
               onChange={this.handleChangeSelectingress}
               options={this.state.ingressList.map(ing =>(
               {label: ing.Ingress, value : ing.id}
             ))}
-            />
+            />}
       </div>
 
 
 
       <div className="form-group col-md-3">
             <label htmlFor="tip_ingreso">Tipo de Ingreso <label style={{color:'red'}}>*</label></label>
-        <Select
+    {tip_ingreso.description !== '' && tip_ingreso.id !== 0?
+      <input className="form-control" readOnly type="text" name="tip_ingreso" value={this.state.tip_ingreso.description}/>:
+      <Select
               onChange={this.handleChangeSelectIncomeType}
               options={this.state.IncomeType.map(income =>(
               {label: income.income, value : income.ID}
             ))}
-            />
+            />}
       </div>
 
 
@@ -399,7 +457,7 @@ handlechangeParish = data => {
 
     <div className="form-group col-md-3">
           <label htmlFor="catedra">Cátedra</label>
-          <input className="form-control" readOnly type="catedra" name="catedra" value={this.state.catedra}/>
+          <input className="form-control" readOnly type="text" name="catedra" value={this.state.catedra}/>
     </div>
     <div className="form-group col-md-3">
           <label htmlFor="idac">IDAC</label>
@@ -408,22 +466,25 @@ handlechangeParish = data => {
 
     <div className="form-group col-md-3">
           <label htmlFor="unidad_ejec">Unidad Ejecutora</label>
-            <input className="form-control" readOnly type="unidad_ejec" name="unidad_ejec" value={this.state.unidad_ejec}/>
+            <input className="form-control" readOnly type="text" name="unidad_ejec" value={this.state.unidad_ejec}/>
     </div>
 
       <div className="form-group col-md-3">
             <label htmlFor="dedicacion">Dedicación Actual</label>
-            <input className="form-control" readOnly type="dedicacion" name="dedicacion" value={this.state.dedicacion.description}/>
+            <input className="form-control" readOnly type="text" name="dedicacion" value={this.state.dedicacion.description}/>
       </div>
 
       <div className="form-group col-md-3">
             <label htmlFor="dedicacion_p">Dedicación Propuesta</label>
-       <Select
+      {dedicacion_p.description !== '' && dedicacion_p.id !== 0?
+        <input className="form-control" readOnly type="text" name="dedicacion_p" value={this.state.dedicacion_p.description}/>:
+        <Select
               onChange={this.handleChangeSelectDedicationTypes_p}
               options={this.state.DedicationTypes_p.map(dtp =>(
               {label: dtp.dedi, value : dtp.ID}
             ))}
             />
+        }
       </div>
 
 
@@ -440,7 +501,7 @@ handlechangeParish = data => {
 
          <div className="form-group col-md-3">
             <label htmlFor="sueldo"> Sueldo</label>
-            <input className="form-control" readOnly type="text" name="sueldo" placeholder="Sueldo" value={this.state.sueldo}/>
+            <input className="form-control" readOnly type="text" name="sueldo" placeholder="Sueldo" value={this.state.sueldo.description}/>
       </div>
 
 
@@ -456,7 +517,7 @@ handlechangeParish = data => {
 
   <div className="form-group col-md-3">
     <label htmlFor="anexo">Anexos <label style={{color:'red'}}>*</label></label>
-        <textarea name="anexo" required placeholder="Curriculum con sus anexos"></textarea>
+        <textarea name="anexo" readOnly required placeholder="Curriculum con sus anexos"></textarea>
   </div>
 
   <div className="form-group col-md-3">

@@ -14,27 +14,8 @@ import ClaveOlvidada from './user/olvidoClave';
 class routerPrincipal extends Component {
   render() {
     return (
-        <div>
         <Router>
         <div>
-        {/*<ul className="navbar-nav mr-auto">
-              <li className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
-              <Link to='/'>home</Link>
-              </li>
-              <li className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
-              <Link to='/Escuela'>Escuela</Link>
-              </li>
-              <li className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
-              <Link to='/Presupuesto'>Presupuesto</Link>
-              </li>
-              <li className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
-              <Link to='/RRHH'>RRHH</Link>
-              </li>
-               <li  className="nav-link" role="button" aria-haspopup="true" aria-expanded="false">
-              <Link to='/Admin'>admin</Link>
-              </li>
-          </ul>*/}
-
             <Switch>
                 <Route exact path="/" component={login} />
                 <Route  path="/Escuela" component={school} />
@@ -46,7 +27,6 @@ class routerPrincipal extends Component {
               </Switch>
               </div>
         </Router>
-        </div>
     )
   }
 }
