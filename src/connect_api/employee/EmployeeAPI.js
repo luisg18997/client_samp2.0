@@ -1,12 +1,12 @@
 const api = process.env.URL_API || 'http://localhost:5000/employee/';
 
 export const getAllGenderList = () => fetch(`${api}Genders`,
-{ 
-	method: 'GET', 
-	headers: { 
+{
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(gender => gender.map(gender =>({
@@ -18,12 +18,12 @@ export const getAllGenderList = () => fetch(`${api}Genders`,
 });
 
 export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
-{ 
-	method: 'GET', 
-	headers: { 
+{
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(CategoryTypes => CategoryTypes.map(CategoryTypes =>({
@@ -36,11 +36,11 @@ export const getAllCategoryTypesList = () => fetch(`${api}CategoryTypes`,
 
 export const getAllDedicationTypesList = () => fetch(`${api}DedicationTypes`,
 {
-	method: 'GET', 
-	headers: { 
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(DedicationTypes => DedicationTypes.map(DedicationTypes =>({
@@ -72,12 +72,12 @@ export const getAllExecuntingUnitListFilter = (codeFilter) => fetch(`${api}Execu
 });
 
 export const getAllNacionalitiesList = () => fetch(`${api}Nacionalities`,
-{ 
-	method: 'GET', 
-	headers: { 
+{
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(Nacionalities => Nacionalities.map(Nacionalities =>({
@@ -89,12 +89,12 @@ export const getAllNacionalitiesList = () => fetch(`${api}Nacionalities`,
 });
 
 export const getAllDocumentationList = () => fetch(`${api}Documentations`,
-{ 
-	method: 'GET', 
-	headers: { 
+{
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(documentation => documentation.map(doc =>({
@@ -106,12 +106,12 @@ export const getAllDocumentationList = () => fetch(`${api}Documentations`,
 });
 
 export const getAllIngressList = () => fetch(`${api}Ingress`,
-{ 
-	method: 'GET', 
-	headers: { 
+{
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(Ingress => Ingress.map(Ingress =>({
@@ -123,12 +123,12 @@ export const getAllIngressList = () => fetch(`${api}Ingress`,
 });
 
 export const getAllIncomeTypeList = () => fetch(`${api}IncomeTypes`,
-{ 
-	method: 'GET', 
-	headers: { 
+{
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(IncomeType => IncomeType.map(IncomeType =>({
@@ -141,12 +141,12 @@ export const getAllIncomeTypeList = () => fetch(`${api}IncomeTypes`,
 
 
 export const getAllStatesList = () => fetch(`${api}states`,
-{ 
-	method: 'GET', 
-	headers: { 
+{
+	method: 'GET',
+	headers: {
 		'Content-Type': 'application/json',
-		'Accept': 'application/json' 
-	} 
+		'Accept': 'application/json'
+	}
 })
 .then(res => res.json())
 .then(states => states.map(states =>({
@@ -217,4 +217,22 @@ export const getAllIdacCodesFilterVacantDateNotNullList = (execUnitIds) => fetch
 })))
 .catch((error) => {
 	console.log('The error is:', error.message);
+});
+
+
+export const getSalaryDedicationCategoryType = (dedicationID, categoryID) => fetch(`${api}Salary/CategoryType/DedicationType`,
+	{
+		method: 'post',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		},
+		body : JSON.stringify({
+			param_dedication_id : dedicationID,
+			param_category_id: categoryID
+		})
+	})
+	.then(res => res.json())
+	.catch((error) => {
+		console.log('The error is:', error.message);
 	});

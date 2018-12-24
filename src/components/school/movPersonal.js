@@ -6,7 +6,8 @@ import {
  getAllIngressList,
  getAllIncomeTypeList,
  getAllMunicipalitiesList,
- getAllParishList
+ getAllParishList,
+ getSalaryDedicationCategoryType
 } from '../../connect_api/employee/EmployeeAPI';
   import {
     getSchool
@@ -24,6 +25,8 @@ class MovPersonal extends Component {
         this.state = {
           empleadoID: "",
           empleadoSalarioID: "",
+          formOficeID: "",
+          formOficeMovPer: "",
           codigo: "",
           nombre: "",
           apellido: "",
@@ -62,6 +65,7 @@ class MovPersonal extends Component {
           sueldo: "",
           unidad_ejec: "",
           school: "",
+          motivo: "",
           isLoaded: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -82,6 +86,7 @@ class MovPersonal extends Component {
       console.log('result: ', result);
       this.setState({
         empleadoID : result.employee_id,
+        cedula: result.identification,
         nombre : result.first_name,
         snombre: result.second_name,
         apellido: result.surname,
@@ -110,6 +115,8 @@ class MovPersonal extends Component {
         municipio: result.municipality,
         parroquia: result.parish,
         empleadoSalarioID: result.employee_salary_id,
+        formOficeID: result.form_ofice_id,
+        formOficeMovPer: result.id,
         isLoaded: true
       })
       console.log("this.state: ", this.state)
@@ -182,6 +189,25 @@ class MovPersonal extends Component {
       codigo : result
     })
     console.log("codigo: ",this.state.codigo);
+    const employee = {
+      employee_id : this.state.eempleadoID,
+      state_id : this.state.estado.id,
+      municipality_id: this.state.municipio.id,
+      parish_id : this.state.parroquia.id,
+      ubication: this.state.ubicacion,
+      address: this.state.direccion,
+      housing_type: this.state.tip_vivienda,
+      housing_identifier: this.state.viviendaID,
+      apartament: this.state.apartamento,
+      ingress_id: this.state.ingreso.id,
+      income_type_id : this.state.tip_ingreso.id
+    }
+    const formMovPeronsal = {
+      code_form: result.movPer,
+      employee_form_ofice_form_person_movement_id: this.state.formOficeMovPer,
+      form_ofice_id : this.state.formOficeID,
+      reason: this.state.motivo
+    }
    });
 
  }
@@ -228,6 +254,21 @@ class MovPersonal extends Component {
      categoria
    });
    console.log("categoria: ", categoria);
+   this.handleChangeSalary(categoria.id);
+}
+
+handleChangeSalary = (data) => {
+  getSalaryDedicationCategoryType(this.state.dedicacion.id, data)
+  .then(result => {
+    console.log("salary: ", result)
+    const sueldo = this.state.sueldo;
+    sueldo.description = result.salary;
+    sueldo.id = result.id;
+    this.setState({
+      sueldo
+    })
+    console.log("sueldo: ", sueldo)
+  })
 }
 
    handleChangeSelectDedicationTypes_p = event => {
@@ -382,7 +423,7 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="ubicacion">Urbanizacion/Sector/Barrio <label style={{color:'red'}}>*</label></label>
+            <label htmlFor="ubicacion">Urb/Sector/Barrio <label style={{color:'red'}}>*</label></label>
             <input className="form-control" type="text" name="sector" id="sector" value={this.state.sector} onChange={this.handleChange}/>
       </div>
 
