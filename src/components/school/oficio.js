@@ -76,11 +76,11 @@ handleSubmit = event => {
   		nacionality_id : this.state.nacionalidad,
   		documentation_id : this.state.documento,
   		identification : this.state.cedula ,
-  		first_name : this.state.nombre,
-  		second_name: this.state.snombre,
+  		first_name : this.state.nombre.toUpperCase(),
+  		second_name: this.state.snombre.toUpperCase(),
       idac_id : this.state.idac,
-      surname: this.state.apellido,
-      second_surname : this.state.sapellido,
+      surname: this.state.apellido.toUpperCase(),
+      second_surname : this.state.sapellido.toUpperCase(),
       birth_date : this.state.fec_nac,
       gender_id : this.state.genero,
       email: this.state.email,
@@ -110,10 +110,14 @@ handleSubmit = event => {
   	.then(result => {
   		if(result === 1) {
   			alert('planilla de oficio creado exitosamente');
-  			this.props.history.push('/Escuela');
+        if (window.confirm("¿Desea registrar la planilla de Movmimiento?")) {
+          this.props.history.push('/Escuela/MovPersonal', {cedula:employee.identification});
+        } else {
+          this.props.history.push('/Escuela');
+        }
   		} else {
   			alert('planilla de oficio NO creado exitosamente');
-  			this.props.history.push('/Escuela');
+        this.props.history.push('/Escuela');
   		}
   	});
   });

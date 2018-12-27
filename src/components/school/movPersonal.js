@@ -14,7 +14,8 @@ import {
   } from '../../connect_api/faculty/FacultyAPI'
 import {
     codeMovPer,
-  getFormMovPersonal
+  getFormMovPersonal,
+  addNewFormMorPersonal,
 } from '../../connect_api/formData/formDataAPI'
 import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
@@ -190,24 +191,38 @@ class MovPersonal extends Component {
     })
     console.log("codigo: ",this.state.codigo);
     const employee = {
-      employee_id : this.state.eempleadoID,
+      employee_id : this.state.empleadoID,
       state_id : this.state.estado.id,
       municipality_id: this.state.municipio.id,
       parish_id : this.state.parroquia.id,
-      ubication: this.state.ubicacion,
-      address: this.state.direccion,
-      housing_type: this.state.tip_vivienda,
-      housing_identifier: this.state.viviendaID,
-      apartament: this.state.apartamento,
+      ubication: this.state.ubicacion.toUpperCase(),
+      address: this.state.direccion.toUpperCase(),
+      housing_type: this.state.tip_vivienda.toUpperCase(),
+      housing_identifier: this.state.viviendaID.toUpperCase(),
+      apartament: this.state.apartamento.toUpperCase(),
       ingress_id: this.state.ingreso.id,
-      income_type_id : this.state.tip_ingreso.id
+      income_type_id : this.state.tip_ingreso.id,
+      salary_id: this.state.sueldo.id
     }
+    console.log('employee: ', employee);
     const formMovPeronsal = {
       code_form: result.movPer,
       employee_form_ofice_form_person_movement_id: this.state.formOficeMovPer,
       form_ofice_id : this.state.formOficeID,
-      reason: this.state.motivo
+      reason: this.state.motivo.toUpperCase()
     }
+    console.log('formMovPeronsal: ', formMovPeronsal);
+    addNewFormMorPersonal(employee, formMovPeronsal, 0, this.state.empleadoSalarioID)
+    .then(result => {
+      console.log('result: ', result);
+      if(result === 1) {
+  			alert('planilla de Movimiento Personal creada exitosamente');
+  			this.props.history.push('/Escuela');
+  		} else {
+  			alert('planilla de Movimiento Persona NO creada exitosamente');
+  			this.props.history.push('/Escuela/Oficio/Listado');
+  		}
+    })
    });
 
  }
@@ -424,7 +439,7 @@ handlechangeParish = data => {
 
       <div className="form-group col-md-3">
             <label htmlFor="ubicacion">Urb/Sector/Barrio <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="sector" id="sector" value={this.state.sector} onChange={this.handleChange}/>
+            <input className="form-control" type="text" name="ubicacion" id="ubicacion" value={this.state.ubicacion} onChange={this.handleChange}/>
       </div>
 
       <div className="form-group col-md-3">
@@ -563,7 +578,7 @@ handlechangeParish = data => {
 
   <div className="form-group col-md-3">
     <label htmlFor="motivo">Motivos <label style={{color:'red'}}>*</label></label>
-        <textarea name="motivo" required placeholder="Indique el motivo de la Planilla"></textarea>
+        <textarea name="motivo" id="motivo" required placeholder="Indique el motivo de la Planilla" onChange={this.handleChange}></textarea>
   </div>
 
   <div className="form-group col-md-12">

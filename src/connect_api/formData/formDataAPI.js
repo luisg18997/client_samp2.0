@@ -37,6 +37,25 @@ export const addNewFormOfice = (employee, ofice, userID, employeeId) => fetch(`$
 	console.log('The error is:', error.message);
 });
 
+export const addNewFormMorPersonal = (employee, movPersonal, userID, employeeSalaryId) => fetch(`${api}movPersonal/addMovementPeronsal`,
+{
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
+	},
+	body : JSON.stringify({
+		param_employee : employee,
+		param_form_movement_personal : movPersonal,
+		param_user_id : userID,
+		param_employee_salary_id : employeeSalaryId
+	})
+})
+.then(res => res.json())
+.catch((error) => {
+	console.log('The error is:', error.message);
+});
+
 export const CodeOfice = (schoolID, instituteID, coordinationID) => fetch(`${api}ofice/CodeOfice`,
 {
 	method: 'POST',
