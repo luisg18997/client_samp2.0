@@ -1,11 +1,12 @@
 import React, { Component} from 'react';
 import { MDBDataTable } from 'mdbreact';
+import { MDBBtn } from 'mdbreact';
 import {
 	getFormsList
 }
 from '../../connect_api/formData/formDataAPI'
 
-class mainBudget extends Component {
+class ListPlanillas extends Component {
 	  constructor(){
 			super();
 			this.state={
@@ -58,7 +59,8 @@ class mainBudget extends Component {
 					movement_type : form.movement_type,
 					ubication : form.ubication,
 					registration_date : form.registration_date,
-					status_form : form.status_form
+					status_form : form.status_form,
+					button : <MDBBtn onClick={(e) => this.handleData(e,form.identification, form.form_type)} >Seleccionar</MDBBtn>
 				}));
 				this.setState({
 					table,
@@ -66,6 +68,10 @@ class mainBudget extends Component {
 				})
 				console.log('rows: ', this.state)
 			})
+		}
+		handleData = (e, identification, formType) => {
+			e.preventDefault();
+	    console.log("ListPlanillas: ",identification," ", formType);
 		}
 
 	render(){
@@ -88,4 +94,4 @@ class mainBudget extends Component {
 	}
 }
 
-export default mainBudget;
+export default ListPlanillas;

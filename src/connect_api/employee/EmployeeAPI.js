@@ -236,3 +236,21 @@ export const getSalaryDedicationCategoryType = (dedicationID, categoryID) => fet
 	.catch((error) => {
 		console.log('The error is:', error.message);
 	});
+
+
+export const getEmployeesList = (schoolID, instituteID, coordinationID) => fetch(`${api}list`, {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json'
+	},
+	body: JSON.stringify({
+		param_school_id : schoolID,
+		param_institute_id : instituteID,
+		param_coordination_id : coordinationID
+	})
+})
+.then(res => res.json())
+.catch((error) => {
+	console.log('The error is:', error.message);
+});
