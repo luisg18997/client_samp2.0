@@ -116,7 +116,7 @@ class MovPersonal extends Component {
         municipio: result.municipality,
         parroquia: result.parish,
         empleadoSalarioID: result.employee_salary_id,
-        formOficeID: result.form_ofice_id,
+        formOficeID: result.official_form_id,
         formOficeMovPer: result.id,
         isLoaded: true
       })

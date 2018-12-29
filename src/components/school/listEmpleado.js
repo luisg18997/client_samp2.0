@@ -62,7 +62,7 @@ class ListEmpleado extends Component {
    .then(result =>{
      console.log('getFormOficesList: ',result);
      const { table } = this.state;
-		 if (result !== undefined) {
+		 if (result.result !== 'not found') {
      table.rows = result.map(emp => ({
        name: emp.name,
        identification : emp.identification,

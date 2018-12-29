@@ -15,30 +15,36 @@ class ListOficio extends Component {
         columns: [
           {
             label:"Codigo de Planilla",
+						field:"code",
             sort: 'asc',
             width: 250
           },
           {
             label: "Nombre",
+						field:"name",
             sort: 'asc',
             width: 250
           },
           {
             label:"Tipo de Movimiento",
+						field:"movement_type",
             sort: 'asc',
             width: 350
           },
           {
             label:"Ubicacion",
+						field:"execunting_unit",
             sort: 'asc',
             width: 750
           },
           {
             label:"Idac",
+						field:"idac",
             sort: 'asc',
           },
           {
             label: "Fecha de Registro",
+						field:"registration_date",
             sort: 'asc',
             width: 350
           },
@@ -64,9 +70,9 @@ class ListOficio extends Component {
    .then(result =>{
      console.log('getFormOficesList: ',result);
      const { table } = this.state;
-		 if (result !== undefined) {
+		 if (result.result !== 'not found') {
 			 table.rows = result.map(form => ({
-	       codigo : form.code_form,
+	       code : form.code_form,
 	       name: form.name,
 	       movement_type : form.movement_type,
 	       execunting_unit : form.execunting_unit,
@@ -89,7 +95,6 @@ class ListOficio extends Component {
         return(
         <MDBDataTable
           striped
-          boder
           small
           data={this.state.table}
         />

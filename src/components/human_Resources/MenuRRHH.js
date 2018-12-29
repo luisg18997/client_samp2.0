@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import  { BrowserRouter as Router,Switch, Route, Link } from 'react-router-dom';
- import mainRRHH from './mainRRHH';
+import mainRRHH from './mainRRHH';
 import listado from './ListadoPlanillas';
+import OficioRev from './oficioRev';
 
 class MenuRRHH extends Component {
   render() {
@@ -22,8 +23,9 @@ class MenuRRHH extends Component {
             <Switch>
             <Route exact path='/RRHH' component={mainRRHH}/>
             <Route path='/RRHH/ListadoPlanillas' component={listado}/>
+            <Route path='/RRHH/Oficio/revision' component={OficioRev}/>
     </Switch>
-        
+
         </div>
         </Router>
       </div>
@@ -33,5 +35,3 @@ class MenuRRHH extends Component {
 
 
 export default MenuRRHH;
-
-

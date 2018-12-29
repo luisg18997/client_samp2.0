@@ -53,7 +53,7 @@ class ListPlanillas extends Component {
 			.then(result =>{
 				console.log('getFormsList: ',result);
 				const { table } = this.state;
-				if (result !== undefined) {
+				if (result.result !== 'not found') {
 				table.rows = result.map(form => ({
 					codigo : form.code_form,
 					tipo : form.form_type,
@@ -74,6 +74,9 @@ class ListPlanillas extends Component {
 		handleData = (e, identification, formType) => {
 			e.preventDefault();
 	    console.log("ListPlanillas: ",identification," ", formType);
+			if (formType === 'OFICIO') {
+				this.props.history.push('/RRHH/Oficio/revision', {cedula:identification});
+			}
 		}
 
 	render(){

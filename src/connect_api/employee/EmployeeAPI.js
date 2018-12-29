@@ -114,9 +114,9 @@ export const getAllIngressList = () => fetch(`${api}Ingress`,
 	}
 })
 .then(res => res.json())
-.then(Ingress => Ingress.map(Ingress =>({
-	id : Ingress.id,
-	Ingress : Ingress.ingres
+.then(Ingres => Ingres.map(Ingres =>({
+	id : Ingres.id,
+	Ingress : Ingres.ingres
 	})))
 .catch((error) => {
 	console.log('The error is:', error.message);
