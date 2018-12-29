@@ -62,6 +62,7 @@ class ListEmpleado extends Component {
    .then(result =>{
      console.log('getFormOficesList: ',result);
      const { table } = this.state;
+		 if (result !== undefined) {
      table.rows = result.map(emp => ({
        name: emp.name,
        identification : emp.identification,
@@ -71,10 +72,10 @@ class ListEmpleado extends Component {
        admission_date : emp.admission_date,
        button : <MDBBtn onClick={(e) => this.handleData(e,emp.identification)} >Seleccionar</MDBBtn>
      }));
+	 }
      this.setState({
        table,
-       isLoaded : true,
-       cedula: result.identification
+       isLoaded : true
      })
    })
  }

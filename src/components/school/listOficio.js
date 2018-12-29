@@ -64,19 +64,20 @@ class ListOficio extends Component {
    .then(result =>{
      console.log('getFormOficesList: ',result);
      const { table } = this.state;
-     table.rows = result.map(form => ({
-       codigo : form.code_form,
-       name: form.name,
-       movement_type : form.movement_type,
-       execunting_unit : form.execunting_unit,
-       idac: form.idac_code,
-       registration_date : form.registration_date,
-       button : <MDBBtn onClick={(e) => this.handleData(e,form.identification)} >Seleccionar</MDBBtn>
-     }));
+		 if (result !== undefined) {
+			 table.rows = result.map(form => ({
+	       codigo : form.code_form,
+	       name: form.name,
+	       movement_type : form.movement_type,
+	       execunting_unit : form.execunting_unit,
+	       idac: form.idac_code,
+	       registration_date : form.registration_date,
+	       button : <MDBBtn onClick={(e) => this.handleData(e,form.identification)} >Seleccionar</MDBBtn>
+	     }));
+		 }
      this.setState({
        table,
        isLoaded : true,
-       cedula: result.identification
      })
    })
  }

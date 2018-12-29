@@ -4,7 +4,7 @@ import MainSchool from './mainSchool';
 import FormOfice from './oficio';
 import listOficio from './listOficio';
 import MovPersonal from './movPersonal';
-import ListEmpleado from './ListEmpleado';
+import ListEmpleado from './listEmpleado';
 
 class MenuSchool extends Component {
   render() {

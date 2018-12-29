@@ -53,6 +53,7 @@ class ListPlanillas extends Component {
 			.then(result =>{
 				console.log('getFormsList: ',result);
 				const { table } = this.state;
+				if (result !== undefined) {
 				table.rows = result.map(form => ({
 					codigo : form.code_form,
 					tipo : form.form_type,
@@ -62,6 +63,7 @@ class ListPlanillas extends Component {
 					status_form : form.status_form,
 					button : <MDBBtn onClick={(e) => this.handleData(e,form.identification, form.form_type)} >Seleccionar</MDBBtn>
 				}));
+			}
 				this.setState({
 					table,
 					isLoaded : true
