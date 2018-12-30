@@ -1,98 +1,97 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import { MDBDataTable } from 'mdbreact';
 import { MDBBtn } from 'mdbreact';
 import {
-	getEmployeesList
+  getEmployeesList,
 }
-from '../../connect_api/employee/EmployeeAPI'
+  from '../../connect_api/employee/EmployeeAPI';
 // import MovPersonal from './movPersonal';
 
 class ListEmpleado extends Component {
   constructor() {
     super();
-    this.state={
-      table:{
+    this.state = {
+      table: {
         columns: [
           {
-            label: "Nombre",
+            label: 'Nombre',
             sort: 'asc',
-            width: 250
+            width: 250,
           },
           {
-            label:"Identificacion",
+            label: 'Identificacion',
             sort: 'asc',
-            width: 250
+            width: 250,
           },
           {
-            label:"Ubicacion",
+            label: 'Ubicacion',
             sort: 'asc',
-            width: 750
+            width: 750,
           },
           {
-            label:"Idac",
+            label: 'Idac',
             sort: 'asc',
           },
           {
-            label:"Tipo de Dedicacion",
+            label: 'Tipo de Dedicacion',
             sort: 'asc',
-            width: 250
+            width: 250,
           },
           {
-            label: "Fecha de Admision",
+            label: 'Fecha de Admision',
             sort: 'asc',
-            width: 350
+            width: 350,
           },
           {
-            label: "Acccion"
-          }
-        ]
+            label: 'Acccion',
+          },
+        ],
       },
-      isLoaded: false
-    }
+      isLoaded: false,
+    };
   }
 
-  handleData(e,identification){
+  handleData(e, identification) {
     e.preventDefault();
-    console.log("ListEmpleado: ",identification);
-    //this.props.history.push('/Escuela/Oficio', {cedula:identification});
+    console.log('ListEmpleado: ', identification);
+    // this.props.history.push('/Escuela/Oficio', {cedula:identification});
   }
 
-  componentWillMount(){
-   getEmployeesList(1,0,0)
-   .then(result =>{
-     console.log('getFormOficesList: ',result);
-     const { table } = this.state;
+  componentWillMount() {
+    getEmployeesList(1, 0, 0)
+      .then((result) => {
+        console.log('getFormOficesList: ', result);
+        const { table } = this.state;
 		 if (result.result !== 'not found') {
-     table.rows = result.map(emp => ({
-       name: emp.name,
-       identification : emp.identification,
-       execunting_unit : emp.execunting_unit,
-       idac: emp.idac_code,
-       dedication_type : emp.dedication_type,
-       admission_date : emp.admission_date,
-       button : <MDBBtn onClick={(e) => this.handleData(e,emp.identification)} >Seleccionar</MDBBtn>
-     }));
+          table.rows = result.map(emp => ({
+            name: emp.name,
+            identification: emp.identification,
+            execunting_unit: emp.execunting_unit,
+            idac: emp.idac_code,
+            dedication_type: emp.dedication_type,
+            admission_date: emp.admission_date,
+            button: <MDBBtn onClick={e => this.handleData(e, emp.identification)}>Seleccionar</MDBBtn>,
+          }));
 	 }
-     this.setState({
-       table,
-       isLoaded : true
-     })
-   })
- }
+        this.setState({
+          table,
+          isLoaded: true,
+        });
+      });
+  }
 
-  render(){
-      if (!this.state.isLoaded) {
-  			return (<div className="loader"></div>);
-  		} else {
-        return(
-        <MDBDataTable
-          striped
-          boder
-          small
-          data={this.state.table}
-        />
-      );
-    }
+  render() {
+    if (!this.state.isLoaded) {
+  			return (<div className="loader" />);
+  		}
+    return (
+      <MDBDataTable
+        striped
+        boder
+        small
+        data={this.state.table}
+      />
+    );
   }
 }
 

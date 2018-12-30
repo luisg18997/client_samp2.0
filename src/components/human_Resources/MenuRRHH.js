@@ -1,35 +1,40 @@
-import React, {Component} from 'react';
-import  { BrowserRouter as Router,Switch, Route, Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import {
+  BrowserRouter as Router, Switch, Route, Link,
+} from 'react-router-dom';
 import mainRRHH from './mainRRHH';
-import listado from './ListadoPlanillas';
+import ListPlanillas from './ListadoPlanillas';
 import OficioRev from './oficioRev';
 
 class MenuRRHH extends Component {
   render() {
-    return(
-       <div>
+    return (
+      <div>
         <Router>
 
 
-<div className="menu_gral">
+          <div className="menu_gral">
 
- <ul>
-     <li    style={{ background: '#0a6d84'}}><Link to='/RRHH' >Principal</Link></li>
+            <ul>
+              <li style={{ background: '#0a6d84' }}><Link to="/RRHH">Principal</Link></li>
 
-     <li> <Link to="/RRHH/ListadoPlanillas">Listado Planillas</Link></li>
+              <li>
+                {' '}
+                <Link to="/RRHH/ListadoPlanillas">Listado Planillas</Link>
+              </li>
 
 
-  </ul>
+            </ul>
             <Switch>
-            <Route exact path='/RRHH' component={mainRRHH}/>
-            <Route path='/RRHH/ListadoPlanillas' component={listado}/>
-            <Route path='/RRHH/Oficio/revision' component={OficioRev}/>
-    </Switch>
+              <Route exact path="/RRHH" component={mainRRHH} />
+              <Route path="/RRHH/ListadoPlanillas" component={ListPlanillas} />
+              <Route path="/RRHH/Oficio/revision" component={OficioRev} />
+            </Switch>
 
-        </div>
+          </div>
         </Router>
       </div>
-    )
+    );
   }
 }
 

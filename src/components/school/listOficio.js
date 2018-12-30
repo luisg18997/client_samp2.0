@@ -1,105 +1,104 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import { MDBDataTable } from 'mdbreact';
 import { MDBBtn } from 'mdbreact';
 import {
-	getFormOficesList
+  getFormOficesList,
 }
-from '../../connect_api/formData/formDataAPI'
+  from '../../connect_api/formData/formDataAPI';
 // import MovPersonal from './movPersonal';
 
 class ListOficio extends Component {
   constructor() {
     super();
-    this.state={
-      table:{
+    this.state = {
+      table: {
         columns: [
           {
-            label:"Codigo de Planilla",
-						field:"code",
+            label: 'Codigo de Planilla',
+            field: 'code',
             sort: 'asc',
-            width: 250
+            width: 250,
           },
           {
-            label: "Nombre",
-						field:"name",
+            label: 'Nombre',
+            field: 'name',
             sort: 'asc',
-            width: 250
+            width: 250,
           },
           {
-            label:"Tipo de Movimiento",
-						field:"movement_type",
+            label: 'Tipo de Movimiento',
+            field: 'movement_type',
             sort: 'asc',
-            width: 350
+            width: 350,
           },
           {
-            label:"Ubicacion",
-						field:"execunting_unit",
+            label: 'Ubicacion',
+            field: 'execunting_unit',
             sort: 'asc',
-            width: 750
+            width: 750,
           },
           {
-            label:"Idac",
-						field:"idac",
+            label: 'Idac',
+            field: 'idac',
             sort: 'asc',
           },
           {
-            label: "Fecha de Registro",
-						field:"registration_date",
+            label: 'Fecha de Registro',
+            field: 'registration_date',
             sort: 'asc',
-            width: 350
+            width: 350,
           },
           {
-            label: "Acccion"
-          }
-        ]
+            label: 'Acccion',
+          },
+        ],
       },
-      isLoaded: false
-    }
+      isLoaded: false,
+    };
   }
 
-  handleData(e,identification){
+  handleData(e, identification) {
     e.preventDefault();
-    console.log("ListOficio: ",identification);
-    //const movPersonal = new MovPersonal(identification);
-    this.props.history.push('/Escuela/MovPersonal', {cedula:identification});
+    console.log('ListOficio: ', identification);
+    // const movPersonal = new MovPersonal(identification);
+    this.props.history.push('/Escuela/MovPersonal', { cedula: identification });
     // movPersonal.handleDataReceived(identification);
   }
 
-  componentWillMount(){
-   getFormOficesList(1,0,0)
-   .then(result =>{
-     console.log('getFormOficesList: ',result);
-     const { table } = this.state;
+  componentWillMount() {
+    getFormOficesList(1, 0, 0)
+      .then((result) => {
+        console.log('getFormOficesList: ', result);
+        const { table } = this.state;
 		 if (result.result !== 'not found') {
 			 table.rows = result.map(form => ({
-	       code : form.code_form,
+	       code: form.code_form,
 	       name: form.name,
-	       movement_type : form.movement_type,
-	       execunting_unit : form.execunting_unit,
+	       movement_type: form.movement_type,
+	       execunting_unit: form.execunting_unit,
 	       idac: form.idac_code,
-	       registration_date : form.registration_date,
-	       button : <MDBBtn onClick={(e) => this.handleData(e,form.identification)} >Seleccionar</MDBBtn>
+	       registration_date: form.registration_date,
+	       button: <MDBBtn onClick={e => this.handleData(e, form.identification)}>Seleccionar</MDBBtn>,
 	     }));
 		 }
-     this.setState({
-       table,
-       isLoaded : true,
-     })
-   })
- }
+        this.setState({
+          table,
+          isLoaded: true,
+        });
+      });
+  }
 
-  render(){
-      if (!this.state.isLoaded) {
-  			return (<div className="loader"></div>);
-  		} else {
-        return(
-        <MDBDataTable
-          striped
-          small
-          data={this.state.table}
-        />
-      );
-    }
+  render() {
+    if (!this.state.isLoaded) {
+  			return (<div className="loader" />);
+  		}
+    return (
+      <MDBDataTable
+        striped
+        small
+        data={this.state.table}
+      />
+    );
   }
 }
 

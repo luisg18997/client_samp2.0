@@ -20,33 +20,32 @@ class RegistroUsuario extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+	componentDidMount() {
+		getAllUbicationsList()
+		.then(result => {
+			this.setState({
+				ubicacionList : result
+			});
+			console.log(this.state);
+		})
+	}
 
-  handleChangeSelectub = event => {
+	handleChangeSelectub(event){
 		console.log("event: ", event.value);
    this.setState({
      ubicacion : event.value
    });
-	 console.log("ubicacion: ", this.state.ubicacion);
+	console.log("ubicacion: ", this.state.ubicacion);
  }
 
-  handleChange = event => {
+  handleChange(event) {
     this.setState({
       [event.target.id]: event.target.value
     });
 		console.log(this.state);
   }
 
-	componentDidMount() {
-	 getAllUbicationsList()
-	 .then(result => {
-		 this.setState({
-			 ubicacionList : result
-		 });
-		 console.log(this.state);
-	 })
-	}
-
-  handleSubmit = event => {
+  handleSubmit(event) {
     event.preventDefault();
 		addNewUser(this.state)
 		.then(result => {
@@ -60,13 +59,14 @@ class RegistroUsuario extends Component {
 		});
   }
 	render(){
+		const ubicacion = this.state.ubicacion
 		return(
 			<Container  className="mt-1">
 				<Row className="mt-2">
-			 <Col>
-			    <p className="h2 text-center mb-6">Registro de Usuario</p>
-		<form onSubmit={this.handleSubmit}>
-		        <div className="grey-text">
+					<Col>
+						<p className="h2 text-center mb-6">Registro de Usuario</p>
+						<form onSubmit={this.handleSubmit}>
+							<div className="grey-text">
 							<MDBInput
 								label="nombre"
 								type="text"
@@ -106,29 +106,30 @@ class RegistroUsuario extends Component {
 								required
               />
 						<MDBInput
-	                label="Confirmar clave"
-	                type="password"
-	                id="confiClave"
-	                onChange={this.handleChange}
-									value={this.state.confiClave}
-									validate
-									required
-	              />
+							label="Confirmar clave"
+							type="password"
+							id="confiClave"
+							onChange={this.handleChange}
+							value={this.state.confiClave}
+							validate
+							required
+							/>
 							<label htmlFor="ubicacion"> Ubicación</label>
 					<Select
+							value={ubicacion}
 							placeholder={'ubicacion'}
-			        onChange={this.handleChangeSelectub}
-			        options={this.state.ubicacionList.map(ub =>(
-			          {label: ub.Ubicacion, value : ub.ID}
-			        ))}
-			        />
+							onChange={this.handleChangeSelectub}
+							options={this.state.ubicacionList.map(ub =>(
+								{label: ub.Ubicacion, value : ub.ID}
+							))}
+							/>
 
 					</div>
 					<br></br>
 <div  className="form-group col-md-12">
 	<div className="row justify-content-center">
-        		<MDBBtn color="primary" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
-        			<MDBBtn color="primary" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
+		<MDBBtn color="primary" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+		<MDBBtn color="primary" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
 </div>
 </div>
 			</form>

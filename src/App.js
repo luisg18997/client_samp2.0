@@ -6,9 +6,9 @@ import Footer from './components/util/footer';
 class App extends Component {
   render() {
     return (
-      <div className = "App">
-         <Header />
-         <Contet />
+      <div className="App">
+        <Header />
+        <Contet />
         <Footer />
       </div>
     );
