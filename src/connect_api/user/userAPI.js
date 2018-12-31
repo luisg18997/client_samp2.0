@@ -77,14 +77,32 @@ export const addNewUser = userNew => fetch(`${api}NewUser`,
       Accept: 'application/json',
     },
     body: JSON.stringify({
-      param_name: userNew.nombre,
-      param_surname: userNew.apellido,
+      param_name: userNew.name,
+      param_surname: userNew.surname,
       param_email: userNew.email,
-      param_password: userNew.clave,
-      param_ubication_id: userNew.ubicacion,
+      param_password: userNew.password,
+      param_ubication_id: userNew.ubication,
+      param_ubication_user_id: userNew.ubicationUserID,
     }),
   })
   .then(res => res.json())
   .catch((error) => {
     console.log('The error is:', error.message);
   });
+
+  export const login = (email, password) => fetch(`${api}Login`,
+    {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        param_email: email,
+        param_password: password,
+      }),
+    })
+    .then(res => res.json())
+    .catch((error) => {
+      console.log('The error is:', error.message);
+    });

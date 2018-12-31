@@ -2,7 +2,15 @@ import React, { Component} from 'react';
 import  { Link } from 'react-router-dom';
 import { Container, Row, Col, MDBInput, MDBBtn } from 'mdbreact';
 import Select from 'react-select';
-import { getAllUbicationsList, addNewUser } from '../../connect_api/user/userAPI';
+import {
+	getAllUbicationsList,
+	 addNewUser
+  } from '../../connect_api/user/userAPI';
+import {
+getSchoolList,
+getInstituteList,
+getCoordinationList
+} from '../../connect_api/faculty/FacultyAPI';
 
 class RegistroUsuario extends Component {
 	constructor(){
@@ -14,11 +22,16 @@ class RegistroUsuario extends Component {
       clave: "",
 			confiClave:"",
       ubicacionList: [],
-			ubicacion: ""
+			ubicacion: "",
+			schoolList: [],
+			instituteList : [],
+			coordinationList: [],
+			ubicacionUsuario: 0
     }
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+		this.handleChangeSelectubUser = this.handleChangeSelectubUser.bind(this);
   }
 	componentDidMount() {
 		getAllUbicationsList()
@@ -32,11 +45,61 @@ class RegistroUsuario extends Component {
 
 	handleChangeSelectub(event){
 		console.log("event: ", event.value);
-   this.setState({
-     ubicacion : event.value
-   });
-	console.log("ubicacion: ", this.state.ubicacion);
- }
+		this.setState({
+			ubicacion : event.value,
+			ubicacionUsuario : 0,
+			schoolList: [],
+			instituteList: [],
+			coordinationList: []
+		});
+		console.log("ubicacion: ", this.state.ubicacion);
+		console.log("ubicacionUsuario: ", this.state.ubicacionUsuario);
+		if (event.value === 2) {
+			this.handleChangeSchoolList();
+		} else if (event.value === 3) {
+			this.handleChangeInstitutelList();
+		} else if (event.value === 4) {
+			this.handleChangeCoordinationList();
+ 		}
+}
+
+handleChangeSchoolList(){
+	getSchoolList()
+	.then(result => {
+		this.setState({
+			schoolList : result
+		})
+		console.log("schoolList: ", this.state.schoolList)
+	})
+}
+
+handleChangeInstitutelList(){
+	getInstituteList()
+	.then(result => {
+		this.setState({
+			instituteList : result
+		})
+		console.log("instituteList: ", this.state.instituteList)
+	})
+}
+
+handleChangeCoordinationList(){
+	getCoordinationList()
+	.then(result => {
+		this.setState({
+			coordinationList : result
+		})
+		console.log("coordinationList: ", this.state.coordinationList)
+	})
+}
+
+handleChangeSelectubUser(event){
+	console.log("event: ", event.value);
+	this.setState({
+		ubicacionUsuario : event.value
+	})
+	console.log("ubicacionUsuario: ", this.state.ubicacionUsuario);
+}
 
   handleChange(event) {
     this.setState({
@@ -47,7 +110,16 @@ class RegistroUsuario extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-		addNewUser(this.state)
+		const user = {
+			name : this.state.nombre.toUpperCase(),
+			surname : this.state.apellido.toUpperCase(),
+			email: this.state.email,
+			password: this.state.clave,
+			ubication: this.state.ubicacion,
+			ubicationUserID: this.state.ubicacionUsuario
+		}
+		console.log("user: ", user);
+		addNewUser(user)
 		.then(result => {
 			if(result === 1) {
 				alert('usuario creado exitosamente');
@@ -58,6 +130,7 @@ class RegistroUsuario extends Component {
 			}
 		});
   }
+
 	render(){
 		const ubicacion = this.state.ubicacion
 		return(
@@ -116,14 +189,37 @@ class RegistroUsuario extends Component {
 							/>
 							<label htmlFor="ubicacion"> Ubicación</label>
 					<Select
-							value={ubicacion}
 							placeholder={'ubicacion'}
 							onChange={this.handleChangeSelectub}
 							options={this.state.ubicacionList.map(ub =>(
 								{label: ub.Ubicacion, value : ub.ID}
 							))}
 							/>
-
+						<br/>
+							{ubicacion === 2?
+								<Select
+								placeholder={'Escuela'}
+								onChange={this.handleChangeSelectubUser}
+								options={this.state.schoolList.map(ub =>(
+									{label: ub.name, value : ub.ID}
+								))}
+								/>:ubicacion === 3?
+								<Select
+								placeholder={'Instituto'}
+								onChange={this.handleChangeSelectubUser}
+								options={this.state.instituteList.map(ub =>(
+									{label: ub.name, value : ub.ID}
+								))}
+								/>:ubicacion === 4?
+								<Select
+								placeholder={'Coordinacion'}
+								onChange={this.handleChangeSelectubUser}
+								options={this.state.coordinationList.map(ub =>(
+									{label: ub.name, value : ub.ID}
+								))}
+								/>
+								:<label></label>
+							}
 					</div>
 					<br></br>
 <div  className="form-group col-md-12">

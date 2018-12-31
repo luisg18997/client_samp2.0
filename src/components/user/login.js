@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import {Link} from 'react-router-dom';
+import {
+	login
+  } from '../../connect_api/user/userAPI';
 
 export default class Login extends Component {
   constructor(props) {
@@ -25,6 +28,10 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    login(this.state.email, this.state.password)
+    .then(result => {
+      console.log("user: ", result);
+    })
   }
 
   render() {
@@ -37,7 +44,6 @@ export default class Login extends Component {
           <p className="h4 text-center mb-5">Ingresa</p>
           <div className="grey-text">
             <MDBInput
-              icon="envelope"
               label="email"
               type="email"
               id="email"
@@ -46,7 +52,6 @@ export default class Login extends Component {
               />
             <MDBInput
                 label="Contraseña"
-                icon="lock"
                 type="password"
                 id="password"
                 onChange={this.handleChange}

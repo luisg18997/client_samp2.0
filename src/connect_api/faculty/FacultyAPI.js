@@ -18,7 +18,7 @@ export const getSchoolList = () => fetch(`${api}schools`,
     console.log('The error is:', error.message);
   });
 
-export const getAllInstituteList = () => fetch(`${api}institutes`,
+export const getInstituteList = () => fetch(`${api}institutes`,
   {
     method: 'GET',
     headers: {
@@ -30,13 +30,13 @@ export const getAllInstituteList = () => fetch(`${api}institutes`,
   .then(institutes => institutes.map(institutes => ({
     ID: institutes.id,
     code: institutes.code,
-    name: institutes.name,
+    name: institutes.institute,
   })))
   .catch((error) => {
     console.log('The error is:', error.message);
   });
 
-export const getAllCoordinationList = () => fetch(`${api}coordinations`,
+export const getCoordinationList = () => fetch(`${api}coordinations`,
   {
     method: 'GET',
     headers: {
@@ -48,7 +48,7 @@ export const getAllCoordinationList = () => fetch(`${api}coordinations`,
   .then(coordinations => coordinations.map(coordinations => ({
     ID: coordinations.id,
     code: coordinations.code,
-    name: coordinations.name,
+    name: coordinations.coordination,
   })))
   .catch((error) => {
     console.log('The error is:', error.message);
