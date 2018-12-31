@@ -24,14 +24,19 @@ class RegistroUsuario extends Component {
       ubicacionList: [],
 			ubicacion: "",
 			schoolList: [],
+			escuela: 0,
 			instituteList : [],
+			instituto: 0,
 			coordinationList: [],
+			coordinacion: 0,
 			ubicacionUsuario: 0
     }
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-		this.handleChangeSelectubUser = this.handleChangeSelectubUser.bind(this);
+		this.handleChangeSelectschool = this.handleChangeSelectschool.bind(this);
+		this.handleChangeSelectInst = this.handleChangeSelectInst.bind(this);
+		this.handleChangeSelectCoord = this.handleChangeSelectCoord.bind(this);
   }
 	componentDidMount() {
 		getAllUbicationsList()
@@ -47,7 +52,9 @@ class RegistroUsuario extends Component {
 		console.log("event: ", event.value);
 		this.setState({
 			ubicacion : event.value,
-			ubicacionUsuario : 0,
+			escuela: 0,
+			instituto: 0,
+			coordinacion : 0,
 			schoolList: [],
 			instituteList: [],
 			coordinationList: []
@@ -93,12 +100,28 @@ handleChangeCoordinationList(){
 	})
 }
 
-handleChangeSelectubUser(event){
+handleChangeSelectschool(event){
 	console.log("event: ", event.value);
 	this.setState({
-		ubicacionUsuario : event.value
+		escuela : event.value
 	})
-	console.log("ubicacionUsuario: ", this.state.ubicacionUsuario);
+	console.log("escuela: ", this.state.escuela);
+}
+
+handleChangeSelectInst(event){
+	console.log("event: ", event.value);
+	this.setState({
+		instituto : event.value
+	})
+	console.log("instituto: ", this.state.instituto);
+}
+
+handleChangeSelectCoord(event){
+	console.log("event: ", event.value);
+	this.setState({
+		coordinacion : event.value
+	})
+	console.log("coordinacion: ", this.state.coordinacion);
 }
 
   handleChange(event) {
@@ -116,7 +139,9 @@ handleChangeSelectubUser(event){
 			email: this.state.email,
 			password: this.state.clave,
 			ubication: this.state.ubicacion,
-			ubicationUserID: this.state.ubicacionUsuario
+			schoolID: this.state.escuela,
+			coordinationID: this.state.coordinacion,
+			instituteID:this.state.instituto,
 		}
 		console.log("user: ", user);
 		addNewUser(user)
@@ -199,21 +224,21 @@ handleChangeSelectubUser(event){
 							{ubicacion === 2?
 								<Select
 								placeholder={'Escuela'}
-								onChange={this.handleChangeSelectubUser}
+								onChange={this.handleChangeSelectschool}
 								options={this.state.schoolList.map(ub =>(
 									{label: ub.name, value : ub.ID}
 								))}
 								/>:ubicacion === 3?
 								<Select
 								placeholder={'Instituto'}
-								onChange={this.handleChangeSelectubUser}
+								onChange={this.handleChangeSelectInst}
 								options={this.state.instituteList.map(ub =>(
 									{label: ub.name, value : ub.ID}
 								))}
 								/>:ubicacion === 4?
 								<Select
 								placeholder={'Coordinacion'}
-								onChange={this.handleChangeSelectubUser}
+								onChange={this.handleChangeSelectCoord}
 								options={this.state.coordinationList.map(ub =>(
 									{label: ub.name, value : ub.ID}
 								))}

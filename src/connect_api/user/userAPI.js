@@ -82,7 +82,9 @@ export const addNewUser = userNew => fetch(`${api}NewUser`,
       param_email: userNew.email,
       param_password: userNew.password,
       param_ubication_id: userNew.ubication,
-      param_ubication_user_id: userNew.ubicationUserID,
+      param_school_id: userNew.schoolID,
+      param_institute_id: userNew.instituteID,
+      param_coordination_id: userNew.coordinationID,
     }),
   })
   .then(res => res.json())
