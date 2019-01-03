@@ -75,7 +75,10 @@ class ListPlanillas extends Component {
 			e.preventDefault();
 	    console.log("ListPlanillas: ",identification," ", formType);
 			if (formType === 'OFICIO') {
-				this.props.history.push('/RRHH/Oficio/revision', {cedula:identification});
+				this.props.history.replace('/RRHH/Oficio/revision',
+				{
+					cedula:identification,
+					ubication_id: 5});
 			}
 		}
 

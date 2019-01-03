@@ -143,3 +143,19 @@ export const getFormMovPersonal = identification => fetch(`${api}movPersonal`, {
   .catch((error) => {
     console.log('The error is:', error.message);
   });
+
+  export const getFormOfficial = (identification, ubication) => fetch(`${api}official`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      param_identification: identification,
+      param_ubication_id : ubication
+    }),
+  })
+    .then(res => res.json())
+    .catch((error) => {
+      console.log('The error is:', error.message);
+    });
