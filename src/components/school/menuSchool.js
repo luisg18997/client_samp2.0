@@ -18,9 +18,9 @@ class MenuSchool extends Component {
           <div className="menu_gral">
 
             <ul>
-              <li style={{ background: '#0a6d84' }}><Link to="/Escuela">Escuela</Link></li>
+              <li ><Link to="/Escuela">Escuela</Link></li>
               <li>
-                <label>Planilla de oficio</label>
+                <label style={{'color':' #54b4eb'}} >Planilla de oficio</label>
                 <ul>
                   <li><Link to="/Escuela/Oficio/Nuevo">Nuevo</Link></li>
                   <li><Link to="/Escuela/Empleado/Listado">Existente</Link></li>
