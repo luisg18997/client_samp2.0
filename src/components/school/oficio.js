@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
+import {Label, LabelRequired} from '../util/forms';
 import {
   getAllDepartamentBySchoolList,
   getAllChairList,
@@ -36,7 +37,7 @@ class Oficio extends Component {
     email: "",
     genero: "",
     generoList : [],
-    fec_nac: "",
+    fec_nac: "00/00/0000",
     telef_mov: "",
     telef_loc: "",
     tip_mov: "",
@@ -48,8 +49,8 @@ class Oficio extends Component {
     schoolData: [],
     catedra: "",
     catedraList: [],
-    fecha_ini: "",
-    fecha_fin: "",
+    fecha_ini: "00/00/0000",
+    fecha_fin: "00/00/0000",
     idac: "",
     idacList: [],
     unidad_ejec: "",
@@ -221,6 +222,7 @@ handleChangeExecUnit = data => {
    this.setState({
      [event.target.id]: event.target.value
    });
+   console.log(event.target.id,": ", event.target.value);
  }
 
 handlechangeChair = data => {
@@ -313,35 +315,24 @@ handleChangeSelecIdac = event => {
 
 render() {
   return (
-
-
-
     <div className="content">
-
-
     <h3 align="center"><strong>Registro de Planilla Oficio</strong></h3>
     <hr></hr>
-
       <form className="row justify-content-center" onSubmit={this.handleSubmit}>
+        <div className="form-group col-md-3">
+          {Label(LabelRequired('Primer Nombre'), 'text','nombre',this.state.nombre,this.handleChange, true)}
+        </div>
 
       <div className="form-group col-md-3">
-        <label htmlFor="nombre">Primer Nombre  <label style={{color:'red'}}>*</label></label>
-        <input className="form-control" type="text" name="nombre" id="nombre" placeholder="P. Nombre"  value={this.state.nombre} onChange={this.handleChange} required/>
-    </div>
+        {Label('Segundo Nombre','text', 'snombre',this.state.snombre,this.handleChange, false)}
+      </div>
+
+      <div className="form-group col-md-3">
+        {Label(LabelRequired('Primer Apellido'),'text', 'apellido',this.state.apellido,this.handleChange, true)}
+      </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="snombre"> Segundo Nombre  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="snombre" id="snombre" placeholder="S. Nombre"  value={this.state.snombre} onChange={this.handleChange}/>
-    </div>
-
-    <div className="form-group col-md-3">
-          <label htmlFor="apellido">Primer Apellido <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="apellido" id="apellido" placeholder="P. Apellido"  value={this.state.apellido} onChange={this.handleChange} required/>
-    </div>
-
-    <div className="form-group col-md-3">
-          <label htmlFor="sapellido">Segundo Apellido</label>
-          <input className="form-control" type="text" name="sapellido" id="sapellido" placeholder="S. Apellido" value={this.state.sapellido} onChange={this.handleChange}/>
+        {Label('Segundo Apellido','text', 'sapellido',this.state.sapellido,this.handleChange, false)}
     </div>
 
     <div className="form-group col-md-3">
@@ -364,13 +355,11 @@ render() {
           />
     </div>
     <div className="form-group col-md-3">
-          <label htmlFor="cedula"> Cédula  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="cedula" id="cedula" placeholder="Cédula"  value={this.state.cedula} onChange={this.handleChange} required/>
+        {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true)}
     </div>
 
     <div className="form-group col-md-3">
-      <label htmlFor="email"> Email  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="email" id="email" placeholder="Correo"  value={this.state.email} onChange={this.handleChange} required/>
+      {Label(LabelRequired('Email'),'email', 'email',this.state.email,this.handleChange, true)}
     </div>
 
     <div className="form-group col-md-3">
@@ -384,18 +373,15 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-      <label htmlFor="fec_nac">Fecha de Nacimiento  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="date" name="fec_nac" id="fec_nac"  value={this.state.fec_nac} onChange={this.handleChange} required/>
+      {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac,this.handleChange, true)}
     </div>
 
     <div className="form-group col-md-3">
-      <label htmlFor="telef_mov">Teléfono Móvil  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="telef_mov" id="telef_mov" placeholder="Teléfono Movil"  value={this.state.telef_mov} onChange={this.handleChange} required/>
+      {Label(LabelRequired('Teléfono Móvil'),'text', 'telef_mov',this.state.telef_mov,this.handleChange, true)}
     </div>
 
     <div className="form-group col-md-3">
-      <label htmlFor="telef_loc">Teléfono Local  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="text" name="telef_loc" id="telef_loc" placeholder="Teléfono Local"  value={this.state.telef_loc} onChange={this.handleChange} required/>
+      {Label(LabelRequired('Teléfono Local'),'text', 'telef_loc',this.state.telef_loc,this.handleChange, true)}
     </div>
 
   <div className="form-group col-md-3">
@@ -439,13 +425,11 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-      <label htmlFor="fecha_ini">Fecha de Inicio  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="date" name="fecha_ini" id="fecha_ini"  value={this.state.fecha_ini} onChange={this.handleChange} required/>
+      {Label(LabelRequired('Fecha de Inicio'),'date', 'fecha_ini',this.state.fecha_ini,this.handleChange)}
     </div>
 
     <div className="form-group col-md-3">
-      <label htmlFor="fecha_fin">Fecha de Fin  <label style={{color:'red'}}>*</label></label>
-          <input className="form-control" type="date" name="fecha_fin" id="fecha_fin"  value={this.state.fecha_fin} onChange={this.handleChange} required/>
+      {Label(LabelRequired('Fecha de Fin'),'date', 'fecha_fin',this.state.fecha_fin,this.handleChange)}
     </div>
 
     <div className="form-group col-md-3">

@@ -1,7 +1,8 @@
 import React, { Component} from 'react';
 import  { Link } from 'react-router-dom';
-import { Container, Row, Col, MDBInput, MDBBtn } from 'mdbreact';
+import { Container, Row, Col, MDBBtn } from 'mdbreact';
 import Select from 'react-select';
+import {Label, LabelRequired} from '../util/forms';
 import {
 	getAllUbicationsList,
 	 addNewUser
@@ -148,10 +149,10 @@ handleChangeSelectCoord(event){
 		.then(result => {
 			if(result === 1) {
 				alert('usuario creado exitosamente');
-				this.props.history.push('/');
+				this.props.history.replace('/');
 			} else {
 				alert('usuario ya existente');
-				this.props.history.push('/Registro');
+				this.props.history.replace('/Registro');
 			}
 		});
   }
@@ -165,53 +166,16 @@ handleChangeSelectCoord(event){
 						<p className="h2 text-center mb-6">Registro de Usuario</p>
 						<form onSubmit={this.handleSubmit}>
 							<div className="grey-text">
-							<MDBInput
-								label="nombre"
-								type="text"
-								onChange={this.handleChange}
-								id="nombre"
-								value={this.state.nombre}
-								required
-								validate
-								className="is-valid"
-								/>
+								{Label(LabelRequired('nombre'),'text','nombre',this.state.nombre,this.handleChange,true)}
 
-						<MDBInput
-							label="Apellido"
-							type="text"
-							id="apellido"
-							onChange={this.handleChange}
-							value={this.state.apellido}
-							required
-							validate
-							/>
-					<MDBInput
-              label="email"
-              type="email"
-              id="email"
-              onChange={this.handleChange}
-							value={this.state.email}
-              validate
-							required
-              />
-						<MDBInput
-                label="clave"
-                type="password"
-                id="clave"
-                onChange={this.handleChange}
-								value={this.state.clave}
-								validate
-								required
-              />
-						<MDBInput
-							label="Confirmar clave"
-							type="password"
-							id="confiClave"
-							onChange={this.handleChange}
-							value={this.state.confiClave}
-							validate
-							required
-							/>
+								{Label(LabelRequired('Apellido'),'text','apellido',this.state.apellido,this.handleChange,true)}
+
+								{Label(LabelRequired('email'),'email','email',this.state.email,this.handleChange, true)}
+
+								{Label(LabelRequired('clave'),'password','clave',this.state.clave,this.handleChange)}
+
+								{Label(LabelRequired('Confirmar clave'),'password','confiClave',this.state.confiClave,this.handleChange)}
+
 							<label htmlFor="ubicacion"> Ubicación</label>
 					<Select
 							placeholder={'ubicacion'}

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import {Link} from 'react-router-dom';
+import {Label} from '../util/forms';
 import {
 	login
   } from '../../connect_api/user/userAPI';
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-
+  constructor() {
+    super();
     this.state = {
       email: "",
       password: ""
@@ -43,20 +43,8 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <p className="h4 text-center mb-5">Ingresa</p>
           <div className="grey-text">
-            <MDBInput
-              label="email"
-              type="email"
-              id="email"
-              onChange={this.handleChange}
-              validate
-              />
-            <MDBInput
-                label="Contraseña"
-                type="password"
-                id="password"
-                onChange={this.handleChange}
-                validate
-              />
+						{Label('Email','email','email',this.state.email,this.handleChange,true)}
+						{Label('Clave','password','password',this.state.password,this.handleChange,true)}
           </div>
           <MDBBtn
             disabled={!this.validateForm()}

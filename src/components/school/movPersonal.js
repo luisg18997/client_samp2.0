@@ -19,10 +19,11 @@ import {
 } from '../../connect_api/formData/formDataAPI'
 import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
+import {Label, LabelRequired} from '../util/forms';
 
 class MovPersonal extends Component {
     constructor(props){
-        super();
+        super(props);
         this.state = {
           empleadoID: "",
           empleadoSalarioID: "",
@@ -81,105 +82,110 @@ class MovPersonal extends Component {
 
   componentWillMount(){
     console.log("this.props: ", this.props);
-    console.log(this.props.history.location.state.cedula);
-    getFormMovPersonal(this.props.history.location.state.cedula)
-    .then(result => {
-      console.log('result: ', result);
-      this.setState({
-        empleadoID : result.employee_id,
-        cedula: result.identification,
-        nombre : result.first_name,
-        snombre: result.second_name,
-        apellido: result.surname,
-        sapellido: result.second_surname,
-        documentacion: result.documentation,
-        nacionalidad: result.nacionality,
-        tip_mov: result.movement_type,
-        idac: result.idac_code,
-        departamento: result.departament,
-        catedra: result.chair,
-        unidad_ejec: result.execunting_unit,
-        fecha_ini: result.start_date,
-        fecha_fin: result.finish_date,
-        dedicacion: result.current_dedication,
-        sueldo: result.salary,
-        dedicacion_p: result.proposed_dedication,
-        ingreso: result.ingres,
-        tip_ingreso: result.income_type,
-        ubicacion: result.ubication,
-        direccion: result.address,
-        tip_vivienda: result.housing_type,
-        viviendaID: result.housing_identifier,
-        apartamento: result.apartament,
-        categoria: result.category_type,
-        estado: result.state,
-        municipio: result.municipality,
-        parroquia: result.parish,
-        empleadoSalarioID: result.employee_salary_id,
-        formOficeID: result.official_form_id,
-        formOficeMovPer: result.id,
-        isLoaded: true
-      })
-      console.log("this.state: ", this.state)
-    });
+    if (this.props.location.state === undefined) {
+      this.props.history.replace('/Escuela')
+    } else {
+      console.log(this.props.location.state.cedula);
+      getFormMovPersonal(this.props.location.state.cedula)
+      .then(result => {
+        console.log('result: ', result);
+        this.setState({
+          empleadoID : result.employee_id,
+          cedula: result.identification,
+          nombre : result.first_name,
+          snombre: result.second_name,
+          apellido: result.surname,
+          sapellido: result.second_surname,
+          documentacion: result.documentation,
+          nacionalidad: result.nacionality,
+          tip_mov: result.movement_type,
+          idac: result.idac_code,
+          departamento: result.departament,
+          catedra: result.chair,
+          unidad_ejec: result.execunting_unit,
+          fecha_ini: result.start_date,
+          fecha_fin: result.finish_date,
+          dedicacion: result.current_dedication,
+          sueldo: result.salary,
+          dedicacion_p: result.proposed_dedication,
+          ingreso: result.ingres,
+          tip_ingreso: result.income_type,
+          ubicacion: result.ubication,
+          direccion: result.address,
+          tip_vivienda: result.housing_type,
+          viviendaID: result.housing_identifier,
+          apartamento: result.apartament,
+          categoria: result.category_type,
+          estado: result.state,
+          municipio: result.municipality,
+          parroquia: result.parish,
+          empleadoSalarioID: result.employee_salary_id,
+          formOficeID: result.official_form_id,
+          formOficeMovPer: result.id,
+          isLoaded: true
+        })
+        console.log("this.state: ", this.state)
+      });
+    }
   }
 
  componentDidMount() {
+   if (this.state.cedula !== "") {
+     getSchool(1)
+   	.then(result => {
+   		const school ={
+   			ID : result.id,
+   			code : result.code,
+   			name : result.school,
+   			codeFilter : result.code.substr(0, 4)
+   		}
+   		this.setState({
+   			 school
+   		})
+   		console.log("school: ", this.state.school);
+   	})
 
-   getSchool(1)
- 	.then(result => {
- 		const school ={
- 			ID : result.id,
- 			code : result.code,
- 			name : result.school,
- 			codeFilter : result.code.substr(0, 4)
- 		}
- 		this.setState({
- 			 school
- 		})
- 		console.log("school: ", this.state.school);
- 	})
-
-  getAllStatesList()
-  .then(result => {
-    this.setState({
-      StateList: result
-    })
-    console.log("StateList: ", this.state.StateList);
-  });
+    getAllStatesList()
+    .then(result => {
+      this.setState({
+        StateList: result
+      })
+      console.log("StateList: ", this.state.StateList);
+    });
 
 
-  getAllCategoryTypesList()
-  .then(result => {
-    this.setState({
-      CategoryTypeList: result
-    })
-    console.log("CategoryTypeList",this.state.CategoryTypeList);
-  });
+    getAllCategoryTypesList()
+    .then(result => {
+      this.setState({
+        CategoryTypeList: result
+      })
+      console.log("CategoryTypeList",this.state.CategoryTypeList);
+    });
 
-  getAllDedicationTypesList()
-  .then(result => {
-    this.setState({
-      DedicationTypes_p: result
-    })
-    console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
-  });
+    getAllDedicationTypesList()
+    .then(result => {
+      this.setState({
+        DedicationTypes_p: result
+      })
+      console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
+    });
 
-  getAllIngressList()
-  .then(result => {
-    this.setState({
-      ingressList: result
-    })
-    console.log("ingressList: ",this.state.ingressList);
-  });
+    getAllIngressList()
+    .then(result => {
+      this.setState({
+        ingressList: result
+      })
+      console.log("ingressList: ",this.state.ingressList);
+    });
 
-  getAllIncomeTypeList()
-  .then(result => {
-    this.setState({
-      IncomeType: result
-    })
-    console.log("IncomeType: ",this.state.IncomeType);
-  });
+    getAllIncomeTypeList()
+    .then(result => {
+      this.setState({
+        IncomeType: result
+      })
+      console.log("IncomeType: ",this.state.IncomeType);
+    });
+   }
  }
 
  handleSubmit = event => {
@@ -353,50 +359,38 @@ handlechangeParish = data => {
     } else {
     return (
     <div  className="content">
-
-     <h2 align="center"><strong>Solicitud de Movimiento de Personal</strong></h2>
+      <h2 align="center"><strong>Solicitud de Movimiento de Personal</strong></h2>
       <hr></hr>
-
       <h3 align="center"><strong>Datos Personales</strong></h3>
       <hr></hr>
-
-        <br></br>
-
-        <form className="row justify-content" onSubmit={this.handleSubmit}>
+      <br></br>
+      <form className="row justify-content" onSubmit={this.handleSubmit}>
+        <div className="form-group col-md-3">
+          {Label("Primer Nombre", "text","nombre", this.state.nombre)}
+        </div>
 
         <div className="form-group col-md-3">
-            <label htmlFor="nombre">Primer Nombre</label>
-            <input className="form-control" readOnly type="text" name="nombre" value={this.state.nombre}/>
+          {Label("Segundo Nombre", "text","snombre", this.state.snombre)}
+        </div>
+
+      <div className="form-group col-md-3">
+        {Label("Primer Apellido", "text","apellido", this.state.apellido)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="snombre"> Segundo Nombre</label>
-            <input className="form-control" readOnly  type="text" name="snombre" value={this.state.snombre}/>
+        {Label("Segundo Apellido", "text","sapellido", this.state.sapellido)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="apellido">Primer Apellido</label>
-            <input className="form-control" readOnly  type="text" name="apellido" value={this.state.apellido}/>
-      </div>
-
-      <div className="form-group col-md-3">
-            <label htmlFor="sapellido"> Segundo Apellido</label>
-            <input className="form-control" readOnly type="text" name="sapellido" value={this.state.sapellido}/>
-      </div>
-
-      <div className="form-group col-md-3">
-          <label htmlFor="documentacion"> Documentacion</label>
-          <input className="form-control" readOnly type="text" name="documentacion" value={this.state.documentacion}/>
+        {Label("Documentacion", "text","documentacion", this.state.documentacion)}
     </div>
 
         <div className="form-group col-md-3">
-            <label htmlFor="nacionalidad"> Nacionalidad</label>
-            <input className="form-control" readOnly type="text" name="nacionalidad" value={this.state.nacionalidad}/>
+          {Label("Nacionalidad", "text","nacionalidad", this.state.nacionalidad)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="cedula">Cédula</label>
-            <input className="form-control" readOnly type="text" name="cedula" value={this.state.cedula}/>
+        {Label("Cédula", "text","cedula", this.state.cedula)}
       </div>
 
       <div className="form-group col-md-12">
@@ -438,28 +432,23 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="ubicacion">Urb/Sector/Barrio <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="ubicacion" id="ubicacion" value={this.state.ubicacion} onChange={this.handleChange}/>
+        {Label(LabelRequired("Urb/Sector/Barrio"), "text","ubicacion", this.state.ubicacion, this.handleChange, true)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="direccion">Calle/Av./Vereda <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="direccion" id="direccion" value={this.state.direccion} onChange={this.handleChange}/>
+        {Label(LabelRequired("Calle/Av./Vereda"), "text","direccion", this.state.direccion, this.handleChange, true)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="tip_vivienda">Resd./Edif./Casa <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="tip_vivienda" id="tip_vivienda" value={this.state.tip_vivienda} onChange={this.handleChange}/>
+        {Label(LabelRequired("Resd./Edif./Casa"), "text","tip_vivienda", this.state.tip_vivienda, this.handleChange, true)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="viviendaID">Piso/Nivel/Num. <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="viviendaID" id="viviendaID" value={this.state.viviendaID} onChange={this.handleChange}/>
+        {Label(LabelRequired("Piso/Nivel/Num."), "text","viviendaID", this.state.viviendaID, this.handleChange, true)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="apartamento">Apartamento <label style={{color:'red'}}>*</label></label>
-            <input className="form-control" type="text" name="apartamento" id="apartamento" value={this.state.apartamento} onChange={this.handleChange}/>
+        {Label("Apartamento", "text","apartamento", this.state.apartamento, this.handleChange, false)}
       </div>
 
       <div className="form-group col-md-12">
@@ -481,7 +470,6 @@ handlechangeParish = data => {
       </div>
 
 
-
       <div className="form-group col-md-3">
             <label htmlFor="tip_ingreso">Tipo de Ingreso <label style={{color:'red'}}>*</label></label>
     {tip_ingreso.description !== '' && tip_ingreso.id !== 0?
@@ -494,40 +482,32 @@ handlechangeParish = data => {
             />}
       </div>
 
-
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_ingreso">Fecha de Ingreso</label>
-            <input className="form-control" readOnly type="date" name="fecha_ingreso" id="fecha_ingreso" required value={this.state.fecha_ingreso} onChange={this.handleChange}/>
+        {Label("Fecha de Ingreso", "text","fecha_ingreso", this.state.fecha_ingreso)}
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="tip_mov">Tipo de Movimiento</label>
-            <input className="form-control" readOnly type="text" name="tip_mov" value={this.state.tip_mov}/>
-
+        {Label("Tipo de Movimiento", "text","tip_mov", this.state.tip_mov)}
     </div>
 
   <div className="form-group col-md-3">
-          <label htmlFor="departamento">Departamento</label>
-          <input className="form-control" readOnly type="text" name="departamento" value={this.state.departamento}/>
+    {Label("Departamento", "text","departamento", this.state.departamento)}
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="catedra">Cátedra</label>
-          <input className="form-control" readOnly type="text" name="catedra" value={this.state.catedra}/>
-    </div>
-    <div className="form-group col-md-3">
-          <label htmlFor="idac">IDAC</label>
-          <input className="form-control" readOnly type="text" name="idac" value={this.state.idac}/>
+      {Label("Cátedra", "text","catedra", this.state.catedra)}
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="unidad_ejec">Unidad Ejecutora</label>
-            <input className="form-control" readOnly type="text" name="unidad_ejec" value={this.state.unidad_ejec}/>
+      {Label("IDAC", "text","idac", this.state.idac)}
+    </div>
+
+    <div className="form-group col-md-3">
+      {Label("Unidad Ejecutora", "text","unidad_ejec", this.state.unidad_ejec)}
     </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="dedicacion">Dedicación Actual</label>
-            <input className="form-control" readOnly type="text" name="dedicacion" value={this.state.dedicacion.description}/>
+        {Label("Dedicación Actual", "text","dedicacion", this.state.dedicacion.description)}
       </div>
 
       <div className="form-group col-md-3">
@@ -554,31 +534,25 @@ handlechangeParish = data => {
             />
       </div>
 
-
-         <div className="form-group col-md-3">
-            <label htmlFor="sueldo"> Sueldo</label>
-            <input className="form-control" readOnly type="text" name="sueldo" placeholder="Sueldo" value={this.state.sueldo.description}/>
+        <div className="form-group col-md-3">
+           {Label("Sueldo", "text","sueldo", this.state.sueldo.description)}
       </div>
 
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_ini">Fecha de Inicio</label>
-            <input className="form-control" readOnly type="date" name="fecha_ini" value={this.state.fecha_ini}/>
+        {Label("Fecha de Inicio", "date","fecha_ini", this.state.fecha_ini)}
       </div>
 
       <div className="form-group col-md-3">
-        <label htmlFor="fecha_fin">Fecha de Fin</label>
-            <input className="form-control" readOnly type="date" name="fecha_fin" value={this.state.fecha_fin}/>
+        {Label("Fecha de Fin", "date","fecha_fin", this.state.fecha_fin)}
       </div>
 
   <div className="form-group col-md-3">
-    <label htmlFor="anexo">Anexos <label style={{color:'red'}}>*</label></label>
-        <textarea name="anexo" readOnly required placeholder="Curriculum con sus anexos"></textarea>
+    {Label(LabelRequired("Anexos"), "textarea","anexo", this.state.anexo, this.handleChange, true)}
   </div>
 
   <div className="form-group col-md-3">
-    <label htmlFor="motivo">Motivos <label style={{color:'red'}}>*</label></label>
-        <textarea name="motivo" id="motivo" required placeholder="Indique el motivo de la Planilla" onChange={this.handleChange}></textarea>
+    {Label(LabelRequired("Motivos"), "textarea","motivo", this.state.motivo, this.handleChange, true)}
   </div>
 
   <div className="form-group col-md-12">
