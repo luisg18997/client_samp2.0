@@ -5,7 +5,7 @@ import MenuRRHH from './MenuRRHH';
 class human_Resources extends Component {
   render() {
     return (
-      <div>
+          <div style={{'display': 'flex'}}>
         <MenuRRHH />
       </div>
     );
