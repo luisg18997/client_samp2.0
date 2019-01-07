@@ -4,7 +4,7 @@ import MenuSchool from './menuSchool';
 class school extends Component {
   render() {
     return (
-      <div>
+      <div style={{'display': 'flex'}}>
         <MenuSchool />
       </div>
     );
