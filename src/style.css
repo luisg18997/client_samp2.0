@@ -31,6 +31,16 @@ padding-right: 20px;
 
 }
 
+ .Login{
+
+    margin-top: 5%;
+          }
+
+ .lista{
+       width: 1130px;
+    padding: 5%;
+          }
+
 }
 
 @media screen and (min-width: 1000px) and (max-width: 1200px){
@@ -49,6 +59,13 @@ padding-left: 20px;
 padding-right: 20px;
 
           }
+  .lista{
+
+    width: 870px;
+    padding: 2%;
+
+          }
+     
 
 }
 

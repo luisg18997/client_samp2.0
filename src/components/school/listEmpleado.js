@@ -85,12 +85,18 @@ class ListEmpleado extends Component {
   			return (<div className="loader" />);
   		}
     return (
+    <div className="lista">
       <MDBDataTable
+      entriesLabel="Mostrar paginas"
+      searchLabel="Buscar"
+      infoLabel={["Mostrando", "de", "de", "entradas"]}
+      paginationLabel={["Anterior", "Siguiente"]}
         striped
         boder
         small
         data={this.state.table}
       />
+      </div>
     );
   }
 }

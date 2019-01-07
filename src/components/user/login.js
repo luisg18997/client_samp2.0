@@ -37,20 +37,22 @@ export default class Login extends Component {
   render() {
     return (
       <div >
+    
         <MDBContainer className="Login">
+
           <MDBRow>
         <MDBCol>
         <form onSubmit={this.handleSubmit}>
-          <p className="h4 text-center mb-5">Ingresa</p>
+          <p className="h4 text-center mb-5">Iniciar sesión</p>
           <div className="grey-text">
 						{Label('Email','email','email',this.state.email,this.handleChange,true)}
 						{Label('Clave','password','password',this.state.password,this.handleChange,true)}
           </div>
-          <MDBBtn
+          <MDBBtn color="light-blue"
             disabled={!this.validateForm()}
             type="submit"
           >
-            Ingresar
+            Iniciar sesión
           </MDBBtn>
         </form>
       </MDBCol>
