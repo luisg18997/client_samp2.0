@@ -130,7 +130,7 @@ class MovPersonal extends Component {
   }
 
  componentDidMount() {
-   if (this.state.cedula !== "") {
+   if (this.props.location.state !== undefined) {
      getSchool(1)
    	.then(result => {
    		const school ={
