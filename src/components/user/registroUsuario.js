@@ -213,13 +213,13 @@ handleChangeSelectCoord(event){
 					<br></br>
 <div  className="form-group col-md-12">
 	<div className="row justify-content-center">
-		<MDBBtn color="primary" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
-		<MDBBtn color="primary" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
+		<MDBBtn color="light-blue" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+		<MDBBtn color="light-blue" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
 </div>
 </div>
 			</form>
-			<MDBBtn color="primary"><Link to='/'  style={{ textDecoration: 'none',
-	'color':' white'}}> Volver </Link> </MDBBtn>
+			<MDBBtn color="light-blue"><Link to='/'  style={{ textDecoration: 'none',
+	'color':' white'}}> Inicio de sesión </Link> </MDBBtn>
 			</Col>
 		</Row>
 			</Container>
