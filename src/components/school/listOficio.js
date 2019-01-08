@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { MDBDataTable } from 'mdbreact';
 import { MDBBtn } from 'mdbreact';
 import {
   getFormOficesList,
 }
   from '../../connect_api/formData/formDataAPI';
-// import MovPersonal from './movPersonal';
+import {table} from '../util/forms';
 
 class ListOficio extends Component {
   constructor() {
@@ -94,16 +93,7 @@ class ListOficio extends Component {
   		}
     return (
         <div className="lista">
-      <MDBDataTable
-      entriesLabel="Mostrar paginas"
-      searchLabel="Buscar"
-      infoLabel={["Mostrando", "de", "de", "entradas"]}
-      paginationLabel={["Anterior", "Siguiente"]}
-        striped
-        small
-        
-        data={this.state.table}
-      />
+      {table(this.state.table)}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {MDBInput} from 'mdbreact';
+import {MDBInput, MDBDataTable} from 'mdbreact';
 
 export const LabelRequired = (labelName) => {
   return(
@@ -21,5 +21,19 @@ export const Label = (labelName,type, InputName, value, onChange, required) => {
       validate
       />
     </Fragment>
+  )
+}
+
+export const table = (data) => {
+  return(
+    <MDBDataTable
+    entriesLabel="Mostrar paginas"
+    searchLabel="Buscar"
+    infoLabel={["Mostrando", "de", "de", "entradas"]}
+    paginationLabel={["Anterior", "Siguiente"]}
+      striped
+      small
+      data={data}
+    />
   )
 }

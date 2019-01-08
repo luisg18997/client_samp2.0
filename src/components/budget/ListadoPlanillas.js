@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { MDBDataTable } from 'mdbreact';
+import {table} from '../util/forms';
 import { MDBBtn } from 'mdbreact';
 import {
 	getFormsList
@@ -83,18 +83,9 @@ class ListPlanillas extends Component {
 
 		return(
 
-			<div style={{'padding':'10px',marginTop:'50px', marginLleft:'65px',color:'#595959'}} className="content">
-				<MDBDataTable
-				entriesLabel="Mostrar paginas"
-     			 searchLabel="Buscar"
-      			infoLabel={["Mostrando", "de", "de", "entradas"]}
-     			 paginationLabel={["Anterior", "Siguiente"]}
-					striped
-					hover
-					small
-					data={this.state.table}
-				/>
-			</div>
+			<div className="lista">
+				{table(this.state.table)}
+				</div>
 		)
 	}
 	}
