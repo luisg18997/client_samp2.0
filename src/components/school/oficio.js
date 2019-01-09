@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
-import {Label, LabelRequired} from '../util/forms';
+import {Label, LabelRequired, selectForm} from '../util/forms';
 import {
   getAllDepartamentBySchoolList,
   getAllChairList,
@@ -37,7 +37,7 @@ class Oficio extends Component {
     email: "",
     genero: "",
     generoList : [],
-    fec_nac: "00/00/0000",
+    fec_nac: "0001-01-01",
     telef_mov: "",
     telef_loc: "",
     tip_mov: "",
@@ -49,8 +49,8 @@ class Oficio extends Component {
     schoolData: [],
     catedra: "",
     catedraList: [],
-    fecha_ini: "00/00/0000",
-    fecha_fin: "00/00/0000",
+    fecha_ini: "0001-01-01",
+    fecha_fin: "0001-01-01",
     idac: "",
     idacList: [],
     unidad_ejec: "",
@@ -185,6 +185,10 @@ handleChangeExecUnit = data => {
 
   getAllNacionalitiesList()
   .then(result => {
+    result = result.map(res => ({
+      ID: res.ID,
+      label: res.Name
+    }))
     this.setState({
       NacionalitiesList: result
     })
@@ -284,8 +288,9 @@ this.setState({
 
 handleChangeSelectNacionalities = event => {
    this.setState({
-     nacionalidad : event.value
+     nacionalidad : event.target.value
    });
+   console.log(this.state.nacionalidad)
  }
 
  handleChangeSelectDocumentacion = event => {
@@ -314,6 +319,7 @@ handleChangeSelecIdac = event => {
 }
 
 render() {
+  const nacionalidad = this.state.nacionalidad;
   return (
     <div className="content">
     <h3 align="center"><strong>Registro de Planilla Oficio</strong></h3>
@@ -346,13 +352,7 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="nacionalidad"> Nacionalidad</label>
-          <Select
-            onChange={this.handleChangeSelectNacionalities}
-            options={this.state.NacionalitiesList.map(nac =>(
-              {label: nac.Name, value : nac.ID}
-            ))}
-          />
+      {selectForm(LabelRequired('Nacionalidad'),nacionalidad, this.handleChange,this.state.NacionalitiesList)}
     </div>
     <div className="form-group col-md-3">
         {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true)}
