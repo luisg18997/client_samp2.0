@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import { getAllRolesList, getAllUbicationsList } from '../../connect_api/user/userAPI';
-import Select from 'react-select';
+
 
 class UpdateUser extends Component {
 
@@ -101,30 +101,14 @@ class UpdateUser extends Component {
 
       <div className="form-group">
             <label htmlFor="rol"> Rol</label>
-            <Select
-              onChange={this.handleChangeSelectrol}
-              options={this.state.rolList.map(rol =>(
-              {label: rol.ROL, value : rol.ID}
-            ))}
-            />
       </div>
 
       <div className="form-group">
         <label htmlFor="ubicacion"> Ubicación</label>
-        <Select
-        onChange={this.handleChangeSelectub}
-        options={this.state.ubicacionList.map(ub =>(
-          {label: ub.Ubicacion, value : ub.ID}
-        ))}
-        />
       </div>
 
       <div className="form-group">
             <label htmlFor="status"> Status</label>
-            <Select
-              onChange={this.handleChangeSelectStatus}
-              options={this.state.statusList}
-            />
       </div>
 
         <br></br>
