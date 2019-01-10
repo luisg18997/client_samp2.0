@@ -17,7 +17,6 @@ import {
   getFormMovPersonal,
   addNewFormMorPersonal,
 } from '../../connect_api/formData/formDataAPI'
-import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
 import {Label, LabelRequired ,select} from '../util/forms';
 
@@ -311,7 +310,7 @@ handleChangeSalary = (data) => {
 
 handleChangeSelectDedicationTypes_p = event => {
      const dedicacion_p = this.state.dedicacion_p;
-     dedicacion_p.id = event.value;
+     dedicacion_p.id = event.target.value;
      this.setState({
        dedicacion_p
      });
@@ -320,7 +319,7 @@ handleChangeSelectDedicationTypes_p = event => {
 
    handleChangeSelectingress = event => {
      const ingreso = this.state.ingreso;
-     ingreso.id = event.value
+     ingreso.id = event.target.value
      this.setState({
        ingreso
      });
@@ -329,7 +328,7 @@ handleChangeSelectDedicationTypes_p = event => {
 
    handleChangeSelectIncomeType = event => {
      const tip_ingreso = this.state.tip_ingreso;
-     tip_ingreso.id = event.value;
+     tip_ingreso.id = event.target.value;
      this.setState({
        tip_ingreso
      });
@@ -381,6 +380,7 @@ handlechangeParish = data => {
     const estado = this.state.estado.id;
     const municipio = this.state.municipio.id;
     const parroquia = this.state.parroquia.id;
+    const categoria = this.state.categoria;
     if (!this.state.isLoaded) {
       return (<div className="loader content"></div>);
     } else {
@@ -465,28 +465,18 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-          <label htmlFor="ingreso">Ingreso <label style={{color:'red'}}>*</label></label>
         {ingreso.description !== '' && ingreso.id !== 0?
-          <input className="form-control" readOnly type="text" name="ingreso" value={this.state.ingreso.description}/>:
-        <Select
-              onChange={this.handleChangeSelectingress}
-              options={this.state.ingressList.map(ing =>(
-              {label: ing.Ingress, value : ing.id}
-            ))}
-            />}
+          Label("Ingreso", "text","ingreso", ingreso.description):
+          select(LabelRequired("Ingreso"),"ingreso",ingreso.id,this.handleChangeSelectingress,this.state.ingressList, true)
+        }
       </div>
 
 
       <div className="form-group col-md-3">
-            <label htmlFor="tip_ingreso">Tipo de Ingreso <label style={{color:'red'}}>*</label></label>
     {tip_ingreso.description !== '' && tip_ingreso.id !== 0?
-      <input className="form-control" readOnly type="text" name="tip_ingreso" value={this.state.tip_ingreso.description}/>:
-      <Select
-              onChange={this.handleChangeSelectIncomeType}
-              options={this.state.IncomeType.map(income =>(
-              {label: income.income, value : income.ID}
-            ))}
-            />}
+      Label("Tipo de Ingreso", "text","tip_ingreso", tip_ingreso.description):
+      select(LabelRequired("Tipo de Ingreso"),"tip_ingreso",tip_ingreso.id,this.handleChangeSelectIncomeType,this.state.IncomeType, true)
+      }
       </div>
 
       <div className="form-group col-md-3">
@@ -518,27 +508,15 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="dedicacion_p">Dedicación Propuesta</label>
       {dedicacion_p.description !== '' && dedicacion_p.id !== 0?
-        <input className="form-control" readOnly type="text" name="dedicacion_p" value={this.state.dedicacion_p.description}/>:
-        <Select
-              onChange={this.handleChangeSelectDedicationTypes_p}
-              options={this.state.DedicationTypes_p.map(dtp =>(
-              {label: dtp.dedi, value : dtp.ID}
-            ))}
-            />
+        Label("Dedicación propuesta", "text","dedicacion_p", this.state.dedicacion_p.description)
+        :
+        select("Dedicación propuesta","dedicacion_p",dedicacion_p.id,this.handleChangeSelectDedicationTypes_p,this.state.DedicationTypes_p, false)
         }
       </div>
 
-
       <div className="form-group col-md-3">
-            <label htmlFor="categoria">Categoria <label style={{color:'red'}}>*</label></label>
-      <Select
-              onChange={this.handleChangeSelectCategoryType}
-              options={this.state.CategoryTypeList.map(ct =>(
-              {label: ct.name, value : ct.ID}
-            ))}
-            />
+        {select(LabelRequired("Categoria"),"categoria",categoria.id,this.handleChangeSelectCategoryType,this.state.CategoryTypeList, true)}
       </div>
 
         <div className="form-group col-md-3">
