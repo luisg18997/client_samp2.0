@@ -19,7 +19,7 @@ import {
 } from '../../connect_api/formData/formDataAPI'
 import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
-import {Label, LabelRequired} from '../util/forms';
+import {Label, LabelRequired ,select} from '../util/forms';
 
 class MovPersonal extends Component {
     constructor(props){
@@ -74,10 +74,6 @@ class MovPersonal extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeSelectstate = this.handleChangeSelectstate.bind(this);
         this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
-        this.handleChangeSelectDedicationTypes_p = this.handleChangeSelectDedicationTypes_p.bind(this);
-        this.handleChangeSelectingress = this.handleChangeSelectingress.bind(this);
-        this.handleChangeSelectIncomeType = this.handleChangeSelectIncomeType.bind(this);
-
 }
 
   componentWillMount(){
@@ -147,6 +143,10 @@ class MovPersonal extends Component {
 
     getAllStatesList()
     .then(result => {
+      result = result.map(res => ({
+        ID: res.ID,
+        label: res.states
+      }))
       this.setState({
         StateList: result
       })
@@ -156,6 +156,10 @@ class MovPersonal extends Component {
 
     getAllCategoryTypesList()
     .then(result => {
+      result = result.map(res => ({
+        ID: res.ID,
+        label: res.name
+      }))
       this.setState({
         CategoryTypeList: result
       })
@@ -164,6 +168,10 @@ class MovPersonal extends Component {
 
     getAllDedicationTypesList()
     .then(result => {
+      result = result.map(res => ({
+        ID: res.id,
+        label: res.dedi
+      }))
       this.setState({
         DedicationTypes_p: result
       })
@@ -172,6 +180,10 @@ class MovPersonal extends Component {
 
     getAllIngressList()
     .then(result => {
+      result = result.map(res => ({
+        ID: res.id,
+        label: res.ingress
+      }))
       this.setState({
         ingressList: result
       })
@@ -180,6 +192,10 @@ class MovPersonal extends Component {
 
     getAllIncomeTypeList()
     .then(result => {
+      result = result.map(res => ({
+        ID: res.ID,
+        label: res.income
+      }))
       this.setState({
         IncomeType: result
       })
@@ -241,17 +257,17 @@ class MovPersonal extends Component {
 
  handleChangeSelectstate = event => {
    const  estado  = this.state.estado;
-   estado.id = event.value;
+   estado.id = event.target.value;
    this.setState({
      estado
    });
     console.log('estado: ', estado)
-     this.handlechangeMunicipalities(event.value);
+     this.handlechangeMunicipalities(estado.id);
  }
 
  handleChangeSelectPar = event => {
    const parroquia = this.state.parroquia;
-   parroquia.id= event.value;
+   parroquia.id= event.target.value;
    this.setState({
      parroquia
    });
@@ -260,17 +276,18 @@ class MovPersonal extends Component {
 
  handleChangeSelectMun = event => {
    const municipio = this.state.municipio;
-   municipio.id= event.value;
+   console.log(municipio);
+   municipio.id = parseInt(event.target.value);
    this.setState({
      municipio
    });
     console.log('municipio: ', municipio)
-     this.handlechangeParish(event.value);
+     this.handlechangeParish(municipio.id);
  }
 
  handleChangeSelectCategoryType = event => {
    const categoria = this.state.categoria;
-   categoria.id = event.value;
+   categoria.id = event.target.value;
    this.setState({
      categoria
    });
@@ -292,7 +309,7 @@ handleChangeSalary = (data) => {
   })
 }
 
-   handleChangeSelectDedicationTypes_p = event => {
+handleChangeSelectDedicationTypes_p = event => {
      const dedicacion_p = this.state.dedicacion_p;
      dedicacion_p.id = event.value;
      this.setState({
@@ -319,14 +336,17 @@ handleChangeSalary = (data) => {
      console.log("tip_ingreso: ", tip_ingreso);
  }
 
-
  handlechangeMunicipalities = data => {
   this.setState({
     municipalityList: []
   });
-  if(data !== 0) {
+  if(data !== "") {
     getAllMunicipalitiesList(data)
     .then(result => {
+      result = result.map(res => ({
+        ID: res.ID,
+        label: res.muni
+      }))
       this.setState({
         municipalityList: result
       })
@@ -337,11 +357,15 @@ handleChangeSalary = (data) => {
 
 handlechangeParish = data => {
   this.setState({
-    parroquiaList: []
+    parroquiaList: [],
   });
-  if(data !== 0) {
+  if(data !== "") {
     getAllParishList(data)
     .then(result => {
+      result = result.map(res => ({
+        ID: res.ID,
+        label: res.parish
+      }))
       this.setState({
         parroquiaList: result
       })
@@ -354,6 +378,9 @@ handlechangeParish = data => {
     const dedicacion_p = this.state.dedicacion_p;
     const tip_ingreso = this.state.tip_ingreso;
     const ingreso = this.state.ingreso;
+    const estado = this.state.estado.id;
+    const municipio = this.state.municipio.id;
+    const parroquia = this.state.parroquia.id;
     if (!this.state.isLoaded) {
       return (<div className="loader content"></div>);
     } else {
@@ -400,35 +427,15 @@ handlechangeParish = data => {
       </div>
 
       <div className="form-group col-md-3">
-            <label htmlFor="estado">Estado <label style={{color:'red'}}>*</label></label>
-        <Select
-              onChange={this.handleChangeSelectstate}
-              options={this.state.StateList.map(st =>(
-              {label: st.states, value : st.ID}
-            ))}
-            />
+          {select(LabelRequired('Estado'),'estado', estado,this.handleChangeSelectstate,this.state.StateList, true)}
       </div>
 
-
       <div className="form-group col-md-3">
-            <label htmlFor="municipio">Municipio <label style={{color:'red'}}>*</label></label>
-     <Select
-            onChange={this.handleChangeSelectMun}
-            options={this.state.municipalityList.map(mun =>(
-            {label: mun.muni, value : mun.ID}
-          ))}
-          />
+        {select(LabelRequired('Municipio'),'municipio', municipio,this.handleChangeSelectMun,this.state.municipalityList, true)}
       </div>
 
-
       <div className="form-group col-md-3">
-            <label htmlFor="parroquia">Parroquia <label style={{color:'red'}}>*</label></label>
-            <Select
-                   onChange={this.handleChangeSelectPar}
-                   options={this.state.parroquiaList.map(mun =>(
-                   {label: mun.parish, value : mun.ID}
-                 ))}
-                 />
+        {select(LabelRequired('Parroquia'),'parroquia', parroquia,this.handleChangeSelectPar,this.state.parroquiaList, true)}
       </div>
 
       <div className="form-group col-md-3">
