@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
-import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
-import {Label, LabelRequired, selectForm} from '../util/forms';
+import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllDepartamentBySchoolList,
   getAllChairList,
@@ -58,12 +57,7 @@ class Oficio extends Component {
     NacionalitiesList: [],
     documentationList: [],
   }
-
-  this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
-  this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
-  this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
 }
-
 
 handleSubmit = event => {
   event.preventDefault();
@@ -112,22 +106,42 @@ handleSubmit = event => {
   		if(result === 1) {
   			alert('planilla de oficio creado exitosamente');
         if (window.confirm("¿Desea registrar la planilla de Movmimiento?")) {
-          this.props.history.push('/Escuela/MovPersonal', {cedula:employee.identification});
+          this.props.history.replace('/Escuela/MovPersonal', {cedula:employee.identification});
         } else {
-          this.props.history.push('/Escuela');
+          this.props.history.replace('/Escuela');
         }
   		} else {
   			alert('planilla de oficio NO creado exitosamente');
-        this.props.history.push('/Escuela');
+        this.props.history.replace('/Escuela');
   		}
   	});
   });
 }
 
+handeCodeFilterSelected = (data, value) => {
+  let codeFilterSelected ="";
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].ID === value){
+      let codeFilterSelected = data[i].codeFilter;
+      return codeFilterSelected;
+    }
+  }
+  if (codeFilterSelected === "") {
+    return null;
+  }
+}
+
 handleChangeIdac = data => {
   getAllIdacCodesFilterVacantDateNotNullList(data)
   .then(result => {
+    result = result.map(res => ({
+      ID: res.ID,
+      label: res.Codigo,
+      UnidejecDesc: res.UnidejecDesc,
+      UnidejecID: res.UnidejecID
+    }))
     this.setState({
+      idac : "",
       idacList : result
     })
     console.log("idacList: ", this.state.idacList);
@@ -137,6 +151,10 @@ handleChangeIdac = data => {
 handleChangeExecUnit = data => {
   getAllExecuntingUnitListFilter(data)
   .then(result => {
+   result = result.map(res => ({
+     ID: res.ID,
+     label: res.des,
+   }))
     this.setState({
       ExecuntingUnit : result
   })
@@ -166,6 +184,12 @@ handleChangeExecUnit = data => {
 		console.log("schoolData: ", this.state.schoolData);
 		getAllDepartamentBySchoolList(school.ID)
 		.then(result => {
+      result = result.map(res => ({
+        ID: res.ID,
+        code: res.code,
+        label: res.name,
+        codeFilter: res.codeFilter
+      }))
   		this.setState({
     			departamentoList: result
  			})
@@ -177,6 +201,10 @@ handleChangeExecUnit = data => {
 
 	getAllGenderList()
   .then(result => {
+    result = result.map(res => ({
+      ID: res.ID,
+      label: res.Gender
+    }))
     this.setState({
       generoList: result
     })
@@ -195,17 +223,24 @@ handleChangeExecUnit = data => {
     console.log("NacionalitiesList: ",this.state.NacionalitiesList);
   });
 
-
   getAllDocumentationList()
   .then(result => {
+    result = result.map(res => ({
+      ID: res.ID,
+      label: res.Name
+    }))
     this.setState({
       documentationList: result
     })
     console.log("documentationList: ",this.state.documentationList);
   });
 
-      getAllDedicationTypesList()
+  getAllDedicationTypesList()
   .then(result => {
+    result = result.map(res => ({
+      ID: res.ID,
+      label: res.dedi
+    }))
     this.setState({
       DedicationTypes: result
     })
@@ -214,6 +249,10 @@ handleChangeExecUnit = data => {
 
  getAllMovementTypeslist()
   .then(result => {
+    result = result.map(res => ({
+      ID: res.ID,
+      label: res.name
+    }))
     this.setState({
       tipoMovList: result
     })
@@ -224,20 +263,28 @@ handleChangeExecUnit = data => {
 
  handleChange = event => {
    this.setState({
-     [event.target.id]: event.target.value
+     [event.target.name]: event.target.value
    });
-   console.log(event.target.id,": ", event.target.value);
+   console.log(event.target.name,": ", event.target.value);
  }
 
 handlechangeChair = data => {
 	this.setState({
-		catedraList: []
+		catedraList: [],
+    catedra: "",
 	});
 	console.log(this.state.catedraList);
-	if(data !== 0) {
+	if(data !== "") {
 		getAllChairList(data)
 		.then(result => {
+      result = result.map(res => ({
+        ID: res.ID,
+        code: res.code,
+        label: res.name,
+        codeFilter:res.code
+      }))
 	    this.setState({
+        catedra: "",
 	      catedraList: result
 	    })
 	    console.log("catedraList: ",this.state.catedraList);
@@ -245,81 +292,45 @@ handlechangeChair = data => {
 	}
 }
 
-
 handleChangeSelectdept = event => {
    this.setState({
-     departamento : event.value
+     departamento : event.target.value
    });
    let codeFilterSelected = "";
-   	for (var i = 0; i < this.state.departamentoList.length; i++) {
-   		if (this.state.departamentoList[i].ID === event.value){
-   			codeFilterSelected = this.state.departamentoList[i].codeFilter;
-        this.handleChangeExecUnit(codeFilterSelected);
-   		}
-   	}
-	this.handlechangeChair(event.value);
+   if (event.target.value !== "" ) {
+    codeFilterSelected = this.handeCodeFilterSelected(this.state.departamentoList, parseInt(event.target.value));
+    this.handleChangeExecUnit(codeFilterSelected);
+   this.handlechangeChair(event.target.value);
+ } else {
+   this.handleChangeExecUnit(this.state.schoolData.codeFilter);
+ }
 }
-
-
-  handleChangeSelectExecuntingUnit = event => {
-   this.setState({
-     unidad_ejec : event.value
-   });
- }
-
-
- handleChangeSelectTypesMov = event => {
-   this.setState({
-     tip_mov : event.value
-   });
- }
-
-    handleChangeSelectDedicationTypes = event => {
-   this.setState({
-     dedicacion : event.value
-   });
- }
-
- handleChangeSelectGender = event => {
-this.setState({
-	genero : event.value
-});
-}
-
-handleChangeSelectNacionalities = event => {
-   this.setState({
-     nacionalidad : event.target.value
-   });
-   console.log(this.state.nacionalidad)
- }
-
- handleChangeSelectDocumentacion = event => {
-   this.setState({
-     documento : event.value
-   });
- }
 
 handleChangeSelectcat = event => {
-this.setState({
- catedra : event.value
-});
-	let codeFilterSelected = "";
-   	for (var i = 0; i < this.state.catedraList.length; i++) {
-   		if (this.state.catedraList[i].ID === event.value){
-   			codeFilterSelected = this.state.catedraList[i].code;
-   			this.handleChangeExecUnit(codeFilterSelected);
-   		}
-   	}
-}
-
-handleChangeSelecIdac = event => {
   this.setState({
-   idac : event.value
+    catedra : event.target.value
   });
+  let codeFilterSelected = ""
+  if(event.target.value !== "") {
+    codeFilterSelected = this.handeCodeFilterSelected(this.state.catedraList, parseInt(event.target.value));
+    console.log(codeFilterSelected)
+      this.handleChangeExecUnit(codeFilterSelected);
+    } else {
+      codeFilterSelected = this.handeCodeFilterSelected(this.state.departamentoList, parseInt(this.state.departamento));
+      this.handleChangeExecUnit(codeFilterSelected);
+  }
 }
 
 render() {
   const nacionalidad = this.state.nacionalidad;
+  const genero = this.state.genero;
+  const documento = this.state.documento;
+  const dedicacion = this.state.dedicacion;
+  const tip_mov = this.state.tip_mov;
+  const departamento = this.state.departamento;
+  const catedra = this.state.catedra;
+  const unidad_ejec = this.state.unidad_ejec;
+  const idac = this.state.idac;
   return (
     <div className="content">
     <h3 align="center"><strong>Registro de Planilla Oficio</strong></h3>
@@ -342,17 +353,11 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="nacionalidad"> Tipo de Documentación</label>
-          <Select
-            onChange={this.handleChangeSelectDocumentacion}
-            options={this.state.documentationList.map(doc =>(
-              {label: doc.Name, value : doc.ID}
-            ))}
-          />
+      {select(LabelRequired('Tipo de Documentación'),'documento', documento, this.handleChange,this.state.documentationList, true)}
     </div>
 
     <div className="form-group col-md-3">
-      {selectForm(LabelRequired('Nacionalidad'),nacionalidad, this.handleChange,this.state.NacionalitiesList)}
+      {select(LabelRequired('Nacionalidad'),'nacionalidad', nacionalidad, this.handleChange,this.state.NacionalitiesList, true)}
     </div>
     <div className="form-group col-md-3">
         {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true)}
@@ -363,13 +368,7 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="genero"> Género  <label style={{color:'red'}}>*</label></label>
-          <Select
-            onChange={this.handleChangeSelectGender}
-            options={this.state.generoList.map(gen =>(
-            {label: gen.Gender, value : gen.ID}
-          ))}
-          />
+      {select(LabelRequired('Género'),'genero', genero, this.handleChange,this.state.generoList, true)}
     </div>
 
     <div className="form-group col-md-3">
@@ -385,43 +384,19 @@ render() {
     </div>
 
   <div className="form-group col-md-3">
-          <label htmlFor="tip_mov">Tipo de Movimiento <label style={{color:'red'}}>*</label></label>
-     <Select
-              onChange={this.handleChangeSelectTypesMov}
-              options={this.state.tipoMovList.map(mt =>(
-              {label: mt.name, value : mt.ID}
-            ))}
-            />
+    {select(LabelRequired('Tipo de Movimiento'),'tip_mov', tip_mov, this.handleChange,this.state.tipoMovList, true)}
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="dedicacion">Dedicación  <label style={{color:'red'}}>*</label></label>
-           <Select
-              onChange={this.handleChangeSelectDedicationTypes}
-              options={this.state.DedicationTypes.map(dt =>(
-              {label: dt.dedi, value : dt.ID}
-            ))}
-            />
+      {select(LabelRequired('Dedicación'),'dedicacion', dedicacion, this.handleChange,this.state.DedicationTypes, true)}
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="departamento">Departamento  <label style={{color:'red'}}>*</label></label>
-        <Select
-            onChange={this.handleChangeSelectdept}
-            options={this.state.departamentoList.map(dept =>(
-            {label: dept.name, value : dept.ID}
-          ))}
-          />
+      {select(LabelRequired('Departamento'),'departamento', departamento, this.handleChangeSelectdept,this.state.departamentoList, true)}
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="catedra">Cátedra  <label style={{color:'red'}}>*</label></label>
-      <Select
-            onChange={this.handleChangeSelectcat}
-            options={this.state.catedraList.map(cat =>(
-            {label: cat.name, value : cat.ID}
-          ))}
-          />
+      {select(LabelRequired('Cátedra'),'catedra', catedra, this.handleChangeSelectcat,this.state.catedraList, true)}
     </div>
 
     <div className="form-group col-md-3">
@@ -433,23 +408,11 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="unidad_ejec">Unidad Ejecutora  <label style={{color:'red'}}>*</label></label>
-         <Select
-              onChange={this.handleChangeSelectExecuntingUnit}
-              options={this.state.ExecuntingUnit.map(EU =>(
-              {label: EU.des, value : EU.ID}
-            ))}
-            />
+      {select(LabelRequired('Unidad Ejecutora'),'unidad_ejec', unidad_ejec, this.handleChange,this.state.ExecuntingUnit, true)}
     </div>
 
     <div className="form-group col-md-3">
-          <label htmlFor="idac">IDAC  <label style={{color:'red'}}>*</label></label>
-          <Select
-            onChange={this.handleChangeSelecIdac}
-            options={this.state.idacList.map(idac =>(
-            {label: idac.Codigo, value : idac.ID}
-            ))}
-          />
+      {select(LabelRequired('IDAC'),'idac', idac, this.handleChange,this.state.idacList, true)}
     </div>
 
     <div className="form-group col-md-4">
@@ -459,12 +422,9 @@ render() {
     </div>
 
   <div className="form-group col-md-10">
-
       <div className="row justify-content-center">
-
         <MDBBtn color="primary" type="submit" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
         <MDBBtn color="primary" type="reset" className=" col-md-3">Restablecer</MDBBtn>
-
       </div>
     </div>
 

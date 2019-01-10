@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react';
 import {MDBInput, MDBDataTable} from 'mdbreact';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import Option from 'muicss/lib/react/option';
+import Select from 'muicss/lib/react/select';
+import 'muicss/dist/css/mui.min.css'
 
 export const LabelRequired = (labelName) => {
   return(
@@ -41,19 +41,19 @@ export const table = (data) => {
   )
 }
 
-export const selectForm = (InputName,value,onChange,options) => {
+export const select = (labelName,InputName,value,onChange,options,required) => {
   return(
-    <Fragment>
-        <InputLabel htmlFor={InputName}>{InputName}</InputLabel>
-        <Select
-          value={value}
-          onChange={onChange}
-            name= {InputName}
-            id= {InputName}
-        >
-          <MenuItem value=""></MenuItem>
-          {options.map((opt) => <MenuItem key={opt.ID} value={opt.ID}>{opt.label}</MenuItem>)}
-        </Select>
-        </Fragment>
-  )
+    <Select
+    label={labelName}
+    id={InputName}
+    useDefault={true}
+    name={InputName}
+    value={value}
+    onChange={onChange}
+    required={required}
+    >
+    <Option value=""/>
+    {options.map((opt) => <Option key={opt.ID} value={opt.ID} label={opt.label}/>)}
+    </Select>
+  );
 }
