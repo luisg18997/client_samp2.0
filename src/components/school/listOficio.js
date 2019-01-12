@@ -49,6 +49,7 @@ class ListOficio extends Component {
           },
           {
             label: 'Acccion',
+            field: 'button'
           },
         ],
       },

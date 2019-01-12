@@ -20,11 +20,10 @@ class MenuAdmin extends Component {
                 <Link to="/Admin">Home </Link>
               </li>
               <li>
-                {' '}
-Usuarios
+                Usuarios
                 <ul>
                   <li>
-                    Agregar
+                    <Link to="/Admin/UsuarioNuevo">Agregar</Link>
                   </li>
                   <li>
                     <Link to="/Admin/UsuarioActualizar">Actualizar</Link>

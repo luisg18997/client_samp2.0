@@ -14,35 +14,42 @@ class ListEmpleado extends Component {
         columns: [
           {
             label: 'Nombre',
+            field: 'name',
             sort: 'asc',
             width: 250,
           },
           {
             label: 'Identificacion',
+            field: 'identification',
             sort: 'asc',
             width: 250,
           },
           {
             label: 'Ubicacion',
+            field: 'execunting_unit',
             sort: 'asc',
             width: 750,
           },
           {
             label: 'Idac',
+            field: 'idac',
             sort: 'asc',
           },
           {
             label: 'Tipo de Dedicacion',
+            field: 'dedication_type',
             sort: 'asc',
             width: 250,
           },
           {
             label: 'Fecha de Admision',
+            field: 'admission_date',
             sort: 'asc',
             width: 350,
           },
           {
             label: 'Acccion',
+            field: 'button',
           },
         ],
       },

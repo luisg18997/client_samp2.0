@@ -19,27 +19,33 @@ class ListPlanillas extends Component {
 						},
 						{
 							label:"Tipo de planilla",
+							field: "form_type",
 							 width: 250
 						},
 						{
 							label:"Tipo de Movimiento",
+							field: "",
 							width: 350
 						},
 						{
 							label:"Ubicacion",
+							field: "movement_type",
 							width: 750
 						},
 						{
 							label: "Fecha de Registro",
+							field: "registration_date",
 							sort: 'asc',
 							width: 350
 						},
 						{
 							label: "Status",
+							field: "status_form",
 							width: 250
 						},
 						{
 							label: "Acción",
+							field: "button",
 							width: 250
 						}
 					]
@@ -55,8 +61,8 @@ class ListPlanillas extends Component {
 				const { table } = this.state;
 				if (result.result !== 'not found') {
 				table.rows = result.map(form => ({
-					codigo : form.code_form,
-					tipo : form.form_type,
+					code_form : form.code_form,
+					form_type : form.form_type,
 					movement_type : form.movement_type,
 					ubication : form.ubication,
 					registration_date : form.registration_date,

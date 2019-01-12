@@ -30,6 +30,7 @@ export const Label = (labelName,type, InputName, value, onChange, required) => {
 export const table = (data) => {
   return(
     <MDBDataTable
+      reponsive ="true"
     entriesLabel="Mostrar paginas"
     searchLabel="Buscar"
     infoLabel={["Mostrando", "de", "de", "entradas"]}

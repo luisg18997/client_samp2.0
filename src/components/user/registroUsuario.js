@@ -147,10 +147,17 @@ handleChangeCoordinationList(){
   }
 
 	render(){
-		const ubicacion = this.state.ubicacion;
-		const escuela = this.state.escuela;
-		const instituto = this.state.instituto;
-		const coordinacion = this.state.coordinacion;
+		const {
+			nombre,
+			apellido,
+			email,
+			clave,
+			confiClave,
+      ubicacion,
+      escuela,
+      instituto,
+      coordinacion
+    } = this.state;
 		return(
 			<Container  className="mt-1">
 				<Row className="mt-2">
@@ -158,15 +165,15 @@ handleChangeCoordinationList(){
 						<p className="h2 text-center mb-6">Registro de Usuario</p>
 						<form onSubmit={this.handleSubmit}>
 							<div className="grey-text">
-								{Label(LabelRequired('nombre'),'text','nombre',this.state.nombre,this.handleChange,true)}
+								{Label(LabelRequired('nombre'),'text','nombre',nombre,this.handleChange,true)}
 
-								{Label(LabelRequired('Apellido'),'text','apellido',this.state.apellido,this.handleChange,true)}
+								{Label(LabelRequired('Apellido'),'text','apellido',apellido,this.handleChange,true)}
 
-								{Label(LabelRequired('email'),'email','email',this.state.email,this.handleChange, true)}
+								{Label(LabelRequired('email'),'email','email',email,this.handleChange, true)}
 
-								{Label(LabelRequired('clave'),'password','clave',this.state.clave,this.handleChange)}
+								{Label(LabelRequired('clave'),'password','clave',clave,this.handleChange)}
 
-								{Label(LabelRequired('Confirmar clave'),'password','confiClave',this.state.confiClave,this.handleChange)}
+								{Label(LabelRequired('Confirmar clave'),'password','confiClave',confiClave,this.handleChange)}
 
 								{select(LabelRequired('Ubicación'), 'ubicacion', ubicacion,this.handleChangeSelectub,this.state.ubicacionList, true)}
 								<br/>
