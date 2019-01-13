@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import mainBudget from './mainBudget';
 import listado from './ListadoPlanillas';
+import OficioRev from './oficioRev';
 
 class MenuBudget extends Component {
   render() {
@@ -27,6 +28,7 @@ class MenuBudget extends Component {
             <Switch>
               <Route exact path="/Presupuesto" component={mainBudget} />
               <Route path="/Presupuesto/ListadoPlanillas" component={listado} />
+              <Route path="/Presupuesto/Oficio/revision" component={OficioRev} />
             </Switch>
 
           </div>
