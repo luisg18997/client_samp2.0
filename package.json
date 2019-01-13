@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@emotion/unitless": "^0.7.3",
+    "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
     "bootstrap-css-only": "^4.2.1",
     "font-awesome": "^4.7.0",

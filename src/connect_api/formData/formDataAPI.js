@@ -1,3 +1,13 @@
+import axios from 'axios';
+const apiAxios = axios.create({
+  baseURL: process.env.URL_API || 'http://localhost:5000/form/',
+  timeout: 5000,
+  headers: {
+    'Authorization': 'Bearer 14154151',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+})
 const api = process.env.URL_API || 'http://localhost:5000/form/';
 
 export const getAllMovementTypeslist = () => fetch(`${api}MovementTypes`,
@@ -93,21 +103,22 @@ export const codeMovPer = (schoolID, instituteID, coordinationID, code) => fetch
     console.log('The error is:', error.message);
   });
 
-export const getFormsList = (ubicationID, ubicationFormID) => fetch(`${api}list`,
+export const getFormsList = (ubicationID, ubicationFormID) =>
+   apiAxios.post('list',
   {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_ubication_id: ubicationID,
-      param_ubication_form_id: ubicationFormID,
-    }),
+    param_ubication_id: ubicationID,
+    param_ubication_form_id: ubicationFormID,
   })
-  .then(res => res.json())
+  .then((res) =>{
+    if(res.messageError) {
+      return res.messageError;
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
   .catch((error) => {
-    console.log('The error is:', error.message);
+    console.log('The error in the call route getFormsList is:', error.message);
   });
 
 
