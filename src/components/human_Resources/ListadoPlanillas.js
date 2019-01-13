@@ -5,6 +5,11 @@ import {
 	getFormsList
 }
 from '../../connect_api/formData/formDataAPI'
+import {
+	updateAllColumnsProcessOfficialForm,
+	updateAllColumnsProcessMovPersonalForm
+}
+from '../../connect_api/processForm/processFormAPI'
 
 
 class ListPlanillas extends Component {
@@ -68,7 +73,7 @@ class ListPlanillas extends Component {
 					ubication : form.ubication,
 					registration_date : form.registration_date,
 					status_form : form.status_form,
-					button : <MDBBtn onClick={(e) => this.handleData(e,form.identification, form.form_type)} >Seleccionar</MDBBtn>
+					button : <MDBBtn onClick={(e) => this.handleData(e,form)} >Seleccionar</MDBBtn>
 				}));
 			}
 				this.setState({
@@ -78,14 +83,24 @@ class ListPlanillas extends Component {
 				console.log('rows: ', this.state)
 			})
 		}
-		handleData = (e, identification, formType) => {
+
+		handleData = async(e, form) => {
 			e.preventDefault();
-	    console.log("ListPlanillas: ",identification," ", formType);
-			if (formType === 'OFICIO') {
+	    console.log("ListPlanillas: ", form);
+			if (form.form_type === 'OFICIO') {
+				if (form.status_process_form_id !== 2) {
+					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,0 ,form.official_form_id, 5, 2, '1', '0');
+					console.log('result: ', result);
+				}
 				this.props.history.replace('/RRHH/Oficio/revision',
 				{
-					cedula:identification,
+					cedula: form.identification,
 					ubication_id: 5});
+			} else {
+				if (form.status_process_form_id !== 2) {
+					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,0 ,form.mov_personal_form_id, 5, 2, '1', '0');
+					console.log('result: ', result);
+				}
 			}
 		}
 

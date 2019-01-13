@@ -3,6 +3,11 @@ import {
   getFormOfficial
 }
   from '../../connect_api/formData/formDataAPI';
+import { MDBBtn } from 'mdbreact';
+import {
+	updateAllColumnsProcessOfficialForm
+}
+from '../../connect_api/processForm/processFormAPI'
 
 class OficioRev extends Component {
   constructor(props) {
@@ -13,6 +18,7 @@ class OficioRev extends Component {
       empleadoID: "",
       formOficeID: "",
       formOficeMovPer: "",
+      processFormID: "",
       codigo: "",
       nombre: "",
       apellido: "",
@@ -57,9 +63,22 @@ componentWillMount() {
         fecha_fin: result.finish_date,
         fecha_reg : result.registration_date,
         codigo: result.code_form,
-        dedicacion: result.dedication_type
+        dedicacion: result.dedication_type,
+        formOficeID: result.official_form_id,
+        formOficeMovPer :result.id,
+        processFormID: result.process_form_id
       })
     })
+  }
+
+  handleChangeStatus = async(result) => {
+    if (result) {
+      const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 6, 1, '1', '0');
+      console.log(await res);
+      this.props.history.replace('/RRHH');
+    } else {
+
+    }
   }
 
   render() {
@@ -67,7 +86,7 @@ componentWillMount() {
       <div className="content">
         <h2 align="center"><strong>Planilla Oficio</strong></h2>
         <hr />
-        <form className="row justify-content" onSubmit={this.handleSubmit}>
+        <form className="row justify-content">
           <div className="form-group col-md-3">
             <label><strong>Primer Nombre</strong></label>
             <br/>
@@ -148,6 +167,12 @@ componentWillMount() {
               <br/>
               <label>{this.state.fecha_fin}</label>
           </div>
+          <div className="form-group col-md-10">
+              <div className="row justify-content-center">
+                <MDBBtn color="primary" type="button" onClick={()=>this.handleChangeStatus(true)} className=" col-md-3" style={{marginRight:'100px'}}>Aprobar</MDBBtn>
+                <MDBBtn color="primary" type="button" onClick={()=>this.handleChangeStatus(false)} className=" col-md-3">Rechazar</MDBBtn>
+              </div>
+            </div>
         </form>
       </div>
     );
