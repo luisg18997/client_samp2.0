@@ -16,7 +16,7 @@ class MenuAdmin extends Component {
 
 
             <ul>
-              <li style={{ background: '#0a6d84' }}>
+              <li>
                 <Link to="/Admin">Home </Link>
               </li>
               <li>
@@ -37,6 +37,7 @@ class MenuAdmin extends Component {
             <Switch>
               <Route exact path="/Admin" component={MainAdmin} />
               <Route path="/Admin/UsuarioActualizar" component={UpdateUser} />
+              <Route path="/Admin/UsuarioNuevo" component={UpdateUser} />
             </Switch>
 
           </div>

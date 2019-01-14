@@ -3,7 +3,6 @@ import { Container, Row, Col, MDBBtn } from 'mdbreact';
 import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllRolesList,
-  getAllUbicationsList
  } from '../../connect_api/user/userAPI';
  import {
  getSchoolList,
@@ -21,9 +20,10 @@ class UpdateUser extends Component {
       nombre: "",
       apellido: "",
       email: "",
+      clave: "12345678",
       rol : "",
       rolList: [],
-      ubicacion: "",
+      ubicacion: 0,
       ubicacionList: [],
       statusList:[
       {
@@ -58,17 +58,6 @@ class UpdateUser extends Component {
     })
     console.log(this.state.rolList);
   });
-  getAllUbicationsList()
-  .then(result => {
-    result = result.map(res =>({
-      ID: res.ID,
-      label: res.Ubicacion
-    }))
-    this.setState({
-      ubicacionList : result
-    });
-    console.log(this.state);
-  })
  }
 
  handleSubmit = event => {
@@ -86,8 +75,47 @@ class UpdateUser extends Component {
 
  handleChangeSelectub(event){
    console.log("event: ", event.target.value);
+   let ubication = 0;
+   switch (event.target.value) {
+     case '1':{
+       console.log('administrador');
+       ubication = 1;
+       break;
+     }
+     case '2':{
+       console.log('escuela');
+       ubication = 2;
+       break;
+     }
+     case '3':{
+       console.log('instituto');
+       ubication = 3;
+       break;
+     }
+     case '4':{
+       console.log('Coordinacion');
+       ubication = 4;
+       break;
+     }
+     case (event.target.value >= '5' && event.target.value <= '6'):{
+       console.log('departamento de RRHH');
+       ubication = 5;
+       break;
+     }
+     case (event.target.value >= '7' && event.target.value <= '8'):{
+       console.log('departamento de presupuesto');
+       ubication = 6;
+       break;
+     }
+     default:
+     console.log('ninguna ubicacion');
+     ubication = 0;
+   }
+
+   console.log('ubicacion: ', ubication);
    this.setState({
-     ubicacion : event.target.value,
+     rol : event.target.value,
+     ubicacion: ubication,
      escuela: 0,
      instituto: 0,
      coordinacion : 0,
@@ -95,7 +123,7 @@ class UpdateUser extends Component {
      instituteList: [],
      coordinationList: []
    });
-   console.log("ubicacion: ", this.state.ubicacion);
+   console.log("rol: ", this.state.rol);
    if (event.target.value === "2") {
      this.handleChangeSchoolList();
    } else if (event.target.value === "3") {
@@ -151,6 +179,7 @@ handleChangeCoordinationList(){
 }
 
   render() {
+    console.log(this.state);
     const {
       nombre,
       apellido,
@@ -169,7 +198,7 @@ handleChangeCoordinationList(){
             <Col>
               <p className="h2 text-center mb-6">Registro de Usuario</p>
         <br></br>
-        <form onSubmit={this.handleSubmit}  style={{width: '600px', marginLeft:'150px',marginRight:' 300px'}} className="form-container">
+        <form onSubmit={this.handleSubmit}  style={{width: '590px', marginLeft:'150px',marginRight:' 300px'}} className="form-container">
         <div  className="form-group">
           {Label(LabelRequired('Nombre'),'text','nombre', nombre,this.handleChange, true)}
       </div>
@@ -183,32 +212,27 @@ handleChangeCoordinationList(){
       </div>
 
       <div className="form-group">
-        {select(LabelRequired('Rol'),'rol', rol, this.handleChange, this.state.rolList, true)}
-      </div>
-
-      <div className="form-group">
-        {select(LabelRequired('Ubicación'),'ubicacion', ubicacion, this.handleChangeSelectub, this.state.ubicacionList, true)}
+        {select(LabelRequired('Rol'),'rol', rol, this.handleChangeSelectub, this.state.rolList, true)}
       </div>
       {
-        ubicacion === "2"?
+        ubicacion === 2?
         <Fragment>
           <div className="form-group">
             {select(LabelRequired('Escuela'), 'escuela', escuela,this.handleChange,this.state.schoolList, true)}
           </div>
         </Fragment>
-        :ubicacion === "3"?
+        :ubicacion === 3?
         <Fragment>
           <div className="form-group">
             {select(LabelRequired('Instituto'), 'instituto', instituto,this.handleChange,this.state.instituteList, true)}
           </div>
         </Fragment>
-        :ubicacion === "4"?
+        :ubicacion === 4?
         <Fragment>
           <div className="form-group">
             {select(LabelRequired('Coordinacion'), 'coordinacion', coordinacion,this.handleChange,this.state.coordinationList, true)}
           </div>
         </Fragment>
-
           :<span></span>
       }
 

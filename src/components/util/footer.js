@@ -16,7 +16,7 @@ class Footer extends Component {
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: 'smaller',
         }}
         >
-    © Luis González, Denis Osuna, Daniel Dávila, Leonardo Monascal (UNEXCA 2018-2019)
+    © González, Osuna, Dávila, Monascal (UNEXCA 2018-2019)
         </div>
 
       </footer>

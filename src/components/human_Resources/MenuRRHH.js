@@ -16,7 +16,7 @@ class MenuRRHH extends Component {
           <div className="menu_gral">
 
             <ul>
-              <li style={{ background: '#0a6d84' }}><Link to="/RRHH">Principal</Link></li>
+              <li><Link to="/RRHH">Principal</Link></li>
 
               <li>
                 {' '}

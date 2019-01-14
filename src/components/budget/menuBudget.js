@@ -16,7 +16,7 @@ class MenuBudget extends Component {
           <div className="menu_gral">
 
             <ul>
-              <li style={{ background: '#0a6d84' }}><Link to="/Presupuesto">Presupuesto</Link></li>
+              <li><Link to="/Presupuesto">Presupuesto</Link></li>
 
               <li>
                 {' '}
