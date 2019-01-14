@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
 import { MDBBtn } from 'mdbreact';
+import moment from 'moment';
 import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllDepartamentBySchoolList,
@@ -36,7 +37,7 @@ class Oficio extends Component {
     email: "",
     genero: "",
     generoList : [],
-    fec_nac: "0001-01-01",
+    fec_nac: "",
     telef_mov: "",
     telef_loc: "",
     tip_mov: "",
@@ -48,8 +49,8 @@ class Oficio extends Component {
     schoolData: [],
     catedra: "",
     catedraList: [],
-    fecha_ini: "0001-01-01",
-    fecha_fin: "0001-01-01",
+    fecha_ini: "",
+    fecha_fin: "",
     idac: "",
     idacList: [],
     unidad_ejec: "",
@@ -260,6 +261,27 @@ handleChangeExecUnit = data => {
   });
  }
 
+ handleValidateBirthDate = e => {
+   e.preventDefault();
+   this.setState({
+     fec_nac : e.target.value
+   })
+   const date = moment(e.target.value).format('DD-MM-YYYY');
+   const validate = moment(date).fromNow(true);
+   const result = validate.split(" ");
+   console.log('date: ', date);
+   console.log('validate: ', validate);
+   console.log('result: ', result[0]);
+   if (result[1] === 'years' && parseInt(result[0]) >= 18) {
+     console.log('fecha valida');
+   } else {
+     console.log('fecha valida');
+     this.setState({
+       fec_nac : "0001-01-01"
+     })
+   }
+ }
+
 
  handleChange = event => {
    this.setState({
@@ -372,7 +394,7 @@ render() {
     </div>
 
     <div className="form-group col-md-3">
-      {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac,this.handleChange, true)}
+      {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac,this.handleValidateBirthDate, true)}
     </div>
 
     <div className="form-group col-md-3">
