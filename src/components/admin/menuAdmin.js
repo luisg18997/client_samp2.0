@@ -3,18 +3,16 @@ import {
   BrowserRouter as Router, Switch, Route, Link,
 } from 'react-router-dom';
 import MainAdmin from './mainAdmin';
-import UpdateUser from './UpdateUser';
+import NewUserByAdmin from './NewUserByAdmin';
+import UserStatusList from './userStatusList';
+import UserValidateList from './userValidateList';
 
 class MenuAdmin extends Component {
   render() {
     return (
       <div>
         <Router>
-
-
           <div className="menu_gral">
-
-
             <ul>
               <li>
                 <Link to="/Admin">Home </Link>
@@ -23,23 +21,23 @@ class MenuAdmin extends Component {
                 Usuarios
                 <ul>
                   <li>
-                    <Link to="/Admin/UsuarioNuevo">Agregar</Link>
+                    <Link to="/Admin/Usuario/Nuevo">Agregar</Link>
                   </li>
                   <li>
-                    <Link to="/Admin/UsuarioActualizar">Actualizar</Link>
+                    <Link to="/Admin/Usuarios/Status">Status</Link>
                   </li>
                   <li>
-                    Validar
+                    <Link to="/Admin/Usuarios/Validar">Validar</Link>
                   </li>
                 </ul>
               </li>
             </ul>
             <Switch>
               <Route exact path="/Admin" component={MainAdmin} />
-              <Route path="/Admin/UsuarioActualizar" component={UpdateUser} />
-              <Route path="/Admin/UsuarioNuevo" component={UpdateUser} />
+              <Route path="/Admin/Usuarios/Status" component={UserStatusList} />
+              <Route path="/Admin/Usuario/Nuevo" component={NewUserByAdmin} />
+              <Route path="/Admin/Usuarios/Validar" component={UserValidateList} />
             </Switch>
-
           </div>
         </Router>
       </div>
