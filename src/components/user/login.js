@@ -26,18 +26,16 @@ export default class Login extends Component {
     console.log(event.target.value)
   }
 
-  handleSubmit = event => {
+  handleSubmit = async(event) => {
     event.preventDefault();
-    login(this.state.email, this.state.password)
-    .then(result => {
-      console.log("user: ", result);
-    })
+    const result = await login(this.state.email, this.state.password)
+    console.log("user: ", result);
   }
 
   render() {
     return (
       <div >
-    
+
         <MDBContainer className="Login">
 
           <MDBRow>

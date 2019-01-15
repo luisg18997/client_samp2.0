@@ -10,8 +10,6 @@ import {
  getCoordinationList
  } from '../../connect_api/faculty/FacultyAPI';
 
-
-
 class UpdateUser extends Component {
 
     constructor(props){
@@ -46,18 +44,12 @@ class UpdateUser extends Component {
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
   }
 
- componentDidMount() {
-  getAllRolesList()
-  .then(result => {
-    result = result.map(res => ({
-      ID: res.ID,
-      label: res.ROL
-    }))
-    this.setState({
-      rolList: result
-    })
-    console.log(this.state.rolList);
-  });
+ async componentDidMount() {
+  const result = await getAllRolesList()
+  this.setState({
+    rolList: result
+  })
+  console.log(this.state.rolList);
  }
 
  handleSubmit = event => {
@@ -133,53 +125,31 @@ class UpdateUser extends Component {
    }
 }
 
-handleChangeSchoolList(){
- getSchoolList()
- .then(result => {
-   result = result.map(res => ({
-     ID : res.ID,
-     code: res.code,
-     label: res.name
-   }))
-   this.setState({
-     schoolList : result
-   })
-   console.log("schoolList: ", this.state.schoolList)
- })
+async handleChangeSchoolList(){
+	const schoolList = await getSchoolList()
+	this.setState({
+		schoolList
+	})
+	console.log("schoolList: ", this.state.schoolList)
 }
 
-handleChangeInstitutelList(){
- getInstituteList()
- .then(result => {
-   result = result.map(res => ({
-     ID : res.ID,
-     code: res.code,
-     label: res.name
-   }))
-   this.setState({
-     instituteList : result
-   })
-   console.log("instituteList: ", this.state.instituteList)
- })
+async handleChangeInstitutelList(){
+	const instituteList = await getInstituteList()
+	this.setState({
+		instituteList
+	})
+	console.log("instituteList: ", this.state.instituteList)
 }
 
-handleChangeCoordinationList(){
- getCoordinationList()
- .then(result => {
-   result = result.map(res => ({
-     ID : res.ID,
-     code: res.code,
-     label: res.name
-   }))
-   this.setState({
-     coordinationList : result
-   })
-   console.log("coordinationList: ", this.state.coordinationList)
- })
+async handleChangeCoordinationList(){
+	const coordinationList = await getCoordinationList()
+	this.setState({
+		coordinationList
+	})
+	console.log("coordinationList: ", this.state.coordinationList)
 }
 
   render() {
-    console.log(this.state);
     const {
       nombre,
       apellido,

@@ -1,242 +1,304 @@
-const api = process.env.URL_API || 'http://localhost:5000/faculty/';
+import axios from 'axios';
+const api = axios.create({
+  baseURL: process.env.URL_API || 'http://localhost:5000/faculty/',
+  timeout: 10000,
+  headers: {
+    'Authorization': 'Bearer 14154151',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+})
 
-export const getSchoolList = () => fetch(`${api}schools`,
-  {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+export const getSchoolList = async() => {
+  const result = await api.get('schools')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const school = res.data.map(schools => ({
+        ID: schools.id,
+        code: schools.code,
+        label: schools.school,
+      }))
+      return school;
+    }
   })
-  .then(res => res.json())
-  .then(schools => schools.map(schools => ({
-    ID: schools.id,
-    code: schools.code,
-    name: schools.school,
-  })))
   .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const getInstituteList = () => fetch(`${api}institutes`,
-  {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+    console.log('The error in the call route getSchoolList  is:', error.message);
+    return error;
   })
-  .then(res => res.json())
-  .then(institutes => institutes.map(institutes => ({
-    ID: institutes.id,
-    code: institutes.code,
-    name: institutes.institute,
-  })))
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
+  console.log('getSchoolList: ', result);
+  return result;
+}
 
-export const getCoordinationList = () => fetch(`${api}coordinations`,
-  {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+export const getInstituteList = async() => {
+  const result = await api.get('institutes')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const institute = res.data.map(inst => ({
+        ID: inst.id,
+        code: inst.code,
+        label: inst.institute,
+      }))
+      return institute;
+    }
   })
-  .then(res => res.json())
-  .then(coordinations => coordinations.map(coordinations => ({
-    ID: coordinations.id,
-    code: coordinations.code,
-    name: coordinations.coordination,
-  })))
   .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const getCoordination = coordinationID => fetch(`${api}coordination`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_coordination_id: coordinationID,
-    }),
+    console.log('The error in the call route getInstituteList  is:', error.message);
+    return error;
   })
-  .then(res => res.json())
-  .then(coordination => coordination.map(coordination => ({
-    ID: coordination.id,
-    code: coordination.code,
-    name: coordination.name,
-    codeFilter: coordination.code.substr(0, 4),
-  })))
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
+  console.log('getInstituteList: ', result);
+  return result;
+}
 
-export const getAllDepartamentBySchoolList = schoolID => fetch(`${api}school/departaments`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_school_id: schoolID,
-    }),
+export const getCoordinationList = async() => {
+  const result = await api.get('coordinations')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const coordination = res.data.map(coord => ({
+        ID: coord.id,
+        code: coord.code,
+        label: coord.coordination,
+      }))
+      return coordination;
+    }
   })
-  .then(res => res.json())
-  .then(departaments => departaments.map(departaments => ({
-    ID: departaments.id,
-    code: departaments.code,
-    name: departaments.departament,
-    codeFilter: departaments.code.substr(0, 6),
-  })))
   .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const getDepartamentByInstitute = instituteID => fetch(`${api}institute/departament`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_institute_id: instituteID,
-    }),
+    console.log('The error in the call route getCoordinationList  is:', error.message);
+    return error;
   })
-  .then(res => res.json())
-  .then(departaments => departaments.map(departaments => ({
-    ID: departaments.id,
-    code: departaments.code,
-    name: departaments.departament,
-    codeFilter: departaments.code.substr(0, 6),
-  })))
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
+  console.log('getCoordinationList: ', result);
+  return result;
+}
 
-export const getAllChairList = departamentID => fetch(`${api}school/departament/chairs`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_departament_id: departamentID,
-    }),
+export const getCoordination = async(coordinationID) => {
+  const result = await api.post('coordination', {
+    param_coordination_id: coordinationID,
   })
-  .then(res => res.json())
-  .then(chairs => chairs.map(chairs => ({
-    ID: chairs.id,
-    code: chairs.code,
-    name: chairs.chair,
-  })))
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const getSchool = schoolID => fetch(`${api}school`,
-  {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_school_id: schoolID,
-    }),
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const coordination = res.data.map(coord => ({
+        ID: coord.id,
+        code: coord.code,
+        name: coord.name,
+        codeFilter: coord.code.substr(0, 4),
+      }))
+      return coordination;
+    }
   })
-  .then(res => res.json())
   .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export	const getInstitute = instituteID => fetch(`${api}institute`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_institute_id: instituteID,
-    }),
+    console.log('The error in the call route getCoordination  is:', error.message);
+    return error;
   })
-  .then(res => res.json())
-  .then(institute => institute.map(institute => ({
-    ID: institute.id,
-    code: institute.code,
-    name: institute.name,
-  })))
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
+  console.log('getCoordination: ', result);
+  return result;
+}
 
-export	const getDepartamentBySchool = departamentID => fetch(`${api}school/departament`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_departament_id: departamentID,
-    }),
+export const getAllDepartamentBySchoolList = async(schoolID) => {
+  const result = await api.post('school/departaments', {
+    param_school_id: schoolID,
   })
-  .then(res => res.json())
-  .then(schoolDept => schoolDept.map(schoolDept => ({
-    ID: schoolDept.id,
-    code: schoolDept.code,
-    name: schoolDept.name,
-  })))
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const getAllDepartamentByInstituteList = departamentID => fetch(`${api}institute/departaments`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_departament_id: departamentID,
-    }),
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const departament = res.data.map(dept => ({
+        ID: dept.id,
+        code: dept.code,
+        name: dept.departament,
+        codeFilter: dept.code.substr(0, 6),
+      }))
+      return departament;
+    }
   })
-  .then(res => res.json())
-  .then(instDept => instDept.map(instDept => ({
-    ID: instDept.id,
-    code: instDept.code,
-    name: instDept.name,
-  })))
   .catch((error) => {
-    console.log('The error is:', error.message);
-  });
+    console.log('The error in the call route getAllDepartamentBySchoolList  is:', error.message);
+    return error;
+  })
+  console.log('getAllDepartamentBySchoolList: ', result);
+  return result;
+}
 
-export	const getChair = chairID => fetch(`${api}school/departament/chair`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
+export const getDepartamentByInstitute = async(instituteID) => {
+  const result = await api.post('institute/departament', {
+    param_institute_id: instituteID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getDepartamentByInstitute  is:', error.message);
+    return error;
+  })
+  console.log('getDepartamentByInstitute: ', result);
+  return result;
+}
+
+export const getAllChairList = async(departamentID) => {
+  const result = await api.post('school/departament/chairs',{
+    param_departament_id: departamentID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const chair = res.data.map(cha => ({
+        ID: cha.id,
+        code: cha.code,
+        label: cha.chair,
+      }))
+      return chair;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getAllChairList  is:', error.message);
+    return error;
+  })
+  console.log('getAllChairList: ', result);
+  return result;
+}
+export const getSchool = async(schoolID) => {
+  const result = await api.post('school', {
+    param_school_id: schoolID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const school = {
+        ID : res.data.id,
+  			code : res.data.code,
+  			name : res.data.name,
+  			codeFilter : res.data.code.substr(0, 4)
+      }
+      return school;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getSchool  is:', error.message);
+    return error;
+  })
+  console.log('getSchool: ', result);
+  return result;
+}
+
+export	const getInstitute = async(instituteID) => {
+  const result = await api.post('institute', {
+    param_institute_id: instituteID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const institute = res.data.map(inst => ({
+        ID: inst.id,
+        code: inst.code,
+        name: inst.institute,
+  			codeFilter : inst.code.substr(0, 4)
+      }))
+      return institute;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getInstitute  is:', error.message);
+    return error;
+  })
+  console.log('getInstitute: ', result);
+  return result;
+}
+
+export	const getDepartamentBySchool = async(departamentID) => {
+  const result = await api.post('school/departament', {
+    param_departament_id: departamentID
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getDepartamentBySchool  is:', error.message);
+    return error;
+  })
+  console.log('getDepartamentBySchool: ', result);
+  return result;
+}
+
+export const getAllDepartamentByInstituteList = async(departamentID) => {
+  const result = await api.post('institute/departaments', {
+    param_departament_id: departamentID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const departament = res.data.map(dept => ({
+        ID: dept.id,
+        code: dept.code,
+        name: dept.departament,
+        codeFilter: dept.code.substr(0, 6),
+      }))
+      return departament;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getAllDepartamentByInstituteList  is:', error.message);
+    return error;
+  })
+  console.log('getAllDepartamentByInstituteList: ', result);
+  return result;
+}
+export	const getChair = async(chairID) => {
+  const result = await api.post('school/departament/chair',{
       param_chair_id: chairID,
-    }),
   })
-  .then(res => res.json())
-  .then(chair => chair.map(chair => ({
-    ID: chair.id,
-    code: chair.code,
-    name: chair.chair,
-  })))
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data
+    }
+  })
   .catch((error) => {
-    console.log('The error is:', error.message);
-  });
+    console.log('The error in the call route getChair  is:', error.message);
+    return error;
+  })
+  console.log('getChair: ', result);
+  return result;
+}

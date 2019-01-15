@@ -34,18 +34,12 @@ class RegistroUsuario extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-	componentDidMount() {
-		getAllUbicationsList()
-		.then(result => {
-			result = result.map(res =>({
-				ID: res.ID,
-				label: res.Ubicacion
-			}))
-			this.setState({
-				ubicacionList : result
-			});
-			console.log(this.state);
-		})
+	async componentDidMount() {
+		const result = await getAllUbicationsList()
+		this.setState({
+			ubicacionList : result
+		});
+		console.log(this.state);
 	}
 
 	handleChangeSelectub(event){
@@ -69,49 +63,28 @@ class RegistroUsuario extends Component {
  		}
 }
 
-handleChangeSchoolList(){
-	getSchoolList()
-	.then(result => {
-		result = result.map(res => ({
-			ID : res.ID,
-			code: res.code,
-			label: res.name
-		}))
-		this.setState({
-			schoolList : result
-		})
-		console.log("schoolList: ", this.state.schoolList)
+async handleChangeSchoolList(){
+	const schoolList = await getSchoolList()
+	this.setState({
+		schoolList
 	})
+	console.log("schoolList: ", this.state.schoolList)
 }
 
-handleChangeInstitutelList(){
-	getInstituteList()
-	.then(result => {
-		result = result.map(res => ({
-			ID : res.ID,
-			code: res.code,
-			label: res.name
-		}))
-		this.setState({
-			instituteList : result
-		})
-		console.log("instituteList: ", this.state.instituteList)
+async handleChangeInstitutelList(){
+	const instituteList = await getInstituteList()
+	this.setState({
+		instituteList
 	})
+	console.log("instituteList: ", this.state.instituteList)
 }
 
-handleChangeCoordinationList(){
-	getCoordinationList()
-	.then(result => {
-		result = result.map(res => ({
-			ID : res.ID,
-			code: res.code,
-			label: res.name
-		}))
-		this.setState({
-			coordinationList : result
-		})
-		console.log("coordinationList: ", this.state.coordinationList)
+async handleChangeCoordinationList(){
+	const coordinationList = await getCoordinationList()
+	this.setState({
+		coordinationList
 	})
+	console.log("coordinationList: ", this.state.coordinationList)
 }
 
   handleChange(event) {
@@ -121,7 +94,7 @@ handleChangeCoordinationList(){
 		console.log(this.state);
   }
 
-  handleSubmit(event) {
+async handleSubmit(event) {
     event.preventDefault();
 		const user = {
 			name : this.state.nombre.toUpperCase(),
@@ -134,16 +107,14 @@ handleChangeCoordinationList(){
 			instituteID:this.state.instituto,
 		}
 		console.log("user: ", user);
-		addNewUser(user)
-		.then(result => {
-			if(result === 1) {
-				alert('usuario creado exitosamente');
-				this.props.history.replace('/');
-			} else {
-				alert('usuario ya existente');
-				this.props.history.replace('/Registro');
-			}
-		});
+		const result = await addNewUser(user)
+		if(result === 1) {
+			alert('usuario creado exitosamente');
+			this.props.history.replace('/');
+		} else {
+			alert('usuario ya existente');
+			this.props.history.replace('/Registro');
+		}
   }
 
 	render(){

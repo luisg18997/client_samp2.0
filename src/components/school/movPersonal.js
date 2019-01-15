@@ -75,177 +75,112 @@ class MovPersonal extends Component {
         this.handleChangeSelectCategoryType = this.handleChangeSelectCategoryType.bind(this);
 }
 
-  componentWillMount(){
+  async componentWillMount(){
     console.log("this.props: ", this.props);
     if (this.props.location.state === undefined) {
       this.props.history.replace('/Escuela')
     } else {
       console.log(this.props.location.state.cedula);
-      getFormMovPersonal(this.props.location.state.cedula)
-      .then(result => {
-        console.log('result: ', result);
-        this.setState({
-          empleadoID : result.employee_id,
-          cedula: result.identification,
-          nombre : result.first_name,
-          snombre: result.second_name,
-          apellido: result.surname,
-          sapellido: result.second_surname,
-          documentacion: result.documentation,
-          nacionalidad: result.nacionality,
-          tip_mov: result.movement_type,
-          idac: result.idac_code,
-          departamento: result.departament,
-          catedra: result.chair,
-          unidad_ejec: result.execunting_unit,
-          fecha_ini: result.start_date,
-          fecha_fin: result.finish_date,
-          dedicacion: result.current_dedication,
-          sueldo: result.salary,
-          dedicacion_p: result.proposed_dedication,
-          ingreso: result.ingres,
-          tip_ingreso: result.income_type,
-          ubicacion: result.ubication,
-          direccion: result.address,
-          tip_vivienda: result.housing_type,
-          viviendaID: result.housing_identifier,
-          apartamento: result.apartament,
-          categoria: result.category_type,
-          estado: result.state,
-          municipio: result.municipality,
-          parroquia: result.parish,
-          empleadoSalarioID: result.employee_salary_id,
-          formOficeID: result.official_form_id,
-          formOficeMovPer: result.id,
-          isLoaded: true
-        })
-        console.log("this.state: ", this.state)
-      });
+      const result = await getFormMovPersonal(this.props.location.state.cedula)
+      this.setState({
+        empleadoID : result.employee_id,
+        cedula: result.identification,
+        nombre : result.first_name,
+        snombre: result.second_name,
+        apellido: result.surname,
+        sapellido: result.second_surname,
+        documentacion: result.documentation,
+        nacionalidad: result.nacionality,
+        tip_mov: result.movement_type,
+        idac: result.idac_code,
+        departamento: result.departament,
+        catedra: result.chair,
+        unidad_ejec: result.execunting_unit,
+        fecha_ini: result.start_date,
+        fecha_fin: result.finish_date,
+        dedicacion: result.current_dedication,
+        sueldo: result.salary,
+        dedicacion_p: result.proposed_dedication,
+        ingreso: result.ingres,
+        tip_ingreso: result.income_type,
+        ubicacion: result.ubication,
+        direccion: result.address,
+        tip_vivienda: result.housing_type,
+        viviendaID: result.housing_identifier,
+        apartamento: result.apartament,
+        categoria: result.category_type,
+        estado: result.state,
+        municipio: result.municipality,
+        parroquia: result.parish,
+        empleadoSalarioID: result.employee_salary_id,
+        formOficeID: result.official_form_id,
+        formOficeMovPer: result.id,
+        isLoaded: true
+      })
+      console.log("this.state: ", this.state)
     }
   }
 
- componentDidMount() {
+async componentDidMount() {
    if (this.props.location.state !== undefined) {
-     getSchool(1)
-   	.then(result => {
-   		const school ={
-   			ID : result.id,
-   			code : result.code,
-   			name : result.school,
-   			codeFilter : result.code.substr(0, 4)
-   		}
-   		this.setState({
-   			 school
-   		})
-   		console.log("school: ", this.state.school);
-   	})
+    const school = await getSchool(1);
+    const StateList = await getAllStatesList();
+    const CategoryTypeList= await getAllCategoryTypesList();
+    const DedicationTypes_p = await getAllDedicationTypesList();
+    const ingressList = await getAllIngressList();
+    const IncomeType = await getAllIncomeTypeList();
 
-    getAllStatesList()
-    .then(result => {
-      result = result.map(res => ({
-        ID: res.ID,
-        label: res.states
-      }))
-      this.setState({
-        StateList: result
-      })
-      console.log("StateList: ", this.state.StateList);
-    });
-
-
-    getAllCategoryTypesList()
-    .then(result => {
-      result = result.map(res => ({
-        ID: res.ID,
-        label: res.name
-      }))
-      this.setState({
-        CategoryTypeList: result
-      })
-      console.log("CategoryTypeList",this.state.CategoryTypeList);
-    });
-
-    getAllDedicationTypesList()
-    .then(result => {
-      result = result.map(res => ({
-        ID: res.id,
-        label: res.dedi
-      }))
-      this.setState({
-        DedicationTypes_p: result
-      })
-      console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
-    });
-
-    getAllIngressList()
-    .then(result => {
-      result = result.map(res => ({
-        ID: res.id,
-        label: res.ingress
-      }))
-      this.setState({
-        ingressList: result
-      })
-      console.log("ingressList: ",this.state.ingressList);
-    });
-
-    getAllIncomeTypeList()
-    .then(result => {
-      result = result.map(res => ({
-        ID: res.ID,
-        label: res.income
-      }))
-      this.setState({
-        IncomeType: result
-      })
-      console.log("IncomeType: ",this.state.IncomeType);
-    });
+    this.setState({
+      ingressList,
+      StateList,
+      IncomeType,
+      DedicationTypes_p,
+      CategoryTypeList,
+      school
+    })
+    console.log("CategoryTypeList",this.state.CategoryTypeList);
+    console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
+    console.log("ingressList: ",this.state.ingressList);
+    console.log("IncomeType: ",this.state.IncomeType);
+    console.log("StateList: ", this.state.StateList);
+    console.log("school: ", this.state.school);
    }
  }
 
- handleSubmit = event => {
+ handleSubmit = async(event) => {
    event.preventDefault();
-   codeMovPer(this.state.school.ID, 0, 0, this.state.school.codeFilter)
-   .then(result => {
-    this.setState({
-      codigo : result
-    })
-    console.log("codigo: ",this.state.codigo);
-    const employee = {
-      employee_id : this.state.empleadoID,
-      state_id : this.state.estado.id,
-      municipality_id: this.state.municipio.id,
-      parish_id : this.state.parroquia.id,
-      ubication: this.state.ubicacion.toUpperCase(),
-      address: this.state.direccion.toUpperCase(),
-      housing_type: this.state.tip_vivienda.toUpperCase(),
-      housing_identifier: this.state.viviendaID.toUpperCase(),
-      apartament: this.state.apartamento.toUpperCase(),
-      ingress_id: this.state.ingreso.id,
-      income_type_id : this.state.tip_ingreso.id,
-      salary_id: this.state.sueldo.id
-    }
-    console.log('employee: ', employee);
-    const formMovPeronsal = {
-      code_form: result.movPer,
-      employee_form_ofice_form_person_movement_id: this.state.formOficeMovPer,
-      form_ofice_id : this.state.formOficeID,
-      reason: this.state.motivo.toUpperCase()
-    }
-    console.log('formMovPeronsal: ', formMovPeronsal);
-    addNewFormMorPersonal(employee, formMovPeronsal, 0, this.state.empleadoSalarioID)
-    .then(result => {
-      console.log('result: ', result);
-      if(result === 1) {
-  			alert('planilla de Movimiento Personal creada exitosamente');
-  			this.props.history.push('/Escuela');
-  		} else {
-  			alert('planilla de Movimiento Persona NO creada exitosamente');
-  			this.props.history.push('/Escuela/Oficio/Listado');
-  		}
-    })
-   });
-
+   const codigo = await codeMovPer(this.state.school.ID, 0, 0, this.state.school.codeFilter)
+   const employee = {
+     employee_id : this.state.empleadoID,
+     state_id : this.state.estado.id,
+     municipality_id: this.state.municipio.id,
+     parish_id : this.state.parroquia.id,
+     ubication: this.state.ubicacion.toUpperCase(),
+     address: this.state.direccion.toUpperCase(),
+     housing_type: this.state.tip_vivienda.toUpperCase(),
+     housing_identifier: this.state.viviendaID.toUpperCase(),
+     apartament: this.state.apartamento.toUpperCase(),
+     ingress_id: this.state.ingreso.id,
+     income_type_id : this.state.tip_ingreso.id,
+     salary_id: this.state.sueldo.id
+   }
+   console.log('employee: ', employee);
+   const formMovPeronsal = {
+     code_form: codigo.movPer,
+     employee_form_ofice_form_person_movement_id: this.state.formOficeMovPer,
+     form_ofice_id : this.state.formOficeID,
+     reason: this.state.motivo.toUpperCase()
+   }
+   console.log('formMovPeronsal: ', formMovPeronsal);
+   const result = await addNewFormMorPersonal(employee, formMovPeronsal, 0, this.state.empleadoSalarioID)
+   console.log('result: ', result);
+   if(result === 1) {
+     alert('planilla de Movimiento Personal creada exitosamente');
+     this.props.history.replace('/Escuela');
+   } else {
+     alert('planilla de Movimiento Persona NO creada exitosamente');
+     this.props.history.replace('/Escuela');
+   }
  }
 
  handleChange = event => {
@@ -335,52 +270,42 @@ handleChangeSelectDedicationTypes_p = event => {
      console.log("tip_ingreso: ", tip_ingreso);
  }
 
- handlechangeMunicipalities = data => {
+ handlechangeMunicipalities = async(data) => {
   this.setState({
     municipalityList: []
   });
   if(data !== "") {
-    getAllMunicipalitiesList(data)
-    .then(result => {
-      result = result.map(res => ({
-        ID: res.ID,
-        label: res.muni
-      }))
-      this.setState({
-        municipalityList: result
-      })
-      console.log("municipalityList: ",this.state.municipalityList);
-    });
+    const municipalityList = await getAllMunicipalitiesList(data)
+    this.setState({
+      municipalityList
+    })
+    console.log("municipalityList: ",this.state.municipalityList);
   }
 }
 
-handlechangeParish = data => {
+handlechangeParish = async(data) => {
   this.setState({
     parroquiaList: [],
   });
   if(data !== "") {
-    getAllParishList(data)
-    .then(result => {
-      result = result.map(res => ({
-        ID: res.ID,
-        label: res.parish
-      }))
-      this.setState({
-        parroquiaList: result
-      })
-      console.log("parroquiaList: ",this.state.parroquiaList);
-    });
+  const parroquiaList = await  getAllParishList(data)
+  this.setState({
+    parroquiaList
+  })
+  console.log("parroquiaList: ",this.state.parroquiaList);
   }
 }
 
   render() {
-    const dedicacion_p = this.state.dedicacion_p;
-    const tip_ingreso = this.state.tip_ingreso;
-    const ingreso = this.state.ingreso;
-    const estado = this.state.estado.id;
-    const municipio = this.state.municipio.id;
-    const parroquia = this.state.parroquia.id;
-    const categoria = this.state.categoria;
+    const {
+      dedicacion_p,
+      tip_ingreso,
+      ingreso,
+      estado,
+      municipio,
+      parroquia,
+      categoria,
+    } = this.state;
     if (!this.state.isLoaded) {
       return (<div className="loader content"></div>);
     } else {
