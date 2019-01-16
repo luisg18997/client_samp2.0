@@ -58,3 +58,19 @@ export const select = (labelName,InputName,value,onChange,options,required) => {
     </Select>
   );
 }
+
+export const selectWithoutLabel = (InputName,value,onChange,options,required) => {
+  return(
+    <Select
+    id={InputName}
+    useDefault={true}
+    name={InputName}
+    value={value}
+    onChange={onChange}
+    required={required}
+    >
+    <Option value=""/>
+    {options.map((opt) => <Option key={opt.ID} value={opt.ID} label={opt.label}/>)}
+    </Select>
+  );
+}

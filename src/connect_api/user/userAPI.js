@@ -125,6 +125,36 @@ export const addNewUser = async(userNew) => {
   return result;
 }
 
+export const addNewUserByAdmin = async(userNew) => {
+  const result = await api.post('NewUserByAdmin', {
+    param_name: userNew.name,
+    param_surname: userNew.surname,
+    param_email: userNew.email,
+    param_password: userNew.password,
+    param_ubication_id: userNew.ubication,
+    param_role_user_id : userNew.roleUserID,
+    param_user_id : userNew.userID,
+    param_school_id: userNew.schoolID,
+    param_institute_id: userNew.instituteID,
+    param_coordination_id: userNew.coordinationID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route addNewUserByAdmin  is:', error.message);
+    return error;
+  })
+  console.log('addNewUserByAdmin: ', result);
+  return result;
+}
+
 export const login = async(email, password) => {
     const result = await api.post('Login', {
       param_email: email,
@@ -145,4 +175,23 @@ export const login = async(email, password) => {
     })
     console.log('login: ', result);
     return result;
+}
+
+export const getALLUserValidateList = async() => {
+  const result = await api.get('/Validates')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getALLUserValidateList  is:', error.message);
+    return error;
+  })
+  console.log('getALLUserValidateList: ', result);
+  return result;
 }

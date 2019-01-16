@@ -3,6 +3,7 @@ import { Container, Row, Col, MDBBtn } from 'mdbreact';
 import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllRolesList,
+  addNewUserByAdmin,
  } from '../../connect_api/user/userAPI';
  import {
  getSchoolList,
@@ -52,16 +53,36 @@ class UpdateUser extends Component {
   console.log(this.state.rolList);
  }
 
- handleSubmit = event => {
+ handleSubmit = async(event) => {
    event.preventDefault();
-
+   const user = {
+     name : this.state.nombre.toUpperCase(),
+     surname : this.state.apellido.toUpperCase(),
+     email: this.state.email,
+     password: this.state.clave,
+     ubication: this.state.ubicacion,
+     roleUserID : this.state.rol,
+     userID: 0,
+     schoolID: this.state.escuela,
+     coordinationID: this.state.coordinacion,
+     instituteID:this.state.instituto,
+   }
+   console.log("user: ", user);
+   const result = await addNewUserByAdmin(user);
+   if(result === 1) {
+     alert('usuario creado exitosamente');
+     this.props.history.replace('/Admin');
+   } else {
+     alert('usuario ya existente');
+     this.props.history.replace('/Admin');
+   }
  }
+
 
  handleChange = event => {
    this.setState({
      [event.target.name]: event.target.value
    });
-
    console.log(event.target.name,': ',event.target.value);
  }
 
