@@ -31,7 +31,7 @@ class UserValidateList extends Component {
           },
           {
             label:"Role",
-            field: "rol",
+            field: "rolList",
             width: 250
           },
           {
@@ -42,57 +42,65 @@ class UserValidateList extends Component {
         ]
       },
       isLoaded: false,
-      user : []
+      user : [],
+      rolList : []
     }
   }
 
   async componentWillMount(){
     const rol = await getAllRolesList();
-const result =	await getALLUserValidateList();
-for (let i = 0; i< result.length; i+=1) {
-  switch (result[i].ubication_id) {
-    case 1: {
-      console.log('ubicacion administracion');
-      result[i].userRoleID = "";
-      result[i].user_role = await selectWithoutLabel('userRoleID',result[i].userRoleID, this.handleChangeRol(),[rol[0]],true);
-      break;
+    const result =	await getALLUserValidateList();
+    for (let i = 0; i< result.length; i+=1) {
+      switch (result[i].ubication_id) {
+        case 1: {
+          console.log('ubicacion administracion');
+          result[i].roleID = "";
+          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[0]],true);
+          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+          break;
+        }
+        case 2: {
+          console.log('ubicacion escuela');
+          result[i].roleID = "";
+          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID,(e) => this.handleChangeRol(e, result[i]),[rol[1]],true)
+          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+          break;
+        }
+        case 3: {
+          console.log('ubicacion instituto');
+          result[i].roleID = "";
+          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[2]],true);
+          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+          break;
+        }
+        case 4: {
+          console.log('ubicacion coordinacion');
+          result[i].roleID = "";
+          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[3]],true);
+          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+          break;
+        }
+        case 5: {
+          console.log('ubicacion dpto. rrhh');
+          result[i].roleID = "";
+          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[4],rol[5]],true);
+          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+          break;
+        }
+        case 6: {
+          console.log('ubicacion dpto. presupuesto');
+          result[i].roleID = "";
+          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[6],rol[7]],true);
+          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+          break;
+        }
+        default:
+        console.log('ubicacion ninguna');
+        result[i].roleID = "";
+        result[i].user_role = "no tiene rol";
+        result[i].button = <Fragment><MDBBtn type="button">name</MDBBtn></Fragment>
+      }
     }
-    case 2: {
-      console.log('ubicacion escuela');
-      result[i].userRoleID = "";
-      result[i].user_role = await selectWithoutLabel('userRoleID',result[i].userRoleID, this.handleChangeRol(),[rol[1]],true)
-      break;
-    }
-    case 3: {
-      console.log('ubicacion instituto');
-      result[i].userRoleID = "";
-      result[i].user_role = await selectWithoutLabel('userRoleID',result[i].userRoleID, this.handleChangeRol(),[rol[2]],true);
-      break;
-    }
-    case 4: {
-      console.log('ubicacion coordinacion');
-      result[i].userRoleID = "";
-      result[i].user_role = await selectWithoutLabel('userRoleID',result[i].userRoleID, this.handleChangeRol(),[rol[3]],true);
-      break;
-    }
-    case 5: {
-      console.log('ubicacion dpto. rrhh');
-      result[i].userRoleID = "";
-      result[i].user_role = await selectWithoutLabel('userRoleID',result[i].userRoleID, this.handleChangeRol(),[rol[4],rol[5]],true);
-      break;
-    }
-    case 6: {
-      console.log('ubicacion dpto. presupuesto');
-      result[i].userRoleID = "";
-      result[i].user_role = await selectWithoutLabel('userRoleID',result[i].userRoleID, this.handleChangeRol(),[rol[6],rol[7]],true);;
-      break;
-    }
-    default:
-    console.log('ubicacion ninguna');
-    result[i].userRoleID = "";
-    result[i].user_role = "no tiene rol";
-  }
-}
    console.log('getALLUserValidateList: ',result);
    const { table } = this.state;
    if (result.result !== 'not found') {
@@ -100,20 +108,51 @@ for (let i = 0; i< result.length; i+=1) {
      name : user.name,
      email : user.email,
      ubication : user.ubication,
-    rol : user.user_role,
-     button : <Fragment><MDBBtn onClick={() => this.handleData(user, true)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(user, false)} >Rechazar</MDBBtn></Fragment>
+    rolList : user.user_role,
+     button : user.button
    }));
  }
    this.setState({
     table,
     user: result,
-     isLoaded : true
+     isLoaded : true,
+     rolList: rol
    })
    console.log('rows: ', this.state)
  }
 
-  handleChangeRol = (e) => {
-    console.log(e);
+  handleChangeRol = (e, user) => {
+    console.log("value: ", e.target.value);
+    console.log('user antes de modificar: ', user);
+    user.roleID = e.target.value;
+    this.setState({
+      user
+    })
+    console.log('user despues de modificar: ', user);
+  }
+
+  handleData = async(user, value, position) => {
+    console.log("user: ", user);
+    console.log("value: ", value);
+    console.log("position: ", position);
+    const table = this.state.table;
+    if (value) {
+        if (user.roleID !== ""){
+          const rol = this.state.rolList[parseInt(user.roleID)-1].label
+          console.log("rol: ", rol);
+          table.rows[position].button = "Validado";
+          table.rows[position].rolList = rol;
+        } else {
+          alert('seleccione un rol para el usuario: ' + user.name);
+        }
+    } else {
+      table.rows[position].button = "No validado";
+      table.rows[position].rolList = "Usuario sin rol";
+    }
+    this.setState({
+      table
+    })
+    console.log("row: ", table);
   }
 
   render(){

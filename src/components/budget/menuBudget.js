@@ -5,6 +5,7 @@ import {
 import mainBudget from './mainBudget';
 import listado from './ListadoPlanillas';
 import OficioRev from './oficioRev';
+import MovPersonalRev from './movPersonalRev';
 
 class MenuBudget extends Component {
   render() {
@@ -29,6 +30,7 @@ class MenuBudget extends Component {
               <Route exact path="/Presupuesto" component={mainBudget} />
               <Route path="/Presupuesto/ListadoPlanillas" component={listado} />
               <Route path="/Presupuesto/Oficio/revision" component={OficioRev} />
+              <Route path="/Presupuesto/MovPersonal/revision" component={MovPersonalRev} />
             </Switch>
 
           </div>

@@ -85,7 +85,7 @@ class ListPlanillas extends Component {
 	    console.log("ListPlanillas: ", form);
 			if (form.form_type === 'OFICIO') {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,0 ,form.official_form_id, 6, '', 2, '1', '0');
+					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,0 ,form.official_form_id, 6, null, 2, '1', '0');
 					console.log('result: ', result);
 				}
 				this.props.history.replace('/Presupuesto/Oficio/revision',
@@ -94,9 +94,13 @@ class ListPlanillas extends Component {
 					ubication_id: 6});
 			} else {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,0 ,form.mov_personal_form_id, 6, '', 2, '1', '0');
+					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,0 ,form.mov_personal_form_id, 6, null, 2, '1', '0');
 					console.log('result: ', result);
 				}
+				this.props.history.replace('/Presupuesto/MovPersonal/revision',
+				{
+					cedula: form.identification,
+					ubication_id: 5});
 			}
 		}
 

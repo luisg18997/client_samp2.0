@@ -81,7 +81,7 @@ class MovPersonal extends Component {
       this.props.history.replace('/Escuela')
     } else {
       console.log(this.props.location.state.cedula);
-      const result = await getFormMovPersonal(this.props.location.state.cedula)
+      const result = await getFormMovPersonal(this.props.location.state.cedula, 1)
       this.setState({
         empleadoID : result.employee_id,
         cedula: result.identification,

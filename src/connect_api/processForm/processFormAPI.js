@@ -9,8 +9,8 @@ const api = axios.create({
   }
 })
 
-export const updateAllColumnsProcessOfficialForm = async(processID, userID, officialFormID, observation,
-  ubicationID, statusProcessFormID, isActive, isDeleted) => {
+export const updateAllColumnsProcessOfficialForm = async(processID, userID, officialFormID, ubicationID,
+  observation, statusProcessFormID, isActive, isDeleted) => {
   const result = await api.post('OfficialForm/UpdatAllColumns',
   {
     param_process_id: processID,

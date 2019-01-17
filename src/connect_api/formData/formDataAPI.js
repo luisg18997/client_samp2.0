@@ -173,9 +173,10 @@ export const getFormOficesList = async(schoolID, instituteID, coordinationID) =>
   return result;
 }
 
-export const getFormMovPersonal = async(identification) => {
+export const getFormMovPersonal = async(identification, ubication) => {
   const result = await api.post('movPersonal', {
     param_identification: identification,
+    param_ubication_id : ubication
   })
   .then((res) => {
     if(res.data.messageError) {
@@ -195,7 +196,7 @@ export const getFormMovPersonal = async(identification) => {
 }
 
   export const getFormOfficial = async(identification, ubication) => {
-    const result = await api.post('getFormMovPersonal', {
+    const result = await api.post('official', {
       param_identification: identification,
       param_ubication_id : ubication
     })
