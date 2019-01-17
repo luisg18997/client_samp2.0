@@ -74,7 +74,7 @@ class OficioRev extends Component {
 
   handleChangeStatus = async(result) => {
     if (result) {
-      const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 2, 3, '1', '0');
+      const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 2,null, 3, '1', '0');
       console.log(res.data);
       this.props.history.replace('/Presupuesto');
     } else {

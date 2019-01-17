@@ -67,7 +67,8 @@ class MovPersonal extends Component {
           unidad_ejec: "",
           school: "",
           motivo: "",
-          isLoaded: false
+          isLoaded: false,
+          anexo: "",
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -82,6 +83,17 @@ class MovPersonal extends Component {
     } else {
       console.log(this.props.location.state.cedula);
       const result = await getFormMovPersonal(this.props.location.state.cedula, 1)
+      let anexos;
+      if( result.annex_types.length > 0) {
+        let annex = [];
+        for (var i = 0; i < result.annex_types.length; i++) {
+        annex[i] = result.annex_types[i].description;
+        }
+       anexos = annex.toString().toUpperCase();
+        console.log('annex: ', anexos);
+      } else {
+        anexos = result.annex_types.toString().toUpperCase();
+      }
       this.setState({
         empleadoID : result.employee_id,
         cedula: result.identification,
@@ -115,7 +127,8 @@ class MovPersonal extends Component {
         empleadoSalarioID: result.employee_salary_id,
         formOficeID: result.official_form_id,
         formOficeMovPer: result.id,
-        isLoaded: true
+        isLoaded: true,
+        anexo: anexos
       })
       console.log("this.state: ", this.state)
     }
@@ -169,6 +182,7 @@ async componentDidMount() {
      code_form: codigo.movPer,
      employee_form_ofice_form_person_movement_id: this.state.formOficeMovPer,
      form_ofice_id : this.state.formOficeID,
+     salary: this.state.sueldo.description,
      reason: this.state.motivo.toUpperCase()
    }
    console.log('formMovPeronsal: ', formMovPeronsal);
@@ -450,15 +464,15 @@ handlechangeParish = async(data) => {
 
 
       <div className="form-group col-md-3">
-        {Label("Fecha de Inicio", "date","fecha_ini", this.state.fecha_ini)}
+        {Label("Fecha de Inicio", "text","fecha_ini", this.state.fecha_ini)}
       </div>
 
       <div className="form-group col-md-3">
-        {Label("Fecha de Fin", "date","fecha_fin", this.state.fecha_fin)}
+        {Label("Fecha de Fin", "text","fecha_fin", this.state.fecha_fin)}
       </div>
 
   <div className="form-group col-md-3">
-    {Label(LabelRequired("Anexos"), "textarea","anexo", this.state.anexo, this.handleChange, true)}
+    {Label(LabelRequired("Anexos"), "textarea","anexo", this.state.anexo)}
   </div>
 
   <div className="form-group col-md-3">
