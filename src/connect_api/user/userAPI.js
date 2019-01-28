@@ -1,7 +1,7 @@
 import axios from 'axios';
 const api = axios.create({
-  baseURL: process.env.URL_API || 'http://localhost:5000/users/',
-  timeout: 5000,
+  baseURL: process.env.REACT_APP_URL_API_USER || "http://localhost:5000/users/",
+  timeout: 10000,
   headers: {
     'Authorization': 'Bearer 14154151',
     'Content-Type': 'application/json',
@@ -56,6 +56,7 @@ export const getAllSecurityQuestionsList = async() => {
 }
 
 export const getAllUbicationsList = async() => {
+  console.log(process.env);
   const result = await api.get('Ubications')
   .then((res) => {
     if(res.data.messageError) {
@@ -193,5 +194,71 @@ export const getALLUserValidateList = async() => {
     return error;
   })
   console.log('getALLUserValidateList: ', result);
+  return result;
+}
+
+export const updateUserValidate = async(userID, userRoleID, roleID, isActive, isDeleted, userId) => {
+    const result = await api.post('Validate/update', {
+      para_id: userID,
+      param_user_role_id: userRoleID,
+      param_role_id: roleID,
+      param_is_active: isActive,
+      param_is_deleted: isDeleted,
+      param_user_id: userId
+    })
+    .then((res) => {
+      if(res.data.messageError) {
+        console.log(res.data.messageError);
+        return res.data.messageError
+      } else {
+        console.log(res);
+        return res.data;
+      }
+    })
+    .catch((error) => {
+      console.log('The error in the call route updateUserValidate  is:', error.message);
+      return error;
+    })
+    console.log('updateUserValidate: ', result);
+    return result;
+}
+
+export const getUser = async(userID) => {
+  const result = await api.post('', {
+    param_user_id : userID
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getUser  is:', error.message);
+    return error;
+  })
+  console.log('getUser: ', result);
+  return result;
+}
+
+export const getALLUserList = async() => {
+  const result = await api.get('/List')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getALLUserList  is:', error.message);
+    return error;
+  })
+  console.log('getALLUserList: ', result);
   return result;
 }

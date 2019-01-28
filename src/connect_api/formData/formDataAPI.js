@@ -1,7 +1,7 @@
 import axios from 'axios';
 const api = axios.create({
-  baseURL: process.env.URL_API || 'http://localhost:5000/form/',
-  timeout: 5000,
+  baseURL: process.env.REACT_APP_URL_API_FORM || "http://localhost:5000/form/",
+  timeout: 10000,
   headers: {
     'Authorization': 'Bearer 14154151',
     'Content-Type': 'application/json',

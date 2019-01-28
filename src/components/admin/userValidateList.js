@@ -4,6 +4,7 @@ import { MDBBtn } from 'mdbreact';
 import {
   getAllRolesList,
   getALLUserValidateList,
+  updateUserValidate,
  } from '../../connect_api/user/userAPI';
 import {selectWithoutLabel} from '../util/forms';
 
@@ -107,7 +108,7 @@ class UserValidateList extends Component {
    table.rows = result.map(user => ({
      name : user.name,
      email : user.email,
-     ubication : user.ubication,
+     ubication : user.ubication.description,
     rolList : user.user_role,
      button : user.button
    }));
@@ -123,7 +124,6 @@ class UserValidateList extends Component {
 
   handleChangeRol = (e, user) => {
     console.log("value: ", e.target.value);
-    console.log('user antes de modificar: ', user);
     user.roleID = e.target.value;
     this.setState({
       user
@@ -138,16 +138,20 @@ class UserValidateList extends Component {
     const table = this.state.table;
     if (value) {
         if (user.roleID !== ""){
-          const rol = this.state.rolList[parseInt(user.roleID)-1].label
+          const rol = this.state.rolList[parseInt(user.roleID)-1].label;
           console.log("rol: ", rol);
           table.rows[position].button = "Validado";
           table.rows[position].rolList = rol;
+          const validate = updateUserValidate(user.id,user.roleID, rol.id, '1', '0', 0);
+          console.log('user_validate result: ', validate);
         } else {
           alert('seleccione un rol para el usuario: ' + user.name);
         }
     } else {
       table.rows[position].button = "No validado";
       table.rows[position].rolList = "Usuario sin rol";
+      const validate = updateUserValidate(user.id,user.roleID, 0, '0', '1', 0);
+      console.log('user_validate result: ', validate);
     }
     this.setState({
       table

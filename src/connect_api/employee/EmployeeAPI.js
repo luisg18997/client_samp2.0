@@ -1,6 +1,6 @@
 import axios from 'axios';
 const api = axios.create({
-  baseURL: process.env.URL_API || 'http://localhost:5000/employee/',
+  baseURL: process.env.REACT_APP_URL_API_EMPLOYEE || "http://localhost:5000/employee/",
   timeout: 10000,
   headers: {
     'Authorization': 'Bearer 14154151',

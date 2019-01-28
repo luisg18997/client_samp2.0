@@ -1,6 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {table} from '../util/forms';
-//import { MDBBtn } from 'mdbreact';
+import { MDBBtn } from 'mdbreact';
+import {
+  getALLUserList,
+ } from '../../connect_api/user/userAPI';
 
 class UserStatusList extends Component {
   constructor(props) {
@@ -41,20 +44,29 @@ class UserStatusList extends Component {
   }
 
   async componentWillMount(){
-/* const result =	await getFormsList(6,0)
-   console.log('getFormsList: ',result);
-   const { table } = this.state;
-   if (result.result !== 'not found') {
-   table.rows = result.map(form => ({
-     code_form : form.code_form,
-     form_type : form.form_type,
-     movement_type : form.movement_type,
-     ubication : form.ubication,
-     registration_date : form.registration_date,
-     status_form : form.status_form,
-     button : <MDBBtn onClick={(e) => this.handleData(e,form)} >Seleccionar</MDBBtn>
-   }));
- } */
+    const result =	await getALLUserList()
+    console.log('getALLUserList: ',result);
+    const { table } = this.state;
+     if (result.result !== 'not found') {
+       for (let i = 0; i< result.length; i+=1) {
+         if (result[i].is_active === '1' && result[i].is_deleted !== '1') {
+           result[i].user_status = "activo"
+         } else if (result[i].is_deleted === '1'){
+            result[i].user_status = "eliminado"
+         } else {
+           result[i].user_status = "bloqueado"
+         }
+         result[i].buttons = <Fragment><MDBBtn type="button">Actualizar</MDBBtn><MDBBtn type="button">Ver</MDBBtn><MDBBtn type="button">Eliminar</MDBBtn></Fragment>
+       }
+     table.rows = result.map(user => ({
+       name : user.name,
+       email : user.email,
+       ubication : user.ubication.description,
+       rol : user.rol.description,
+       user_status : user.user_status,
+       button : user.buttons
+     }));
+   }
    this.setState({
     // table,
      isLoaded : true
