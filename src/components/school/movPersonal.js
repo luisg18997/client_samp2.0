@@ -82,7 +82,7 @@ class MovPersonal extends Component {
       this.props.history.replace('/Escuela')
     } else {
       console.log(this.props.location.state.cedula);
-      const result = await getFormMovPersonal(this.props.location.state.cedula, 1)
+      const result = await getFormMovPersonal(this.props.location.state.cedula, this.props.location.state.ubication_id)
       let anexos;
       if( result.annex_types.length > 0) {
         let annex = [];
@@ -366,15 +366,15 @@ handlechangeParish = async(data) => {
       </div>
 
       <div className="form-group col-md-3">
-          {select(LabelRequired('Estado'),'estado', estado,this.handleChangeSelectstate,this.state.StateList, true)}
+          {select(LabelRequired('Estado'),'estado', estado.id,this.handleChangeSelectstate,this.state.StateList, true)}
       </div>
 
       <div className="form-group col-md-3">
-        {select(LabelRequired('Municipio'),'municipio', municipio,this.handleChangeSelectMun,this.state.municipalityList, true)}
+        {select(LabelRequired('Municipio'),'municipio', municipio.id,this.handleChangeSelectMun,this.state.municipalityList, true)}
       </div>
 
       <div className="form-group col-md-3">
-        {select(LabelRequired('Parroquia'),'parroquia', parroquia,this.handleChangeSelectPar,this.state.parroquiaList, true)}
+        {select(LabelRequired('Parroquia'),'parroquia', parroquia.id,this.handleChangeSelectPar,this.state.parroquiaList, true)}
       </div>
 
       <div className="form-group col-md-3">

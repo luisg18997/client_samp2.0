@@ -121,7 +121,7 @@ export const getAllDepartamentBySchoolList = async(schoolID) => {
       const departament = res.data.map(dept => ({
         ID: dept.id,
         code: dept.code,
-        name: dept.departament,
+        label: dept.departament,
         codeFilter: dept.code.substr(0, 6),
       }))
       return departament;
@@ -170,6 +170,7 @@ export const getAllChairList = async(departamentID) => {
         ID: cha.id,
         code: cha.code,
         label: cha.chair,
+        codeFilter: cha.code,
       }))
       return chair;
     }

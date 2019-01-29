@@ -102,7 +102,7 @@ handleSubmit = async(event) => {
   if(result === 1) {
     alert('planilla de oficio creado exitosamente');
     if (window.confirm("¿Desea registrar la planilla de Movmimiento?")) {
-      this.props.history.replace('/Escuela/MovPersonal', {cedula:employee.identification});
+      this.props.history.replace('/Escuela/MovPersonal', {cedula:employee.identification, ubication_id:2});
     } else {
       this.props.history.replace('/Escuela');
     }
@@ -115,6 +115,7 @@ handleSubmit = async(event) => {
 handeCodeFilterSelected = (data, value) => {
   let codeFilterSelected ="";
   for (var i = 0; i < data.length; i++) {
+    console.log('data[',i,'].ID: ', data[i].ID);
     if (data[i].ID === value){
       let codeFilterSelected = data[i].codeFilter;
       return codeFilterSelected;
@@ -125,21 +126,13 @@ handeCodeFilterSelected = (data, value) => {
   }
 }
 
-handleChangeIdac = data => {
-  getAllIdacCodesFilterVacantDateNotNullList(data)
-  .then(result => {
-    result = result.map(res => ({
-      ID: res.ID,
-      label: res.Codigo,
-      UnidejecDesc: res.UnidejecDesc,
-      UnidejecID: res.UnidejecID
-    }))
-    this.setState({
-      idac : "",
-      idacList : result
-    })
-    console.log("idacList: ", this.state.idacList);
-  });
+handleChangeIdac = async(data) => {
+  const result = await getAllIdacCodesFilterVacantDateNotNullList(data);
+  this.setState({
+    idac : "",
+    idacList : result
+  })
+  console.log("idacList: ", this.state.idacList);
 }
 
 handleChangeExecUnit = data => {
@@ -250,10 +243,11 @@ handleChangeSelectcat = event => {
   this.setState({
     catedra : event.target.value
   });
+  console.log('catedra: ', event.target.value);
   let codeFilterSelected = ""
   if(event.target.value !== "") {
     codeFilterSelected = this.handeCodeFilterSelected(this.state.catedraList, parseInt(event.target.value));
-    console.log(codeFilterSelected)
+    console.log("codeFilterSelected: ", codeFilterSelected)
       this.handleChangeExecUnit(codeFilterSelected);
     } else {
       codeFilterSelected = this.handeCodeFilterSelected(this.state.departamentoList, parseInt(this.state.departamento));

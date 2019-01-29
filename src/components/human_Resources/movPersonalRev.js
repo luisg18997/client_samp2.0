@@ -8,6 +8,7 @@ import {
 	updateAllColumnsProcessMovPersonalForm
 }
 from '../../connect_api/processForm/processFormAPI'
+import {Label, LabelRequired} from '../util/forms';
 
 class movPersonalRev extends Component {
   constructor(props) {
@@ -46,7 +47,8 @@ class movPersonalRev extends Component {
       anexo: "",
       motivo:"",
       isLoaded : false,
-      isValidate : true
+      isValidate : true,
+      observacion:""
     }
   }
 
@@ -111,6 +113,12 @@ class movPersonalRev extends Component {
     }
   }
 
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
   handleChangeStatus = async(result) => {
     if (result) {
       const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, 0, this.state.formMovPersonalID, 6, null,1, '1', '0');
@@ -121,6 +129,25 @@ class movPersonalRev extends Component {
           isValidate: false
         })
     }
+  }
+
+  handleSubmit = async(e, result) => {
+    e.preventDefault();
+    if (result) {
+      console.log('envio');
+      if(this.state.observacion !== ""){
+        const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, 0, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
+        console.log(res);
+        this.props.history.replace('/RRHH');
+      } else {
+        alert('Falta la observacion');
+      }
+    } else {
+      if(window.confirm('desea cancelar el proceso')){
+        this.props.history.replace('/RRHH/ListadoPlanillas');
+      }
+    }
+
   }
 
   render(){
@@ -266,9 +293,12 @@ class movPersonalRev extends Component {
                   </div>
                 </div>:
                 <div className="form-group col-md-10">
-                  <label><strong>Obsevacion</strong></label>
-                    <br/>
-                    <label></label>
+                  {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true)}
+                  <br/>
+                  <div className="row justify-content-center">
+                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
+                  </div>
                 </div>
             }
 

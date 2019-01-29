@@ -15,27 +15,32 @@ class UserStatusList extends Component {
             label:"Nombre",
             field: "name",
             sort: 'asc',
+            width: 250
           },
           {
             label:"Correo",
             field: "email",
+            width: 450
           },
           {
             label:"Ubicacion",
             field: "ubication",
+            width: 450
           },
           {
             label:"Role",
             field: "rol",
+            width: 250
           },
           {
             label: "Status",
             field: "user_status",
+            width: 250
           },
           {
             label: "Acciones",
             field: "button",
-            width: 250
+            width: 450
           }
         ]
       },

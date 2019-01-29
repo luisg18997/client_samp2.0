@@ -8,6 +8,7 @@ import {
 	updateAllColumnsProcessOfficialForm
 }
 from '../../connect_api/processForm/processFormAPI'
+import {Label, LabelRequired} from '../util/forms';
 
 class OficioRev extends Component {
   constructor(props) {
@@ -37,7 +38,8 @@ class OficioRev extends Component {
       coordinacion:"",
       dedicacion: "",
       isLoaded : false,
-      isValidate : true
+      isValidate : true,
+      observacion: ""
     };
   }
 
@@ -76,16 +78,43 @@ async componentWillMount() {
     }
   }
 
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
   handleChangeStatus = async(result) => {
     if (result) {
       const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 6, null,1, '1', '0');
       console.log(await res);
+      alert('planilla de oficio aprobada');
       this.props.history.replace('/RRHH');
     } else {
       this.setState({
         isValidate: false
       })
     }
+  }
+
+  handleSubmit = async(e, result) => {
+    e.preventDefault();
+    if (result) {
+      console.log('envio');
+      if(this.state.observacion !== ""){
+        const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
+        console.log(res);
+        alert('planilla de oficio NO aprobada');
+        this.props.history.replace('/RRHH');
+      } else {
+        alert('Falta la observacion');
+      }
+    } else {
+      if(window.confirm('desea cancelar el proceso')){
+        this.props.history.replace('/RRHH/ListadoPlanillas');
+      }
+    }
+
   }
 
   render() {
@@ -186,9 +215,12 @@ async componentWillMount() {
                   </div>
                 </div>:
                 <div className="form-group col-md-10">
-                  <label><strong>Obsevacion</strong></label>
-                    <br/>
-                    <label></label>
+                  {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true)}
+                  <br/>
+                  <div className="row justify-content-center">
+                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
+                  </div>
                 </div>
             }
           </form>

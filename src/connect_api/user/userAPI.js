@@ -199,7 +199,7 @@ export const getALLUserValidateList = async() => {
 
 export const updateUserValidate = async(userID, userRoleID, roleID, isActive, isDeleted, userId) => {
     const result = await api.post('Validate/update', {
-      para_id: userID,
+      param_id: userID,
       param_user_role_id: userRoleID,
       param_role_id: roleID,
       param_is_active: isActive,

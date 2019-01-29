@@ -52,7 +52,7 @@ class UserValidateList extends Component {
     const rol = await getAllRolesList();
     const result =	await getALLUserValidateList();
     for (let i = 0; i< result.length; i+=1) {
-      switch (result[i].ubication_id) {
+      switch (result[i].ubication.id) {
         case 1: {
           console.log('ubicacion administracion');
           result[i].roleID = "";
@@ -142,7 +142,7 @@ class UserValidateList extends Component {
           console.log("rol: ", rol);
           table.rows[position].button = "Validado";
           table.rows[position].rolList = rol;
-          const validate = updateUserValidate(user.id,user.roleID, rol.id, '1', '0', 0);
+          const validate = await updateUserValidate(user.id,user.user_role_id, user.roleID, '1', '0', 0);
           console.log('user_validate result: ', validate);
         } else {
           alert('seleccione un rol para el usuario: ' + user.name);
@@ -150,7 +150,7 @@ class UserValidateList extends Component {
     } else {
       table.rows[position].button = "No validado";
       table.rows[position].rolList = "Usuario sin rol";
-      const validate = updateUserValidate(user.id,user.roleID, 0, '0', '1', 0);
+      const validate = await updateUserValidate(user.id,user.user.user_role_id, 0, '0', '1', 0);
       console.log('user_validate result: ', validate);
     }
     this.setState({
