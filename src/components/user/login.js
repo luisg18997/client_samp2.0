@@ -3,8 +3,8 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import {Link} from 'react-router-dom';
 import {Label} from '../util/forms';
 import {
-	login
-  } from '../../connect_api/user/userAPI';
+	AuthLogin
+} from '../redirectPrincipal';
 
 export default class Login extends Component {
   constructor() {
@@ -28,8 +28,7 @@ export default class Login extends Component {
 
   handleSubmit = async(event) => {
     event.preventDefault();
-    const result = await login(this.state.email, this.state.password)
-    console.log("user: ", result);
+    const result = await AuthLogin(this.state.email, this.state.password, this.props);
   }
 
   render() {

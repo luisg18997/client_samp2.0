@@ -195,24 +195,52 @@ export const getFormMovPersonal = async(identification, ubication) => {
   return result;
 }
 
-  export const getFormOfficial = async(identification, ubication) => {
-    const result = await api.post('official', {
-      param_identification: identification,
-      param_ubication_id : ubication
-    })
-    .then((res) => {
-      if(res.data.messageError) {
-        console.log(res.data.messageError);
-        return res.data.messageError
-      } else {
-        console.log(res);
-        return res.data;
-      }
-    })
-    .catch((error) => {
-      console.log('The error in the call route getFormOfficial  is:', error.message);
-      return error;
-    });
-    console.log('getFormOfficial: ', result);
-    return result;
-  }
+export const getFormOfficial = async(identification, ubication) => {
+  const result = await api.post('official', {
+    param_identification: identification,
+    param_ubication_id : ubication
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getFormOfficial  is:', error.message);
+    return error;
+  });
+  console.log('getFormOfficial: ', result);
+  return result;
+}
+
+export const updateOfficialApproval = async(officialID, officialProcessID, ubicationID, statusProcessFormID, observation, isActive, isDeleted, userID) => {
+  const result = await api.post('official/updateApproval', {
+    param_id: officialID,
+    param_official_form_process_id: officialProcessID,
+    param_ubication_id: ubicationID,
+    param_status_process_form_id: statusProcessFormID,
+    param_observation: observation,
+    param_is_active: isActive,
+    param_is_deleted: isDeleted,
+    param_user_id: userID
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateOfficialApproval  is:', error.message);
+    return error;
+  });
+  console.log('updateOfficialApproval: ', result);
+  return result;
+};

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
-  getFormOfficial
+  getFormOfficial,
+  updateOfficialApproval
 }
   from '../../connect_api/formData/formDataAPI';
 import { MDBBtn } from 'mdbreact';
@@ -82,8 +83,9 @@ class OficioRev extends Component {
 
   handleChangeStatus = async(result) => {
     if (result) {
-      const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 2,null, 3, '1', '0');
+      const res = await updateOfficialApproval(this.state.formOficeID, this.state.processFormID, 2, 3, null, '1', '0', 0);
       console.log(res.data);
+      alert('planilla de oficio aprobada');
       this.props.history.replace('/Presupuesto');
     } else {
       this.setState({
