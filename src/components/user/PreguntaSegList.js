@@ -6,13 +6,11 @@ import {
 } from '../../connect_api/user/userAPI';
   import { Container, Row, Col, MDBBtn } from 'mdbreact';
   import {Label, LabelRequired, select} from '../util/forms';
-  import {
-  	AuthLogin
-  } from '../redirectPrincipal';
-
+  import Authorization from '../redirectPrincipal';
 class PreguntaSegList extends Component {
   constructor(props){
     super(props);
+    this.auth = new Authorization();
     this.state = {
       questionList: [],
       preguntaSeg: "",
@@ -54,6 +52,7 @@ class PreguntaSegList extends Component {
     if (this.state.oldPassword === '123456') {
       await updateUserPassword(this.state.user.id, this.state.newPassword);
     }
+    this.auth.redirect(this.state.user.ubication.id, this.props);
 
   }
 

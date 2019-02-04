@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import {Link} from 'react-router-dom';
 import {Label} from '../util/forms';
-import {
-	AuthLogin
-} from '../redirectPrincipal';
+import Authorization from '../redirectPrincipal';
 
 export default class Login extends Component {
   constructor() {
     super();
+		this.auth = new Authorization();
     this.state = {
       email: "",
       password: ""
@@ -28,7 +27,7 @@ export default class Login extends Component {
 
   handleSubmit = async(event) => {
     event.preventDefault();
-    await AuthLogin(this.state.email, this.state.password, this.props);
+    await this.auth.AuthLogin(this.state.email, this.state.password, this.props);
   }
 
   render() {

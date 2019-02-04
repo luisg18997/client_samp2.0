@@ -262,3 +262,70 @@ export const getALLUserList = async() => {
   console.log('getALLUserList: ', result);
   return result;
 }
+
+export const updateUserAnswer = async(answerID, userID, questionID, answer) => {
+  const result = await api.post('Validate/update', {
+    param_id: answerID,
+    param_user_id : userID,
+    param_question_id: questionID,
+    param_answer : answer
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateUserAnswer  is:', error.message);
+    return error;
+  })
+  console.log('updateUserAnswer: ', result);
+  return result;
+}
+
+export const updateUserPassword = async(userID, password) => {
+  const result = await api.post('Password/update', {
+    param_id: userID,
+    param_password : password
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateUserPassword  is:', error.message);
+    return error;
+  })
+  console.log('updateUserPassword: ', result);
+  return result;
+}
+
+export const getUserForChangePassword = async(email) => {
+  const result = await api.post('getChangePassword', {
+    param_user_id : email
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getUserForChangePassword  is:', error.message);
+    return error;
+  })
+  console.log('getUserForChangePassword: ', result);
+  return result;
+}
