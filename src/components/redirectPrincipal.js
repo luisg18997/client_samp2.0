@@ -20,8 +20,12 @@ import {
       }
     } else {
       localStorage.setItem('ucv_fhe_jwt', result.token);
-      if (result.user.is_active !== '1' && result.user.is_deleted === '0') {
+      if (result.data.isActive !== '1' && result.data.isDeleted === '0') {
         alert('usuario bloqueado contacte el administrador')
-      }
+      } else if (result.data.isDeleted === '1') {
+        alert('usuario eliminado');
+      } else if (result.data.question.id === 0 && result.data.question.description === null){
+				props.history.replace('/PreguntaSeguridad', { password , result});
+			}
     }
   }

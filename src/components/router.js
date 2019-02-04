@@ -8,6 +8,7 @@ import humanResources from './human_Resources';
 import admin from './admin';
 import UserRegister from './user/registroUsuario';
 import ClaveOlvidada from './user/olvidoClave';
+import PreguntaSeg from './user/PreguntaSegList';
 
 
 class routerPrincipal extends Component {
@@ -23,6 +24,7 @@ class routerPrincipal extends Component {
             <Route path="/Admin" component={admin} />
             <Route path="/Registro" component={UserRegister} />
             <Route path="/OlvidoClave" component={ClaveOlvidada} />
+            <Route path="/PreguntaSeguridad" component={PreguntaSeg} />
           </Switch>
         </div>
       </Router>
