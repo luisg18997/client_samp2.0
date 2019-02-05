@@ -9,6 +9,7 @@ import admin from './admin';
 import UserRegister from './user/registroUsuario';
 import ClaveOlvidada from './user/olvidoClave';
 import PreguntaSeg from './user/PreguntaSegList';
+import BusquedaCambioClave from './user/busquedaCambioClave';
 
 
 class routerPrincipal extends Component {
@@ -23,8 +24,9 @@ class routerPrincipal extends Component {
             <Route path="/RRHH" component={humanResources} />
             <Route path="/Admin" component={admin} />
             <Route path="/Registro" component={UserRegister} />
-            <Route path="/OlvidoClave" component={ClaveOlvidada} />
+            <Route path="/CambioClave" component={ClaveOlvidada} />
             <Route path="/PreguntaSeguridad" component={PreguntaSeg} />
+            <Route path="/OlvidoClave" component={BusquedaCambioClave} />
           </Switch>
         </div>
       </Router>
