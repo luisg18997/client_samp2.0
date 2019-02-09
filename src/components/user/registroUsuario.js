@@ -165,8 +165,7 @@ async handleSubmit(event) {
 </div>
 </div>
 			</form>
-			<MDBBtn color="light-blue"><Link to='/'  style={{ textDecoration: 'none',
-	'color':' white'}}> Inicio de sesión </Link> </MDBBtn>
+			<Link to='/'  style={{ textDecoration: 'none','color':' white'}}> Inicio de sesión </Link>
 			</Col>
 		</Row>
 			</Container>

@@ -19,7 +19,7 @@ class UpdateUser extends Component {
       nombre: "",
       apellido: "",
       email: "",
-      clave: "12345678",
+      clave: "123456",
       rol : "",
       rolList: [],
       ubicacion: 0,
