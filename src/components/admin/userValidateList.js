@@ -31,7 +31,7 @@ class UserValidateList extends Component {
             width: 450
           },
           {
-            label:"Role",
+            label:"Rol",
             field: "rolList",
             width: 250
           },

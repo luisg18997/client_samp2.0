@@ -35,7 +35,6 @@ export default class Login extends Component {
       <div >
 
         <MDBContainer className="Login">
-
           <MDBRow>
         <MDBCol>
         <form onSubmit={this.handleSubmit}>
@@ -57,10 +56,10 @@ export default class Login extends Component {
     <ul style={{
 'listStyle': 'none'}}>
       <li>
-        <Link to='/Registro'>Registrate</Link>
+        <Link to='/Registro'>Registro</Link>
       </li>
       <li>
-        <Link to='/OlvidoClave'>Olvido Su clave?</Link>
+        <Link to='/OlvidoClave'>Recuperar su clave</Link>
       </li>
     </ul>
  </MDBContainer>
