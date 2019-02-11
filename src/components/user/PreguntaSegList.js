@@ -60,8 +60,12 @@ class PreguntaSegList extends Component {
     if (this.state.oldPassword === '123456') {
       await updateUserPassword(this.state.user.id, this.state.newPassword);
     }
-		if(result === '1') {
+		console.log('result: ', result);
+		if(result === 1) {
+			alert('Datos de Seguridad Actualizado Correctamente');
 				this.auth.redirect(this.state.user.ubication.id, this.props);
+		} else {
+			alert('Datos de Seguridad NO Actualizado Correctamente');
 		}
   }
 

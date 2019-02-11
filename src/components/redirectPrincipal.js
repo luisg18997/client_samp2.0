@@ -37,7 +37,7 @@ import {
 	      } else if (result.data.question.id === 0 && result.data.question.description === null){
 					props.history.replace('/PreguntaSeguridad', { password , result});
 				} else {
-
+					this.redirect(result.ubication.id, props)
 				}
 	    }
 	  }
@@ -96,7 +96,7 @@ import {
 	 		      console.log(res.data.messageError);
 	 		      return res.data.messageError
 	 		    } else {
-	 		      console.log("checkIsTokenExpired: ", res);
+	 		      console.log("ObtainData: ", res);
 	 		      return res.data;
 	 		    }
 	 		  })
@@ -105,15 +105,9 @@ import {
 	 		    return error;
 	 		  })
 	 			console.log('ObtainData: ', result);
-				if (result.data.question.id === 0 && result.data.question.description === null){
-					props.history.replace('/PreguntaSeguridad', { password : result.password , result});
-				} else {
-					this.redirect(result.ubication.id, props);
-				}
-			 } else {
-				 this.logout();
-			 }
+			return result;
 		}
+	}
 
 		redirect = (ubication, props) => {
 			switch (ubication) {

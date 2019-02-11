@@ -3,7 +3,7 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_URL_API_FACULTY || "http://localhost:5000/faculty/",
   timeout: 10000,
   headers: {
-    'Authorization': 'Bearer 14154151',
+    'Authorization':localStorage.getItem('ucv_fhe_jwt') !== null?`Bearer ${localStorage.getItem('ucv_fhe_jwt')}`: '',
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   }
