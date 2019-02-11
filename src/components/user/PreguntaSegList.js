@@ -8,8 +8,8 @@ import {
   import {Label, LabelRequired, select} from '../util/forms';
   import Authorization from '../redirectPrincipal';
 class PreguntaSegList extends Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.auth = new Authorization();
     this.state = {
       questionList: [],
@@ -19,25 +19,33 @@ class PreguntaSegList extends Component {
       newPassword: "",
       newPasswordConfirm: "",
       user : "",
+			isLoaded : false
     }
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
   }
 
   async componentWillMount() {
-    console.log('this.props: ', this.props);
-    if (this.props.location.state === undefined) {
-      this.props.history.replace('/')
-    } else {
-      const oldPassword = this.props.location.state.password;
-      const user = this.props.location.state.result.data;
-      const questionList = await getAllSecurityQuestionsList();
-      this.setState({
-        questionList,
-        oldPassword,
-        user,
-      })
-    }
+		console.log(this.auth.loggedIn());
+		if (this.auth.loggedIn()) {
+			console.log('this.props: ', this.props);
+	    if (this.props.location.state === undefined) {
+	      this.props.history.replace('/')
+	    } else {
+	      const oldPassword = this.props.location.state.password;
+	      const user = this.props.location.state.result.data;
+	      const questionList = await getAllSecurityQuestionsList();
+	      this.setState({
+	        questionList,
+	        oldPassword,
+	        user,
+					isLoaded : true
+	      })
+	    }
+		} else {
+			this.auth.logout(this.props)
+		}
   }
-
 
   handleChange(event) {
     this.setState({
@@ -52,8 +60,9 @@ class PreguntaSegList extends Component {
     if (this.state.oldPassword === '123456') {
       await updateUserPassword(this.state.user.id, this.state.newPassword);
     }
-    this.auth.redirect(this.state.user.ubication.id, this.props);
-
+		if(result === '1') {
+				this.auth.redirect(this.state.user.ubication.id, this.props);
+		}
   }
 
   render() {
@@ -64,6 +73,9 @@ class PreguntaSegList extends Component {
       newPassword,
       newPasswordConfirm,
     } = this.state
+		if (!this.state.isLoaded) {
+			return (<div className="loader"></div>);
+		} else {
     return (
       <Container  className="mt-1">
 				<Row className="mt-2">
@@ -96,6 +108,7 @@ class PreguntaSegList extends Component {
         </Row>
     </Container>
     );
+	}
   }
 }
 

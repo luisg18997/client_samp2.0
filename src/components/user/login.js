@@ -10,8 +10,19 @@ export default class Login extends Component {
 		this.auth = new Authorization();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      isLoaded : false
     };
+  }
+
+  componentWillMount() {
+    if (this.auth.loggedIn()) {
+      this.auth.ObtainData();
+    } else {
+       this.setState({
+         isLoaded : true
+       })
+    }
   }
 
   validateForm() {
@@ -31,6 +42,9 @@ export default class Login extends Component {
   }
 
   render() {
+    if (!this.state.isLoaded) {
+      return (<div className="loader"></div>);
+    } else {
     return (
       <div >
 
@@ -66,4 +80,5 @@ export default class Login extends Component {
       </div>
     );
   }
+}
 }

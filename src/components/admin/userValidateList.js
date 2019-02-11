@@ -150,7 +150,7 @@ class UserValidateList extends Component {
     } else {
       table.rows[position].button = "No validado";
       table.rows[position].rolList = "Usuario sin rol";
-      const validate = await updateUserValidate(user.id,user.user.user_role_id, 0, '0', '1', 0);
+      const validate = await updateUserValidate(user.id,user.user_role_id, 0, '0', '1', 0);
       console.log('user_validate result: ', validate);
     }
     this.setState({

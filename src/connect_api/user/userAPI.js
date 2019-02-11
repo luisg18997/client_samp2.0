@@ -264,7 +264,7 @@ export const getALLUserList = async() => {
 }
 
 export const updateUserAnswer = async(answerID, userID, questionID, answer) => {
-  const result = await api.post('Validate/update', {
+  const result = await api.post('SecurityAnswer/update', {
     param_id: answerID,
     param_user_id : userID,
     param_question_id: questionID,

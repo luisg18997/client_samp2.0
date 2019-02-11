@@ -1,6 +1,15 @@
 import {
 	login
   } from '../connect_api/user/userAPI';
+	import axios from 'axios';
+	const api = axios.create({
+	  baseURL: process.env.REACT_APP_URL_API || "http://localhost:5000/",
+	  timeout: 10000,
+	  headers: {
+	    'Content-Type': 'application/json',
+	    'Accept': 'application/json'
+	  }
+	})
 
 	class Authorization {
 		AuthLogin = async(email, password, props) => {
@@ -36,7 +45,7 @@ import {
 		loggedIn = () => {
         // Checks if there is a saved token and it's still valid
         const token = this.getToken() // Getting token from localstorage
-        return !!token  // handwaiving here
+        return !!token &&  !!this.isTokenExpired(token) // handwaiving here
     }
 
 		setToken = (idToken) => {
@@ -49,11 +58,62 @@ import {
         return localStorage.getItem('ucv_fhe_jwt')
     }
 
+		isTokenExpired = async(token) => {
+			const result = await api.post('checkIsTokenExpired', {
+				token : this.getToken()
+			})
+			.then((res) => {
+		    if(res.data.messageError) {
+		      console.log(res.data.messageError);
+		      return res.data.messageError
+		    } else {
+		      console.log("checkIsTokenExpired: ", res);
+		      return res.data.exp;
+		    }
+		  })
+		  .catch((error) => {
+		    console.log('The error in the call route checkIsTokenExpired  is:', error.message);
+		    return error;
+		  })
+			console.log('checkIsTokenExpired: ', result);
+		  return result;
+		}
+
     logout = (props) => {
         // Clear user token and profile data from localStorage
+				alert('Session expirada vuelva a ingresar al sistema SAMP');
         localStorage.removeItem('ucv_fhe_jwt');
 				props.history.replace('/');
     }
+
+		ObtainData = async(token, props) => {
+			 if (!!this.isTokenExpired()) {
+				 const result = await api.post('ObtainData', {
+					 token : this.getToken()
+				 })
+				 .then((res) => {
+	 		    if(res.data.messageError) {
+	 		      console.log(res.data.messageError);
+	 		      return res.data.messageError
+	 		    } else {
+	 		      console.log("checkIsTokenExpired: ", res);
+	 		      return res.data;
+	 		    }
+	 		  })
+	 		  .catch((error) => {
+	 		    console.log('The error in the call route ObtainData  is:', error.message);
+	 		    return error;
+	 		  })
+	 			console.log('ObtainData: ', result);
+				if (result.data.question.id === 0 && result.data.question.description === null){
+					props.history.replace('/PreguntaSeguridad', { password : result.password , result});
+				} else {
+					this.redirect(result.ubication.id, props);
+				}
+			 } else {
+				 this.logout();
+			 }
+		}
 
 		redirect = (ubication, props) => {
 			switch (ubication) {
