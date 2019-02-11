@@ -311,7 +311,7 @@ export const updateUserPassword = async(userID, password) => {
 
 export const getUserForChangePassword = async(email) => {
   const result = await api.post('getChangePassword', {
-    param_user_id : email
+    param_email : email
   })
   .then((res) => {
     if(res.data.messageError) {

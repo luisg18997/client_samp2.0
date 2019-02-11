@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {Label, LabelRequired} from '../util/forms';
 import {
-	updateUserAnswer
+	updateUserPassword
 } from '../../connect_api/user/userAPI';
 
 class OlvidoClave extends Component {
@@ -33,7 +33,7 @@ class OlvidoClave extends Component {
 		});
 		console.log(this.state);
 	}
-	
+
   render() {
   	const {
   		newPassword,

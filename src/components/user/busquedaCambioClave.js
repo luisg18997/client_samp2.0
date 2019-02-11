@@ -10,10 +10,11 @@ class BusquedaCambioClave extends Component {
 	constructor(){
 		super();
 		this.state= {
-
 			email:"",
-
 		}
+
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleChange(event) {
