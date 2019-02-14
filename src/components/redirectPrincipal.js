@@ -37,7 +37,8 @@ import {
 	      } else if (result.data.question.id === 0 && result.data.question.description === null){
 					props.history.replace('/PreguntaSeguridad', { password , result});
 				} else {
-					this.redirect(result.ubication.id, props)
+					console.log(result.data.ubication);
+					this.redirect(result.data.ubication.id, props)
 				}
 	    }
 	  }

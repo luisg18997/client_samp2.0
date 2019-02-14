@@ -287,6 +287,28 @@ export const updateUserAnswer = async(answerID, userID, questionID, answer) => {
   return result;
 }
 
+export const getUserSecurityAnswerCompare = async(userID, answer) => {
+  const result = await api.post('SecurityAnswer/compare', {
+    param_id : userID,
+    param_answer : answer
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getUserSecurityAnswerCompare  is:', error.message);
+    return error;
+  })
+  console.log('getUserSecurityAnswerCompare: ', result);
+  return result;
+}
+
 export const updateUserPassword = async(userID, password) => {
   const result = await api.post('Password/update', {
     param_id: userID,
