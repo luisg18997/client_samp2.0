@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { MDBDataTable } from 'mdbreact';
 import { MDBBtn } from 'mdbreact';
 import {
   getFormOficesList,
 }
   from '../../connect_api/formData/formDataAPI';
-// import MovPersonal from './movPersonal';
+import {table} from '../util/forms';
 
 class ListOficio extends Component {
   constructor() {
@@ -50,6 +49,7 @@ class ListOficio extends Component {
           },
           {
             label: 'Acccion',
+            field: 'button'
           },
         ],
       },
@@ -60,52 +60,39 @@ class ListOficio extends Component {
   handleData(e, identification) {
     e.preventDefault();
     console.log('ListOficio: ', identification);
-    // const movPersonal = new MovPersonal(identification);
-    this.props.history.push('/Escuela/MovPersonal', { cedula: identification });
-    // movPersonal.handleDataReceived(identification);
+    this.props.history.replace('/Escuela/MovPersonal', { cedula: identification,ubication_id: 2});
   }
 
-  componentWillMount() {
-    getFormOficesList(1, 0, 0)
-      .then((result) => {
-        console.log('getFormOficesList: ', result);
-        const { table } = this.state;
-		 if (result.result !== 'not found') {
-			 table.rows = result.map(form => ({
-	       code: form.code_form,
-	       name: form.name,
-	       movement_type: form.movement_type,
-	       execunting_unit: form.execunting_unit,
-	       idac: form.idac_code,
-	       registration_date: form.registration_date,
-	       button: <MDBBtn onClick={e => this.handleData(e, form.identification)}>Seleccionar</MDBBtn>,
-	     }));
-		 }
-        this.setState({
-          table,
-          isLoaded: true,
-        });
-      });
-  }
+  async componentWillMount() {
+    const result = await getFormOficesList(1, 0, 0)
+    const { table } = this.state;
+    if (result.result !== 'not found') {
+      table.rows = result.map(form => ({
+       code: form.code_form,
+       name: form.name,
+       movement_type: form.movement_type,
+       execunting_unit: form.execunting_unit,
+       idac: form.idac_code,
+       registration_date: form.registration_date,
+       button: <MDBBtn onClick={e => this.handleData(e, form.identification)}>Seleccionar</MDBBtn>,
+     }));
+   }
+   this.setState({
+     table,
+     isLoaded: true,
+   });
+}
 
   render() {
     if (!this.state.isLoaded) {
   			return (<div className="loader" />);
-  		}
-    return (
-        <div className="lista">
-      <MDBDataTable
-      entriesLabel="Mostrar paginas"
-      searchLabel="Buscar"
-      infoLabel={["Mostrando", "de", "de", "entradas"]}
-      paginationLabel={["Anterior", "Siguiente"]}
-        striped
-        small
-        
-        data={this.state.table}
-      />
-      </div>
-    );
+  		} else {
+        return (
+            <div className="lista">
+          {table(this.state.table)}
+          </div>
+        );
+      }
   }
 }
 

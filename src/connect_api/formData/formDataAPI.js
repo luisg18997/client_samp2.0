@@ -1,161 +1,246 @@
-const api = process.env.URL_API || 'http://localhost:5000/form/';
-
-export const getAllMovementTypeslist = () => fetch(`${api}MovementTypes`,
-  {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-
-  })
-  .then(res => res.json())
-  .then(MovementTypes => MovementTypes.map(MovementTypes => ({
-    ID: MovementTypes.id,
-    name: MovementTypes.description,
-  })))
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const addNewFormOfice = (employee, ofice, userID, employeeId) => fetch(`${api}ofice/addOfice`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_employee: employee,
-      param_form_ofice: ofice,
-      param_user_id: userID,
-      param_employee_id: employeeId,
-    }),
-  })
-  .then(res => res.json())
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const addNewFormMorPersonal = (employee, movPersonal, userID, employeeSalaryId) => fetch(`${api}movPersonal/addMovementPeronsal`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_employee: employee,
-      param_form_movement_personal: movPersonal,
-      param_user_id: userID,
-      param_employee_salary_id: employeeSalaryId,
-    }),
-  })
-  .then(res => res.json())
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const CodeOfice = (schoolID, instituteID, coordinationID) => fetch(`${api}ofice/CodeOfice`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_school_id: schoolID,
-      param_institute_id: instituteID,
-      param_coordination_id: coordinationID,
-    }),
-  })
-  .then(res => res.json())
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const codeMovPer = (schoolID, instituteID, coordinationID, code) => fetch(`${api}MovPersonal/CodeMovPer`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_school_id: schoolID,
-      param_institute_id: instituteID,
-      param_coordination_id: coordinationID,
-      param_code: code,
-    }),
-  })
-  .then(res => res.json())
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const getFormsList = (ubicationID, ubicationFormID) => fetch(`${api}list`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_ubication_id: ubicationID,
-      param_ubication_form_id: ubicationFormID,
-    }),
-  })
-  .then(res => res.json())
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-
-export const getFormOficesList = (schoolID, instituteID, coordinationID) => fetch(`${api}ofice/list`, {
-  method: 'POST',
+import axios from 'axios';
+const api = axios.create({
+  baseURL: process.env.REACT_APP_URL_API_FORM || "http://localhost:5000/form/",
+  timeout: 10000,
   headers: {
+    'Authorization':localStorage.getItem('ucv_fhe_jwt') !== null?`Bearer ${localStorage.getItem('ucv_fhe_jwt')}`: '',
     'Content-Type': 'application/json',
-    Accept: 'application/json',
-  },
-  body: JSON.stringify({
+    'Accept': 'application/json'
+  }
+})
+
+export const getAllMovementTypeslist = async() => {
+  const result = await api.get('MovementTypes')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const MovementTypes =  res.data.map(MovTp => ({
+        ID: MovTp.id,
+        label: MovTp.description,
+      }));
+      return MovementTypes;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getAllMovementTypeslist  is:', error.message);
+    return error;
+  });
+  console.log('getAllMovementTypeslist: ', result);
+  return result;
+}
+
+export const addNewFormOfice = async(employee, ofice, userID, employeeId) => {
+  const result = await api.post('ofice/addOfice', {
+    param_employee: employee,
+    param_form_ofice: ofice,
+    param_user_id: userID,
+    param_employee_id: employeeId,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route addNewFormOfice  is:', error.message);
+    return error;
+  });
+  console.log('addNewFormOfice: ', result);
+  return result;
+}
+
+export const addNewFormMorPersonal = async(employee, movPersonal, userID, employeeSalaryId) => {
+  const result = await api.post('movPersonal/addMovementPeronsal', {
+    param_employee: employee,
+    param_form_movement_personal: movPersonal,
+    param_user_id: userID,
+    param_employee_salary_id: employeeSalaryId,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route addNewFormMorPersonal  is:', error.message);
+    return error;
+  });
+  console.log('addNewFormMorPersonal: ', result);
+  return result;
+}
+
+export const CodeOfice = async(schoolID, instituteID, coordinationID) => {
+  const result = await api.post('ofice/CodeOfice', {
     param_school_id: schoolID,
     param_institute_id: instituteID,
     param_coordination_id: coordinationID,
-  }),
-})
-  .then(res => res.json())
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-export const getFormMovPersonal = identification => fetch(`${api}movPersonal`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-  },
-  body: JSON.stringify({
-    param_identification: identification,
-
-  }),
-})
-  .then(res => res.json())
-  .catch((error) => {
-    console.log('The error is:', error.message);
-  });
-
-  export const getFormOfficial = (identification, ubication) => fetch(`${api}official`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      param_identification: identification,
-      param_ubication_id : ubication
-    }),
   })
-    .then(res => res.json())
-    .catch((error) => {
-      console.log('The error is:', error.message);
-    });
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route CodeOfice  is:', error.message);
+    return error;
+  });
+  console.log('CodeOfice: ', result);
+  return result;
+}
+
+export const codeMovPer = async(schoolID, instituteID, coordinationID, code) => {
+  const result = await api.post('MovPersonal/CodeMovPer', {
+    param_school_id: schoolID,
+    param_institute_id: instituteID,
+    param_coordination_id: coordinationID,
+    param_code: code,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route CodeOfice  is:', error.message);
+    return error;
+  });
+  console.log('CodeOfice: ', result);
+  return result;
+}
+
+export const getFormsList = async (ubicationID, ubicationFormID) => {
+  const result = await api.post('list',
+ {
+   param_ubication_id: ubicationID,
+   param_ubication_form_id: ubicationFormID,
+ })
+ .then((res) =>{
+   if(res.data.messageError) {
+     console.log(res.data.messageError);
+     return res.data.messageError
+   } else {
+     console.log(res);
+     return res.data;
+   }
+ })
+ .catch((error) => {
+   console.log('The error in the call route getFormsList is:', error.message);
+   return error;
+ });
+ console.log('result: ', result);
+ return result;
+}
+
+export const getFormOficesList = async(schoolID, instituteID, coordinationID) => {
+  const result = await api.post('ofice/list', {
+    param_school_id: schoolID,
+    param_institute_id: instituteID,
+    param_coordination_id: coordinationID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getFormOficesList  is:', error.message);
+    return error;
+  });
+  console.log('getFormOficesList: ', result);
+  return result;
+}
+
+export const getFormMovPersonal = async(identification, ubication) => {
+  const result = await api.post('movPersonal', {
+    param_identification: identification,
+    param_ubication_id : ubication
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getFormMovPersonal  is:', error.message);
+    return error;
+  });
+  console.log('getFormMovPersonal: ', result);
+  return result;
+}
+
+export const getFormOfficial = async(identification, ubication) => {
+  const result = await api.post('official', {
+    param_identification: identification,
+    param_ubication_id : ubication
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getFormOfficial  is:', error.message);
+    return error;
+  });
+  console.log('getFormOfficial: ', result);
+  return result;
+}
+
+export const updateOfficialApproval = async(officialID, officialProcessID, ubicationID, statusProcessFormID, observation, isActive, isDeleted, userID) => {
+  const result = await api.post('official/updateApproval', {
+    param_id: officialID,
+    param_official_form_process_id: officialProcessID,
+    param_ubication_id: ubicationID,
+    param_status_process_form_id: statusProcessFormID,
+    param_observation: observation,
+    param_is_active: isActive,
+    param_is_deleted: isDeleted,
+    param_user_id: userID
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateOfficialApproval  is:', error.message);
+    return error;
+  });
+  console.log('updateOfficialApproval: ', result);
+  return result;
+};

@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
-import Select from 'react-select';
 import { MDBBtn } from 'mdbreact';
-import {Label, LabelRequired} from '../util/forms';
+import moment from 'moment';
+import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllDepartamentBySchoolList,
   getAllChairList,
@@ -37,7 +37,7 @@ class Oficio extends Component {
     email: "",
     genero: "",
     generoList : [],
-    fec_nac: "00/00/0000",
+    fec_nac: "",
     telef_mov: "",
     telef_loc: "",
     tip_mov: "",
@@ -49,89 +49,90 @@ class Oficio extends Component {
     schoolData: [],
     catedra: "",
     catedraList: [],
-    fecha_ini: "00/00/0000",
-    fecha_fin: "00/00/0000",
+    fecha_ini: "",
+    fecha_fin: "",
     idac: "",
     idacList: [],
     unidad_ejec: "",
     ExecuntingUnit: [],
     NacionalitiesList: [],
     documentationList: [],
+    isLoaded: false,
   }
-
-  this.handleChangeSelectExecuntingUnit = this.handleChangeSelectExecuntingUnit.bind(this);
-  this.handleChangeSelectDedicationTypes = this.handleChangeSelectDedicationTypes.bind(this);
-  this.handleChangeSelectTypesMov = this.handleChangeSelectTypesMov.bind(this);
 }
 
-
-handleSubmit = event => {
+handleSubmit = async(event) => {
   event.preventDefault();
-  CodeOfice(this.state.schoolData.ID, 0, 0)
-	.then(result => {
-    this.setState({
-      codigo : result.ofice
-    })
-    console.log("codigo: ", this.state.codigo);
-    const employee = {
-  		nacionality_id : this.state.nacionalidad,
-  		documentation_id : this.state.documento,
-  		identification : this.state.cedula ,
-  		first_name : this.state.nombre.toUpperCase(),
-  		second_name: this.state.snombre.toUpperCase(),
-      idac_id : this.state.idac,
-      surname: this.state.apellido.toUpperCase(),
-      second_surname : this.state.sapellido.toUpperCase(),
-      birth_date : this.state.fec_nac,
-      gender_id : this.state.genero,
-      email: this.state.email,
-      school_id : this.state.schoolData.ID,
-      institute_id : 0,
-      coordination_id : 0,
-      departament_id : this.state.departamento,
-      chair_id : this.state.catedra,
-      mobile_phone_number : this.state.telef_mov,
-      local_phone_number : this.state.telef_loc
-    };
-    console.log("employee: ", employee);
-    const ofice = {
-    	code_form : result.ofice,
-    	dedication_id : this.state.dedicacion,
-      movement_type_id : this.state.tip_mov,
-      start_date : this.state.fecha_ini,
-      finish_date : this.state.fecha_fin,
-      school_id : this.state.schoolData.ID,
-      institute_id : 0,
-      coordination_id : 0
-    };
-    console.log("ofice: ", ofice);
-    const userID = 0;
-    const empleadoID = this.state.empleado_id;
-    addNewFormOfice(employee, ofice, userID, empleadoID )
-  	.then(result => {
-  		if(result === 1) {
-  			alert('planilla de oficio creado exitosamente');
-        if (window.confirm("¿Desea registrar la planilla de Movmimiento?")) {
-          this.props.history.push('/Escuela/MovPersonal', {cedula:employee.identification});
-        } else {
-          this.props.history.push('/Escuela');
-        }
-  		} else {
-  			alert('planilla de oficio NO creado exitosamente');
-        this.props.history.push('/Escuela');
-  		}
-  	});
-  });
+  const codigo = await CodeOfice(this.state.schoolData.ID, 0, 0)
+  const employee = {
+    nacionality_id : this.state.nacionalidad,
+    documentation_id : this.state.documento,
+    identification : this.state.cedula ,
+    first_name : this.state.nombre.toUpperCase(),
+    second_name: this.state.snombre.toUpperCase(),
+    idac_id : this.state.idac,
+    surname: this.state.apellido.toUpperCase(),
+    second_surname : this.state.sapellido.toUpperCase(),
+    birth_date : this.state.fec_nac,
+    gender_id : this.state.genero,
+    email: this.state.email,
+    school_id : this.state.schoolData.ID,
+    institute_id : 0,
+    coordination_id : 0,
+    departament_id : this.state.departamento,
+    chair_id : this.state.catedra,
+    mobile_phone_number : this.state.telef_mov,
+    local_phone_number : this.state.telef_loc
+  };
+  console.log("employee: ", employee);
+  const ofice = {
+    code_form : codigo.ofice,
+    dedication_id : this.state.dedicacion,
+    movement_type_id : this.state.tip_mov,
+    start_date : this.state.fecha_ini,
+    finish_date : this.state.fecha_fin,
+    school_id : this.state.schoolData.ID,
+    institute_id : 0,
+    coordination_id : 0
+  };
+  console.log("ofice: ", ofice);
+  const userID = 0;
+  const empleadoID = this.state.empleado_id;
+  const result = await addNewFormOfice(employee, ofice, userID, empleadoID )
+  if(result === 1) {
+    alert('planilla de oficio creado exitosamente');
+    if (window.confirm("¿Desea registrar la planilla de Movmimiento?")) {
+      this.props.history.replace('/Escuela/MovPersonal', {cedula:employee.identification, ubication_id:2});
+    } else {
+      this.props.history.replace('/Escuela');
+    }
+  } else {
+    alert('planilla de oficio NO creado exitosamente');
+    this.props.history.replace('/Escuela');
+  }
 }
 
-handleChangeIdac = data => {
-  getAllIdacCodesFilterVacantDateNotNullList(data)
-  .then(result => {
-    this.setState({
-      idacList : result
-    })
-    console.log("idacList: ", this.state.idacList);
-  });
+handeCodeFilterSelected = (data, value) => {
+  let codeFilterSelected ="";
+  for (var i = 0; i < data.length; i++) {
+    console.log('data[',i,'].ID: ', data[i].ID);
+    if (data[i].ID === value){
+      let codeFilterSelected = data[i].codeFilter;
+      return codeFilterSelected;
+    }
+  }
+  if (codeFilterSelected === "") {
+    return null;
+  }
+}
+
+handleChangeIdac = async(data) => {
+  const result = await getAllIdacCodesFilterVacantDateNotNullList(data);
+  this.setState({
+    idac : "",
+    idacList : result
+  })
+  console.log("idacList: ", this.state.idacList);
 }
 
 handleChangeExecUnit = data => {
@@ -150,327 +151,226 @@ handleChangeExecUnit = data => {
   });
 }
 
- componentDidMount() {
-  getSchool(1)
-	.then(result => {
-    console.log(result);
-		const school ={
-			ID : result.id,
-			code : result.code,
-			name : result.school,
-			codeFilter : result.code.substr(0, 4)
-		}
-		this.setState({
-			schoolData : school
-		})
-		console.log("schoolData: ", this.state.schoolData);
-		getAllDepartamentBySchoolList(school.ID)
-		.then(result => {
-  		this.setState({
-    			departamentoList: result
- 			})
-  		console.log("departamentoList: ", this.state.departamentoList);
-      this.handleChangeExecUnit(school.codeFilter);
-		});
+ async componentDidMount() {
+  const schoolData= await getSchool(1);
+	const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
+	const generoList = await getAllGenderList();
+  const NacionalitiesList = await getAllNacionalitiesList();
+  const documentationList = await getAllDocumentationList();
+  const DedicationTypes = await getAllDedicationTypesList()
+  const tipoMovList = await getAllMovementTypeslist();
+  this.handleChangeExecUnit(schoolData.codeFilter);
 
-	})
+  this.setState({
+    schoolData,
+    departamentoList,
+    generoList,
+    tipoMovList,
+    NacionalitiesList,
+    documentationList,
+    DedicationTypes,
+    isLoaded : true
+  })
 
-	getAllGenderList()
-  .then(result => {
-    this.setState({
-      generoList: result
-    })
-    console.log("generoList: ",this.state.generoList);
-  });
+  console.log("schoolData: ", this.state.schoolData);
+  console.log("tipoMovList: ",this.state.tipoMovList);
+  console.log("departamentoList: ", this.state.departamentoList);
+  console.log("generoList: ",this.state.generoList);
+  console.log("NacionalitiesList: ",this.state.NacionalitiesList);
+  console.log("documentationList: ",this.state.documentationList);
+  console.log("DedicationTypes: ",this.state.DedicationTypes);
+ }
 
-  getAllNacionalitiesList()
-  .then(result => {
-    this.setState({
-      NacionalitiesList: result
-    })
-    console.log("NacionalitiesList: ",this.state.NacionalitiesList);
-  });
-
-
-  getAllDocumentationList()
-  .then(result => {
-    this.setState({
-      documentationList: result
-    })
-    console.log("documentationList: ",this.state.documentationList);
-  });
-
-      getAllDedicationTypesList()
-  .then(result => {
-    this.setState({
-      DedicationTypes: result
-    })
-    console.log("DedicationTypes: ",this.state.DedicationTypes);
-  });
-
- getAllMovementTypeslist()
-  .then(result => {
-    this.setState({
-      tipoMovList: result
-    })
-    console.log("tipoMovList: ",this.state.tipoMovList);
-  });
+ handleValidateBirthDate = e => {
+   e.preventDefault();
+   this.setState({
+     fec_nac : e.target.value
+   })
+   const date = moment(e.target.value).format('DD-MM-YYYY');
+   const validate = moment(date).fromNow(true);
+   const result = validate.split(" ");
+   console.log('date: ', date);
+   console.log('validate: ', validate);
+   console.log('result: ', result[0]);
+   if (result[1] === 'years' && parseInt(result[0]) >= 18) {
+     console.log('fecha valida');
+   } else {
+     console.log('fecha valida');
+     this.setState({
+       fec_nac : "0001-01-01"
+     })
+   }
  }
 
 
  handleChange = event => {
    this.setState({
-     [event.target.id]: event.target.value
+     [event.target.name]: event.target.value
    });
-   console.log(event.target.id,": ", event.target.value);
+   console.log(event.target.name,": ", event.target.value);
  }
 
-handlechangeChair = data => {
+handlechangeChair = async(data) => {
 	this.setState({
-		catedraList: []
+		catedraList: [],
+    catedra: "",
 	});
 	console.log(this.state.catedraList);
-	if(data !== 0) {
-		getAllChairList(data)
-		.then(result => {
-	    this.setState({
-	      catedraList: result
-	    })
-	    console.log("catedraList: ",this.state.catedraList);
-	  });
+	if(data !== "") {
+		const catedraList = await getAllChairList(data)
+    this.setState({
+      catedraList
+    })
+    console.log("catedraList: ",this.state.catedraList);
 	}
 }
 
-
 handleChangeSelectdept = event => {
    this.setState({
-     departamento : event.value
+     departamento : event.target.value
    });
    let codeFilterSelected = "";
-   	for (var i = 0; i < this.state.departamentoList.length; i++) {
-   		if (this.state.departamentoList[i].ID === event.value){
-   			codeFilterSelected = this.state.departamentoList[i].codeFilter;
-        this.handleChangeExecUnit(codeFilterSelected);
-   		}
-   	}
-	this.handlechangeChair(event.value);
+   if (event.target.value !== "" ) {
+    codeFilterSelected = this.handeCodeFilterSelected(this.state.departamentoList, parseInt(event.target.value));
+    this.handleChangeExecUnit(codeFilterSelected);
+   this.handlechangeChair(event.target.value);
+ } else {
+   this.handleChangeExecUnit(this.state.schoolData.codeFilter);
+ }
 }
-
-
-  handleChangeSelectExecuntingUnit = event => {
-   this.setState({
-     unidad_ejec : event.value
-   });
- }
-
-
- handleChangeSelectTypesMov = event => {
-   this.setState({
-     tip_mov : event.value
-   });
- }
-
-    handleChangeSelectDedicationTypes = event => {
-   this.setState({
-     dedicacion : event.value
-   });
- }
-
- handleChangeSelectGender = event => {
-this.setState({
-	genero : event.value
-});
-}
-
-handleChangeSelectNacionalities = event => {
-   this.setState({
-     nacionalidad : event.value
-   });
- }
-
- handleChangeSelectDocumentacion = event => {
-   this.setState({
-     documento : event.value
-   });
- }
 
 handleChangeSelectcat = event => {
-this.setState({
- catedra : event.value
-});
-	let codeFilterSelected = "";
-   	for (var i = 0; i < this.state.catedraList.length; i++) {
-   		if (this.state.catedraList[i].ID === event.value){
-   			codeFilterSelected = this.state.catedraList[i].code;
-   			this.handleChangeExecUnit(codeFilterSelected);
-   		}
-   	}
-}
-
-handleChangeSelecIdac = event => {
   this.setState({
-   idac : event.value
+    catedra : event.target.value
   });
+  console.log('catedra: ', event.target.value);
+  let codeFilterSelected = ""
+  if(event.target.value !== "") {
+    codeFilterSelected = this.handeCodeFilterSelected(this.state.catedraList, parseInt(event.target.value));
+    console.log("codeFilterSelected: ", codeFilterSelected)
+      this.handleChangeExecUnit(codeFilterSelected);
+    } else {
+      codeFilterSelected = this.handeCodeFilterSelected(this.state.departamentoList, parseInt(this.state.departamento));
+      this.handleChangeExecUnit(codeFilterSelected);
+  }
 }
 
 render() {
-  return (
-    <div className="content">
-    <h3 align="center"><strong>Registro de Planilla Oficio</strong></h3>
-    <hr></hr>
-      <form className="row justify-content-center" onSubmit={this.handleSubmit}>
+  const {
+    nacionalidad,
+    genero,
+  documento,
+  dedicacion,
+  tip_mov,
+  departamento,
+  catedra,
+  unidad_ejec,
+  idac
+  } = this.state;
+  if (!this.state.isLoaded) {
+      return (<div className="loader" />);
+  } else {
+    return (
+      <div className="content">
+      <h3 align="center"><strong>Registro de Planilla Oficio</strong></h3>
+      <hr></hr>
+        <form className="row justify-content-center" onSubmit={this.handleSubmit}>
+          <div className="form-group col-md-3">
+            {Label(LabelRequired('Primer Nombre'), 'text','nombre',this.state.nombre,this.handleChange, true)}
+          </div>
+
         <div className="form-group col-md-3">
-          {Label(LabelRequired('Primer Nombre'), 'text','nombre',this.state.nombre,this.handleChange, true)}
+          {Label('Segundo Nombre','text', 'snombre',this.state.snombre,this.handleChange, false)}
+        </div>
+
+        <div className="form-group col-md-3">
+          {Label(LabelRequired('Primer Apellido'),'text', 'apellido',this.state.apellido,this.handleChange, true)}
         </div>
 
       <div className="form-group col-md-3">
-        {Label('Segundo Nombre','text', 'snombre',this.state.snombre,this.handleChange, false)}
+          {Label('Segundo Apellido','text', 'sapellido',this.state.sapellido,this.handleChange, false)}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Primer Apellido'),'text', 'apellido',this.state.apellido,this.handleChange, true)}
+        {select(LabelRequired('Tipo de Documentación'),'documento', documento, this.handleChange,this.state.documentationList, true)}
+      </div>
+
+      <div className="form-group col-md-3">
+        {select(LabelRequired('Nacionalidad'),'nacionalidad', nacionalidad, this.handleChange,this.state.NacionalitiesList, true)}
+      </div>
+      <div className="form-group col-md-3">
+          {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true)}
+      </div>
+
+      <div className="form-group col-md-3">
+        {Label(LabelRequired('Email'),'email', 'email',this.state.email,this.handleChange, true)}
+      </div>
+
+      <div className="form-group col-md-3">
+        {select(LabelRequired('Género'),'genero', genero, this.handleChange,this.state.generoList, true)}
+      </div>
+
+      <div className="form-group col-md-3">
+        {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac,this.handleChange, true)}
+      </div>
+
+      <div className="form-group col-md-3">
+        {Label(LabelRequired('Teléfono Móvil'),'text', 'telef_mov',this.state.telef_mov,this.handleChange, true)}
+      </div>
+
+      <div className="form-group col-md-3">
+        {Label(LabelRequired('Teléfono Local'),'text', 'telef_loc',this.state.telef_loc,this.handleChange, true)}
       </div>
 
     <div className="form-group col-md-3">
-        {Label('Segundo Apellido','text', 'sapellido',this.state.sapellido,this.handleChange, false)}
-    </div>
+      {select(LabelRequired('Tipo de Movimiento'),'tip_mov', tip_mov, this.handleChange,this.state.tipoMovList, true)}
+      </div>
 
-    <div className="form-group col-md-3">
-          <label htmlFor="nacionalidad"> Tipo de Documentación</label>
-          <Select
-            onChange={this.handleChangeSelectDocumentacion}
-            options={this.state.documentationList.map(doc =>(
-              {label: doc.Name, value : doc.ID}
-            ))}
-          />
-    </div>
+      <div className="form-group col-md-3">
+        {select(LabelRequired('Dedicación'),'dedicacion', dedicacion, this.handleChange,this.state.DedicationTypes, true)}
+      </div>
 
-    <div className="form-group col-md-3">
-          <label htmlFor="nacionalidad"> Nacionalidad</label>
-          <Select
-            onChange={this.handleChangeSelectNacionalities}
-            options={this.state.NacionalitiesList.map(nac =>(
-              {label: nac.Name, value : nac.ID}
-            ))}
-          />
-    </div>
-    <div className="form-group col-md-3">
-        {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true)}
-    </div>
+      <div className="form-group col-md-3">
+        {select(LabelRequired('Departamento'),'departamento', departamento, this.handleChangeSelectdept,this.state.departamentoList, true)}
+      </div>
 
-    <div className="form-group col-md-3">
-      {Label(LabelRequired('Email'),'email', 'email',this.state.email,this.handleChange, true)}
-    </div>
+      <div className="form-group col-md-3">
+        {select(LabelRequired('Cátedra'),'catedra', catedra, this.handleChangeSelectcat,this.state.catedraList, true)}
+      </div>
 
-    <div className="form-group col-md-3">
-          <label htmlFor="genero"> Género  <label style={{color:'red'}}>*</label></label>
-          <Select
-            onChange={this.handleChangeSelectGender}
-            options={this.state.generoList.map(gen =>(
-            {label: gen.Gender, value : gen.ID}
-          ))}
-          />
-    </div>
+      <div className="form-group col-md-3">
+        {Label(LabelRequired('Fecha de Inicio'),'date', 'fecha_ini',this.state.fecha_ini,this.handleChange)}
+      </div>
 
-    <div className="form-group col-md-3">
-      {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac,this.handleChange, true)}
-    </div>
+      <div className="form-group col-md-3">
+        {Label(LabelRequired('Fecha de Fin'),'date', 'fecha_fin',this.state.fecha_fin,this.handleChange)}
+      </div>
 
-    <div className="form-group col-md-3">
-      {Label(LabelRequired('Teléfono Móvil'),'text', 'telef_mov',this.state.telef_mov,this.handleChange, true)}
-    </div>
+      <div className="form-group col-md-3">
+        {select(LabelRequired('Unidad Ejecutora'),'unidad_ejec', unidad_ejec, this.handleChange,this.state.ExecuntingUnit, true)}
+      </div>
 
-    <div className="form-group col-md-3">
-      {Label(LabelRequired('Teléfono Local'),'text', 'telef_loc',this.state.telef_loc,this.handleChange, true)}
-    </div>
+      <div className="form-group col-md-3">
+        {select(LabelRequired('IDAC'),'idac', idac, this.handleChange,this.state.idacList, true)}
+      </div>
 
-  <div className="form-group col-md-3">
-          <label htmlFor="tip_mov">Tipo de Movimiento <label style={{color:'red'}}>*</label></label>
-     <Select
-              onChange={this.handleChangeSelectTypesMov}
-              options={this.state.tipoMovList.map(mt =>(
-              {label: mt.name, value : mt.ID}
-            ))}
-            />
-    </div>
-
-    <div className="form-group col-md-3">
-          <label htmlFor="dedicacion">Dedicación  <label style={{color:'red'}}>*</label></label>
-           <Select
-              onChange={this.handleChangeSelectDedicationTypes}
-              options={this.state.DedicationTypes.map(dt =>(
-              {label: dt.dedi, value : dt.ID}
-            ))}
-            />
-    </div>
-
-    <div className="form-group col-md-3">
-          <label htmlFor="departamento">Departamento  <label style={{color:'red'}}>*</label></label>
-        <Select
-            onChange={this.handleChangeSelectdept}
-            options={this.state.departamentoList.map(dept =>(
-            {label: dept.name, value : dept.ID}
-          ))}
-          />
-    </div>
-
-    <div className="form-group col-md-3">
-          <label htmlFor="catedra">Cátedra  <label style={{color:'red'}}>*</label></label>
-      <Select
-            onChange={this.handleChangeSelectcat}
-            options={this.state.catedraList.map(cat =>(
-            {label: cat.name, value : cat.ID}
-          ))}
-          />
-    </div>
-
-    <div className="form-group col-md-3">
-      {Label(LabelRequired('Fecha de Inicio'),'date', 'fecha_ini',this.state.fecha_ini,this.handleChange)}
-    </div>
-
-    <div className="form-group col-md-3">
-      {Label(LabelRequired('Fecha de Fin'),'date', 'fecha_fin',this.state.fecha_fin,this.handleChange)}
-    </div>
-
-    <div className="form-group col-md-3">
-          <label htmlFor="unidad_ejec">Unidad Ejecutora  <label style={{color:'red'}}>*</label></label>
-         <Select
-              onChange={this.handleChangeSelectExecuntingUnit}
-              options={this.state.ExecuntingUnit.map(EU =>(
-              {label: EU.des, value : EU.ID}
-            ))}
-            />
-    </div>
-
-    <div className="form-group col-md-3">
-          <label htmlFor="idac">IDAC  <label style={{color:'red'}}>*</label></label>
-          <Select
-            onChange={this.handleChangeSelecIdac}
-            options={this.state.idacList.map(idac =>(
-            {label: idac.Codigo, value : idac.ID}
-            ))}
-          />
-    </div>
-
-    <div className="form-group col-md-4">
-        <hr></hr>
-            <h6 align="center" style={{color:'red'}}>Campos Obligatorios *</h6>
+      <div className="form-group col-md-4">
           <hr></hr>
-    </div>
-
-  <div className="form-group col-md-10">
-
-      <div className="row justify-content-center">
-
-        <MDBBtn color="primary" type="submit" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
-        <MDBBtn color="primary" type="reset" className=" col-md-3">Restablecer</MDBBtn>
-
+              <h6 align="center" style={{color:'red'}}>Campos Obligatorios *</h6>
+            <hr></hr>
       </div>
-    </div>
 
-    </form>
-    </div>
-  )
+    <div className="form-group col-md-10">
+        <div className="row justify-content-center">
+          <MDBBtn color="primary" type="submit" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+          <MDBBtn color="primary" type="reset" className=" col-md-3">Restablecer</MDBBtn>
+        </div>
+      </div>
+
+      </form>
+      </div>
+    )
+  }
 }
 }
 export default Oficio;

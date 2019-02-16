@@ -1,10 +1,16 @@
 import React, { Component} from 'react';
-import { MDBDataTable } from 'mdbreact';
+import {table} from '../util/forms';
 import { MDBBtn } from 'mdbreact';
 import {
 	getFormsList
 }
 from '../../connect_api/formData/formDataAPI'
+import {
+	updateAllColumnsProcessOfficialForm,
+	updateAllColumnsProcessMovPersonalForm
+}
+from '../../connect_api/processForm/processFormAPI'
+
 
 class ListPlanillas extends Component {
 	  constructor(){
@@ -19,27 +25,33 @@ class ListPlanillas extends Component {
 						},
 						{
 							label:"Tipo de planilla",
+							field: "form_type",
 							 width: 250
 						},
 						{
 							label:"Tipo de Movimiento",
+							field: "",
 							width: 350
 						},
 						{
 							label:"Ubicacion",
+							field: "movement_type",
 							width: 750
 						},
 						{
 							label: "Fecha de Registro",
+							field: "registration_date",
 							sort: 'asc',
 							width: 350
 						},
 						{
 							label: "Status",
+							field: "status_form",
 							width: 250
 						},
 						{
 							label: "Acción",
+							field: "button",
 							width: 250
 						}
 					]
@@ -55,13 +67,13 @@ class ListPlanillas extends Component {
 				const { table } = this.state;
 				if (result.result !== 'not found') {
 				table.rows = result.map(form => ({
-					codigo : form.code_form,
-					tipo : form.form_type,
+					code_form : form.code_form,
+					form_type : form.form_type,
 					movement_type : form.movement_type,
 					ubication : form.ubication,
 					registration_date : form.registration_date,
 					status_form : form.status_form,
-					button : <MDBBtn onClick={(e) => this.handleData(e,form.identification, form.form_type)} >Seleccionar</MDBBtn>
+					button : <MDBBtn onClick={(e) => this.handleData(e,form)} >Seleccionar</MDBBtn>
 				}));
 			}
 				this.setState({
@@ -71,13 +83,27 @@ class ListPlanillas extends Component {
 				console.log('rows: ', this.state)
 			})
 		}
-		handleData = (e, identification, formType) => {
+
+		handleData = async(e, form) => {
 			e.preventDefault();
-	    console.log("ListPlanillas: ",identification," ", formType);
-			if (formType === 'OFICIO') {
+	    console.log("ListPlanillas: ", form);
+			if (form.form_type === 'OFICIO') {
+				if (form.status_process_form_id !== 2) {
+					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,0 ,form.official_form_id, 5, null,2, '1', '0');
+					console.log('result: ', result);
+				}
 				this.props.history.replace('/RRHH/Oficio/revision',
 				{
-					cedula:identification,
+					cedula: form.identification,
+					ubication_id: 5});
+			} else {
+				if (form.status_process_form_id !== 2) {
+					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,0 ,form.mov_personal_form_id, 5, null, 2, '1', '0');
+					console.log('result: ', result);
+				}
+				this.props.history.replace('/RRHH/MovPersonal/revision',
+				{
+					cedula: form.identification,
 					ubication_id: 5});
 			}
 		}
@@ -89,18 +115,9 @@ class ListPlanillas extends Component {
 
 		return(
 
-			<div style={{'padding':'10px',marginTop:'50px', marginLleft:'65px',color:'#595959'}} className="content">
-				<MDBDataTable
-				 entriesLabel="Mostrar paginas"
-     			 searchLabel="Buscar"
-      			infoLabel={["Mostrando", "de", "de", "entradas"]}
-     			 paginationLabel={["Anterior", "Siguiente"]}
-					striped
-					hover
-					small
-					data={this.state.table}
-				/>
-			</div>
+			<div className="lista">
+	      {table(this.state.table)}
+	      </div>
 		)
 	}
 	}

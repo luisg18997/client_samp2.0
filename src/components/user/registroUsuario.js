@@ -1,8 +1,7 @@
 import React, { Component} from 'react';
 import  { Link } from 'react-router-dom';
 import { Container, Row, Col, MDBBtn } from 'mdbreact';
-import Select from 'react-select';
-import {Label, LabelRequired} from '../util/forms';
+import {Label, LabelRequired, select} from '../util/forms';
 import {
 	getAllUbicationsList,
 	 addNewUser
@@ -12,10 +11,12 @@ getSchoolList,
 getInstituteList,
 getCoordinationList
 } from '../../connect_api/faculty/FacultyAPI';
+import Authorization from '../redirectPrincipal';
 
 class RegistroUsuario extends Component {
 	constructor(){
     super();
+		this.auth = new Authorization();
     this.state = {
       nombre: "",
       apellido: "",
@@ -30,29 +31,38 @@ class RegistroUsuario extends Component {
 			instituto: 0,
 			coordinationList: [],
 			coordinacion: 0,
-			ubicacionUsuario: 0
+			isLoaded: false
     }
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-		this.handleChangeSelectschool = this.handleChangeSelectschool.bind(this);
-		this.handleChangeSelectInst = this.handleChangeSelectInst.bind(this);
-		this.handleChangeSelectCoord = this.handleChangeSelectCoord.bind(this);
   }
-	componentDidMount() {
-		getAllUbicationsList()
-		.then(result => {
-			this.setState({
-				ubicacionList : result
-			});
-			console.log(this.state);
-		})
+
+	async componentWillMount() {
+		console.log(await this.auth.loggedIn());
+		if (await this.auth.loggedIn()) {
+		const result = await this.auth.ObtainData();
+		console.log(result);
+		this.auth.redirect(result.data.ubication.id, this.props);
+		} else {
+			 this.setState({
+				 isLoaded : true
+			 })
+		}
+	}
+
+	async componentDidMount() {
+		const result = await getAllUbicationsList()
+		this.setState({
+			ubicacionList : result
+		});
+		console.log(this.state);
 	}
 
 	handleChangeSelectub(event){
-		console.log("event: ", event.value);
+		console.log("event: ", event.target.value);
 		this.setState({
-			ubicacion : event.value,
+			ubicacion : event.target.value,
 			escuela: 0,
 			instituto: 0,
 			coordinacion : 0,
@@ -61,78 +71,47 @@ class RegistroUsuario extends Component {
 			coordinationList: []
 		});
 		console.log("ubicacion: ", this.state.ubicacion);
-		console.log("ubicacionUsuario: ", this.state.ubicacionUsuario);
-		if (event.value === 2) {
+		if (event.target.value === "2") {
 			this.handleChangeSchoolList();
-		} else if (event.value === 3) {
+		} else if (event.target.value === "3") {
 			this.handleChangeInstitutelList();
-		} else if (event.value === 4) {
+		} else if (event.target.value === "4") {
 			this.handleChangeCoordinationList();
  		}
 }
 
-handleChangeSchoolList(){
-	getSchoolList()
-	.then(result => {
-		this.setState({
-			schoolList : result
-		})
-		console.log("schoolList: ", this.state.schoolList)
-	})
-}
-
-handleChangeInstitutelList(){
-	getInstituteList()
-	.then(result => {
-		this.setState({
-			instituteList : result
-		})
-		console.log("instituteList: ", this.state.instituteList)
-	})
-}
-
-handleChangeCoordinationList(){
-	getCoordinationList()
-	.then(result => {
-		this.setState({
-			coordinationList : result
-		})
-		console.log("coordinationList: ", this.state.coordinationList)
-	})
-}
-
-handleChangeSelectschool(event){
-	console.log("event: ", event.value);
+async handleChangeSchoolList(){
+	const schoolList = await getSchoolList()
 	this.setState({
-		escuela : event.value
+		schoolList
 	})
-	console.log("escuela: ", this.state.escuela);
+	console.log("schoolList: ", this.state.schoolList)
 }
 
-handleChangeSelectInst(event){
-	console.log("event: ", event.value);
+async handleChangeInstitutelList(){
+	const instituteList = await getInstituteList()
 	this.setState({
-		instituto : event.value
+		instituteList
 	})
-	console.log("instituto: ", this.state.instituto);
+	console.log("instituteList: ", this.state.instituteList)
 }
 
-handleChangeSelectCoord(event){
-	console.log("event: ", event.value);
+async handleChangeCoordinationList(){
+	const coordinationList = await getCoordinationList()
 	this.setState({
-		coordinacion : event.value
+		coordinationList
 	})
-	console.log("coordinacion: ", this.state.coordinacion);
+	console.log("coordinationList: ", this.state.coordinationList)
 }
 
   handleChange(event) {
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.name]: event.target.value
     });
 		console.log(this.state);
   }
 
-  handleSubmit(event) {
+async handleSubmit(event) {
     event.preventDefault();
 		const user = {
 			name : this.state.nombre.toUpperCase(),
@@ -145,20 +124,32 @@ handleChangeSelectCoord(event){
 			instituteID:this.state.instituto,
 		}
 		console.log("user: ", user);
-		addNewUser(user)
-		.then(result => {
-			if(result === 1) {
-				alert('usuario creado exitosamente');
-				this.props.history.replace('/');
-			} else {
-				alert('usuario ya existente');
-				this.props.history.replace('/Registro');
-			}
-		});
+		const result = await addNewUser(user)
+		if(result === 1) {
+			alert('usuario creado exitosamente');
+			this.props.history.replace('/');
+		} else {
+			alert('usuario ya existente');
+			this.props.history.replace('/Registro');
+		}
   }
 
 	render(){
-		const ubicacion = this.state.ubicacion
+		const {
+			nombre,
+			apellido,
+			email,
+			clave,
+			confiClave,
+      ubicacion,
+      escuela,
+      instituto,
+      coordinacion
+    } = this.state;
+
+		if (!this.state.isLoaded) {
+			return (<div className="loader"></div>);
+		} else {
 		return(
 			<Container  className="mt-1">
 				<Row className="mt-2">
@@ -166,48 +157,25 @@ handleChangeSelectCoord(event){
 						<p className="h2 text-center mb-6">Registro de Usuario</p>
 						<form onSubmit={this.handleSubmit}>
 							<div className="grey-text">
-								{Label(LabelRequired('nombre'),'text','nombre',this.state.nombre,this.handleChange,true)}
+								{Label(LabelRequired('nombre'),'text','nombre',nombre,this.handleChange,true)}
 
-								{Label(LabelRequired('Apellido'),'text','apellido',this.state.apellido,this.handleChange,true)}
+								{Label(LabelRequired('Apellido'),'text','apellido',apellido,this.handleChange,true)}
 
-								{Label(LabelRequired('email'),'email','email',this.state.email,this.handleChange, true)}
+								{Label(LabelRequired('email'),'email','email',email,this.handleChange, true)}
 
-								{Label(LabelRequired('clave'),'password','clave',this.state.clave,this.handleChange)}
+								{Label(LabelRequired('clave'),'password','clave',clave,this.handleChange)}
 
-								{Label(LabelRequired('Confirmar clave'),'password','confiClave',this.state.confiClave,this.handleChange)}
+								{Label(LabelRequired('Confirmar clave'),'password','confiClave',confiClave,this.handleChange)}
 
-							<label htmlFor="ubicacion"> Ubicación</label>
-					<Select
-							placeholder={'ubicacion'}
-							onChange={this.handleChangeSelectub}
-							options={this.state.ubicacionList.map(ub =>(
-								{label: ub.Ubicacion, value : ub.ID}
-							))}
-							/>
-						<br/>
-							{ubicacion === 2?
-								<Select
-								placeholder={'Escuela'}
-								onChange={this.handleChangeSelectschool}
-								options={this.state.schoolList.map(ub =>(
-									{label: ub.name, value : ub.ID}
-								))}
-								/>:ubicacion === 3?
-								<Select
-								placeholder={'Instituto'}
-								onChange={this.handleChangeSelectInst}
-								options={this.state.instituteList.map(ub =>(
-									{label: ub.name, value : ub.ID}
-								))}
-								/>:ubicacion === 4?
-								<Select
-								placeholder={'Coordinacion'}
-								onChange={this.handleChangeSelectCoord}
-								options={this.state.coordinationList.map(ub =>(
-									{label: ub.name, value : ub.ID}
-								))}
-								/>
-								:<label></label>
+								{select(LabelRequired('Ubicación'), 'ubicacion', ubicacion,this.handleChangeSelectub,this.state.ubicacionList, true)}
+								<br/>
+							{ubicacion === "2"?
+								select(LabelRequired('Escuela'), 'escuela', escuela,this.handleChange,this.state.schoolList, true)
+							:ubicacion === "3"?
+								select(LabelRequired('Instituto'), 'instituto', instituto,this.handleChange,this.state.instituteList, true)
+							:ubicacion === "4"?
+								select(LabelRequired('Coordinacion'), 'coordinacion', coordinacion,this.handleChange,this.state.coordinationList, true)
+								:<span></span>
 							}
 					</div>
 					<br></br>
@@ -218,12 +186,12 @@ handleChangeSelectCoord(event){
 </div>
 </div>
 			</form>
-			<MDBBtn color="light-blue"><Link to='/'  style={{ textDecoration: 'none',
-	'color':' white'}}> Inicio de sesión </Link> </MDBBtn>
+			<Link to='/'  style={{ textDecoration: 'none','color':' white'}}> Inicio de sesión </Link>
 			</Col>
 		</Row>
 			</Container>
 		)
+	}
 	}
 }
 

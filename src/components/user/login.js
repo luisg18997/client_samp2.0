@@ -2,17 +2,31 @@ import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import {Link} from 'react-router-dom';
 import {Label} from '../util/forms';
-import {
-	login
-  } from '../../connect_api/user/userAPI';
+import Authorization from '../redirectPrincipal';
 
 export default class Login extends Component {
   constructor() {
     super();
+		this.auth = new Authorization();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      isLoaded : false
     };
+  }
+
+  async componentWillMount() {
+    console.log(await this.auth.loggedIn());
+    if (await this.auth.loggedIn()) {
+    const result = await this.auth.ObtainData();
+    console.log(result);
+    this.auth.redirect(result.data.ubication.id, this.props);
+    } else {
+      this.auth.logout(this.props);
+       this.setState({
+         isLoaded : true
+       })
+    }
   }
 
   validateForm() {
@@ -26,20 +40,19 @@ export default class Login extends Component {
     console.log(event.target.value)
   }
 
-  handleSubmit = event => {
+  handleSubmit = async(event) => {
     event.preventDefault();
-    login(this.state.email, this.state.password)
-    .then(result => {
-      console.log("user: ", result);
-    })
+    await this.auth.AuthLogin(this.state.email, this.state.password, this.props);
   }
 
   render() {
+    if (!this.state.isLoaded) {
+      return (<div className="loader"></div>);
+    } else {
     return (
       <div >
-    
-        <MDBContainer className="Login">
 
+        <MDBContainer className="Login">
           <MDBRow>
         <MDBCol>
         <form onSubmit={this.handleSubmit}>
@@ -61,14 +74,15 @@ export default class Login extends Component {
     <ul style={{
 'listStyle': 'none'}}>
       <li>
-        <Link to='/Registro'>Registrate</Link>
+        <Link to='/Registro'>Registro</Link>
       </li>
       <li>
-        <Link to='/OlvidoClave'>Olvido Su clave?</Link>
+        <Link to='/OlvidoClave'>Recuperar su clave</Link>
       </li>
     </ul>
  </MDBContainer>
       </div>
     );
   }
+}
 }

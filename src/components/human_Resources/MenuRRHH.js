@@ -5,6 +5,7 @@ import {
 import mainRRHH from './mainRRHH';
 import ListPlanillas from './ListadoPlanillas';
 import OficioRev from './oficioRev';
+import MovPersonalRev from './movPersonalRev';
 
 class MenuRRHH extends Component {
   render() {
@@ -16,7 +17,7 @@ class MenuRRHH extends Component {
           <div className="menu_gral">
 
             <ul>
-              <li style={{ background: '#0a6d84' }}><Link to="/RRHH">Principal</Link></li>
+              <li><Link to="/RRHH">Principal</Link></li>
 
               <li>
                 {' '}
@@ -26,9 +27,10 @@ class MenuRRHH extends Component {
 
             </ul>
             <Switch>
-              <Route exact path="/RRHH" component={mainRRHH} />
+              <Route path="/RRHH" component={mainRRHH} />
               <Route path="/RRHH/ListadoPlanillas" component={ListPlanillas} />
               <Route path="/RRHH/Oficio/revision" component={OficioRev} />
+              <Route path="/RRHH/MovPersonal/revision" component={MovPersonalRev} />
             </Switch>
 
           </div>
