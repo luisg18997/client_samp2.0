@@ -13,17 +13,23 @@ class human_Resources extends Component {
     }
   }
 
-async componentWillMount(){
-  	if (!this.auth.loggedIn()) {
-      this.auth.logout(this.props)
-    } else {
-      const user = await this.auth.ObtainData();
-      this.setState({
-        user,
-        isLoaded: true
-      })
-    }
-}
+  async componentWillMount(){
+    	if (await this.auth.loggedIn()) {
+        const user = await this.auth.ObtainData();
+        if(user.data.ubication.id === 5){
+          this.setState({
+            user
+          })
+        } else {
+          alert('usuario no tiene permiso')
+          this.auth.redirect(user.data.ubication.id, this.props)
+        }
+      } else {
+        alert('Session expirada vuelva a ingresar al sistema SAMP');
+        this.auth.logout(this.props)
+      }
+  }
+
   render() {
     return (
           <div style={{'display': 'flex'}}>

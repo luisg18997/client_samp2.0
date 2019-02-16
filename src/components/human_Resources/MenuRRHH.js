@@ -27,7 +27,7 @@ class MenuRRHH extends Component {
 
             </ul>
             <Switch>
-              <Route exact path="/RRHH" component={mainRRHH} />
+              <Route path="/RRHH" component={mainRRHH} />
               <Route path="/RRHH/ListadoPlanillas" component={ListPlanillas} />
               <Route path="/RRHH/Oficio/revision" component={OficioRev} />
               <Route path="/RRHH/MovPersonal/revision" component={MovPersonalRev} />

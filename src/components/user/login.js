@@ -15,10 +15,14 @@ export default class Login extends Component {
     };
   }
 
-  componentWillMount() {
-    if (this.auth.loggedIn()) {
-      this.auth.ObtainData();
+  async componentWillMount() {
+    console.log(await this.auth.loggedIn());
+    if (await this.auth.loggedIn()) {
+    const result = await this.auth.ObtainData();
+    console.log(result);
+    this.auth.redirect(result.data.ubication.id, this.props);
     } else {
+      this.auth.logout(this.props);
        this.setState({
          isLoaded : true
        })

@@ -11,10 +11,12 @@ getSchoolList,
 getInstituteList,
 getCoordinationList
 } from '../../connect_api/faculty/FacultyAPI';
+import Authorization from '../redirectPrincipal';
 
 class RegistroUsuario extends Component {
 	constructor(){
     super();
+		this.auth = new Authorization();
     this.state = {
       nombre: "",
       apellido: "",
@@ -28,12 +30,27 @@ class RegistroUsuario extends Component {
 			instituteList : [],
 			instituto: 0,
 			coordinationList: [],
-			coordinacion: 0
+			coordinacion: 0,
+			isLoaded: false
     }
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+
+	async componentWillMount() {
+		console.log(await this.auth.loggedIn());
+		if (await this.auth.loggedIn()) {
+		const result = await this.auth.ObtainData();
+		console.log(result);
+		this.auth.redirect(result.data.ubication.id, this.props);
+		} else {
+			 this.setState({
+				 isLoaded : true
+			 })
+		}
+	}
+
 	async componentDidMount() {
 		const result = await getAllUbicationsList()
 		this.setState({
@@ -129,6 +146,10 @@ async handleSubmit(event) {
       instituto,
       coordinacion
     } = this.state;
+
+		if (!this.state.isLoaded) {
+			return (<div className="loader"></div>);
+		} else {
 		return(
 			<Container  className="mt-1">
 				<Row className="mt-2">
@@ -170,6 +191,7 @@ async handleSubmit(event) {
 		</Row>
 			</Container>
 		)
+	}
 	}
 }
 

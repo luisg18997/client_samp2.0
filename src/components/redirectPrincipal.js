@@ -43,10 +43,17 @@ import {
 	    }
 	  }
 
-		loggedIn = () => {
+		loggedIn = async() => {
         // Checks if there is a saved token and it's still valid
         const token = this.getToken() // Getting token from localstorage
-        return !!token &&  !!this.isTokenExpired(token) // handwaiving here
+				let tokenValidate;
+				if (token=== null) {
+					tokenValidate = false;
+				} else {
+					tokenValidate = true
+				}
+				const isTokenExpired = await this.isTokenExpired(token);
+       return tokenValidate && !isTokenExpired // handwaiving here
     }
 
 		setToken = (idToken) => {
@@ -82,7 +89,6 @@ import {
 
     logout = (props) => {
         // Clear user token and profile data from localStorage
-				alert('Session expirada vuelva a ingresar al sistema SAMP');
         localStorage.removeItem('ucv_fhe_jwt');
 				props.history.replace('/');
     }
@@ -120,11 +126,11 @@ import {
 				 props.history.replace('/Escuela');
 				 break;
 			 }
-			 case 3: {
+			 case 5: {
 				 props.history.replace('/RRHH');
 				 break;
 			 }
-			 case 4: {
+			 case 6: {
 				 props.history.replace('/Prespuesto');
 				 break;
 			 }

@@ -2,27 +2,35 @@ import React, { Component } from 'react';
 import MenuAdmin from './menuAdmin';
 import Authorization from '../redirectPrincipal';
 
-class budget extends Component {
-  constructor(){
-    super();
+class Admin extends Component {
+  constructor(props){
+    super(props);
     this.auth = new Authorization();
     this.state = {
-      user : "",
+      user : {},
       isLoaded : false
     }
   }
 
 async componentWillMount(){
-  	if (!this.auth.loggedIn()) {
-      this.auth.logout(this.props)
+  	if (await this.auth.loggedIn()) {
+      const result = await this.auth.ObtainData();
+      const user = result.data;
+      if(user.ubication.id === 1){
+        this.setState({
+          user,
+          isLoaded: true
+        })
+      } else {
+        alert('usuario no tiene permiso')
+        this.auth.redirect(user.ubication.id, this.props)
+      }
     } else {
-      const user = await this.auth.ObtainData();
-      this.setState({
-        user,
-        isLoaded: true
-      })
+      alert('Session expirada vuelva a ingresar al sistema SAMP');
+      this.auth.logout(this.props)
     }
 }
+
   render() {
     if (!this.state.isLoaded) {
 			return (<div className="loader"></div>);
@@ -37,4 +45,4 @@ async componentWillMount(){
   }
 }
 
-export default budget;
+export default Admin;

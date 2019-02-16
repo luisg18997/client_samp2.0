@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import login from './user';
+import login from './user/login';
 import school from './school';
 import budget from './budget';
 import humanResources from './human_Resources';

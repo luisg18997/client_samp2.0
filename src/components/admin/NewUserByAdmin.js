@@ -10,12 +10,15 @@ import {
  getInstituteList,
  getCoordinationList
  } from '../../connect_api/faculty/FacultyAPI';
+ import Authorization from '../redirectPrincipal';
 
 class UpdateUser extends Component {
 
     constructor(props){
     super(props);
+    this.auth = new Authorization();
     this.state = {
+      user: {},
       nombre: "",
       apellido: "",
       email: "",
@@ -38,11 +41,20 @@ class UpdateUser extends Component {
       coordinacion : "",
       schoolList: "",
       instituteList: "",
-      coordinationList: ""
+      coordinationList: "",
+      isLoaded: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
+  }
+  async componentWillMount() {
+    const result = await this.auth.ObtainData();
+    const user = result.data;
+    this.setState({
+      user,
+      isLoaded: true
+    })
   }
 
  async componentDidMount() {
@@ -62,13 +74,14 @@ class UpdateUser extends Component {
      password: this.state.clave,
      ubication: this.state.ubicacion,
      roleUserID : this.state.rol,
-     userID: 0,
+     userID: this.state.user.id,
      schoolID: this.state.escuela,
      coordinationID: this.state.coordinacion,
      instituteID:this.state.instituto,
    }
    console.log("user: ", user);
    const result = await addNewUserByAdmin(user);
+   console.log('result: ', result);
    if(result === 1) {
      alert('usuario creado exitosamente');
      this.props.history.replace('/Admin');
@@ -110,12 +123,22 @@ class UpdateUser extends Component {
        ubication = 4;
        break;
      }
-     case (event.target.value >= '5' && event.target.value <= '6'):{
+     case '5':{
        console.log('departamento de RRHH');
        ubication = 5;
        break;
      }
-     case (event.target.value >= '7' && event.target.value <= '8'):{
+     case '6':{
+       console.log('departamento de RRHH');
+       ubication = 5;
+       break;
+     }
+     case '7':{
+       console.log('departamento de presupuesto');
+       ubication = 6;
+       break;
+     }
+     case '8':{
        console.log('departamento de presupuesto');
        ubication = 6;
        break;
@@ -182,6 +205,9 @@ async handleChangeCoordinationList(){
       instituto,
       coordinacion
     } = this.state;
+    if (!this.state.isLoaded) {
+			return (<div className="loader"></div>);
+		} else {
     return (
       <div className="content">
         <Container  className="mt-1">
@@ -243,6 +269,7 @@ async handleChangeCoordinationList(){
       </Container>
       </div>
     );
+  }
   }
 
 

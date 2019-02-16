@@ -44,7 +44,8 @@ class UserStatusList extends Component {
           }
         ]
       },
-      isLoaded: false
+      isLoaded: false,
+      user : {}
     }
   }
 
