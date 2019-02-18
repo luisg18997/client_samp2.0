@@ -41,7 +41,8 @@ class OficioRev extends Component {
       dedicacion: "",
       isLoaded : false,
       isValidate : true,
-      observacion: ""
+      observacion: "",
+      user:{}
     };
   }
 
@@ -50,6 +51,8 @@ async componentWillMount() {
     if (this.props.location.state === undefined) {
       this.props.history.replace('/RRHH')
     } else {
+      const resultUser = await this.auth.ObtainData();
+      const user = resultUser.data;
       const result = await getFormOfficial(this.props.location.state.cedula, this.props.location.state.ubication_id)
       console.log('result: ', result);
       this.setState({
@@ -76,7 +79,7 @@ async componentWillMount() {
         formOficeMovPer :result.id,
         processFormID: result.process_form_id,
         isLoaded: true,
-        user: {}
+        user
       })
     }
   }
@@ -88,7 +91,9 @@ async componentWillMount() {
   }
 
   handleChangeStatus = async(result) => {
+
     if (result) {
+      console.log(this.state.user.id);
       const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 6, null,1, '1', '0');
       console.log(await res);
       alert('planilla de oficio aprobada');

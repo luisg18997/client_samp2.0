@@ -157,24 +157,23 @@ handleChangeExecUnit = data => {
 async componentWillMount() {
   const result = await this.auth.ObtainData();
   const user = result.data;
+  const schoolData= await getSchool(user.schoolID);
+  const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
+  this.handleChangeExecUnit(schoolData.codeFilter);
   this.setState({
     user,
+    schoolData,
+    departamentoList,
   })
 }
 
- async componentDidMount() {
-  const schoolData= await getSchool(this.state.user.school_id);
-	const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
+ async componentDidMount() {	
 	const generoList = await getAllGenderList();
   const NacionalitiesList = await getAllNacionalitiesList();
   const documentationList = await getAllDocumentationList();
   const DedicationTypes = await getAllDedicationTypesList()
   const tipoMovList = await getAllMovementTypeslist();
-  this.handleChangeExecUnit(schoolData.codeFilter);
-
-  this.setState({
-    schoolData,
-    departamentoList,
+    this.setState({
     generoList,
     tipoMovList,
     NacionalitiesList,
