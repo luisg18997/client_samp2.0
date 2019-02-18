@@ -4,10 +4,12 @@ import { MDBBtn } from 'mdbreact';
 import {
   getALLUserList,
  } from '../../connect_api/user/userAPI';
+ import Authorization from '../redirectPrincipal';
 
 class UserStatusList extends Component {
   constructor(props) {
     super(props);
+    this.auth = new Authorization();
     this.state = {
       table:{
         columns:[
@@ -50,6 +52,8 @@ class UserStatusList extends Component {
   }
 
   async componentWillMount(){
+    const resultuser = await this.auth.ObtainData();
+    const user = resultuser.data;
     const result =	await getALLUserList()
     console.log('getALLUserList: ',result);
     const { table } = this.state;
@@ -74,8 +78,9 @@ class UserStatusList extends Component {
      }));
    }
    this.setState({
-    // table,
-     isLoaded : true
+     table,
+     isLoaded : true,
+     user
    })
    console.log('rows: ', this.state)
  }

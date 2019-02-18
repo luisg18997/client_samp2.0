@@ -20,10 +20,12 @@ import {
  addNewFormOfice,
  CodeOfice
 } from '../../connect_api/formData/formDataAPI'
+import Authorization from '../redirectPrincipal';
 
 class Oficio extends Component {
   constructor(){
   super();
+  this.auth = new Authorization();
   this.state = {
     empleado_id: 0,
     codigo : "",
@@ -58,6 +60,7 @@ class Oficio extends Component {
     NacionalitiesList: [],
     documentationList: [],
     isLoaded: false,
+    user: {}
   }
 }
 
@@ -96,7 +99,7 @@ handleSubmit = async(event) => {
     coordination_id : 0
   };
   console.log("ofice: ", ofice);
-  const userID = 0;
+  const userID = this.state.user.id;
   const empleadoID = this.state.empleado_id;
   const result = await addNewFormOfice(employee, ofice, userID, empleadoID )
   if(result === 1) {
@@ -151,8 +154,16 @@ handleChangeExecUnit = data => {
   });
 }
 
+async componentWillMount() {
+  const result = await this.auth.ObtainData();
+  const user = result.data;
+  this.setState({
+    user,
+  })
+}
+
  async componentDidMount() {
-  const schoolData= await getSchool(1);
+  const schoolData= await getSchool(this.state.user.school_id);
 	const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
 	const generoList = await getAllGenderList();
   const NacionalitiesList = await getAllNacionalitiesList();
@@ -201,7 +212,6 @@ handleChangeExecUnit = data => {
      })
    }
  }
-
 
  handleChange = event => {
    this.setState({

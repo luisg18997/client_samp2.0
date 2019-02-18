@@ -9,10 +9,12 @@ import {
 }
 from '../../connect_api/processForm/processFormAPI'
 import {Label, LabelRequired} from '../util/forms';
+import Authorization from '../redirectPrincipal';
 
 class movPersonalRev extends Component {
   constructor(props) {
     super(props)
+    this.auth = new Authorization();
     this.state = {
       cedula: "",
       ubicacion: "",
@@ -48,7 +50,8 @@ class movPersonalRev extends Component {
       motivo:"",
       isLoaded : false,
       isValidate : true,
-      observacion:""
+      observacion:"",
+      user: {}
     }
   }
 
@@ -57,6 +60,8 @@ class movPersonalRev extends Component {
     if (this.props.location.state === undefined) {
       this.props.history.replace('/RRHH')
     } else {
+      const resultUser = await this.auth.ObtainData();
+      const user = resultUser.data;
       const result = await getFormMovPersonal(this.props.location.state.cedula, this.props.location.state.ubication_id);
       let direccion;
       if (result.apartament !== "") {
@@ -107,7 +112,8 @@ class movPersonalRev extends Component {
         formOficeMovPer : result.id,
         processMovPersonalID : result.process_mov_personal_form_id,
         anexo: anexos,
-        isLoaded : true
+        isLoaded : true,
+        user
       })
       console.log('result: ',this.state );
     }
@@ -121,7 +127,7 @@ class movPersonalRev extends Component {
 
   handleChangeStatus = async(result) => {
     if (result) {
-      const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, 0, this.state.formMovPersonalID, 6, null,1, '1', '0');
+      const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 6, null,1, '1', '0');
       console.log(res);
       this.props.history.replace('/RRHH');
     } else {
@@ -136,7 +142,7 @@ class movPersonalRev extends Component {
     if (result) {
       console.log('envio');
       if(this.state.observacion !== ""){
-        const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, 0, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
+        const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
         console.log(res);
         this.props.history.replace('/RRHH');
       } else {

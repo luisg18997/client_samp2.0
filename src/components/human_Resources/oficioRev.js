@@ -9,10 +9,12 @@ import {
 }
 from '../../connect_api/processForm/processFormAPI'
 import {Label, LabelRequired} from '../util/forms';
+import Authorization from '../redirectPrincipal';
 
 class OficioRev extends Component {
   constructor(props) {
     super(props);
+    this.auth = new Authorization();
     this.state = {
       cedula: "",
       ubicacion: "",
@@ -73,7 +75,8 @@ async componentWillMount() {
         formOficeID: result.official_form_id,
         formOficeMovPer :result.id,
         processFormID: result.process_form_id,
-        isLoaded: true
+        isLoaded: true,
+        user: {}
       })
     }
   }
@@ -86,7 +89,7 @@ async componentWillMount() {
 
   handleChangeStatus = async(result) => {
     if (result) {
-      const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 6, null,1, '1', '0');
+      const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 6, null,1, '1', '0');
       console.log(await res);
       alert('planilla de oficio aprobada');
       this.props.history.replace('/RRHH');
@@ -102,7 +105,7 @@ async componentWillMount() {
     if (result) {
       console.log('envio');
       if(this.state.observacion !== ""){
-        const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
+        const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
         console.log(res);
         alert('planilla de oficio NO aprobada');
         this.props.history.replace('/RRHH');

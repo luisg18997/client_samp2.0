@@ -10,10 +10,12 @@ import {
 }
 from '../../connect_api/processForm/processFormAPI'
 import {Label, LabelRequired} from '../util/forms';
+import Authorization from '../redirectPrincipal'
 
 class OficioRev extends Component {
   constructor(props) {
     super(props);
+    this.auth = new Authorization();
     this.state = {
       cedula: this.props.location.state.cedula,
       ubicacion: this.props.location.state.ubication_id,
@@ -40,12 +42,18 @@ class OficioRev extends Component {
       dedicacion: "",
       isLoaded : false,
       isValidate : true,
-      observacion: ""
+      observacion: "",
+      user: {}
     };
   }
 
   async componentWillMount() {
     console.log('this.props: ', this.props);
+    if (this.props.location.state === undefined) {
+      this.props.history.replace('/Presupuesto')
+    } else {
+    const resultUser = await this.auth.ObtainData();
+    const user = resultUser.data;
     const result = await getFormOfficial(this.state.cedula, this.state.ubicacion)
     console.log('result: ', result);
     this.setState({
@@ -71,8 +79,10 @@ class OficioRev extends Component {
       formOficeID: result.official_form_id,
       formOficeMovPer :result.id,
       processFormID: result.process_form_id,
-      isLoaded: true
+      isLoaded: true,
+      user
     })
+  }
   }
 
   handleChange = event => {
@@ -83,7 +93,7 @@ class OficioRev extends Component {
 
   handleChangeStatus = async(result) => {
     if (result) {
-      const res = await updateOfficialApproval(this.state.formOficeID, this.state.processFormID, 2, 3, null, '1', '0', 0);
+      const res = await updateOfficialApproval(this.state.formOficeID, this.state.processFormID, 2, 3, null, '1', '0', this.state.user.id);
       console.log(res.data);
       alert('planilla de oficio aprobada');
       this.props.history.replace('/Presupuesto');
@@ -99,7 +109,7 @@ class OficioRev extends Component {
     if (result) {
       console.log('envio');
       if(this.state.observacion !== ""){
-        const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, 0, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
+        const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
         console.log(res);
         alert('planilla de oficio NO aprobada');
         this.props.history.replace('/Presupuesto');

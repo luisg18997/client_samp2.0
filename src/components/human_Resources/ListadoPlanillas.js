@@ -10,11 +10,13 @@ import {
 	updateAllColumnsProcessMovPersonalForm
 }
 from '../../connect_api/processForm/processFormAPI'
+import Authorization from '../redirectPrincipal'
 
 
 class ListPlanillas extends Component {
 	  constructor(){
 			super();
+			this.auth = new Authorization();
 			this.state={
 				table:{
 					columns:[
@@ -56,32 +58,34 @@ class ListPlanillas extends Component {
 						}
 					]
 				},
-				isLoaded: false
+				isLoaded: false,
+				user: {}
 			}
 		}
 
-		 componentWillMount(){
-			getFormsList(5,0)
-			.then(result =>{
-				console.log('getFormsList: ',result);
-				const { table } = this.state;
-				if (result.result !== 'not found') {
-				table.rows = result.map(form => ({
-					code_form : form.code_form,
-					form_type : form.form_type,
-					movement_type : form.movement_type,
-					ubication : form.ubication,
-					registration_date : form.registration_date,
-					status_form : form.status_form,
-					button : <MDBBtn onClick={(e) => this.handleData(e,form)} >Seleccionar</MDBBtn>
-				}));
-			}
-				this.setState({
-					table,
-					isLoaded : true
-				})
-				console.log('rows: ', this.state)
-			})
+		async componentWillMount(){
+			 const resultUser = await this.auth.ObtainData();
+       const user = resultUser.data;
+			 const result = await	getFormsList(5,0);
+			 console.log('getFormsList: ',result);
+			 const { table } = this.state;
+			 if (result.result !== 'not found') {
+			 table.rows = result.map(form => ({
+				 code_form : form.code_form,
+				 form_type : form.form_type,
+				 movement_type : form.movement_type,
+				 ubication : form.ubication,
+				 registration_date : form.registration_date,
+				 status_form : form.status_form,
+				 button : <MDBBtn onClick={(e) => this.handleData(e,form)} >Seleccionar</MDBBtn>
+			 }));
+		 }
+			 this.setState({
+				 table,
+				 isLoaded : true,
+				 user
+			 })
+			 console.log('rows: ', this.state)
 		}
 
 		handleData = async(e, form) => {
@@ -89,7 +93,7 @@ class ListPlanillas extends Component {
 	    console.log("ListPlanillas: ", form);
 			if (form.form_type === 'OFICIO') {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,0 ,form.official_form_id, 5, null,2, '1', '0');
+					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,this.state.user.id ,form.official_form_id, 5, null,2, '1', '0');
 					console.log('result: ', result);
 				}
 				this.props.history.replace('/RRHH/Oficio/revision',
@@ -98,7 +102,7 @@ class ListPlanillas extends Component {
 					ubication_id: 5});
 			} else {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,0 ,form.mov_personal_form_id, 5, null, 2, '1', '0');
+					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,this.state.user.id ,form.mov_personal_form_id, 5, null, 2, '1', '0');
 					console.log('result: ', result);
 				}
 				this.props.history.replace('/RRHH/MovPersonal/revision',

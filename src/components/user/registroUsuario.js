@@ -56,7 +56,6 @@ class RegistroUsuario extends Component {
 		this.setState({
 			ubicacionList : result
 		});
-		console.log(this.state);
 	}
 
 	handleChangeSelectub(event){
@@ -108,7 +107,6 @@ async handleChangeCoordinationList(){
     this.setState({
       [event.target.name]: event.target.value
     });
-		console.log(this.state);
   }
 
 async handleSubmit(event) {
@@ -123,7 +121,6 @@ async handleSubmit(event) {
 			coordinationID: this.state.coordinacion,
 			instituteID:this.state.instituto,
 		}
-		console.log("user: ", user);
 		const result = await addNewUser(user)
 		if(result === 1) {
 			alert('usuario creado exitosamente');

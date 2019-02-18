@@ -8,10 +8,12 @@ import {
 	updateAllColumnsProcessMovPersonalForm
 }
 from '../../connect_api/processForm/processFormAPI'
+import Authorization from '../redirectPrincipal';
 
 class movPersonalRev extends Component {
   constructor(props) {
     super(props)
+    this.auth = new Authorization();
     this.state = {
       cedula: this.props.location.state.cedula,
       ubicacion: this.props.location.state.ubication_id,
@@ -46,12 +48,18 @@ class movPersonalRev extends Component {
       anexo: "",
       motivo:"",
       isLoaded : false,
-      isValidate : true
+      isValidate : true,
+      user:{}
     }
   }
 
   async componentWillMount() {
     console.log('this.props: ', this.props);
+    if (this.props.location.state === undefined) {
+      this.props.history.replace('/Presupuesto')
+    } else {
+    const resultUser = await this.auth.ObtainData();
+    const user = resultUser.data;
     const result = await getFormMovPersonal(this.state.cedula, this.state.ubicacion);
     let direccion;
     if (result.apartament !== "") {
@@ -102,16 +110,18 @@ class movPersonalRev extends Component {
       formOficeMovPer : result.id,
       processMovPersonalID : result.process_mov_personal_form_id,
       anexo: anexos,
-      isLoaded : true
+      isLoaded : true,
+      user
     })
     console.log('result: ',this.state );
+  }
   }
 
   handleChangeStatus = async(result) => {
     if (result) {
-      const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, 0, this.state.formMovPersonalID, 2,null, 3, '1', '0');
+      const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2,null, 3, '1', '0');
       console.log(res);
-      this.props.history.replace('/RRHH');
+      this.props.history.replace('/Presupuesto');
     } else {
         this.setState({
           isValidate: false

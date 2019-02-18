@@ -62,7 +62,6 @@ class UpdateUser extends Component {
   this.setState({
     rolList: result
   })
-  console.log(this.state.rolList);
  }
 
  handleSubmit = async(event) => {
@@ -79,7 +78,6 @@ class UpdateUser extends Component {
      coordinationID: this.state.coordinacion,
      instituteID:this.state.instituto,
    }
-   console.log("user: ", user);
    const result = await addNewUserByAdmin(user);
    console.log('result: ', result);
    if(result === 1) {

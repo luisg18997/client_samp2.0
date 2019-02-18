@@ -10,10 +10,12 @@ import {
 	updateAllColumnsProcessMovPersonalForm
 }
 from '../../connect_api/processForm/processFormAPI'
+import Authorization from '../redirectPrincipal';
 
 class ListPlanillas extends Component {
 	  constructor(){
 			super();
+			this.auth = new Authorization();
 			this.state={
 				table:{
 					columns:[
@@ -55,10 +57,13 @@ class ListPlanillas extends Component {
 						}
 					]
 				},
-				isLoaded: false
+				isLoaded: false,
+				user: {}
 			}
 		}
 		async componentWillMount(){
+			const resultUser = await this.auth.ObtainData();
+      const user = resultUser.data;
 			const result =	await getFormsList(6,0)
 			console.log('getFormsList: ',result);
 			const { table } = this.state;
@@ -75,7 +80,8 @@ class ListPlanillas extends Component {
 		}
 			this.setState({
 				table,
-				isLoaded : true
+				isLoaded : true,
+				user
 			})
 			console.log('rows: ', this.state)
 		}
@@ -85,7 +91,7 @@ class ListPlanillas extends Component {
 	    console.log("ListPlanillas: ", form);
 			if (form.form_type === 'OFICIO') {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,0 ,form.official_form_id, 6, null, 2, '1', '0');
+					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,this.state.user.id ,form.official_form_id, 6, null, 2, '1', '0');
 					console.log('result: ', result);
 				}
 				this.props.history.replace('/Presupuesto/Oficio/revision',
@@ -94,7 +100,7 @@ class ListPlanillas extends Component {
 					ubication_id: 6});
 			} else {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,0 ,form.mov_personal_form_id, 6, null, 2, '1', '0');
+					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,this.state.user.id ,form.mov_personal_form_id, 6, null, 2, '1', '0');
 					console.log('result: ', result);
 				}
 				this.props.history.replace('/Presupuesto/MovPersonal/revision',

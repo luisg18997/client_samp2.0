@@ -29,7 +29,7 @@ class MenuSchool extends Component {
               <li><Link to="/Escuela/Oficio/Listado">Movimiento de Personal</Link></li>
             </ul>
             <Switch>
-              <Route path="/Escuela" component={MainSchool} />
+              <Route exact path="/Escuela" component={MainSchool} />
               <Route path="/Escuela/Oficio/Nuevo" component={FormOfice} />
               <Route path="/Escuela/Empleado/Listado" component={ListEmpleado} />
               <Route path="/Escuela/Oficio/Listado" component={listOficio} />

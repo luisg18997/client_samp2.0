@@ -7,10 +7,12 @@ import {
   updateUserValidate,
  } from '../../connect_api/user/userAPI';
 import {selectWithoutLabel} from '../util/forms';
+import Authorization from '../redirectPrincipal';
 
 class UserValidateList extends Component {
   constructor(props) {
     super(props);
+    this.auth = new Authorization();
     this.state = {
       table:{
         columns:[
@@ -43,12 +45,15 @@ class UserValidateList extends Component {
         ]
       },
       isLoaded: false,
-      user : [],
-      rolList : []
+      userList : [],
+      rolList : [],
+      user: []
     }
   }
 
   async componentWillMount(){
+    const resultuser = await this.auth.ObtainData();
+    const user = resultuser.data;
     const rol = await getAllRolesList();
     const result =	await getALLUserValidateList();
     for (let i = 0; i< result.length; i+=1) {
@@ -115,9 +120,10 @@ class UserValidateList extends Component {
  }
    this.setState({
     table,
-    user: result,
+    userList: result,
      isLoaded : true,
-     rolList: rol
+     rolList: rol,
+     user
    })
    console.log('rows: ', this.state)
  }
@@ -142,7 +148,7 @@ class UserValidateList extends Component {
           console.log("rol: ", rol);
           table.rows[position].button = "Validado";
           table.rows[position].rolList = rol;
-          const validate = await updateUserValidate(user.id,user.user_role_id, user.roleID, '1', '0', 0);
+          const validate = await updateUserValidate(user.id,user.user_role_id, user.roleID, '1', '0', this.state.user.id);
           console.log('user_validate result: ', validate);
         } else {
           alert('seleccione un rol para el usuario: ' + user.name);
@@ -150,7 +156,7 @@ class UserValidateList extends Component {
     } else {
       table.rows[position].button = "No validado";
       table.rows[position].rolList = "Usuario sin rol";
-      const validate = await updateUserValidate(user.id,user.user_role_id, 0, '0', '1', 0);
+      const validate = await updateUserValidate(user.id,user.user_role_id, 0, '0', '1', this.state.user.id);
       console.log('user_validate result: ', validate);
     }
     this.setState({

@@ -19,10 +19,12 @@ import {
 } from '../../connect_api/formData/formDataAPI'
 import { MDBBtn } from 'mdbreact';
 import {Label, LabelRequired ,select} from '../util/forms';
+import Authorization from '../redirectPrincipal';
 
 class MovPersonal extends Component {
     constructor(props){
         super(props);
+        this.auth = new Authorization();
         this.state = {
           empleadoID: "",
           empleadoSalarioID: "",
@@ -69,6 +71,7 @@ class MovPersonal extends Component {
           motivo: "",
           isLoaded: false,
           anexo: "",
+          user: {}
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -81,7 +84,8 @@ class MovPersonal extends Component {
     if (this.props.location.state === undefined) {
       this.props.history.replace('/Escuela')
     } else {
-      console.log(this.props.location.state.cedula);
+      const resultUser = await this.auth.ObtainData();
+      const user = resultUser.data;
       const result = await getFormMovPersonal(this.props.location.state.cedula, this.props.location.state.ubication_id)
       let anexos;
       if( result.annex_types.length > 0) {
@@ -128,7 +132,8 @@ class MovPersonal extends Component {
         formOficeID: result.official_form_id,
         formOficeMovPer: result.id,
         isLoaded: true,
-        anexo: anexos
+        anexo: anexos,
+        user
       })
       console.log("this.state: ", this.state)
     }
@@ -186,7 +191,7 @@ async componentDidMount() {
      reason: this.state.motivo.toUpperCase()
    }
    console.log('formMovPeronsal: ', formMovPeronsal);
-   const result = await addNewFormMorPersonal(employee, formMovPeronsal, 0, this.state.empleadoSalarioID)
+   const result = await addNewFormMorPersonal(employee, formMovPeronsal, this.state.user.id, this.state.empleadoSalarioID);
    console.log('result: ', result);
    if(result === 1) {
      alert('planilla de Movimiento Personal creada exitosamente');

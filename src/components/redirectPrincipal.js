@@ -126,12 +126,20 @@ import {
 				 props.history.replace('/Escuela');
 				 break;
 			 }
+			 case 3: {
+				 props.history.replace('/Escuela');
+				 break;
+			 }
+			 case 4: {
+				 props.history.replace('/Escuela');
+				 break;
+			 }
 			 case 5: {
 				 props.history.replace('/RRHH');
 				 break;
 			 }
 			 case 6: {
-				 props.history.replace('/Prespuesto');
+				 props.history.replace('/Presupuesto');
 				 break;
 			 }
 			 default:

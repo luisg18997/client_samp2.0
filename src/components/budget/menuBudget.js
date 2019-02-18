@@ -27,7 +27,7 @@ class MenuBudget extends Component {
 
             </ul>
             <Switch>
-              <Route path="/Presupuesto" component={mainBudget} />
+              <Route exact path="/Presupuesto" component={mainBudget} />
               <Route path="/Presupuesto/ListadoPlanillas" component={listado} />
               <Route path="/Presupuesto/Oficio/revision" component={OficioRev} />
               <Route path="/Presupuesto/MovPersonal/revision" component={MovPersonalRev} />
