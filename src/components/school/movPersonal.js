@@ -185,8 +185,8 @@ async componentDidMount() {
    console.log('employee: ', employee);
    const formMovPeronsal = {
      code_form: codigo.movPer,
-     employee_form_ofice_form_person_movement_id: this.state.formOficeMovPer,
-     form_ofice_id : this.state.formOficeID,
+     employee_official_mov_personal_form_id: this.state.formOficeMovPer,
+     official_form_id : this.state.formOficeID,
      salary: this.state.sueldo.description,
      reason: this.state.motivo.toUpperCase()
    }
