@@ -8,7 +8,6 @@
     "bootstrap": "^4.2.1",
     "bootstrap-css-only": "^4.2.1",
     "font-awesome": "^4.7.0",
-    "jsonwebtoken": "^8.4.0",
     "mdbreact": "^4.8.7",
     "moment": "^2.23.0",
     "muicss": "^0.9.41",

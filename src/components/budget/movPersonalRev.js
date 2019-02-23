@@ -129,6 +129,25 @@ class movPersonalRev extends Component {
     }
   }
 
+  andleSubmit = async(e, result) => {
+    e.preventDefault();
+    if (result) {
+      console.log('envio');
+      if(this.state.observacion !== ""){
+        const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
+        console.log(res);
+        this.props.history.replace('/Presupuesto');
+      } else {
+        alert('Falta la observacion');
+      }
+    } else {
+      if(window.confirm('desea cancelar el proceso')){
+        this.props.history.replace('/RRHH/ListadoPlanillas');
+      }
+    }
+
+  }
+
   render(){
     const isValidate = this.state.isValidate
     if (!this.state.isLoaded) {
@@ -272,9 +291,12 @@ class movPersonalRev extends Component {
                   </div>
                 </div>:
                 <div className="form-group col-md-10">
-                  <label><strong>Obsevacion</strong></label>
-                    <br/>
-                    <label></label>
+                  {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true)}
+                  <br/>
+                  <div className="row justify-content-center">
+                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
+                  </div>
                 </div>
             }
 
