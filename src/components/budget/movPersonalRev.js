@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment} from 'react';
 import {
   getFormMovPersonal
 }
@@ -8,6 +8,7 @@ import {
 	updateAllColumnsProcessMovPersonalForm
 }
 from '../../connect_api/processForm/processFormAPI'
+import {Label, LabelRequired, select} from '../util/forms';
 import Authorization from '../redirectPrincipal';
 
 class movPersonalRev extends Component {
@@ -49,7 +50,8 @@ class movPersonalRev extends Component {
       motivo:"",
       isLoaded : false,
       isValidate : true,
-      user:{}
+      user:{},
+      isUpdateForm : false
     }
   }
 
@@ -119,9 +121,9 @@ class movPersonalRev extends Component {
 
   handleChangeStatus = async(result) => {
     if (result) {
-      const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2,null, 3, '1', '0');
-      console.log(res);
-      this.props.history.replace('/Presupuesto');
+      this.setState({
+        isUpdateForm : true
+      })
     } else {
         this.setState({
           isValidate: false
@@ -149,7 +151,9 @@ class movPersonalRev extends Component {
   }
 
   render(){
-    const isValidate = this.state.isValidate
+    const {
+      isValidate,
+    isUpdateForm} = this.state
     if (!this.state.isLoaded) {
 			return (<div className="loader"></div>);
 		} else {
@@ -283,7 +287,8 @@ class movPersonalRev extends Component {
                 <br/>
                 <label>{this.state.direccion}</label>
             </div>
-            {isValidate?
+            {!isUpdateForm?
+              isValidate?
               <div className="form-group col-md-10">
                   <div className="row justify-content-center">
                     <MDBBtn color="primary" type="button" onClick={()=>this.handleChangeStatus(true)} className=" col-md-3" style={{marginRight:'100px'}}>Aprobar</MDBBtn>
@@ -298,7 +303,22 @@ class movPersonalRev extends Component {
                       <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
                   </div>
                 </div>
-            }
+            :
+            <Fragment>
+            <div className="form-group col-md-4">
+              {select(LabelRequired(''),)}
+            </div>
+            <div className="form-group col-md-4">
+              {select(LabelRequired(''),)}
+            </div>
+            <div className="form-group col-md-10">
+                <div className="row justify-content-center">
+                  <MDBBtn color="primary" type="button" onClick={()=>this.handleChangeStatus(true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+                  <MDBBtn color="primary" type="button" onClick={()=>this.handleChangeStatus(false)} className=" col-md-3">Cancelar</MDBBtn>
+                </div>
+              </div>
+            </Fragment>
+          }
 
           </form>
         </div>
