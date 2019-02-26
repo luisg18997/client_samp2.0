@@ -27,8 +27,8 @@ class Header extends Component {
               }}
               >
                 {' '}
-Sistema Automatizado del Movimiento de Personal
-                <b>(SAMP) </b>
+Sistema Automatizado de Movimientos de Personal
+                <b> (SAMP) </b>
               </div>
               {' '}
               <FHE />

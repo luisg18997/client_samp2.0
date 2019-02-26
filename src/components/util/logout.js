@@ -13,7 +13,7 @@ const handleLogout = (props) => {
 export const Logout = (props) =>{
 		return (
 <div className="logout" >
-    <MDBDropdown size="lg">
+    <MDBDropdown size="sm">
       <MDBDropdownToggle className="logou"  caret color="info">
         Usuario
       </MDBDropdownToggle>
