@@ -106,8 +106,8 @@ answerValidate
 	        	{Label(LabelRequired('Nueva Clave'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true)}
 						<div  className="form-group col-md-12">
 								<div className="row justify-content-center">
-									<MDBBtn color="light-blue" type="button" className="col-md-3" onClick={this.handleSubmit} style={{marginRight:'100px'}} >Enviar</MDBBtn>
-									<MDBBtn color="light-blue" type="reset" className="col-md-3"> Restablecer</MDBBtn>
+									<MDBBtn color="info" type="button" className="col-md-3" onClick={this.handleSubmit} style={{marginRight:'100px'}} >Enviar</MDBBtn>
+									<MDBBtn color="info" type="reset" className="col-md-3"> Restablecer</MDBBtn>
 							</div>
 						</div>
 					</Fragment>}

@@ -12,6 +12,10 @@ import {
 	})
 
 	class Authorization {
+
+		componentWillMount() {
+		console.log(this.props);
+	}
 		AuthLogin = async(email, password, props) => {
 	    console.log('email: ', email, " password: ", password);
 	    const result =  await login(email, password);
@@ -90,7 +94,8 @@ import {
     logout = (props) => {
         // Clear user token and profile data from localStorage
         localStorage.removeItem('ucv_fhe_jwt');
-				props.history.replace('/');
+        props.history.replace('/');
+
     }
 
 		ObtainData = async(token, props) => {

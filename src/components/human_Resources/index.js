@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MenuRRHH from './MenuRRHH';
 import Authorization from '../redirectPrincipal';
-
+import {Logout} from  '../util/logout.js';
 
 class human_Resources extends Component {
   constructor(){
@@ -34,6 +34,7 @@ class human_Resources extends Component {
     return (
           <div style={{'display': 'flex'}}>
         <MenuRRHH />
+         {Logout(this.props)}
       </div>
     );
   }

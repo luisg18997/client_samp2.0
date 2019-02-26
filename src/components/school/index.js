@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MenuSchool from './menuSchool';
 import Authorization from '../redirectPrincipal';
+import {Logout} from  '../util/logout.js';
+
 
 class school extends Component {
   constructor(){
@@ -33,6 +35,8 @@ class school extends Component {
     return (
       <div style={{'display': 'flex'}}>
         <MenuSchool />
+   {Logout(this.props)}
+
       </div>
     );
   }

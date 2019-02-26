@@ -32,6 +32,52 @@ export const getAllMovementTypeslist = async() => {
   return result;
 }
 
+export const getAllAccountantTypeslist = async() => {
+  const result = await api.get('accountantTypes')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const accountantTypes =  res.data.map(CountTy => ({
+        ID: CountTy.id,
+        label: CountTy.code,
+      }));
+      return accountantTypes;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getAllAccountantTypeslist  is:', error.message);
+    return error;
+  });
+  console.log('getAllAccountantTypeslist: ', result);
+  return result;
+}
+
+export const getAllProgramTypeslist = async() => {
+  const result = await api.get('programTypes')
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      const programTypes =  res.data.map(progTy => ({
+        ID: progTy.id,
+        label: progTy.code,
+      }));
+      return programTypes;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getAllProgramTypeslist  is:', error.message);
+    return error;
+  });
+  console.log('getAllProgramTypeslist: ', result);
+  return result;
+}
+
 export const addNewFormOfice = async(employee, ofice, userID, employeeId) => {
   const result = await api.post('ofice/addOfice', {
     param_employee: employee,
@@ -242,5 +288,37 @@ export const updateOfficialApproval = async(officialID, officialProcessID, ubica
     return error;
   });
   console.log('updateOfficialApproval: ', result);
+  return result;
+};
+
+export const updateMovPersonalApproval = async(movPersonalID, movPersonalProcessID, employeeID, movementTypeID, ubicationID, statusProcessFormID, accountatTypeID, programID, observation, isActive, isDeleted, userID) => {
+  const result = await api.post('movPersonal/updateApproval', {
+    param_id: movPersonalID,
+    param_mov_personal_form_process_id: movPersonalProcessID,
+    param_employee_id : employeeID,
+    param_movement_type_id : movementTypeID,
+    param_ubication_id: ubicationID,
+    param_status_process_form_id: statusProcessFormID,
+    param_accountant_type_id : accountatTypeID,
+    param_progam_type_id :  programID,
+    param_observation: observation,
+    param_is_active: isActive,
+    param_is_deleted: isDeleted,
+    param_user_id: userID
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateMovPersonalApproval  is:', error.message);
+    return error;
+  });
+  console.log('updateMovPersonalApproval: ', result);
   return result;
 };

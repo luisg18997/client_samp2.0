@@ -66,7 +66,7 @@ class UserStatusList extends Component {
          } else {
            result[i].user_status = "bloqueado"
          }
-         result[i].buttons = <Fragment><MDBBtn type="button">Actualizar</MDBBtn><MDBBtn type="button">Ver</MDBBtn><MDBBtn type="button">Eliminar</MDBBtn></Fragment>
+         result[i].buttons = <Fragment><MDBBtn type="button" onClick={() => this.handleUpdateUser(result[i].id)}>Actualizar</MDBBtn><MDBBtn type="button" onClick={() => this.handleViewUser(result[i].id)}>Ver</MDBBtn>{result[i].is_deleted !== '1'?<MDBBtn type="button" onClick={() => this.handleDeleteUser(result[i].id)}>Eliminar</MDBBtn>: <MDBBtn type="button" onClick={() => this.handleRecoveryUser(result[i].id)}>Recuperar</MDBBtn>}</Fragment>
        }
      table.rows = result.map(user => ({
        name : user.name,
@@ -84,6 +84,29 @@ class UserStatusList extends Component {
    })
    console.log('rows: ', this.state)
  }
+
+ handleUpdateUser(data){
+
+ }
+
+ handleViewUser(data){
+
+ }
+
+ handleDeleteUser(data){
+  if(window.confirm('¿Seguro que desea eliminar este usuario?')){
+    alert('Usuario Eliminado Exitosamente')
+  }
+ }
+
+
+ handleRecoveryUser(data){
+  if(window.confirm('¿Seguro que desea recuperar este usuario?')){
+    alert('Usuario Recuperado Exitosamente')
+  }
+ }
+
+
 
   render(){
 		if (!this.state.isLoaded) {

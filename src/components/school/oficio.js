@@ -371,8 +371,8 @@ render() {
 
     <div className="form-group col-md-10">
         <div className="row justify-content-center">
-          <MDBBtn color="primary" type="submit" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
-          <MDBBtn color="primary" type="reset" className=" col-md-3">Restablecer</MDBBtn>
+          <MDBBtn color="info" type="submit" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+          <MDBBtn color="info" type="reset" className=" col-md-3">Restablecer</MDBBtn>
         </div>
       </div>
 

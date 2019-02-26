@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MenuAdmin from './menuAdmin';
 import Authorization from '../redirectPrincipal';
+import {Logout} from  '../util/logout.js';
 
 class Admin extends Component {
   constructor(props){
@@ -38,6 +39,7 @@ async componentWillMount(){
     return (
        <div style={{'display': 'flex'}}>
         <MenuAdmin />
+        {Logout(this.props)}
       </div>
 
     );

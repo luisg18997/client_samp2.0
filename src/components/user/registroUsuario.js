@@ -178,8 +178,8 @@ async handleSubmit(event) {
 					<br></br>
 <div  className="form-group col-md-12">
 	<div className="row justify-content-center">
-		<MDBBtn color="light-blue" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
-		<MDBBtn color="light-blue" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
+		<MDBBtn color="info" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+		<MDBBtn color="info" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
 </div>
 </div>
 			</form>

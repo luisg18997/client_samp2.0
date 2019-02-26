@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MenuBudget from './menuBudget';
 import Authorization from '../redirectPrincipal';
+import {Logout} from  '../util/logout.js';
 
 class budget extends Component {
   constructor(){
@@ -34,6 +35,7 @@ class budget extends Component {
 
           <div style={{'display': 'flex'}}>
         <MenuBudget />
+         {Logout(this.props)}
       </div>
 
     );

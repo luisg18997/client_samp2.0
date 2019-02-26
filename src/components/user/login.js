@@ -61,7 +61,7 @@ export default class Login extends Component {
 						{Label('Email','email','email',this.state.email,this.handleChange,true)}
 						{Label('Clave','password','password',this.state.password,this.handleChange,true)}
           </div>
-          <MDBBtn color="light-blue"
+          <MDBBtn color="info"
             disabled={!this.validateForm()}
             type="submit"
           >

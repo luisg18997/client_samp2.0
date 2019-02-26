@@ -3,7 +3,7 @@ import { Container, Row, Col, MDBBtn } from 'mdbreact';
 import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllRolesList,
-  addNewUserByAdmin,
+  getUser,
  } from '../../connect_api/user/userAPI';
  import {
  getSchoolList,
@@ -12,7 +12,7 @@ import {
  } from '../../connect_api/faculty/FacultyAPI';
  import Authorization from '../redirectPrincipal';
 
-class AddNewUserByAdmin extends Component {
+ class UpdateUser extends Component {
 
     constructor(props){
     super(props);
@@ -22,7 +22,6 @@ class AddNewUserByAdmin extends Component {
       nombre: "",
       apellido: "",
       email: "",
-      clave: "123456",
       rol : "",
       rolList: [],
       ubicacion: 0,
@@ -49,12 +48,16 @@ class AddNewUserByAdmin extends Component {
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
   }
   async componentWillMount() {
-    const result = await this.auth.ObtainData();
-    const user = result.data;
-    this.setState({
-      user,
-      isLoaded: true
-    })
+  	if (this.props.location.state === undefined) {
+	    this.props.history.replace('/Admin')
+	} else {
+    	const resultUser = await this.auth.ObtainData();
+    	const user = resultUser.data;
+    	const result = await getUser(this.props.location.state.param_user_id);
+	    this.setState({
+	      user,
+	      isLoaded: true
+	    })
   }
 
  async componentDidMount() {
@@ -78,7 +81,7 @@ class AddNewUserByAdmin extends Component {
      coordinationID: this.state.coordinacion,
      instituteID:this.state.instituto,
    }
-   const result = await addNewUserByAdmin(user);
+   //const result = await addNewUserByAdmin(user);
    console.log('result: ', result);
    if(result === 1) {
      alert('usuario creado exitosamente');
@@ -257,8 +260,8 @@ async handleChangeCoordinationList(){
       <br></br>
       <div  className="form-group col-md-14">
       <div className="row justify-content-center">
-      <MDBBtn color="info" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
-      <MDBBtn color="info" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
+      <MDBBtn color="light-blue" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+      <MDBBtn color="light-blue" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
       </div>
       </div>
         </form>
@@ -273,4 +276,4 @@ async handleChangeCoordinationList(){
 
 }
 
-export default AddNewUserByAdmin;
+export default UpdateUser;

@@ -129,6 +129,7 @@ class movPersonalRev extends Component {
     if (result) {
       const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 6, null,1, '1', '0');
       console.log(res);
+      alert('planilla de Movmiento de Personal aprobada');
       this.props.history.replace('/RRHH');
     } else {
         this.setState({
@@ -144,6 +145,7 @@ class movPersonalRev extends Component {
       if(this.state.observacion !== ""){
         const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
         console.log(res);
+        alert('planilla de Movmiento de Personal NO aprobada');
         this.props.history.replace('/RRHH');
       } else {
         alert('Falta la observacion');
@@ -294,16 +296,16 @@ class movPersonalRev extends Component {
             {isValidate?
               <div className="form-group col-md-10">
                   <div className="row justify-content-center">
-                    <MDBBtn color="primary" type="button" onClick={()=>this.handleChangeStatus(true)} className=" col-md-3" style={{marginRight:'100px'}}>Aprobar</MDBBtn>
-                    <MDBBtn color="primary" type="button" onClick={()=>this.handleChangeStatus(false)} className=" col-md-3">Rechazar</MDBBtn>
+                    <MDBBtn color="info" type="button" onClick={()=>this.handleChangeStatus(true)} className=" col-md-3" style={{marginRight:'100px'}}>Aprobar</MDBBtn>
+                    <MDBBtn color="info" type="button" onClick={()=>this.handleChangeStatus(false)} className=" col-md-3">Rechazar</MDBBtn>
                   </div>
                 </div>:
                 <div className="form-group col-md-10">
                   {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true)}
                   <br/>
                   <div className="row justify-content-center">
-                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
-                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
+                      <MDBBtn color="info" type="button" onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+                      <MDBBtn color="info" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
                   </div>
                 </div>
             }
