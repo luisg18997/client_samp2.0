@@ -71,7 +71,8 @@ class MovPersonal extends Component {
           motivo: "",
           isLoaded: false,
           anexo: "",
-          user: {}
+          user: {},
+          auth: false,
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -80,68 +81,72 @@ class MovPersonal extends Component {
 }
 
   async componentWillMount(){
-    console.log("this.props: ", this.props);
-    if (this.props.location.state === undefined) {
-      this.props.history.replace('/Escuela')
-    } else {
-      const resultUser = await this.auth.ObtainData();
-      const user = resultUser.data;
-      const result = await getFormMovPersonal(this.props.location.state.cedula, this.props.location.state.ubication_id)
-      let anexos;
-      if( result.annex_types.length > 0) {
-        let annex = [];
-        for (var i = 0; i < result.annex_types.length; i++) {
-        annex[i] = result.annex_types[i].description;
-        }
-       anexos = annex.toString().toUpperCase();
-        console.log('annex: ', anexos);
+    if (await this.auth.loggedIn()) {
+      console.log("this.props: ", this.props);
+      if (this.props.location.state === undefined) {
+        this.props.history.replace('/Escuela')
       } else {
-        anexos = result.annex_types.toString().toUpperCase();
+        const resultUser = await this.auth.ObtainData();
+        const user = resultUser.data;
+        const school = await getSchool(user.schoolID);
+        const result = await getFormMovPersonal(this.props.location.state.cedula, this.props.location.state.ubication_id)
+        let anexos;
+        if( result.annex_types.length > 0) {
+          let annex = [];
+          for (var i = 0; i < result.annex_types.length; i++) {
+          annex[i] = result.annex_types[i].description;
+          }
+         anexos = annex.toString().toUpperCase();
+          console.log('annex: ', anexos);
+        } else {
+          anexos = result.annex_types.toString().toUpperCase();
+        }
+        this.setState({
+          empleadoID : result.employee_id,
+          cedula: result.identification,
+          nombre : result.first_name,
+          snombre: result.second_name,
+          apellido: result.surname,
+          sapellido: result.second_surname,
+          documentacion: result.documentation,
+          nacionalidad: result.nacionality,
+          tip_mov: result.movement_type,
+          idac: result.idac_code,
+          departamento: result.departament,
+          catedra: result.chair,
+          unidad_ejec: result.execunting_unit,
+          fecha_ini: result.start_date,
+          fecha_fin: result.finish_date,
+          dedicacion: result.current_dedication,
+          sueldo: result.salary,
+          dedicacion_p: result.proposed_dedication,
+          ingreso: result.ingres,
+          tip_ingreso: result.income_type,
+          ubicacion: result.ubication,
+          direccion: result.address,
+          tip_vivienda: result.housing_type,
+          viviendaID: result.housing_identifier,
+          apartamento: result.apartament,
+          categoria: result.category_type,
+          estado: result.state,
+          municipio: result.municipality,
+          parroquia: result.parish,
+          empleadoSalarioID: result.employee_salary_id,
+          formOficeID: result.official_form_id,
+          formOficeMovPer: result.id,
+          isLoaded: true,
+          anexo: anexos,
+          user,
+          school,
+          auth: true
+        })
+        console.log("this.state: ", this.state)
       }
-      this.setState({
-        empleadoID : result.employee_id,
-        cedula: result.identification,
-        nombre : result.first_name,
-        snombre: result.second_name,
-        apellido: result.surname,
-        sapellido: result.second_surname,
-        documentacion: result.documentation,
-        nacionalidad: result.nacionality,
-        tip_mov: result.movement_type,
-        idac: result.idac_code,
-        departamento: result.departament,
-        catedra: result.chair,
-        unidad_ejec: result.execunting_unit,
-        fecha_ini: result.start_date,
-        fecha_fin: result.finish_date,
-        dedicacion: result.current_dedication,
-        sueldo: result.salary,
-        dedicacion_p: result.proposed_dedication,
-        ingreso: result.ingres,
-        tip_ingreso: result.income_type,
-        ubicacion: result.ubication,
-        direccion: result.address,
-        tip_vivienda: result.housing_type,
-        viviendaID: result.housing_identifier,
-        apartamento: result.apartament,
-        categoria: result.category_type,
-        estado: result.state,
-        municipio: result.municipality,
-        parroquia: result.parish,
-        empleadoSalarioID: result.employee_salary_id,
-        formOficeID: result.official_form_id,
-        formOficeMovPer: result.id,
-        isLoaded: true,
-        anexo: anexos,
-        user
-      })
-      console.log("this.state: ", this.state)
     }
   }
 
 async componentDidMount() {
-   if (this.props.location.state !== undefined) {
-    const school = await getSchool(1);
+   if (this.state.auth === true) {
     const StateList = await getAllStatesList();
     const CategoryTypeList= await getAllCategoryTypesList();
     const DedicationTypes_p = await getAllDedicationTypesList();
@@ -154,7 +159,6 @@ async componentDidMount() {
       IncomeType,
       DedicationTypes_p,
       CategoryTypeList,
-      school
     })
     console.log("CategoryTypeList",this.state.CategoryTypeList);
     console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);

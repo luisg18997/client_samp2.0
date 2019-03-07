@@ -41,35 +41,64 @@ import {
       schoolList: "",
       instituteList: "",
       coordinationList: "",
-      isLoaded: false
+      isLoaded: false,
+      auth: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
   }
+
   async componentWillMount() {
-  	if (this.props.location.state === undefined) {
-	    this.props.history.replace('/Admin')
-	} else {
-    	const resultUser = await this.auth.ObtainData();
-    	const user = resultUser.data;
-    	const result = await getUser(this.props.location.state.param_user_id);
-	    this.setState({
-	      user,
-	      isLoaded: true
-	    })
+    if (await this.auth.loggedIn()) {
+  	   if (this.props.location.state === undefined) {
+	        this.props.history.replace('/Admin')
+	     } else {
+      	const resultUser = await this.auth.ObtainData();
+      	const user = resultUser.data;
+      	const result = await getUser(this.props.location.state.user_id);
+        let status;
+        if (result.is_active === '1' && result.is_deleted === '0') {
+            status = true;
+        } else {
+          status = false
+        }
+        const data = {
+          target : {
+            name: result.rol.description,
+            value : String(result.rol.id)
+          }
+        }
+        this.handleChangeSelectub(data);
+  	    this.setState({
+  	      user,
+  	      isLoaded: true,
+          nombre: result.name,
+          apellido: result.surname,
+          rol: result.rol.id,
+          status,
+          email: result.email,
+          escuela: result.school_id,
+          instituto: result.institute_id,
+          coordinacion: result.coordination_id,
+          auth: true
+  	    })
+      }
+    }
   }
 
- async componentDidMount() {
-  const result = await getAllRolesList()
-  this.setState({
-    rolList: result
-  })
- }
+  async componentDidMount() {
+    if (this.state.auth === true) {
+      const result = await getAllRolesList()
+      this.setState({
+        rolList: result
+      })
+    }
+  }
 
  handleSubmit = async(event) => {
    event.preventDefault();
-   const user = {
+  /* const user = {
      name : this.state.nombre.toUpperCase(),
      surname : this.state.apellido.toUpperCase(),
      email: this.state.email,
@@ -82,14 +111,14 @@ import {
      instituteID:this.state.instituto,
    }
    //const result = await addNewUserByAdmin(user);
-   console.log('result: ', result);
+    console.log('result: ', result);
    if(result === 1) {
      alert('usuario creado exitosamente');
      this.props.history.replace('/Admin');
    } else {
      alert('usuario ya existente');
      this.props.history.replace('/Admin');
-   }
+   } */
  }
 
 
@@ -233,19 +262,19 @@ async handleChangeCoordinationList(){
         {select(LabelRequired('Rol'),'rol', rol, this.handleChangeSelectub, this.state.rolList, true)}
       </div>
       {
-        ubicacion === 2?
+        ubicacion === 2 || escuela !== 0?
         <Fragment>
           <div className="form-group">
             {select(LabelRequired('Escuela'), 'escuela', escuela,this.handleChange,this.state.schoolList, true)}
           </div>
         </Fragment>
-        :ubicacion === 3?
+        :ubicacion === 3 || instituto !== 0?
         <Fragment>
           <div className="form-group">
             {select(LabelRequired('Instituto'), 'instituto', instituto,this.handleChange,this.state.instituteList, true)}
           </div>
         </Fragment>
-        :ubicacion === 4?
+        :ubicacion === 4 || coordinacion !== 0?
         <Fragment>
           <div className="form-group">
             {select(LabelRequired('Coordinacion'), 'coordinacion', coordinacion,this.handleChange,this.state.coordinationList, true)}

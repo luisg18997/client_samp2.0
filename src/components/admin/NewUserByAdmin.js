@@ -42,26 +42,33 @@ class AddNewUserByAdmin extends Component {
       schoolList: "",
       instituteList: "",
       coordinationList: "",
-      isLoaded: false
+      isLoaded: false,
+      auth: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
   }
   async componentWillMount() {
-    const result = await this.auth.ObtainData();
-    const user = result.data;
-    this.setState({
-      user,
-      isLoaded: true
-    })
+    if (await this.auth.loggedIn()) {
+      const result = await this.auth.ObtainData();
+      const user = result.data;
+      this.setState({
+        user,
+        isLoaded: true,
+        auth: true
+      })
+    }
   }
 
  async componentDidMount() {
-  const result = await getAllRolesList()
-  this.setState({
-    rolList: result
-  })
+   if (this.state.auth === true) {
+     const result = await getAllRolesList()
+     this.setState({
+       rolList: result,
+
+     })
+   }
  }
 
  handleSubmit = async(event) => {

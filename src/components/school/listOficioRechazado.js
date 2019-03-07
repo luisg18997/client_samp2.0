@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { MDBBtn } from 'mdbreact';
 import {
-  getFormOficesList,
+  getOfficialFormRejectedList,
 }
   from '../../connect_api/formData/formDataAPI';
 import {table} from '../util/forms';
 import Authorization from '../redirectPrincipal';
 
-class ListOficio extends Component {
+class ListOficioRechazado extends Component {
   constructor() {
     super();
     this.auth = new Authorization();
@@ -44,9 +44,14 @@ class ListOficio extends Component {
             sort: 'asc',
           },
           {
-            label: 'Fecha de Registro',
-            field: 'registration_date',
+            label: 'Fecha de Rechazo',
+            field: 'date_made',
             sort: 'asc',
+            width: 350,
+          },
+          {
+            label: 'Observacion',
+            field: 'observation',
             width: 350,
           },
           {
@@ -59,17 +64,11 @@ class ListOficio extends Component {
     };
   }
 
-  handleData(e, identification) {
-    e.preventDefault();
-    console.log('ListOficio: ', identification);
-    this.props.history.replace('/Escuela/MovPersonal', { cedula: identification,ubication_id: 2});
-  }
-
   async componentWillMount() {
     if (await this.auth.loggedIn()) {
       const resultUser = await this.auth.ObtainData();
       const user = resultUser.data;
-      const result = await getFormOficesList(user.schoolID, user.instituteID, user.coordinationID)
+      const result = await getOfficialFormRejectedList(user.ubication.id,user.schoolID, user.instituteID, user.coordinationID)
       const { table } = this.state;
       if (result.result !== 'not found') {
         table.rows = result.map(form => ({
@@ -78,8 +77,9 @@ class ListOficio extends Component {
          movement_type: form.movement_type,
          execunting_unit: form.execunting_unit,
          idac: form.idac_code,
-         registration_date: form.registration_date,
-         button: <MDBBtn onClick={e => this.handleData(e, form.identification)}>Seleccionar</MDBBtn>,
+         date_made: form.date_made,
+         observation: form.observation,
+         button: <MDBBtn>Seleccionar</MDBBtn>,
        }));
      }
      this.setState({
@@ -91,8 +91,8 @@ class ListOficio extends Component {
 
   render() {
     if (!this.state.isLoaded) {
-  			return (<div className="loader" />);
-  		} else {
+        return (<div className="loader" />);
+      } else {
         return (
             <div className="lista">
           {table(this.state.table)}
@@ -100,7 +100,7 @@ class ListOficio extends Component {
         );
       }
   }
-}
+  }
 
 
-export default ListOficio;
+export default ListOficioRechazado;

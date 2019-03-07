@@ -64,28 +64,30 @@ class ListPlanillas extends Component {
 		}
 
 		async componentWillMount(){
-			 const resultUser = await this.auth.ObtainData();
-       const user = resultUser.data;
-			 const result = await	getFormsList(5,0);
-			 console.log('getFormsList: ',result);
-			 const { table } = this.state;
-			 if (result.result !== 'not found') {
-			 table.rows = result.map(form => ({
-				 code_form : form.code_form,
-				 form_type : form.form_type,
-				 movement_type : form.movement_type,
-				 ubication : form.ubication,
-				 registration_date : form.registration_date,
-				 status_form : form.status_form,
-				 button : <MDBBtn onClick={(e) => this.handleData(e,form)} >Seleccionar</MDBBtn>
-			 }));
-		 }
-			 this.setState({
-				 table,
-				 isLoaded : true,
-				 user
-			 })
-			 console.log('rows: ', this.state)
+			if (await this.auth.loggedIn()) {
+				 const resultUser = await this.auth.ObtainData();
+	       const user = resultUser.data;
+				 const result = await	getFormsList(user.ubication.id,user.schoolID, user.instituteID, user.coordinationID);
+				 console.log('getFormsList: ',result);
+				 const { table } = this.state;
+				 if (result.result !== 'not found') {
+				 table.rows = result.map(form => ({
+					 code_form : form.code_form,
+					 form_type : form.form_type,
+					 movement_type : form.movement_type,
+					 ubication : form.ubication,
+					 registration_date : form.registration_date,
+					 status_form : form.status_form,
+					 button : <MDBBtn onClick={(e) => this.handleData(e,form)} >Seleccionar</MDBBtn>
+				 }));
+			 }
+				 this.setState({
+					 table,
+					 isLoaded : true,
+					 user
+				 })
+				 console.log('rows: ', this.state)
+			 }
 		}
 
 		handleData = async(e, form) => {

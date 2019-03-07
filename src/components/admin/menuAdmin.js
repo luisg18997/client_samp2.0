@@ -6,6 +6,7 @@ import MainAdmin from './mainAdmin';
 import NewUserByAdmin from './NewUserByAdmin';
 import UserStatusList from './userStatusList';
 import UserValidateList from './userValidateList';
+import UserUpdate from './userUpdate';
 
 class MenuAdmin extends Component {
   render() {
@@ -36,6 +37,7 @@ class MenuAdmin extends Component {
               <Route exact path="/Admin" component={MainAdmin} />
               <Route path="/Admin/Usuarios/Status" component={UserStatusList} />
               <Route path="/Admin/Usuario/Nuevo" component={NewUserByAdmin} />
+              <Route path="/Admin/Usuario/Actualizar" component={UserUpdate} />
               <Route path="/Admin/Usuarios/Validar" component={UserValidateList} />
             </Switch>
           </div>

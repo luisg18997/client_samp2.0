@@ -351,3 +351,47 @@ export const getUserForChangePassword = async(email) => {
   console.log('getUserForChangePassword: ', result);
   return result;
 }
+
+export const updateUserIsDeleted = async(userID, adminID) => {
+  const result = await api.post('Deleted/update', {
+    param_id: userID,
+    param_user_id : adminID
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateUserIsDeleted  is:', error.message);
+    return error;
+  })
+  console.log('updateUserIsDeleted: ', result);
+  return result;
+}
+
+export const updateUserIsRecovery = async(userID, adminID) => {
+  const result = await api.post('Recovery/update', {
+    param_id: userID,
+    param_user_id : adminID
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateUserIsRecovery  is:', error.message);
+    return error;
+  })
+  console.log('updateUserIsRecovery: ', result);
+  return result;
+}

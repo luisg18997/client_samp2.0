@@ -173,11 +173,13 @@ export const codeMovPer = async(schoolID, instituteID, coordinationID, code) => 
   return result;
 }
 
-export const getFormsList = async (ubicationID, ubicationFormID) => {
+export const getFormsList = async (ubicationID, schoolID, instituteID, coordinationID) => {
   const result = await api.post('list',
  {
    param_ubication_id: ubicationID,
-   param_ubication_form_id: ubicationFormID,
+   param_school_id: schoolID,
+   param_institute_id: instituteID,
+   param_coordination_id: coordinationID
  })
  .then((res) =>{
    if(res.data.messageError) {
@@ -322,3 +324,51 @@ export const updateMovPersonalApproval = async(movPersonalID, movPersonalProcess
   console.log('updateMovPersonalApproval: ', result);
   return result;
 };
+
+export const getOfficialFormApprovalList = async(ubicationID, schoolID, instituteID, coordinationID) => {
+  const result = await api.post('official/rejected/list', {
+    param_ubication_id : ubicationID,
+    param_school_id: schoolID,
+    param_institute_id: instituteID,
+    param_coordination_id: coordinationID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getOfficialFormApprovalList  is:', error.message);
+    return error;
+  });
+  console.log('getOfficialFormApprovalList: ', result);
+  return result;
+}
+
+export const getOfficialFormRejectedList = async(ubicationID, schoolID, instituteID, coordinationID) => {
+  const result = await api.post('official/rejected/list', {
+    param_ubication_id : ubicationID,
+    param_school_id: schoolID,
+    param_institute_id: instituteID,
+    param_coordination_id: coordinationID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getOfficialFormRejectedList  is:', error.message);
+    return error;
+  });
+  console.log('getOfficialFormRejectedList: ', result);
+  return result;
+}

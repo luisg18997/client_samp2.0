@@ -60,7 +60,8 @@ class Oficio extends Component {
     NacionalitiesList: [],
     documentationList: [],
     isLoaded: false,
-    user: {}
+    user: {},
+    auth: false,
   }
 }
 
@@ -155,40 +156,45 @@ handleChangeExecUnit = data => {
 }
 
 async componentWillMount() {
-  const result = await this.auth.ObtainData();
-  const user = result.data;
-  const schoolData= await getSchool(user.schoolID);
-  const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
-  this.handleChangeExecUnit(schoolData.codeFilter);
-  this.setState({
-    user,
-    schoolData,
-    departamentoList,
-  })
+  if (await this.auth.loggedIn()) {
+    const result = await this.auth.ObtainData();
+    const user = result.data;
+    const schoolData= await getSchool(user.schoolID);
+    const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
+    this.handleChangeExecUnit(schoolData.codeFilter);
+    this.setState({
+      user,
+      schoolData,
+      departamentoList,
+      auth: true,
+      isLoaded : true
+    })
+  }
 }
 
- async componentDidMount() {	
-	const generoList = await getAllGenderList();
-  const NacionalitiesList = await getAllNacionalitiesList();
-  const documentationList = await getAllDocumentationList();
-  const DedicationTypes = await getAllDedicationTypesList()
-  const tipoMovList = await getAllMovementTypeslist();
-    this.setState({
-    generoList,
-    tipoMovList,
-    NacionalitiesList,
-    documentationList,
-    DedicationTypes,
-    isLoaded : true
-  })
+ async componentDidMount() {
+   if (this.state.auth === true) {
+     const generoList = await getAllGenderList();
+     const NacionalitiesList = await getAllNacionalitiesList();
+     const documentationList = await getAllDocumentationList();
+     const DedicationTypes = await getAllDedicationTypesList()
+     const tipoMovList = await getAllMovementTypeslist();
+       this.setState({
+       generoList,
+       tipoMovList,
+       NacionalitiesList,
+       documentationList,
+       DedicationTypes,
+     })
 
-  console.log("schoolData: ", this.state.schoolData);
-  console.log("tipoMovList: ",this.state.tipoMovList);
-  console.log("departamentoList: ", this.state.departamentoList);
-  console.log("generoList: ",this.state.generoList);
-  console.log("NacionalitiesList: ",this.state.NacionalitiesList);
-  console.log("documentationList: ",this.state.documentationList);
-  console.log("DedicationTypes: ",this.state.DedicationTypes);
+     console.log("schoolData: ", this.state.schoolData);
+     console.log("tipoMovList: ",this.state.tipoMovList);
+     console.log("departamentoList: ", this.state.departamentoList);
+     console.log("generoList: ",this.state.generoList);
+     console.log("NacionalitiesList: ",this.state.NacionalitiesList);
+     console.log("documentationList: ",this.state.documentationList);
+     console.log("DedicationTypes: ",this.state.DedicationTypes);
+   }
  }
 
  handleValidateBirthDate = e => {

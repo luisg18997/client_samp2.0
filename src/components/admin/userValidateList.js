@@ -52,80 +52,82 @@ class UserValidateList extends Component {
   }
 
   async componentWillMount(){
-    const resultuser = await this.auth.ObtainData();
-    const user = resultuser.data;
-    const rol = await getAllRolesList();
-    const result =	await getALLUserValidateList();
-    for (let i = 0; i< result.length; i+=1) {
-      switch (result[i].ubication.id) {
-        case 1: {
-          console.log('ubicacion administracion');
+    if (await this.auth.loggedIn()) {
+      const resultuser = await this.auth.ObtainData();
+      const user = resultuser.data;
+      const rol = await getAllRolesList();
+      const result =	await getALLUserValidateList();
+      for (let i = 0; i< result.length; i+=1) {
+        switch (result[i].ubication.id) {
+          case 1: {
+            console.log('ubicacion administracion');
+            result[i].roleID = "";
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[0]],true);
+            result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+            break;
+          }
+          case 2: {
+            console.log('ubicacion escuela');
+            result[i].roleID = "";
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID,(e) => this.handleChangeRol(e, result[i]),[rol[1]],true)
+            result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+            break;
+          }
+          case 3: {
+            console.log('ubicacion instituto');
+            result[i].roleID = "";
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[2]],true);
+            result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+            break;
+          }
+          case 4: {
+            console.log('ubicacion coordinacion');
+            result[i].roleID = "";
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[3]],true);
+            result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+            break;
+          }
+          case 5: {
+            console.log('ubicacion dpto. rrhh');
+            result[i].roleID = "";
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[4],rol[5]],true);
+            result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+            break;
+          }
+          case 6: {
+            console.log('ubicacion dpto. presupuesto');
+            result[i].roleID = "";
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[6],rol[7]],true);
+            result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
+            break;
+          }
+          default:
+          console.log('ubicacion ninguna');
           result[i].roleID = "";
-          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[0]],true);
-          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
-          break;
+          result[i].user_role = "no tiene rol";
+          result[i].button = <Fragment><MDBBtn type="button">name</MDBBtn></Fragment>
         }
-        case 2: {
-          console.log('ubicacion escuela');
-          result[i].roleID = "";
-          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID,(e) => this.handleChangeRol(e, result[i]),[rol[1]],true)
-          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
-          break;
-        }
-        case 3: {
-          console.log('ubicacion instituto');
-          result[i].roleID = "";
-          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[2]],true);
-          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
-          break;
-        }
-        case 4: {
-          console.log('ubicacion coordinacion');
-          result[i].roleID = "";
-          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[3]],true);
-          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
-          break;
-        }
-        case 5: {
-          console.log('ubicacion dpto. rrhh');
-          result[i].roleID = "";
-          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[4],rol[5]],true);
-          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
-          break;
-        }
-        case 6: {
-          console.log('ubicacion dpto. presupuesto');
-          result[i].roleID = "";
-          result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[6],rol[7]],true);
-          result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
-          break;
-        }
-        default:
-        console.log('ubicacion ninguna');
-        result[i].roleID = "";
-        result[i].user_role = "no tiene rol";
-        result[i].button = <Fragment><MDBBtn type="button">name</MDBBtn></Fragment>
       }
-    }
-   console.log('getALLUserValidateList: ',result);
-   const { table } = this.state;
-   if (result.result !== 'not found') {
-   table.rows = result.map(user => ({
-     name : user.name,
-     email : user.email,
-     ubication : user.ubication.description,
-    rolList : user.user_role,
-     button : user.button
-   }));
- }
-   this.setState({
-    table,
-    userList: result,
-     isLoaded : true,
-     rolList: rol,
-     user
-   })
-   console.log('rows: ', this.state)
+     console.log('getALLUserValidateList: ',result);
+     const { table } = this.state;
+     if (result.result !== 'not found') {
+     table.rows = result.map(user => ({
+       name : user.name,
+       email : user.email,
+       ubication : user.ubication.description,
+      rolList : user.user_role,
+       button : user.button
+     }));
+   }
+     this.setState({
+      table,
+      userList: result,
+       isLoaded : true,
+       rolList: rol,
+       user
+     })
+     console.log('rows: ', this.state)
+   }
  }
 
   handleChangeRol = (e, user) => {

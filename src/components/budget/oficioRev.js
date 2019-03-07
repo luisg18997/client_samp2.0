@@ -48,41 +48,43 @@ class OficioRev extends Component {
   }
 
   async componentWillMount() {
-    console.log('this.props: ', this.props);
-    if (this.props.location.state === undefined) {
-      this.props.history.replace('/Presupuesto')
-    } else {
-    const resultUser = await this.auth.ObtainData();
-    const user = resultUser.data;
-    const result = await getFormOfficial(this.state.cedula, this.state.ubicacion)
-    console.log('result: ', result);
-    this.setState({
-      empleadoID : result.employee_id,
-      cedula: result.identification,
-      nombre : result.first_name,
-      snombre: result.second_name,
-      apellido: result.surname,
-      sapellido: result.second_surname,
-      tip_mov: result.movement_type,
-      idac: result.idac_code,
-      escuela: result.school,
-      instituto : result.institute,
-      coordinacion : result.coordination,
-      departamento: result.departament,
-      catedra: result.chair,
-      unidad_ejec: result.execunting_unit,
-      fecha_ini: result.start_date,
-      fecha_fin: result.finish_date,
-      fecha_reg : result.registration_date,
-      codigo: result.code_form,
-      dedicacion: result.dedication_type,
-      formOficeID: result.official_form_id,
-      formOficeMovPer :result.id,
-      processFormID: result.process_form_id,
-      isLoaded: true,
-      user
-    })
-  }
+    if (await this.auth.loggedIn()) {
+      console.log('this.props: ', this.props);
+      if (this.props.location.state === undefined) {
+        this.props.history.replace('/Presupuesto')
+      } else {
+        const resultUser = await this.auth.ObtainData();
+        const user = resultUser.data;
+        const result = await getFormOfficial(this.state.cedula, this.state.ubicacion)
+        console.log('result: ', result);
+        this.setState({
+          empleadoID : result.employee_id,
+          cedula: result.identification,
+          nombre : result.first_name,
+          snombre: result.second_name,
+          apellido: result.surname,
+          sapellido: result.second_surname,
+          tip_mov: result.movement_type,
+          idac: result.idac_code,
+          escuela: result.school,
+          instituto : result.institute,
+          coordinacion : result.coordination,
+          departamento: result.departament,
+          catedra: result.chair,
+          unidad_ejec: result.execunting_unit,
+          fecha_ini: result.start_date,
+          fecha_fin: result.finish_date,
+          fecha_reg : result.registration_date,
+          codigo: result.code_form,
+          dedicacion: result.dedication_type,
+          formOficeID: result.official_form_id,
+          formOficeMovPer :result.id,
+          processFormID: result.process_form_id,
+          isLoaded: true,
+          user
+        })
+      }
+    }
   }
 
   handleChange = event => {
