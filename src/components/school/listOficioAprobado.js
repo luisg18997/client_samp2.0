@@ -74,7 +74,7 @@ class ListOficioAprobado extends Component {
          execunting_unit: form.execunting_unit,
          idac: form.idac_code,
          approval_date: form.approval_date,
-         button: <MDBBtn>Seleccionar</MDBBtn>,
+         button: <MDBBtn>Ver PDF</MDBBtn>,
        }));
      }
      this.setState({

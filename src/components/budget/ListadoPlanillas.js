@@ -66,7 +66,7 @@ async componentWillMount(){
 		if (await this.auth.loggedIn()) {
 			const resultUser = await this.auth.ObtainData();
       const user = resultUser.data;
-			const result =	await getFormsList(user.ubication.id,user.schoolID, user.instituteID, user.coordinationID)
+			const result =	await getFormsList(user.ubication.id)
 			console.log('getFormsList: ',result);
 			const { table } = this.state;
 			if (result.result !== 'not found') {
