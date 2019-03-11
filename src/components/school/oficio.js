@@ -162,38 +162,29 @@ async componentWillMount() {
     const schoolData= await getSchool(user.schoolID);
     const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
     this.handleChangeExecUnit(schoolData.codeFilter);
+    const generoList = await getAllGenderList();
+    const NacionalitiesList = await getAllNacionalitiesList();
+    const documentationList = await getAllDocumentationList();
+    const DedicationTypes = await getAllDedicationTypesList()
+    const tipoMovList = await getAllMovementTypeslist();
     this.setState({
       user,
       schoolData,
       departamentoList,
       auth: true,
-      isLoaded : true
+      isLoaded : true,
+      generoList,
+      tipoMovList,
+      NacionalitiesList,
+      documentationList,
+      DedicationTypes,
     })
   }
 }
 
  async componentDidMount() {
    if (this.state.auth === true) {
-     const generoList = await getAllGenderList();
-     const NacionalitiesList = await getAllNacionalitiesList();
-     const documentationList = await getAllDocumentationList();
-     const DedicationTypes = await getAllDedicationTypesList()
-     const tipoMovList = await getAllMovementTypeslist();
-       this.setState({
-       generoList,
-       tipoMovList,
-       NacionalitiesList,
-       documentationList,
-       DedicationTypes,
-     })
-
-     console.log("schoolData: ", this.state.schoolData);
-     console.log("tipoMovList: ",this.state.tipoMovList);
-     console.log("departamentoList: ", this.state.departamentoList);
-     console.log("generoList: ",this.state.generoList);
-     console.log("NacionalitiesList: ",this.state.NacionalitiesList);
-     console.log("documentationList: ",this.state.documentationList);
-     console.log("DedicationTypes: ",this.state.DedicationTypes);
+     
    }
  }
 

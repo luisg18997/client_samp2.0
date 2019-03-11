@@ -85,6 +85,7 @@ class movPersonalRev extends Component {
   		      	annex[i] = result.annex_types[i].description;
   		      }
   		     anexos = annex.toString().toUpperCase();
+           anexos = anexos.replace(/,/g, ', ');
   		      console.log('annex: ', anexos);
   		    } else {
   		      anexos = result.annex_types.toString().toUpperCase();

@@ -97,10 +97,16 @@ class MovPersonal extends Component {
           annex[i] = result.annex_types[i].description;
           }
          anexos = annex.toString().toUpperCase();
+         anexos = anexos.replace(/,/g, ', ');
           console.log('annex: ', anexos);
         } else {
           anexos = result.annex_types.toString().toUpperCase();
         }
+        const StateList = await getAllStatesList();
+        const CategoryTypeList= await getAllCategoryTypesList();
+        const DedicationTypes_p = await getAllDedicationTypesList();
+        const ingressList = await getAllIngressList();
+        const IncomeType = await getAllIncomeTypeList();
         this.setState({
           empleadoID : result.employee_id,
           cedula: result.identification,
@@ -138,7 +144,12 @@ class MovPersonal extends Component {
           anexo: anexos,
           user,
           school,
-          auth: true
+          auth: true,
+          ingressList,
+          StateList,
+          IncomeType,
+          DedicationTypes_p,
+          CategoryTypeList,
         })
         console.log("this.state: ", this.state)
       }
@@ -147,25 +158,7 @@ class MovPersonal extends Component {
 
 async componentDidMount() {
    if (this.state.auth === true) {
-    const StateList = await getAllStatesList();
-    const CategoryTypeList= await getAllCategoryTypesList();
-    const DedicationTypes_p = await getAllDedicationTypesList();
-    const ingressList = await getAllIngressList();
-    const IncomeType = await getAllIncomeTypeList();
 
-    this.setState({
-      ingressList,
-      StateList,
-      IncomeType,
-      DedicationTypes_p,
-      CategoryTypeList,
-    })
-    console.log("CategoryTypeList",this.state.CategoryTypeList);
-    console.log("DedicationTypes_p: ",this.state.DedicationTypes_p);
-    console.log("ingressList: ",this.state.ingressList);
-    console.log("IncomeType: ",this.state.IncomeType);
-    console.log("StateList: ", this.state.StateList);
-    console.log("school: ", this.state.school);
    }
  }
 
