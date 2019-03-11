@@ -36,8 +36,8 @@ class ListStatusPlanillas extends Component {
 							width: 750
 						},
 						{
-							label: "Fecha de Registro",
-							field: "registration_date",
+							label: "Fecha",
+							field: "date_made",
 							sort: 'asc',
 							width: 350
 						},
@@ -71,7 +71,7 @@ class ListStatusPlanillas extends Component {
 					 form_type : form.form_type,
 					 movement_type : form.movement_type,
 					 ubication : form.ubication,
-					 registration_date : form.registration_date,
+					 date_made : form.date_made,
 					 status_form : form.status_form,
 					 button : <MDBBtn>Ver Status</MDBBtn>
 				 }));

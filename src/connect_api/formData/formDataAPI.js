@@ -323,7 +323,7 @@ export const updateMovPersonalApproval = async(movPersonalID, movPersonalProcess
 };
 
 export const getOfficialFormApprovalList = async(ubicationID, schoolID, instituteID, coordinationID) => {
-  const result = await api.post('official/rejected/list', {
+  const result = await api.post('official/approval/list', {
     param_ubication_id : ubicationID,
     param_school_id: schoolID,
     param_institute_id: instituteID,
@@ -392,4 +392,52 @@ export const getFormsStatusList = async  (schoolID, instituteID, coordinationID)
  });
  console.log('result: ', result);
  return result;
+}
+
+export const getMovPersonalFormApprovalList = async(ubicationID, schoolID, instituteID, coordinationID) => {
+  const result = await api.post('movPersonal/approval/list', {
+    param_ubication_id : ubicationID,
+    param_school_id: schoolID,
+    param_institute_id: instituteID,
+    param_coordination_id: coordinationID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getMovPersonalFormApprovalList  is:', error.message);
+    return error;
+  });
+  console.log('getMovPersonalFormApprovalList: ', result);
+  return result;
+}
+
+export const getMovPersonalFormRejectedList = async(ubicationID, schoolID, instituteID, coordinationID) => {
+  const result = await api.post('movPersonal/rejected/list', {
+    param_ubication_id : ubicationID,
+    param_school_id: schoolID,
+    param_institute_id: instituteID,
+    param_coordination_id: coordinationID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getMovPersonalFormRejectedList  is:', error.message);
+    return error;
+  });
+  console.log('getMovPersonalFormRejectedList: ', result);
+  return result;
 }

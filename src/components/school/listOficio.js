@@ -62,7 +62,7 @@ class ListOficio extends Component {
   handleData(e, identification) {
     e.preventDefault();
     console.log('ListOficio: ', identification);
-    this.props.history.replace('/Escuela/MovPersonal/', { cedula: identification,ubication_id: 2});
+    this.props.history.replace('/Escuela/MovPersonal/Nuevo', { cedula: identification,ubication_id: 2});
   }
 
   async componentWillMount() {

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { MDBBtn } from 'mdbreact';
-import {table} from '../util/forms';
 import {
-  getMovPersonalFormApprovalList,
+  getMovPersonalFormRejectedList,
 }
   from '../../connect_api/formData/formDataAPI';
+import {table} from '../util/forms';
 import Authorization from '../redirectPrincipal';
 
-class ListMovPersonalAprobado extends Component {
+class ListMovPersonalRechazado extends Component {
   constructor() {
     super();
     this.auth = new Authorization();
@@ -44,9 +44,14 @@ class ListMovPersonalAprobado extends Component {
             sort: 'asc',
           },
           {
-            label: 'Fecha de Aprobacion',
-            field: 'approval_date',
+            label: 'Fecha de Rechazo',
+            field: 'date_made',
             sort: 'asc',
+            width: 350,
+          },
+          {
+            label: 'Observacion',
+            field: 'observation',
             width: 350,
           },
           {
@@ -63,8 +68,7 @@ class ListMovPersonalAprobado extends Component {
     if (await this.auth.loggedIn()) {
       const resultUser = await this.auth.ObtainData();
       const user = resultUser.data;
-      const result = await getMovPersonalFormApprovalList(user.ubication.id,user.schoolID, user.instituteID, user.coordinationID)
-      console.log(result);
+      const result = await getMovPersonalFormRejectedList(user.ubication.id,user.schoolID, user.instituteID, user.coordinationID)
       const { table } = this.state;
       if (result.result !== 'not found') {
         table.rows = result.map(form => ({
@@ -73,8 +77,9 @@ class ListMovPersonalAprobado extends Component {
          movement_type: form.movement_type,
          execunting_unit: form.execunting_unit,
          idac: form.idac_code,
-         approval_date: form.approval_date,
-         button: <MDBBtn>Ver PDF</MDBBtn>,
+         date_made: form.date_made,
+         observation: form.observation,
+         button: <MDBBtn>Seleccionar</MDBBtn>,
        }));
      }
      this.setState({
@@ -82,7 +87,7 @@ class ListMovPersonalAprobado extends Component {
        isLoaded: true,
      });
    }
-  }
+}
 
   render() {
     if (!this.state.isLoaded) {
@@ -98,4 +103,4 @@ class ListMovPersonalAprobado extends Component {
   }
 
 
-export default ListMovPersonalAprobado;
+export default ListMovPersonalRechazado;
