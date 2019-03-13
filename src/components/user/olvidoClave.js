@@ -6,6 +6,7 @@ import {
 	updateUserPassword,
 	getUserSecurityAnswerCompare
 } from '../../connect_api/user/userAPI';
+import {validateEmpty, validatePassword, validatePasswordConfirm} from '../util/validations';
 
 class OlvidoClave extends Component {
 	constructor(){
@@ -89,7 +90,7 @@ answerValidate
 						<hr></hr>
 						{Label('Pregunta Secreta','text', 'pregunta', this.state.user.question.description)}
 
-						{Label(LabelRequired('Respuesta'),'password', 'answer', answer, this.handleChange, true)}
+						{Label(LabelRequired('Respuesta'),'password', 'answer', answer, this.handleChange, true, (e) => validateEmpty(e.target.value,'Respuesta'))}
 						<br></br>
 			            <div  className="form-group col-md-12">
 			                <div className="row justify-content-center">
@@ -101,9 +102,9 @@ answerValidate
 					<Fragment>
 						<h2> Cambio de Clave:</h2>
 						<hr></hr>
-	        	{Label(LabelRequired('Nueva Clave'),'password', 'newPassword', newPassword, this.handleChange, true)}
+	        	{Label(LabelRequired('Contraseña'),'password', 'newPassword', newPassword, this.handleChange, true, (e) => validatePassword(e.target.value, 'Contraseña'))}
 
-	        	{Label(LabelRequired('Nueva Clave'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true)}
+	        	{Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => validatePasswordConfirm(e.target.value,newPasswordConfirm,'Confirmar Contraseña'))}
 						<div  className="form-group col-md-12">
 								<div className="row justify-content-center">
 									<MDBBtn color="info" type="button" className="col-md-3" onClick={this.handleSubmit} style={{marginRight:'100px'}} >Enviar</MDBBtn>

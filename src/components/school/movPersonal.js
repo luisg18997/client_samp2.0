@@ -20,6 +20,7 @@ import {
 import { MDBBtn } from 'mdbreact';
 import {Label, LabelRequired ,select} from '../util/forms';
 import Authorization from '../redirectPrincipal';
+	import {validateEmpty} from '../util/validations';
 
 class MovPersonal extends Component {
     constructor(props){
@@ -380,23 +381,23 @@ handlechangeParish = async(data) => {
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Urb/Sector/Barrio"), "text","ubicacion", this.state.ubicacion, this.handleChange, true)}
+        {Label(LabelRequired("Urb/Sector/Barrio"), "text","ubicacion", this.state.ubicacion, this.handleChange, true, (e) => validateEmpty(e.target.value,'Urb/Sector/Barrio'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Calle/Av./Vereda"), "text","direccion", this.state.direccion, this.handleChange, true)}
+        {Label(LabelRequired("Calle/Av./Vereda"), "text","direccion", this.state.direccion, this.handleChange, true, (e) => validateEmpty(e.target.value,'Calle/Av./Vereda'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Resd./Edif./Casa"), "text","tip_vivienda", this.state.tip_vivienda, this.handleChange, true)}
+        {Label(LabelRequired("Resd./Edif./Casa"), "text","tip_vivienda", this.state.tip_vivienda, this.handleChange, true, (e) => validateEmpty(e.target.value,'Resd./Edif./Casa'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Piso/Nivel/Num."), "text","viviendaID", this.state.viviendaID, this.handleChange, true)}
+        {Label(LabelRequired("Piso/Nivel/Num."), "text","viviendaID", this.state.viviendaID, this.handleChange, true, (e) => validateEmpty(e.target.value,'Piso/Nivel/Num.'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label("Apartamento", "text","apartamento", this.state.apartamento, this.handleChange, false)}
+        {Label("Apartamento", "text","apartamento", this.state.apartamento, this.handleChange, false, (e) => validateEmpty(e,'Apartamento'))}
       </div>
 
       <div className="form-group col-md-12">
@@ -478,7 +479,7 @@ handlechangeParish = async(data) => {
   </div>
 
   <div className="form-group col-md-3">
-    {Label(LabelRequired("Motivos"), "textarea","motivo", this.state.motivo, this.handleChange, true)}
+    {Label(LabelRequired("Motivos"), "textarea","motivo", this.state.motivo, this.handleChange, true, (e) => validateEmpty(e.target.value,'Motivos'))}
   </div>
 
   <div className="form-group col-md-12">

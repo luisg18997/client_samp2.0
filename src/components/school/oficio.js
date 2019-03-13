@@ -21,6 +21,7 @@ import {
  CodeOfice
 } from '../../connect_api/formData/formDataAPI'
 import Authorization from '../redirectPrincipal';
+import {validateEmail, validateText, validateInt, validatePhoneNumber, validateLocalPhoneNumber, validateBirthDate, validateDateMaximun, validateDateMinimun} from '../util/validations';
 
 class Oficio extends Component {
   constructor(){
@@ -182,17 +183,8 @@ async componentWillMount() {
   }
 }
 
- async componentDidMount() {
-   if (this.state.auth === true) {
-     
-   }
- }
-
  handleValidateBirthDate = e => {
    e.preventDefault();
-   this.setState({
-     fec_nac : e.target.value
-   })
    const date = moment(e.target.value).format('DD-MM-YYYY');
    const validate = moment(date).fromNow(true);
    const result = validate.split(" ");
@@ -282,19 +274,19 @@ render() {
       <hr></hr>
         <form className="row justify-content-center" onSubmit={this.handleSubmit}>
           <div className="form-group col-md-3">
-            {Label(LabelRequired('Primer Nombre'), 'text','nombre',this.state.nombre,this.handleChange, true)}
+            {Label(LabelRequired('Primer Nombre'), 'text','nombre',this.state.nombre,this.handleChange, true, (e)=>validateText(e.target.value, 'Primer Nombre'))}
           </div>
 
         <div className="form-group col-md-3">
-          {Label('Segundo Nombre','text', 'snombre',this.state.snombre,this.handleChange, false)}
+          {Label('Segundo Nombre','text', 'snombre',this.state.snombre,this.handleChange, false, (e)=>validateText(e.target.value, 'Segundo Nombre'))}
         </div>
 
         <div className="form-group col-md-3">
-          {Label(LabelRequired('Primer Apellido'),'text', 'apellido',this.state.apellido,this.handleChange, true)}
+          {Label(LabelRequired('Primer Apellido'),'text', 'apellido',this.state.apellido,this.handleChange, true, (e)=>validateText(e.target.value, 'Primer Apellido'))}
         </div>
 
       <div className="form-group col-md-3">
-          {Label('Segundo Apellido','text', 'sapellido',this.state.sapellido,this.handleChange, false)}
+          {Label('Segundo Apellido','text', 'sapellido',this.state.sapellido,this.handleChange, false , (e)=>validateText(e.target.value, 'Segundo Apellido'))}
       </div>
 
       <div className="form-group col-md-3">
@@ -305,11 +297,11 @@ render() {
         {select(LabelRequired('Nacionalidad'),'nacionalidad', nacionalidad, this.handleChange,this.state.NacionalitiesList, true)}
       </div>
       <div className="form-group col-md-3">
-          {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true)}
+          {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true, (e) => validateInt(e.target.value,'Cédula'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Email'),'email', 'email',this.state.email,this.handleChange, true)}
+        {Label(LabelRequired('Email'),'email', 'email',this.state.email,this.handleChange, true, (e) => validateEmail(e.target.value, 'Email'))}
       </div>
 
       <div className="form-group col-md-3">
@@ -317,15 +309,15 @@ render() {
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac,this.handleChange, true)}
+        {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac, this.handleChange, true, (e) => validateBirthDate(e.target.value,'Fecha de Nacimiento'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Teléfono Móvil'),'text', 'telef_mov',this.state.telef_mov,this.handleChange, true)}
+        {Label(LabelRequired('Teléfono Móvil'),'text', 'telef_mov',this.state.telef_mov,this.handleChange, true, (e)=> validatePhoneNumber(e.target.value,'Teléfono Móvil'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Teléfono Local'),'text', 'telef_loc',this.state.telef_loc,this.handleChange, true)}
+        {Label(LabelRequired('Teléfono Local'),'text', 'telef_loc',this.state.telef_loc,this.handleChange, true, (e)=> validateLocalPhoneNumber(e.target.value,'Teléfono Local'))}
       </div>
 
     <div className="form-group col-md-3">
@@ -345,11 +337,11 @@ render() {
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Fecha de Inicio'),'date', 'fecha_ini',this.state.fecha_ini,this.handleChange)}
+        {Label(LabelRequired('Fecha de Inicio'),'date', 'fecha_ini',this.state.fecha_ini,this.handleChange,true, (e) => validateDateMaximun(e.target.value, 'Fecha de Inicio'))}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Fecha de Fin'),'date', 'fecha_fin',this.state.fecha_fin,this.handleChange)}
+        {Label(LabelRequired('Fecha de Fin'),'date', 'fecha_fin',this.state.fecha_fin,this.handleChange, true, (e) => validateDateMinimun(e.target.value, this.state.fecha_ini, 'Fecha de Fin'))}
       </div>
 
       <div className="form-group col-md-3">

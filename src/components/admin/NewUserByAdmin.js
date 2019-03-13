@@ -11,6 +11,7 @@ import {
  getCoordinationList
  } from '../../connect_api/faculty/FacultyAPI';
  import Authorization from '../redirectPrincipal';
+ import {validateText, validateEmail} from '../util/validations';
 
 class AddNewUserByAdmin extends Component {
 
@@ -222,15 +223,15 @@ async handleChangeCoordinationList(){
         <br></br>
         <form onSubmit={this.handleSubmit}  style={{width: '590px', marginLeft:'150px',marginRight:' 300px'}} className="form-container">
         <div  className="form-group">
-          {Label(LabelRequired('Nombre'),'text','nombre', nombre,this.handleChange, true)}
+          {Label(LabelRequired('Nombre'),'text','nombre', nombre,this.handleChange, true, (e) => validateText(e.target.value,'Nombre'))}
       </div>
 
       <div className="form-group">
-        {Label(LabelRequired('Apellido'),'text','apellido', apellido,this.handleChange, true)}
+        {Label(LabelRequired('Apellido'),'text','apellido', apellido,this.handleChange, true, (e) => validateText(e.target.value,'Apellido'))}
       </div>
 
       <div className="form-group">
-        {Label(LabelRequired('Email'),'email','email', email,this.handleChange, true)}
+        {Label(LabelRequired('Email'),'email','email', email,this.handleChange, true , (e) => validateEmail(e.target.value, 'Email'))}
       </div>
 
       <div className="form-group">

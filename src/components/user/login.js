@@ -3,6 +3,7 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import {Link} from 'react-router-dom';
 import {Label} from '../util/forms';
 import Authorization from '../redirectPrincipal';
+import {validateEmpty, validateEmail} from '../util/validations';
 
 export default class Login extends Component {
   constructor() {
@@ -58,8 +59,8 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <p className="h4 text-center mb-5">Iniciar sesión</p>
           <div className="grey-text">
-						{Label('Email','email','email',this.state.email,this.handleChange,true)}
-						{Label('Clave','password','password',this.state.password,this.handleChange,true)}
+						{Label('Email','email','email',this.state.email,this.handleChange,true, (e) => validateEmail(e.target.value, 'Email'))}
+						{Label('Contraseña','password','password',this.state.password,this.handleChange,true, (e) => validateEmpty(e.target.value, 'Contraseña'))}
           </div>
           <MDBBtn color="info"
             disabled={!this.validateForm()}

@@ -5,6 +5,7 @@ import {Label, LabelRequired} from '../util/forms';
 import {
 	getUserForChangePassword
 } from '../../connect_api/user/userAPI';
+import {validateEmail} from '../util/validations';
 
 class BusquedaCambioClave extends Component {
 	constructor(){
@@ -42,7 +43,7 @@ class BusquedaCambioClave extends Component {
 			<hr></hr>
 			<form onSubmit={this.handleSubmit}>
 				<h3>Busqueda de Usuario</h3>
-				{Label(LabelRequired('Email'),'text','email',email, this.handleChange, true)}
+				{Label(LabelRequired('Email'),'text','email',email, this.handleChange, true, (e) => validateEmail(e.target.value, 'Email'))}
 				<br></br>
 	            <div  className="form-group col-md-12">
 	                <div className="row justify-content-center">

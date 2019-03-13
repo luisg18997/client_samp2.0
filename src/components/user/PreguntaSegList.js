@@ -7,6 +7,8 @@ import {
   import { Container, Row, Col, MDBBtn } from 'mdbreact';
   import {Label, LabelRequired, select} from '../util/forms';
   import Authorization from '../redirectPrincipal';
+	import {validateEmpty,validatePassword, validatePasswordConfirm} from '../util/validations';
+
 class PreguntaSegList extends Component {
   constructor(){
     super();
@@ -89,13 +91,13 @@ class PreguntaSegList extends Component {
 							<div className="grey-text">
                 {select(LabelRequired('Pregunta de Seguridad'), 'preguntaSeg', preguntaSeg, this.handleChange, this.state.questionList, true)}
 
-                {Label(LabelRequired('Respuesta'),'password', 'respuesta', respuesta,this.handleChange, true)}
+                {Label(LabelRequired('Respuesta'),'password', 'respuesta', respuesta,this.handleChange, true, (e) => validateEmpty(e.target.value,'Respuesta'))}
                 {oldPassword === '123456'?
                   <Fragment>
                     <p className="h2 text-center mb-6">Cambio de Clave</p>
-                    {Label(LabelRequired('Nueva Clave'),'password', 'newPassword', newPassword, this.handleChange, true)}
+                    {Label(LabelRequired('Contraseña'),'password', 'newPassword', newPassword, this.handleChange, true, (e) => validatePassword(e.target.value, 'Contraseña'))}
 
-                    {Label(LabelRequired('Confirmar Clave'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true)}
+                    {Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => validatePasswordConfirm(e.target.value,newPasswordConfirm,'Confirmar Contraseña'))}
                   </Fragment>
                   :<span></span>
                 }

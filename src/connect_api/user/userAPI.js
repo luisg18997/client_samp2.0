@@ -56,7 +56,6 @@ export const getAllSecurityQuestionsList = async() => {
 }
 
 export const getAllUbicationsList = async() => {
-  console.log(process.env);
   const result = await api.get('Ubications')
   .then((res) => {
     if(res.data.messageError) {

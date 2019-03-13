@@ -12,6 +12,7 @@ getInstituteList,
 getCoordinationList
 } from '../../connect_api/faculty/FacultyAPI';
 import Authorization from '../redirectPrincipal';
+import {validateText, validateEmail, validatePassword, validatePasswordConfirm} from '../util/validations';
 
 class RegistroUsuario extends Component {
 	constructor(){
@@ -154,15 +155,15 @@ async handleSubmit(event) {
 						<p className="h2 text-center mb-6">Registro de Usuario</p>
 						<form onSubmit={this.handleSubmit}>
 							<div className="grey-text">
-								{Label(LabelRequired('nombre'),'text','nombre',nombre,this.handleChange,true)}
+								{Label(LabelRequired('Nombre'),'text','nombre',nombre,this.handleChange,true, (e) => validateText(e.target.value,'Nombre'))}
 
-								{Label(LabelRequired('Apellido'),'text','apellido',apellido,this.handleChange,true)}
+								{Label(LabelRequired('Apellido'),'text','apellido',apellido,this.handleChange,true, (e) => validateText(e.target.value,'Apellido'))}
 
-								{Label(LabelRequired('email'),'email','email',email,this.handleChange, true)}
+								{Label(LabelRequired('Email'),'email','email',email,this.handleChange, true, (e) => validateEmail(e.target.value, 'Email'))}
 
-								{Label(LabelRequired('clave'),'password','clave',clave,this.handleChange)}
+								{Label(LabelRequired('Contraseña'),'password','clave',clave,this.handleChange, true, (e) => validatePassword(e.target.value, 'Contraseña'))}
 
-								{Label(LabelRequired('Confirmar clave'),'password','confiClave',confiClave,this.handleChange)}
+								{Label(LabelRequired('Confirmar Contraseña'),'password','confiClave',confiClave,this.handleChange, true, (e) => validatePasswordConfirm(e.target.value,clave,'Confirmar Contraseña'))}
 
 								{select(LabelRequired('Ubicación'), 'ubicacion', ubicacion,this.handleChangeSelectub,this.state.ubicacionList, true)}
 								<br/>
