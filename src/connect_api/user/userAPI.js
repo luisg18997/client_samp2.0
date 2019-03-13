@@ -244,8 +244,10 @@ export const getUser = async(userID) => {
   return result;
 }
 
-export const getALLUserList = async() => {
-  const result = await api.get('/List')
+export const getALLUserList = async(userID) => {
+  const result = await api.post('/List',{
+    param_user_id : userID
+  })
   .then((res) => {
     if(res.data.messageError) {
       console.log(res.data.messageError);

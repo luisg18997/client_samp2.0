@@ -57,7 +57,7 @@ class UserStatusList extends Component {
     if (await this.auth.loggedIn()) {
       const resultuser = await this.auth.ObtainData();
       const user = resultuser.data;
-      const result =	await getALLUserList()
+      const result =	await getALLUserList(user.id)
       console.log('getALLUserList: ',result);
       const { table } = this.state;
        if (result.result !== 'not found') {
@@ -92,14 +92,13 @@ class UserStatusList extends Component {
  handleUpdateUser(data){
    console.log(data);
    this.props.history.replace('/Admin/Usuario/Actualizar',
- {
-   user_id : data
- })
-
+   { user_id : data })
  }
 
  handleViewUser(data){
    console.log(data);
+   this.props.history.replace('/Admin/Usuario/Ver',
+   { user_id : data })
  }
 
  async handleDeleteUser(data){

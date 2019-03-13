@@ -1,5 +1,6 @@
 import React, { Component, Fragment} from 'react';
 import { Container, Row, Col, MDBBtn } from 'mdbreact';
+import validator from 'validator';
 import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllRolesList,
@@ -70,6 +71,7 @@ import {
           }
         }
         this.handleChangeSelectub(data);
+        const rolList = await getAllRolesList()
   	    this.setState({
   	      user,
   	      isLoaded: true,
@@ -81,7 +83,8 @@ import {
           escuela: result.school_id,
           instituto: result.institute_id,
           coordinacion: result.coordination_id,
-          auth: true
+          auth: true,
+          rolList
   	    })
       }
     }
@@ -89,10 +92,6 @@ import {
 
   async componentDidMount() {
     if (this.state.auth === true) {
-      const result = await getAllRolesList()
-      this.setState({
-        rolList: result
-      })
     }
   }
 

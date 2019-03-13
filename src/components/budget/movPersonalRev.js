@@ -177,7 +177,7 @@ class movPersonalRev extends Component {
 		e.preventDefault();
 		if(result) {
 			if(this.state.codigoContable !== "" && this.state.codigoPrograma !== "") {
-				const res = await updateMovPersonalApproval(this.state.formMovPersonalID, this.state.processMovPersonalID, this.state.empleadoID, this.state.movementTypeID, 2, 3, this.state.codigoContable, this.state.codigoPrograma, null, '1', '0', this.state.user.id);
+				const res = await updateMovPersonalApproval(this.state.formMovPersonalID, this.state.processMovPersonalID, this.state.empleadoID, this.state.movementTypeID, 2, 3, this.state.codigoContable, this.state.codigoPrograma, null, this.state.ingresoDate, '1', '0', this.state.user.id);
 				console.log(res);
 				alert('planilla de Movmiento de Personal aprobada');
 				this.props.history.replace('/Presupuesto')
