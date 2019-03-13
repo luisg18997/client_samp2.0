@@ -1,6 +1,5 @@
 import React, { Component} from 'react';
 import { MDBBtn } from 'mdbreact';
-import moment from 'moment';
 import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllDepartamentBySchoolList,
@@ -182,24 +181,6 @@ async componentWillMount() {
     })
   }
 }
-
- handleValidateBirthDate = e => {
-   e.preventDefault();
-   const date = moment(e.target.value).format('DD-MM-YYYY');
-   const validate = moment(date).fromNow(true);
-   const result = validate.split(" ");
-   console.log('date: ', date);
-   console.log('validate: ', validate);
-   console.log('result: ', result[0]);
-   if (result[1] === 'years' && parseInt(result[0]) >= 18) {
-     console.log('fecha valida');
-   } else {
-     console.log('fecha valida');
-     this.setState({
-       fec_nac : "0001-01-01"
-     })
-   }
- }
 
  handleChange = event => {
    this.setState({
