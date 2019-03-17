@@ -91,6 +91,7 @@ export const getAllExecuntingUnitListFilter = async(codeFilter) => {
       const execuntingUnit = res.data.map(Exec => ({
         ID: Exec.id,
         label: Exec.execunting_unit,
+        code: Exec.code
       }))
       return execuntingUnit;
     }

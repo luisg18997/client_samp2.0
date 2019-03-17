@@ -181,7 +181,7 @@ async componentWillMount() {
     })
   }
 }
-
+8
  handleChange = event => {
    this.setState({
      [event.target.name]: event.target.value
@@ -203,6 +203,88 @@ handlechangeChair = async(data) => {
     console.log("catedraList: ",this.state.catedraList);
 	}
 }
+
+handleChangeSelectExecUnitCat = data => {
+  if(this.state.catedra === "" && this.state.catedraList.length > 0) {
+    console.log('catedra vacio');
+    let cat = {
+      target : {
+        value : 0
+      }
+    }
+    let pointbreak = false
+    for (let i = 0; i < this.state.catedraList.length; i++) {
+      for (let j = 0; j < this.state.ExecuntingUnit.length; j++) {
+        if(this.state.ExecuntingUnit[j].ID === parseInt(data) && this.state.ExecuntingUnit[j].label.search('CÁTEDRA') !== -1) {
+          console.log(this.state.ExecuntingUnit[j]);
+          if (this.state.catedraList[i].code === this.state.ExecuntingUnit[j].code){
+            console.log(this.state.catedraList[i]);
+            cat.target.value = parseInt(this.state.catedraList[i].ID);
+            pointbreak = true;
+            break;
+          }
+        }
+      }
+      if(pointbreak){
+        break;
+      }
+    }
+    if(cat.target.value !== 0) {
+      this.handlechangeChair(cat)
+    }
+  }
+}
+
+ handleChangeSelectExecUnitDep = async(data) => {
+  if(this.state.departamento === "") {
+    console.log('departamento vacio');
+    let dept = {
+      target : {
+        value : 0
+      }
+    }
+    let pointbreak = false
+    for (let i = 0; i < this.state.departamentoList.length; i++) {
+      for (let j = 0; j < this.state.ExecuntingUnit.length; j++) {
+        if(this.state.ExecuntingUnit[j].ID === parseInt(data) && this.state.ExecuntingUnit[j].label.search('DEPARTAMENTO') !== -1) {
+          console.log(this.state.ExecuntingUnit[j]);
+          if (this.state.departamentoList[i].code === this.state.ExecuntingUnit[j].code){
+            console.log(this.state.departamentoList[i]);
+            dept.target.value = parseInt(this.state.departamentoList[i].ID);
+            pointbreak = true;
+            break;
+          }
+        } else if(this.state.ExecuntingUnit[j].ID === parseInt(data) && this.state.ExecuntingUnit[j].label.search('CÁTEDRA') !== -1) {
+          await this.handlechangeChair(this.state.departamentoList[i].ID);
+          console.log('es catedra');
+          for (let k = 0; k < await this.state.catedraList.length; k++) {
+            if(this.state.catedraList[k].code === this.state.ExecuntingUnit[j].code  && this.state.catedraList[k].code.search(this.state.departamentoList[i].codeFilter) !== -1) {
+              console.log(this.state.departamentoList[i]);
+              console.log(this.state.catedraList[k]);
+              dept.target.value = parseInt(this.state.departamentoList[i].ID);
+              pointbreak = true;
+              break;
+            }
+          }
+        }
+      }
+      if(pointbreak){
+        break;
+      }
+    }
+    if(dept.target.value !== 0) {
+      this.handleChangeSelectdept(dept)
+    }
+  }
+}
+
+
+handleChangeSelectExecUnit = async(e) => {
+  console.log(e.target.value);
+  await this.handleChangeSelectExecUnitDep(e.target.value);
+  await this.handleChangeSelectExecUnitCat(e.target.value);
+}
+
 
 handleChangeSelectdept = event => {
    this.setState({
@@ -234,6 +316,26 @@ handleChangeSelectcat = event => {
   }
 }
 
+handleResquetIdacCode(unidad_ejec){
+  let execUnit;
+  if(this.state.ExecuntingUnit.length > 0){
+  for (let i = 0; i < this.state.ExecuntingUnit.length; i++) {
+    if(this.state.ExecuntingUnit[i].ID === unidad_ejec) {
+      execUnit = this.state.ExecuntingUnit[i].label;
+    }
+  }
+  } else {
+    execUnit = this.state.ExecuntingUnit[0].label;
+  }
+  console.log(execUnit);
+  alert('La Unidad Ejecutora: ' + execUnit + ' no tiene codigo Idac disponible');
+  if(window.confirm('¿Desea solicitar Codigo de idac a la Unidad Ejecutora: ' + execUnit + '?')){
+    console.log('agg idac');
+  } else {
+    this.props.history.replace('/Escuela');
+  }
+}
+
 render() {
   const {
     nacionalidad,
@@ -244,7 +346,8 @@ render() {
   departamento,
   catedra,
   unidad_ejec,
-  idac
+  idac,
+  idacList
   } = this.state;
   if (!this.state.isLoaded) {
       return (<div className="loader" />);
@@ -326,11 +429,13 @@ render() {
       </div>
 
       <div className="form-group col-md-3">
-        {select(LabelRequired('Unidad Ejecutora'),'unidad_ejec', unidad_ejec, this.handleChange,this.state.ExecuntingUnit, true)}
+        {select(LabelRequired('Unidad Ejecutora'),'unidad_ejec', unidad_ejec, this.handleChangeSelectExecUnit,this.state.ExecuntingUnit, true)}
       </div>
 
       <div className="form-group col-md-3">
-        {select(LabelRequired('IDAC'),'idac', idac, this.handleChange,this.state.idacList, true)}
+        {idacList.length > 0?
+        select(LabelRequired('IDAC'),'idac', idac, this.handleChange,idacList, true):
+        this.handleResquetIdacCode(unidad_ejec)}
       </div>
 
       <div className="form-group col-md-4">
