@@ -290,12 +290,15 @@ export const updateOfficialApproval = async(officialID, officialProcessID, ubica
   return result;
 };
 
-export const updateMovPersonalApproval = async(movPersonalID, movPersonalProcessID, employeeID, movementTypeID, ubicationID, statusProcessFormID, accountatTypeID, programID, observation, admissionDate, isActive, isDeleted, userID) => {
+export const updateMovPersonalApproval = async(movPersonalID, movPersonalProcessID, employeeID, employeeIdacID, movementTypeID, idacCodeID, employeeSalaryID, ubicationID, statusProcessFormID, accountatTypeID, programID, observation, admissionDate, isActive, isDeleted, userID) => {
   const result = await api.post('movPersonal/updateApproval', {
     param_id: movPersonalID,
     param_mov_personal_form_process_id: movPersonalProcessID,
     param_employee_id : employeeID,
+    param_employee_idac_id : employeeIdacID,
     param_movement_type_id : movementTypeID,
+    param_idac_id : idacCodeID,
+    param_employee_salary_id : employeeSalaryID,
     param_ubication_id: ubicationID,
     param_status_process_form_id: statusProcessFormID,
     param_accountant_type_id : accountatTypeID,
