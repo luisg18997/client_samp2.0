@@ -197,7 +197,6 @@ async handleChangeCoordinationList(){
       email,
       rol,
       ubicacion,
-      status,
       escuela,
       instituto,
       coordinacion
