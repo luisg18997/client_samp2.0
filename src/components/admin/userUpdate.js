@@ -4,6 +4,7 @@ import {Label, LabelRequired, select} from '../util/forms';
 import {
   getAllRolesList,
   getUser,
+  updateUserAllData,
  } from '../../connect_api/user/userAPI';
  import {
  getSchoolList,
@@ -109,7 +110,7 @@ import {
      coordinationID: this.state.coordinacion,
      instituteID:this.state.instituto,
    }
-   //const result = await addNewUserByAdmin(user);
+   //const result = await updateUserAllData(user);
     console.log('result: ', result);
    if(result === 1) {
      alert('usuario creado exitosamente');

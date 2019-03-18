@@ -396,3 +396,33 @@ export const updateUserIsRecovery = async(userID, adminID) => {
   console.log('updateUserIsRecovery: ', result);
   return result;
 }
+
+export const updateUserAllData = async(userID, name, surname, email, ubicationID, schoolID, instituteID, coordinationID, isActive, adminID) => {
+  const result = await api.post('uppdate', {
+    param_id : userID,
+    param_name:name,
+    param_surname: surname,
+    param_email: email,
+    param_ubication_id: ubicationID,
+    param_school_id: schoolID,
+    param_institute_id: instituteID,
+    param_coordination_id: coordinationID,
+    param_is_active: isActive,
+    param_user_id: adminID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route updateUserAllData  is:', error.message);
+    return error;
+  })
+  console.log('updateUserAllData: ', result);
+  return result;
+}
