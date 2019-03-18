@@ -1,4 +1,4 @@
-FROM node:10.15.0 as react-build
+FROM node:10.15.0 as react-production
 ARG  URL_API_EMPLOYEE
 ARG URL_API
 ARG URL_API_FACULTY
