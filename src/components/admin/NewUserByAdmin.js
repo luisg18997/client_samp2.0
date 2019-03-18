@@ -28,15 +28,6 @@ class AddNewUserByAdmin extends Component {
       rolList: [],
       ubicacion: 0,
       ubicacionList: [],
-      statusList:[
-      {
-        label: "activo", ID: true
-      },
-      {
-        label : "inactivo", ID: false
-      }
-      ],
-      status: "",
       escuela: "",
       instituto: "",
       coordinacion : "",
@@ -258,10 +249,6 @@ async handleChangeCoordinationList(){
         </Fragment>
           :<span></span>
       }
-
-      <div className="form-group">
-        {select(LabelRequired('Status'),'status', status, this.handleChange, this.state.statusList, true)}
-      </div>
       <br></br>
       <div  className="form-group col-md-14">
       <div className="row justify-content-center">

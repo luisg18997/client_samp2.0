@@ -397,18 +397,21 @@ export const updateUserIsRecovery = async(userID, adminID) => {
   return result;
 }
 
-export const updateUserAllData = async(userID, name, surname, email, ubicationID, schoolID, instituteID, coordinationID, isActive, adminID) => {
+export const updateUserAllData = async(user) => {
   const result = await api.post('uppdate', {
-    param_id : userID,
-    param_name:name,
-    param_surname: surname,
-    param_email: email,
-    param_ubication_id: ubicationID,
-    param_school_id: schoolID,
-    param_institute_id: instituteID,
-    param_coordination_id: coordinationID,
-    param_is_active: isActive,
-    param_user_id: adminID,
+    param_id : user.ID,
+    param_name: user.name,
+    param_surname: user.surname,
+    param_email: user.email,
+    param_ubication_id: user.ubicationID,
+    param_school_id: user.schoolID,
+    param_institute_id: user.instituteID,
+    param_coordination_id: user.coordinationID,
+    param_user_role_id: user.userRoleID,
+    param_role_id: user.roleID,
+    param_answer_user_id: user.answerID,
+    param_is_active: user.isActive,
+    param_user_id: user.adminID,
   })
   .then((res) => {
     if(res.data.messageError) {

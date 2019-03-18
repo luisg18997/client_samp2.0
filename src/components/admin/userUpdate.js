@@ -21,6 +21,9 @@ import {
     this.auth = new Authorization();
     this.state = {
       user: {},
+      userRoleID: "",
+      answerID: "",
+      userID: "",
       nombre: "",
       apellido: "",
       email: "",
@@ -84,6 +87,9 @@ import {
           escuela: result.school_id,
           instituto: result.institute_id,
           coordinacion: result.coordination_id,
+          userRoleID: result.user_role_id,
+          answerID: result.answer_id,
+          userID: result.id,
           auth: true,
           rolList
   	    })
@@ -98,27 +104,30 @@ import {
 
  handleSubmit = async(event) => {
    event.preventDefault();
-  /* const user = {
+   const user = {
+     ID: this.state.userID,
      name : this.state.nombre.toUpperCase(),
      surname : this.state.apellido.toUpperCase(),
      email: this.state.email,
-     password: this.state.clave,
-     ubication: this.state.ubicacion,
-     roleUserID : this.state.rol,
-     userID: this.state.user.id,
+     ubicationID: this.state.ubicacion,
+     roleID : this.state.rol,
+     adminID: this.state.user.id,
      schoolID: this.state.escuela,
      coordinationID: this.state.coordinacion,
-     instituteID:this.state.instituto,
+     instituteID: this.state.instituto,
+     userRoleID: this.state.userRoleID,
+     answerID: this.state.answerID,
+     isActive: this.state.status,
    }
-   //const result = await updateUserAllData(user);
+   const result = await updateUserAllData(user);
     console.log('result: ', result);
    if(result === 1) {
-     alert('usuario creado exitosamente');
+     alert('usuario Actualizado exitosamente');
      this.props.history.replace('/Admin');
    } else {
-     alert('usuario ya existente');
+     alert('usuario NO Actualizado exitosamente');
      this.props.history.replace('/Admin');
-   } */
+   }
  }
 
 
