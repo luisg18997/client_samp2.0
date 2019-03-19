@@ -14,7 +14,7 @@ export const Logout = (props) =>{
 		return (
 <div className="logout" >
     <MDBDropdown size="sm">
-      <MDBDropdownToggle className="logou"  caret color="info">
+      <MDBDropdownToggle caret color="info">
         Usuario
       </MDBDropdownToggle>
       <MDBDropdownMenu basic>
@@ -26,5 +26,3 @@ export const Logout = (props) =>{
 </div>
   );
 }
-
-
