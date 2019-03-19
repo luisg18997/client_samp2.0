@@ -64,7 +64,7 @@ async componentWillMount() {
           apellido: result.surname,
           sapellido: result.second_surname,
           tip_mov: result.movement_type,
-          idac: result.idac_code,
+          idac: result.idac_code.code,
           escuela: result.school,
           instituto : result.institute,
           coordinacion : result.coordination,

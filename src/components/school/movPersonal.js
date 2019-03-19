@@ -132,7 +132,7 @@ class MovPersonal extends Component {
           documentacion: result.documentation,
           nacionalidad: result.nacionality,
           tip_mov: result.movement_type,
-          idac: result.idac_code,
+          idac: result.idac_code.code,
           departamento: result.departament,
           catedra: result.chair,
           unidad_ejec: result.execunting_unit,

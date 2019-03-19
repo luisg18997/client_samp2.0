@@ -130,7 +130,7 @@ handleSubmit = async(event) => {
   if(result === 1) {
     alert('planilla de oficio creado exitosamente');
     if (window.confirm("¿Desea registrar la planilla de Movmimiento?")) {
-      this.props.history.replace('/Escuela/MovPersonal', {cedula:employee.identification, ubication_id:2});
+      this.props.history.replace('/Escuela/MovPersonal/Nuevo', {cedula:employee.identification, ubication_id:2});
     } else {
       this.props.history.replace('/Escuela');
     }

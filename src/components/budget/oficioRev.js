@@ -164,7 +164,7 @@ class OficioRev extends Component {
             <div className="form-group col-md-3">
               <label><strong>Codigo Idac</strong></label>
                 <br/>
-                <label>{this.state.idac}</label>
+                <label>{this.state.idac.code}</label>
             </div>
             <div className="form-group col-md-3">
               <label><strong>Codigo de Planilla</strong></label>
