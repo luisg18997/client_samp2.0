@@ -20,7 +20,7 @@ import {
 import { MDBBtn } from 'mdbreact';
 import {Label, LabelRequired ,select} from '../util/forms';
 import Authorization from '../redirectPrincipal';
-	import {validateEmpty} from '../util/validations';
+import {validateEmpty} from '../util/validations';
 
 class MovPersonal extends Component {
     constructor(props){
@@ -74,6 +74,20 @@ class MovPersonal extends Component {
           anexo: "",
           user: {},
           auth: false,
+          //focus
+          ubicacionFocus: false,
+          direccionFocus: false,
+          tip_viviendaFocus: false,
+          viviendaIDFocus: false,
+          apartamentoFocus: true,
+          motivoFocus: false,
+          //validate
+          ubicacionValidate: false,
+          direccionValidate: false,
+          tip_viviendaValidate: false,
+          viviendaIDValidate: false,
+          apartamentoValidate: true,
+          motivoValidate: false,
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -156,12 +170,6 @@ class MovPersonal extends Component {
       }
     }
   }
-
-async componentDidMount() {
-   if (this.state.auth === true) {
-
-   }
- }
 
  handleSubmit = async(event) => {
    event.preventDefault();
@@ -313,6 +321,21 @@ handlechangeParish = async(data) => {
   }
 }
 
+async handleValidateEmpty(data, name, focus, nameFocus, validateName) {
+  const result = await validateEmpty(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+validateForm() {
+  return this.state.ubicacionValidate && this.state.direccionValidate && this.state.tip_viviendaValidate && this.state.viviendaIDValidate && this.state.apartamentoValidate && this.state.motivoValidate;
+}
+
   render() {
     const {
       dedicacion_p,
@@ -381,23 +404,23 @@ handlechangeParish = async(data) => {
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Urb/Sector/Barrio"), "text","ubicacion", this.state.ubicacion, this.handleChange, true, (e) => validateEmpty(e.target.value,'Urb/Sector/Barrio'))}
+        {Label(LabelRequired("Urb/Sector/Barrio"), "text","ubicacion", this.state.ubicacion, this.handleChange, true, (e) => this.handleValidateEmpty(e.target,'Urb/Sector/Barrio', this.state.ubicacionFocus, 'ubicacionFocus', 'ubicacionValidate'), this.state.ubicacionFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Calle/Av./Vereda"), "text","direccion", this.state.direccion, this.handleChange, true, (e) => validateEmpty(e.target.value,'Calle/Av./Vereda'))}
+        {Label(LabelRequired("Calle/Av./Vereda"), "text","direccion", this.state.direccion, this.handleChange, true, (e) => this.handleValidateEmpty(e.target,'Calle/Av./Vereda', this.state.direccionFocus, 'direccionFocus', 'direccionValidate'), this.state.direccionFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Resd./Edif./Casa"), "text","tip_vivienda", this.state.tip_vivienda, this.handleChange, true, (e) => validateEmpty(e.target.value,'Resd./Edif./Casa'))}
+        {Label(LabelRequired("Resd./Edif./Casa"), "text","tip_vivienda", this.state.tip_vivienda, this.handleChange, true, (e) => this.handleValidateEmpty(e.target,'Resd./Edif./Casa', this.state.tip_viviendaFocus, 'tip_viviendaFocus', 'tip_viviendaValidate'), this.state.tip_viviendaFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired("Piso/Nivel/Num."), "text","viviendaID", this.state.viviendaID, this.handleChange, true, (e) => validateEmpty(e.target.value,'Piso/Nivel/Num.'))}
+        {Label(LabelRequired("Piso/Nivel/Num."), "text","viviendaID", this.state.viviendaID, this.handleChange, true, (e) => this.handleValidateEmpty(e.target,'Piso/Nivel/Num.', this.state.viviendaIDFocus, 'viviendaIDFocus', 'viviendaIDValidate'), this.state.viviendaIDFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
-        {Label("Apartamento", "text","apartamento", this.state.apartamento, this.handleChange, false, (e) => validateEmpty(e,'Apartamento'))}
+        {Label("Apartamento", "text","apartamento", this.state.apartamento, this.handleChange, false, (e) => this.handleValidateEmpty(e.target,'Apartamento', true, 'apartamentoFocus','apartamentoValidate'), this.state.apartamentoFocus.toString())}
       </div>
 
       <div className="form-group col-md-12">
@@ -479,7 +502,7 @@ handlechangeParish = async(data) => {
   </div>
 
   <div className="form-group col-md-3">
-    {Label(LabelRequired("Motivos"), "textarea","motivo", this.state.motivo, this.handleChange, true, (e) => validateEmpty(e.target.value,'Motivos'))}
+    {Label(LabelRequired("Motivos"), "textarea","motivo", this.state.motivo, this.handleChange, true, (e) => this.handleValidateEmpty(e.target,'Motivos', this.state.motivoFocus, 'motivoFocus' ,'motivoValidate'), this.state.motivoFocus.toString())}
   </div>
 
   <div className="form-group col-md-12">
@@ -492,7 +515,7 @@ handlechangeParish = async(data) => {
 
         <div className="row justify-content-center">
 
-          <MDBBtn color="info" type="submit" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+          <MDBBtn color="info" type="submit" disabled={!this.validateForm()} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
           <MDBBtn color="info" type="reset" className=" col-md-3">Restablecer</MDBBtn>
 
         </div>
