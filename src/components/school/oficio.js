@@ -62,6 +62,30 @@ class Oficio extends Component {
     isLoaded: false,
     user: {},
     auth: false,
+    //focus
+    nombreFocus: false,
+    apellidoFocus: false,
+    snombreFocus: true,
+    sapellidoFocus: true,
+    fec_nacFocus: false,
+    telef_movFocus: false,
+    telef_locFocus: false,
+    fecha_iniFocus: false,
+    fecha_finFocus: false,
+    cedulaFocus: false,
+    emailFocus: false,
+    //validate
+    nombreValidate: false,
+    apellidoValidate: false,
+    snombreValidate: true,
+    sapellidoValidate: true,
+    fec_nacValidate: false,
+    telef_movValidate: false,
+    telef_locValidate: false,
+    fecha_iniValidate: false,
+    fecha_finValidate: false,
+    cedulaValidate: false,
+    emailValidate: false,
   }
 }
 
@@ -281,8 +305,12 @@ handleChangeSelectExecUnitCat = data => {
 
 handleChangeSelectExecUnit = async(e) => {
   console.log(e.target.value);
-  await this.handleChangeSelectExecUnitDep(e.target.value);
-  await this.handleChangeSelectExecUnitCat(e.target.value);
+  if(this.state.departamento === "") {
+    await this.handleChangeSelectExecUnitDep(e.target.value);
+  }
+  if(this.state.catedra === "" && this.state.catedraList.length > 0) {
+    await this.handleChangeSelectExecUnitCat(e.target.value);
+  }
 }
 
 
@@ -336,6 +364,98 @@ handleResquetIdacCode(unidad_ejec){
   }
 }
 
+async handleValidateEmail(data, name, focus, nameFocus,  validateName) {
+  const result = validateEmail(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+async handleValidateText(data, name, focus, nameFocus,  validateName) {
+  const result = validateText(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+async handleValidateInt(data, name, focus, nameFocus, validateName) {
+  const result = validateInt(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+async handleValidatePhoneNumber(data, name, focus, nameFocus, validateName) {
+  const result = validatePhoneNumber(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+async handleValidateLocalPhoneNumber(data, name, focus, nameFocus,  validateName) {
+  const result = validateLocalPhoneNumber(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+async handleValidateBirthDate(data, name, focus, nameFocus, validateName) {
+  const result = validateBirthDate(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+async handleValidateDateMaximun(data, name, focus, nameFocus, validateName) {
+  const result = validateDateMaximun(data, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+async handleValidateDateMinimun(data, min, name, focus, nameFocus, validateName) {
+  const result = validateDateMinimun(data, min, name, focus);
+  console.log(result);
+  await this.setState({
+    [nameFocus]: result,
+    [validateName]: !result
+  });
+  console.log('this.state: ', this.state);
+  return !result;
+}
+
+validateForm() {
+  return this.state.emailValidate && this.state.nombreValidate && this.state.apellidoValidate && this.state.snombreValidate && this.state.cedulaValidate && this.state.fecha_finValidate && this.state.fecha_iniValidate && this.state.telef_locValidate && this.state.sapellidoValidate && this.state.fec_nacValidate && this.state.telef_movValidate;
+}
+
 render() {
   const {
     nacionalidad,
@@ -358,19 +478,19 @@ render() {
       <hr></hr>
         <form className="row justify-content-center" onSubmit={this.handleSubmit}>
           <div className="form-group col-md-3">
-            {Label(LabelRequired('Primer Nombre'), 'text','nombre',this.state.nombre,this.handleChange, true, (e)=>validateText(e.target.value, 'Primer Nombre'))}
+            {Label(LabelRequired('Primer Nombre'), 'text','nombre',this.state.nombre,this.handleChange, true, (e)=>this.handleValidateText(e.target, 'Primer Nombre', this.state.nombreFocus, 'nombreFocus', 'nombreValidate'), this.state.nombreFocus.toString())}
           </div>
 
         <div className="form-group col-md-3">
-          {Label('Segundo Nombre','text', 'snombre',this.state.snombre,this.handleChange, false, (e)=>validateText(e.target.value, 'Segundo Nombre'))}
+          {Label('Segundo Nombre','text', 'snombre',this.state.snombre,this.handleChange, false, (e)=>this.handleValidateText(e.target, 'Segundo Nombre', true, 'snombreFocus', 'snombreValidate'),this.state.snombreFocus.toString())}
         </div>
 
         <div className="form-group col-md-3">
-          {Label(LabelRequired('Primer Apellido'),'text', 'apellido',this.state.apellido,this.handleChange, true, (e)=>validateText(e.target.value, 'Primer Apellido'))}
+          {Label(LabelRequired('Primer Apellido'),'text', 'apellido',this.state.apellido,this.handleChange, true, (e)=>this.handleValidateText(e.target, 'Primer Apellido', this.state.apellidoFocus, 'apellidoFocus', 'apellidoValidate'), this.state.apellidoFocus.toString())}
         </div>
 
       <div className="form-group col-md-3">
-          {Label('Segundo Apellido','text', 'sapellido',this.state.sapellido,this.handleChange, false , (e)=>validateText(e.target.value, 'Segundo Apellido'))}
+          {Label('Segundo Apellido','text', 'sapellido',this.state.sapellido,this.handleChange, false , (e)=>this.handleValidateText(e.target, 'Segundo Apellido', true, 'sapellidoFocus', 'sapellidoValidate'), this.state.sapellidoFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
@@ -381,11 +501,11 @@ render() {
         {select(LabelRequired('Nacionalidad'),'nacionalidad', nacionalidad, this.handleChange,this.state.NacionalitiesList, true)}
       </div>
       <div className="form-group col-md-3">
-          {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true, (e) => validateInt(e.target.value,'Cédula'))}
+          {Label(LabelRequired('Cédula'),'text', 'cedula',this.state.cedula,this.handleChange, true, (e) => this.handleValidateInt(e.target,'Cédula', this.state.cedulaFocus, 'cedulaFocus', 'cedulaValidate'), this.state.cedulaFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Email'),'email', 'email',this.state.email,this.handleChange, true, (e) => validateEmail(e.target.value, 'Email'))}
+        {Label(LabelRequired('Email'),'email', 'email',this.state.email,this.handleChange, true, (e) => this.handleValidateEmail(e.target, 'Email', this.state.emailFocus, 'emailFocus', 'emailValidate'), this.state.emailFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
@@ -393,15 +513,15 @@ render() {
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac, this.handleChange, true, (e) => validateBirthDate(e.target.value,'Fecha de Nacimiento'))}
+        {Label(LabelRequired('Fecha de Nacimiento'),'date', 'fec_nac',this.state.fec_nac, this.handleChange, true, (e) => this.handleValidateBirthDate(e.target,'Fecha de Nacimiento', this.state.fec_nacFocus, 'fec_nacFocus', 'fec_nacValidate'), this.state.fec_nacFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Teléfono Móvil'),'text', 'telef_mov',this.state.telef_mov,this.handleChange, true, (e)=> validatePhoneNumber(e.target.value,'Teléfono Móvil'))}
+        {Label(LabelRequired('Teléfono Móvil'),'text', 'telef_mov',this.state.telef_mov,this.handleChange, true, (e)=> this.handleValidatePhoneNumber(e.target,'Teléfono Móvil', this.state.telef_movFocus, 'telef_movFocus', 'telef_movValidate'), this.state.telef_movFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Teléfono Local'),'text', 'telef_loc',this.state.telef_loc,this.handleChange, true, (e)=> validateLocalPhoneNumber(e.target.value,'Teléfono Local'))}
+        {Label(LabelRequired('Teléfono Local'),'text', 'telef_loc',this.state.telef_loc,this.handleChange, true, (e)=> this.handleValidateLocalPhoneNumber(e.target,'Teléfono Local',this.state.telef_locFocus, 'telef_locFocus', 'telef_locValidate'), this.state.telef_locFocus.toString())}
       </div>
 
     <div className="form-group col-md-3">
@@ -421,11 +541,11 @@ render() {
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Fecha de Inicio'),'date', 'fecha_ini',this.state.fecha_ini,this.handleChange,true, (e) => validateDateMaximun(e.target.value, 'Fecha de Inicio'))}
+        {Label(LabelRequired('Fecha de Inicio'),'date', 'fecha_ini',this.state.fecha_ini,this.handleChange,true, (e) => this.handleValidateDateMaximun(e.target, 'Fecha de Inicio', this.state.fecha_iniFocus, 'fecha_iniFocus', 'fecha_iniValidate'), this.state.fecha_iniFocus.toString)}
       </div>
 
       <div className="form-group col-md-3">
-        {Label(LabelRequired('Fecha de Fin'),'date', 'fecha_fin',this.state.fecha_fin,this.handleChange, true, (e) => validateDateMinimun(e.target.value, this.state.fecha_ini, 'Fecha de Fin'))}
+        {Label(LabelRequired('Fecha de Fin'),'date', 'fecha_fin',this.state.fecha_fin,this.handleChange, true, (e) => this.handleValidateDateMinimun(e.target, this.state.fecha_ini, 'Fecha de Fin', this.state.fecha_finFocus, 'fecha_finFocus', 'fecha_finValidate'), this.state.fecha_finFocus.toString())}
       </div>
 
       <div className="form-group col-md-3">
@@ -446,7 +566,7 @@ render() {
 
     <div className="form-group col-md-10">
         <div className="row justify-content-center">
-          <MDBBtn color="info" type="submit" className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+          <MDBBtn color="info" type="submit" disabled={!this.validateForm()} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
           <MDBBtn color="info" type="reset" className=" col-md-3">Restablecer</MDBBtn>
         </div>
       </div>

@@ -34,7 +34,7 @@ export default class Login extends Component {
     }
   }
 
-  async handleValidateEmail(data, name, focus, nameFocus, validate, validateName) {
+  async handleValidateEmail(data, name, focus, nameFocus, validateName) {
     const result = validateEmail(data, name, focus);
     console.log(result);
     await this.setState({
@@ -45,7 +45,7 @@ export default class Login extends Component {
     return !result;
   }
 
-  async handleValidateEmpty(data, name, focus, nameFocus, validate, validateName) {
+  async handleValidateEmpty(data, name, focus, nameFocus, validateName) {
     const result = await validateEmpty(data, name, focus);
     console.log(result);
     await this.setState({
@@ -85,8 +85,8 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <p className="h4 text-center mb-5">Iniciar sesión</p>
           <div className="grey-text">
-						{Label('Email','email','email',this.state.email,this.handleChange,true, (e) => this.handleValidateEmail(e.target, 'Email', this.state.emailFocus, 'emailFocus', this.state.emailValidate, 'emailValidate'), this.state.emailFocus.toString())}
-						{Label('Contraseña','password','password',this.state.password,this.handleChange,true, (e) => this.handleValidateEmpty(e.target, 'Contraseña', this.state.passwordFocus, 'passwordFocus', this.state.passwordValidate, 'passwordValidate'), this.state.passwordFocus.toString())}
+						{Label('Email','email','email',this.state.email,this.handleChange,true, (e) => this.handleValidateEmail(e.target, 'Email', this.state.emailFocus, 'emailFocus', 'emailValidate'), this.state.emailFocus.toString())}
+						{Label('Contraseña','password','password',this.state.password,this.handleChange,true, (e) => this.handleValidateEmpty(e.target, 'Contraseña', this.state.passwordFocus, 'passwordFocus', 'passwordValidate'), this.state.passwordFocus.toString())}
           </div>
           <MDBBtn color="info"
             disabled={!this.validateForm()}
