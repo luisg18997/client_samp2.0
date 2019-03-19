@@ -10,7 +10,7 @@ export const LabelRequired = (labelName) => {
   )
 }
 
-export const Label = (labelName,type, InputName, value, onChange, required, validate) => {
+export const Label = (labelName,type, InputName, value, onChange, required, validate,focus) => {
   return(
     <Fragment>
       <MDBInput
@@ -22,6 +22,7 @@ export const Label = (labelName,type, InputName, value, onChange, required, vali
       value={value}
       required={required}
       onBlur={validate}
+      focus={focus}
       />
     </Fragment>
   )

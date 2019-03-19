@@ -12,7 +12,11 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      isLoaded : false
+      isLoaded : false,
+      emailFocus: false,
+      passwordFocus: false,
+      emailValidate: false,
+      passwordValidate: false
     };
   }
 
@@ -30,15 +34,37 @@ export default class Login extends Component {
     }
   }
 
+  async handleValidateEmail(data, name, focus, nameFocus, validate, validateName) {
+    const result = validateEmail(data, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+  async handleValidateEmpty(data, name, focus, nameFocus, validate, validateName) {
+    const result = await validateEmpty(data, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+    return this.state.emailValidate && this.state.passwordValidate;
   }
 
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
-    console.log(event.target.value)
+    console.log(event.target)
   }
 
   handleSubmit = async(event) => {
@@ -59,8 +85,8 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <p className="h4 text-center mb-5">Iniciar sesión</p>
           <div className="grey-text">
-						{Label('Email','email','email',this.state.email,this.handleChange,true, (e) => validateEmail(e.target.value, 'Email'))}
-						{Label('Contraseña','password','password',this.state.password,this.handleChange,true, (e) => validateEmpty(e.target.value, 'Contraseña'))}
+						{Label('Email','email','email',this.state.email,this.handleChange,true, (e) => this.handleValidateEmail(e.target, 'Email', this.state.emailFocus, 'emailFocus', this.state.emailValidate, 'emailValidate'), this.state.emailFocus.toString())}
+						{Label('Contraseña','password','password',this.state.password,this.handleChange,true, (e) => this.handleValidateEmpty(e.target, 'Contraseña', this.state.passwordFocus, 'passwordFocus', this.state.passwordValidate, 'passwordValidate'), this.state.passwordFocus.toString())}
           </div>
           <MDBBtn color="info"
             disabled={!this.validateForm()}
