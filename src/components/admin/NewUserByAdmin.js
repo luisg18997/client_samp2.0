@@ -45,24 +45,17 @@ class AddNewUserByAdmin extends Component {
     if (await this.auth.loggedIn()) {
       const result = await this.auth.ObtainData();
       const user = result.data;
+      const rolList = await getAllRolesList();
       this.setState({
         user,
         isLoaded: true,
-        auth: true
+        auth: true,
+	rolList
       })
     }
   }
 
- async componentDidMount() {
-   if (this.state.auth === true) {
-     const result = await getAllRolesList()
-     this.setState({
-       rolList: result,
-
-     })
-   }
- }
-
+ 
  handleSubmit = async(event) => {
    event.preventDefault();
    const user = {

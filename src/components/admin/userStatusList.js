@@ -69,7 +69,7 @@ class UserStatusList extends Component {
            } else {
              result[i].user_status = "bloqueado"
            }
-           result[i].buttons = <Fragment><MDBBtn type="button" onClick={() => this.handleUpdateUser(result[i].id)}>Actualizar</MDBBtn><MDBBtn type="button" onClick={() => this.handleViewUser(result[i].id)}>Ver</MDBBtn>{result[i].is_deleted !== '1'?<MDBBtn type="button" onClick={() => this.handleDeleteUser(result[i].id)}>Eliminar</MDBBtn>: <MDBBtn type="button" onClick={() => this.handleRecoveryUser(result[i].id)}>Recuperar</MDBBtn>}</Fragment>
+           result[i].buttons = <Fragment><MDBBtn type="button" onClick={() => this.handleViewUser(result[i].id)}>Ver</MDBBtn>{result[i].is_deleted !== '1'? <Fragment><MDBBtn type="button" onClick={() => this.handleDeleteUser(result[i].id)}>Eliminar</MDBBtn><MDBBtn type="button" onClick={() => this.handleUpdateUser(result[i].id)}>Actualizar</MDBBtn></Fragment>: <MDBBtn type="button" onClick={() => this.handleRecoveryUser(result[i].id)}>Recuperar</MDBBtn>}</Fragment>
          }
        table.rows = result.map(user => ({
          name : user.name,

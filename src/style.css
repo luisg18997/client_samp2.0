@@ -11,6 +11,29 @@ html
 
 }
 
+.logout{
+
+    height: auto;
+    top: 7%;
+    right: 0%;
+    position: fixed;
+    z-index: 999;
+    /*-webkit-border-radius: 0px 0px 0px 20px !important;
+    background-image: linear-gradient(rgb(84, 180, 235), rgb(47, 164, 231) 60%, rgb(29, 156, 229)) !important;
+    background-repeat: no-repeat !important;*/
+}
+
+
+
+.logou{
+
+
+
+    -webkit-border-radius: 0px 0px 0px 20px !important;
+    background-image: linear-gradient(rgb(84, 180, 235), rgb(47, 164, 231) 60%, rgb(29, 156, 229)) !important;
+    background-repeat: no-repeat !important;
+
+}
 
 @media screen and (min-width: 1200px) {
 
@@ -94,14 +117,6 @@ footer
   position: fixed; /* Hacemos que la cabecera tenga una posición fija */
   z-index: 999;
 
-}
-
-.logout{
-
-      left: 85%;
-    top: 75px;
-    z-index: 999;
-    position: absolute;
 }
 
 .Bmenu{
