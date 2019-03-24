@@ -12,6 +12,9 @@ import ListMovPersonalAprobado from './listMovPersonalAprobado';
 import ListMovPersonalRechazado from './listMovPersonalRechazado';
 import ListOficioRechazado from './listOficioRechazado';
 import ListStatusPlanillas from './listPlanillasStatus';
+import ListPlanillas from './ListadoPlanillas';
+import OficioRev from './oficioRev';
+import MovPersonalRev from './movPersonalRev';
 
 class MenuSchool extends Component {
   render() {
@@ -42,6 +45,7 @@ class MenuSchool extends Component {
                 </ul>
               </li>
               <li><Link to="/Escuela/Planillas/status">Status de Planillas</Link></li>
+              <li><Link to="/Escuela/ListadoPlanillas">Listado Planillas</Link></li>
             </ul>
             <Switch>
               <Route exact path="/Escuela" component={MainSchool} />
@@ -53,7 +57,10 @@ class MenuSchool extends Component {
               <Route path="/Escuela/MovPersonal/Nuevo" component={MovPersonal} />
               <Route path="/Escuela/MovPersonal/Aprobados" component={ListMovPersonalAprobado} />
               <Route path="/Escuela/MovPersonal/Rechazados" component={ListMovPersonalRechazado} />
-              <Route  path="/Escuela/Planillas/status" component={ListStatusPlanillas} />
+              <Route path="/Escuela/Planillas/status" component={ListStatusPlanillas} />
+              <Route path="/Escuela/ListadoPlanillas" component={ListPlanillas} />
+              <Route path="/Escuela/Oficio/revision" component={OficioRev} />
+              <Route path="/Escuela/MovPersonal/revision" component={MovPersonalRev} />
             </Switch>
           </div>
         </Router>
