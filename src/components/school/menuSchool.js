@@ -15,6 +15,7 @@ import ListStatusPlanillas from './listPlanillasStatus';
 import ListPlanillas from './ListadoPlanillas';
 import OficioRev from './oficioRev';
 import MovPersonalRev from './movPersonalRev';
+import MovPersonalPDF from './movPersonalPDF';
 
 class MenuSchool extends Component {
   render() {
@@ -61,6 +62,7 @@ class MenuSchool extends Component {
               <Route path="/Escuela/ListadoPlanillas" component={ListPlanillas} />
               <Route path="/Escuela/Oficio/revision" component={OficioRev} />
               <Route path="/Escuela/MovPersonal/revision" component={MovPersonalRev} />
+              <Route path="/Escuela/MovPersonal/PDF" component={MovPersonalPDF} />
             </Switch>
           </div>
         </Router>
