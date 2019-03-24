@@ -186,7 +186,8 @@ class MovPersonal extends Component {
      apartament: this.state.apartamento.toUpperCase(),
      ingress_id: this.state.ingreso.id,
      income_type_id : this.state.tip_ingreso.id,
-     salary_id: this.state.sueldo.id
+     salary_id: this.state.sueldo.id,
+     ubication_id: this.state.user.ubication.id
    }
    console.log('employee: ', employee);
    const formMovPeronsal = {

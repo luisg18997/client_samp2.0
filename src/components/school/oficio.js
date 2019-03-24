@@ -121,7 +121,8 @@ handleSubmit = async(event) => {
     finish_date : this.state.fecha_fin,
     school_id : this.state.schoolData.ID,
     institute_id : 0,
-    coordination_id : 0
+    coordination_id : 0,
+    ubication_id: this.state.user.ubication.id
   };
   console.log("ofice: ", ofice);
   const userID = this.state.user.id;
@@ -163,20 +164,19 @@ handleChangeIdac = async(data) => {
   console.log("idacList: ", this.state.idacList);
 }
 
-handleChangeExecUnit = data => {
-  getAllExecuntingUnitListFilter(data)
-  .then(result => {
-    this.setState({
-      ExecuntingUnit : result
+handleChangeExecUnit = async(data) => {
+const result = await  getAllExecuntingUnitListFilter(data)
+  this.setState({
+    ExecuntingUnit : result
   })
-  console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
-  let ExecID = [];
-  for (let i = 0; i< result.length; i++) {
-    ExecID[i] = result[i].ID;
-  }
-  console.log('ExecID: ', ExecID);
-  this.handleChangeIdac(ExecID);
-  });
+console.log("ExecuntingUnit: ",this.state.ExecuntingUnit);
+let ExecID = [];
+for (let i = 0; i< result.length; i++) {
+  ExecID[i] = result[i].ID;
+}
+console.log('ExecID: ', ExecID);
+this.handleChangeIdac(ExecID);
+
 }
 
 async componentWillMount() {
@@ -205,7 +205,7 @@ async componentWillMount() {
     })
   }
 }
-8
+
  handleChange = event => {
    this.setState({
      [event.target.name]: event.target.value
@@ -254,13 +254,15 @@ handleChangeSelectExecUnitCat = data => {
       }
     }
     if(cat.target.value !== 0) {
-      this.handlechangeChair(cat)
+      this.setState({
+        catedra: cat.target.value
+      })
     }
   }
 }
 
  handleChangeSelectExecUnitDep = async(data) => {
-  if(this.state.departamento === "") {
+  if(this.state.departamento === "" || this.state.departamento === 0 ) {
     console.log('departamento vacio');
     let dept = {
       target : {
@@ -305,12 +307,17 @@ handleChangeSelectExecUnitCat = data => {
 
 handleChangeSelectExecUnit = async(e) => {
   console.log(e.target.value);
-  if(this.state.departamento === "") {
-    await this.handleChangeSelectExecUnitDep(e.target.value);
+  let unidad_ejec = e.target.value;
+  if((this.state.departamento === "" || this.state.departamento === 0) && unidad_ejec !== "") {
+    await this.handleChangeSelectExecUnitDep(unidad_ejec);
   }
-  if(this.state.catedra === "" && this.state.catedraList.length > 0) {
-    await this.handleChangeSelectExecUnitCat(e.target.value);
+  console.log(this.state.catedraList.length);
+  if(this.state.catedra === "" && this.state.catedraList.length > 0 && unidad_ejec !== "") {
+    await this.handleChangeSelectExecUnitCat(unidad_ejec);
   }
+ this.setState({
+    unidad_ejec
+  });
 }
 
 
@@ -324,6 +331,11 @@ handleChangeSelectdept = event => {
     this.handleChangeExecUnit(codeFilterSelected);
    this.handlechangeChair(event.target.value);
  } else {
+   this.handlechangeChair(event.target.value);
+   this.setState({
+     unidad_ejec : 0,
+     idac: 0
+   })
    this.handleChangeExecUnit(this.state.schoolData.codeFilter);
  }
 }
