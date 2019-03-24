@@ -221,15 +221,14 @@ handlechangeChair = async(data) => {
 	console.log(this.state.catedraList);
 	if(data !== "") {
 		const catedraList = await getAllChairList(data)
-    this.setState({
+  await this.setState({
       catedraList
-    })
-    console.log("catedraList: ",this.state.catedraList);
+    }, () => console.log(this.state.catedraList))
 	}
 }
 
-handleChangeSelectExecUnitCat = data => {
-  if(this.state.catedra === "" && this.state.catedraList.length > 0) {
+/* handleChangeSelectExecUnitCat = async(data) => {
+  if(this.state.catedra === "") {
     console.log('catedra vacio');
     let cat = {
       target : {
@@ -253,6 +252,7 @@ handleChangeSelectExecUnitCat = data => {
         break;
       }
     }
+    console.log(cat);
     if(cat.target.value !== 0) {
       this.setState({
         catedra: cat.target.value
@@ -262,7 +262,7 @@ handleChangeSelectExecUnitCat = data => {
 }
 
  handleChangeSelectExecUnitDep = async(data) => {
-  if(this.state.departamento === "" || this.state.departamento === 0 ) {
+  if(this.state.departamento === "" ) {
     console.log('departamento vacio');
     let dept = {
       target : {
@@ -273,24 +273,36 @@ handleChangeSelectExecUnitCat = data => {
     for (let i = 0; i < this.state.departamentoList.length; i++) {
       for (let j = 0; j < this.state.ExecuntingUnit.length; j++) {
         if(this.state.ExecuntingUnit[j].ID === parseInt(data) && this.state.ExecuntingUnit[j].label.search('DEPARTAMENTO') !== -1) {
-          console.log(this.state.ExecuntingUnit[j]);
           if (this.state.departamentoList[i].code === this.state.ExecuntingUnit[j].code){
             console.log(this.state.departamentoList[i]);
+            console.log(this.state.ExecuntingUnit[j]);
             dept.target.value = parseInt(this.state.departamentoList[i].ID);
             pointbreak = true;
             break;
           }
-        } else if(this.state.ExecuntingUnit[j].ID === parseInt(data) && this.state.ExecuntingUnit[j].label.search('CÁTEDRA') !== -1) {
+        }
+        let pointbreak2 = false;
+        if(this.state.ExecuntingUnit[j].ID === parseInt(data) && this.state.ExecuntingUnit[j].label.search('CÁTEDRA') !== -1) {
           await this.handlechangeChair(this.state.departamentoList[i].ID);
           console.log('es catedra');
           for (let k = 0; k < await this.state.catedraList.length; k++) {
             if(this.state.catedraList[k].code === this.state.ExecuntingUnit[j].code  && this.state.catedraList[k].code.search(this.state.departamentoList[i].codeFilter) !== -1) {
               console.log(this.state.departamentoList[i]);
+              console.log(this.state.ExecuntingUnit[j]);
               console.log(this.state.catedraList[k]);
               dept.target.value = parseInt(this.state.departamentoList[i].ID);
-              pointbreak = true;
+              pointbreak2 = true;
+              const cat = {
+                target:{
+                  value :this.state.catedraList[k].ID
+                }
+              }
+               this.handleChangeSelectcat(cat)
               break;
             }
+          }
+          if(pointbreak2){
+            break;
           }
         }
       }
@@ -304,22 +316,31 @@ handleChangeSelectExecUnitCat = data => {
   }
 }
 
-
 handleChangeSelectExecUnit = async(e) => {
   console.log(e.target.value);
   let unidad_ejec = e.target.value;
-  if((this.state.departamento === "" || this.state.departamento === 0) && unidad_ejec !== "") {
+  if((this.state.departamento === "" || this.state.departamento !== unidad_ejec) && unidad_ejec !== "") {
     await this.handleChangeSelectExecUnitDep(unidad_ejec);
   }
-  console.log(this.state.catedraList.length);
-  if(this.state.catedra === "" && this.state.catedraList.length > 0 && unidad_ejec !== "") {
+  console.log((this.state.catedra === "" || this.state.catedra !== unidad_ejec) && unidad_ejec !== "");
+  if((this.state.catedra === "" || this.state.catedra !== unidad_ejec) && unidad_ejec !== "") {
     await this.handleChangeSelectExecUnitCat(unidad_ejec);
+  } else {
+    console.log('no entro');
   }
- this.setState({
-    unidad_ejec
-  });
-}
+  if (unidad_ejec === "") {
+    this.setState({
+       unidad_ejec,
+       catedra: "",
+       departamento: ""
 
+     });
+  } else {
+    this.setState({
+       unidad_ejec
+     });
+  }
+} */
 
 handleChangeSelectdept = event => {
    this.setState({
@@ -333,8 +354,8 @@ handleChangeSelectdept = event => {
  } else {
    this.handlechangeChair(event.target.value);
    this.setState({
-     unidad_ejec : 0,
-     idac: 0
+     unidad_ejec : "",
+     idac: ""
    })
    this.handleChangeExecUnit(this.state.schoolData.codeFilter);
  }
@@ -351,6 +372,10 @@ handleChangeSelectcat = event => {
     console.log("codeFilterSelected: ", codeFilterSelected)
       this.handleChangeExecUnit(codeFilterSelected);
     } else {
+      this.setState({
+        unidad_ejec: "",
+        idac: ""
+      })
       codeFilterSelected = this.handeCodeFilterSelected(this.state.departamentoList, parseInt(this.state.departamento));
       this.handleChangeExecUnit(codeFilterSelected);
   }
@@ -358,9 +383,11 @@ handleChangeSelectcat = event => {
 
 handleResquetIdacCode(unidad_ejec){
   let execUnit;
-  if(this.state.ExecuntingUnit.length > 0){
+  console.log(unidad_ejec);
+  if(this.state.ExecuntingUnit.length > 1){
   for (let i = 0; i < this.state.ExecuntingUnit.length; i++) {
-    if(this.state.ExecuntingUnit[i].ID === unidad_ejec) {
+    if(this.state.ExecuntingUnit[i].ID === parseInt(unidad_ejec)) {
+      console.log(this.state.ExecuntingUnit[i].label);
       execUnit = this.state.ExecuntingUnit[i].label;
     }
   }
@@ -561,7 +588,7 @@ render() {
       </div>
 
       <div className="form-group col-md-3">
-        {select(LabelRequired('Unidad Ejecutora'),'unidad_ejec', unidad_ejec, this.handleChangeSelectExecUnit,this.state.ExecuntingUnit, true)}
+        {select(LabelRequired('Unidad Ejecutora'),'unidad_ejec', unidad_ejec, this.handleChange,this.state.ExecuntingUnit, true)}
       </div>
 
       <div className="form-group col-md-3">
