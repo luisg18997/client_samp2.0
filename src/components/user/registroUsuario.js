@@ -54,8 +54,10 @@ class RegistroUsuario extends Component {
 
 	async componentDidMount() {
 		const result = await getAllUbicationsList()
+		const  ubicacionList = result.splice(1,5)
+		console.log(ubicacionList);
 		this.setState({
-			ubicacionList : result
+			ubicacionList
 		});
 	}
 
