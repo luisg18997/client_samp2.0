@@ -20,7 +20,6 @@ class MenuRRHH extends Component {
               <li><Link to="/RRHH">Principal</Link></li>
 
               <li>
-                {' '}
                 <Link to="/RRHH/ListadoPlanillas">Listado Planillas</Link>
               </li>
 

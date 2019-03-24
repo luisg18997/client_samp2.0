@@ -13,6 +13,7 @@ from '../../connect_api/processForm/processFormAPI'
 import { MDBBtn } from 'mdbreact';
 import {Label, LabelRequired, select} from '../util/forms';
 import Authorization from '../redirectPrincipal';
+import {validateEmpty} from '../util/validations';
 
 class movPersonalRev extends Component {
   constructor(props) {
@@ -158,6 +159,20 @@ class movPersonalRev extends Component {
     	}
   	}
 
+    async handleValidateEmpty(data, name, focus, nameFocus, validateName) {
+      const result = await validateEmpty(data, name, focus);
+      console.log(result);
+      await this.setState({
+        [nameFocus]: result,
+        [validateName]: !result
+      });
+      console.log('this.state: ', this.state);
+      return !result;
+    }
+
+    validateForm() {
+      return this.state.observacionValidate;
+    }
   	handleSubmit = async(e, result) => {
 	    e.preventDefault();
 	    if (result) {
@@ -350,11 +365,11 @@ console.log(result);
                   </div>
                 </div>:
                 <div className="form-group col-md-10">
-                  {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true)}
+                  {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true,(e) => this.handleValidateEmpty(e.target, 'Obsevacion', this.state.observacionFocus, 'observacionFocus', 'observacionValidate'), this.state.observacionFocus.toString())}
                   <br/>
                   <div className="row justify-content-center">
-                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
-                      <MDBBtn color="primary" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
+                      <MDBBtn color="info" type="button" disabled={!this.validateForm()} onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+                      <MDBBtn color="info" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
                   </div>
                 </div>
             :

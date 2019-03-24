@@ -10,6 +10,7 @@ import {
 from '../../connect_api/processForm/processFormAPI'
 import {Label, LabelRequired} from '../util/forms';
 import Authorization from '../redirectPrincipal';
+import {validateEmpty} from '../util/validations';
 
 class OficioRev extends Component {
   constructor(props) {
@@ -42,7 +43,9 @@ class OficioRev extends Component {
       isLoaded : false,
       isValidate : true,
       observacion: "",
-      user:{}
+      user:{},
+      observacionFocus: false,
+      observacionValidate: false
     };
   }
 
@@ -93,7 +96,6 @@ async componentWillMount() {
   }
 
   handleChangeStatus = async(result) => {
-
     if (result) {
       console.log(this.state.user.id);
       await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, this.state.ubication.id, null,3, '1', '0');
@@ -108,6 +110,21 @@ async componentWillMount() {
     }
   }
 
+  async handleValidateEmpty(data, name, focus, nameFocus, validateName) {
+    const result = await validateEmpty(data, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+  validateForm() {
+    return this.state.observacionValidate;
+  }
+  
   handleSubmit = async(e, result) => {
     e.preventDefault();
     if (result) {
@@ -227,10 +244,10 @@ async componentWillMount() {
                   </div>
                 </div>:
                 <div className="form-group col-md-10">
-                  {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true)}
+                  {Label(LabelRequired('Obsevacion'),  "textarea","observacion",this.state.observacion, this.handleChange, true,(e) => this.handleValidateEmpty(e.target, 'Obsevacion', this.state.observacionFocus, 'observacionFocus', 'observacionValidate'), this.state.observacionFocus.toString())}
                   <br/>
                   <div className="row justify-content-center">
-                      <MDBBtn color="info" type="button" onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
+                      <MDBBtn color="info" type="button" disabled={!this.validateForm()} onClick={(e)=>this.handleSubmit(e,true)} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
                       <MDBBtn color="info" type="button" onClick={(e)=>this.handleSubmit(e,false)} className=" col-md-3">Cancelar</MDBBtn>
                   </div>
                 </div>
