@@ -64,7 +64,7 @@ async componentWillMount() {
           apellido: result.surname,
           sapellido: result.second_surname,
           tip_mov: result.movement_type,
-          idac: result.idac_code.code,
+          idac: result.idac_code,
           escuela: result.school,
           instituto : result.institute,
           coordinacion : result.coordination,
@@ -96,6 +96,7 @@ async componentWillMount() {
 
     if (result) {
       console.log(this.state.user.id);
+      await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, this.state.ubication.id, null,3, '1', '0');
       const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 6, null,1, '1', '0');
       console.log(await res);
       alert('planilla de oficio aprobada');
@@ -112,6 +113,7 @@ async componentWillMount() {
     if (result) {
       console.log('envio');
       if(this.state.observacion !== ""){
+        await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, this.state.ubication.id, this.state.observacion,4, '1', '0');
         const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
         console.log(res);
         alert('planilla de oficio NO aprobada');

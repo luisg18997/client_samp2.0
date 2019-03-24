@@ -163,6 +163,7 @@ class movPersonalRev extends Component {
 	    if (result) {
 	    	console.log('envio');
 	      	if(this.state.observacion !== ""){
+            await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, this.state.user.ubication.id, this.state.observacion,4, '1', '0');
 	        	const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
 	        	console.log(res);
 	        	alert('planilla de Movmiento de Personal NO aprobada');
@@ -182,6 +183,7 @@ class movPersonalRev extends Component {
 console.log(result);
 		if(result) {
 			if(this.state.codigoContable !== "" && this.state.codigoPrograma !== "") {
+        await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, this.state.user.ubication.id, null,3, '1', '0');
 				const res = await updateMovPersonalApproval(this.state.formMovPersonalID, this.state.processMovPersonalID, this.state.empleadoID, this.state.empleadoIdacID, this.state.movementTypeID, this.state.idac.id, this.state.empleadoSueldo, 2, 3, this.state.codigoContable, this.state.codigoPrograma, null, this.state.ingresoDate, '1', '0', this.state.user.id);
 				console.log(res);
 				alert('planilla de Movmiento de Personal aprobada');

@@ -95,6 +95,7 @@ class OficioRev extends Component {
 
   handleChangeStatus = async(result) => {
     if (result) {
+      await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, this.state.user.ubication.id, null,3, '1', '0');
       const res = await updateOfficialApproval(this.state.formOficeID, this.state.processFormID, 2, 3, null, '1', '0', this.state.user.id);
       console.log(res.data);
       alert('planilla de oficio aprobada');
@@ -111,6 +112,7 @@ class OficioRev extends Component {
     if (result) {
       console.log('envio');
       if(this.state.observacion !== ""){
+        await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, this.state.user.ubication.id, this.state.observacion,4, '1', '0');
         const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
         console.log(res);
         alert('planilla de oficio NO aprobada');

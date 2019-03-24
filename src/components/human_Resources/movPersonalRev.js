@@ -93,7 +93,7 @@ class movPersonalRev extends Component {
           apellido: result.surname,
           sapellido: result.second_surname,
           tip_mov: result.movement_type.toUpperCase(),
-          idac: result.idac_code.code,
+          idac: result.idac_code,
           escuela: result.school,
           instituto : result.institute,
           coordinacion : result.coordination,
@@ -148,6 +148,7 @@ class movPersonalRev extends Component {
 
   handleChangeStatus = async(result) => {
     if (result) {
+      await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, this.state.user.ubication.id, null,3, '1', '0');
       const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 6, null,1, '1', '0');
       console.log(res);
       alert('planilla de Movmiento de Personal aprobada');
@@ -164,6 +165,7 @@ class movPersonalRev extends Component {
     if (result) {
       console.log('envio');
       if(this.state.observacion !== ""){
+        await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, this.state.user.ubication.id, this.state.observacion,4, '1', '0');
         const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
         console.log(res);
         alert('planilla de Movmiento de Personal NO aprobada');
@@ -217,7 +219,7 @@ class movPersonalRev extends Component {
             <div className="form-group col-md-3">
               <label><strong>Codigo Idac</strong></label>
                 <br/>
-                <label>{this.state.idac}</label>
+                <label>{this.state.idac.code}</label>
             </div>
             <div className="form-group col-md-3">
               <label><strong>Codigo de Planilla</strong></label>

@@ -95,22 +95,22 @@ class ListPlanillas extends Component {
 	    console.log("ListPlanillas: ", form);
 			if (form.form_type === 'OFICIO') {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,this.state.user.id ,form.official_form_id, 5, null,2, '1', '0');
+					const result = await updateAllColumnsProcessOfficialForm(form.process_official_form_id,this.state.user.id ,form.official_form_id, this.state.user.ubication.id, null,2, '1', '0');
 					console.log('result: ', result);
 				}
 				this.props.history.replace('/RRHH/Oficio/revision',
 				{
 					cedula: form.identification,
-					ubication_id: 5});
+					ubication_id: this.state.user.ubication.id});
 			} else {
 				if (form.status_process_form_id !== 2) {
-					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,this.state.user.id ,form.mov_personal_form_id, 5, null, 2, '1', '0');
+					const result = await updateAllColumnsProcessMovPersonalForm(form.process_mov_personal_form_id,this.state.user.id ,form.mov_personal_form_id, this.state.user.ubication.id, null, 2, '1', '0');
 					console.log('result: ', result);
 				}
 				this.props.history.replace('/RRHH/MovPersonal/revision',
 				{
 					cedula: form.identification,
-					ubication_id: 5});
+					ubication_id: this.state.user.ubication.id});
 			}
 		}
 
