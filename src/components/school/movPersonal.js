@@ -186,8 +186,7 @@ class MovPersonal extends Component {
      apartament: this.state.apartamento.toUpperCase(),
      ingress_id: this.state.ingreso.id,
      income_type_id : this.state.tip_ingreso.id,
-     salary_id: this.state.sueldo.id,
-     ubication_id: this.state.user.ubication.id
+     salary_id: this.state.sueldo.id
    }
    console.log('employee: ', employee);
    const formMovPeronsal = {
@@ -195,7 +194,8 @@ class MovPersonal extends Component {
      employee_official_mov_personal_form_id: this.state.formOficeMovPer,
      official_form_id : this.state.formOficeID,
      salary: this.state.sueldo.description,
-     reason: this.state.motivo.toUpperCase()
+     reason: this.state.motivo.toUpperCase(),
+     ubication_id: this.state.user.ubication.id
    }
    console.log('formMovPeronsal: ', formMovPeronsal);
    const result = await addNewFormMorPersonal(employee, formMovPeronsal, this.state.user.id, this.state.empleadoSalarioID);

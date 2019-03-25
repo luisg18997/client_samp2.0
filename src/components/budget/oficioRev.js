@@ -18,8 +18,9 @@ class OficioRev extends Component {
     super(props);
     this.auth = new Authorization();
     this.state = {
-      cedula: this.props.location.state.cedula,
-      ubicacion: this.props.location.state.ubication_id,
+      cedula: "",
+      ubicacion: "",
+      ubicacionForm : "",
       empleadoID: "",
       formOficeID: "",
       formOficeMovPer: "",
@@ -58,31 +59,32 @@ class OficioRev extends Component {
       } else {
         const resultUser = await this.auth.ObtainData();
         const user = resultUser.data;
-        const result = await getFormOfficial(this.state.cedula, this.state.ubicacion)
+        const result = await getFormOfficial(this.props.location.state.cedula, this.props.location.state.ubication_id)
         console.log('result: ', result);
         this.setState({
+          ubicacionForm: result.origin_ubication_form,
           empleadoID : result.employee_id,
           cedula: result.identification,
           nombre : result.first_name,
           snombre: result.second_name,
           apellido: result.surname,
           sapellido: result.second_surname,
-          tip_mov: result.movement_type,
-          idac: result.idac_code,
-          escuela: result.school,
-          instituto : result.institute,
-          coordinacion : result.coordination,
-          departamento: result.departament,
-          catedra: result.chair,
-          unidad_ejec: result.execunting_unit,
+          tip_mov: result.movement_type.description,
+          idac: result.idac_code.code,
+          escuela: result.school.name,
+          instituto : result.institute.name,
+          coordinacion : result.coordination.name,
+          departamento: result.departament.name,
+          catedra: result.chair.name,
+          unidad_ejec: result.execunting_unit.description,
           fecha_ini: result.start_date,
           fecha_fin: result.finish_date,
           fecha_reg : result.registration_date,
           codigo: result.code_form,
-          dedicacion: result.dedication_type,
+          dedicacion: result.dedication_type.description,
           formOficeID: result.official_form_id,
           formOficeMovPer :result.id,
-          processFormID: result.process_form_id,
+          processFormID: result.process_official_form_id,
           isLoaded: true,
           user
         })
@@ -131,7 +133,7 @@ class OficioRev extends Component {
       console.log('envio');
       if(this.state.observacion !== ""){
         await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, this.state.user.ubication.id, this.state.observacion,4, '1', '0');
-        const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, 2, this.state.observacion,4, '1', '0');
+        const res = await updateAllColumnsProcessOfficialForm(this.state.processFormID, this.state.user.id, this.state.formOficeID, this.state.ubicacionForm, this.state.observacion,4, '1', '0');
         console.log(res);
         alert('planilla de oficio NO aprobada');
         this.props.history.replace('/Presupuesto');

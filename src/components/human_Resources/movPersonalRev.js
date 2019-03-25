@@ -19,6 +19,7 @@ class movPersonalRev extends Component {
     this.state = {
       cedula: "",
       ubicacion: "",
+      ubicacionForm: "",
       empleadoID: "",
       formMovPersonalID: "",
       formOficeMovPer: "",
@@ -86,6 +87,7 @@ class movPersonalRev extends Component {
           anexos = result.annex_types.toString().toUpperCase();
         }
         this.setState({
+          ubicacionForm: result.origin_ubication_form,
           empleadoID : result.employee_id,
           cedula: result.identification,
           nombre : result.first_name,
@@ -166,7 +168,7 @@ class movPersonalRev extends Component {
       console.log('envio');
       if(this.state.observacion !== ""){
         await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, this.state.user.ubication.id, this.state.observacion,4, '1', '0');
-        const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, 2, this.state.observacion,4, '1', '0');
+        const res = await updateAllColumnsProcessMovPersonalForm(this.state.processMovPersonalID, this.state.user.id, this.state.formMovPersonalID, this.state.ubicacionForm, this.state.observacion,4, '1', '0');
         console.log(res);
         alert('planilla de Movmiento de Personal NO aprobada');
         this.props.history.replace('/RRHH');
