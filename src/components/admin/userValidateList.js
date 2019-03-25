@@ -69,35 +69,35 @@ class UserValidateList extends Component {
           case 2: {
             console.log('ubicacion escuela');
             result[i].roleID = "";
-            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID,(e) => this.handleChangeRol(e, result[i]),[rol[1]],true)
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID,(e) => this.handleChangeRol(e, result[i]),[rol[1],rol[2]],true)
             result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
             break;
           }
           case 3: {
             console.log('ubicacion instituto');
             result[i].roleID = "";
-            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[2]],true);
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[3],rol[4]],true);
             result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
             break;
           }
           case 4: {
             console.log('ubicacion coordinacion');
             result[i].roleID = "";
-            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[3]],true);
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[5],rol[6]],true);
             result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
             break;
           }
           case 5: {
             console.log('ubicacion dpto. rrhh');
             result[i].roleID = "";
-            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[4],rol[5]],true);
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[7],rol[8]],true);
             result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
             break;
           }
           case 6: {
             console.log('ubicacion dpto. presupuesto');
             result[i].roleID = "";
-            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[6],rol[7]],true);
+            result[i].user_role = await selectWithoutLabel('roleID',result[i].roleID, (e) => this.handleChangeRol(e, result[i]),[rol[9],rol[10]],true);
             result[i].button = <Fragment><MDBBtn onClick={() => this.handleData(result[i], true, i)} >Validar</MDBBtn><MDBBtn onClick={() => this.handleData(result[i], false, i)} >Rechazar</MDBBtn></Fragment>
             break;
           }

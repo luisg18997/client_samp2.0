@@ -153,31 +153,46 @@ import {
        break;
      }
      case '3':{
+       console.log('escuela');
+       ubication = 2;
+       break;
+     }
+     case '4':{
        console.log('instituto');
        ubication = 3;
        break;
      }
-     case '4':{
+     case '5':{
+       console.log('instituto');
+       ubication = 3;
+       break;
+     }
+     case '6':{
        console.log('Coordinacion');
        ubication = 4;
        break;
      }
-     case '5':{
-       console.log('departamento de RRHH');
-       ubication = 5;
-       break;
-     }
-     case '6':{
-       console.log('departamento de RRHH');
-       ubication = 5;
-       break;
-     }
      case '7':{
+       console.log('Coordinacion');
+       ubication = 4;
+       break;
+     }
+     case '8':{
+       console.log('departamento de RRHH');
+       ubication = 5;
+       break;
+     }
+     case '9':{
+       console.log('departamento de RRHH');
+       ubication = 5;
+       break;
+     }
+     case '10':{
        console.log('departamento de presupuesto');
        ubication = 6;
        break;
      }
-     case '8':{
+     case '11':{
        console.log('departamento de presupuesto');
        ubication = 6;
        break;
