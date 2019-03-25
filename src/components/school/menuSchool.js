@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router, Switch, Route, Link,
 } from 'react-router-dom';
+import Authorization from '../redirectPrincipal';
 import MainSchool from './mainSchool';
 import FormOfice from './oficio';
 import listOficio from './listOficio';
@@ -19,14 +20,32 @@ import OficioPDF from './oficioPDF';
 import MovPersonalPDF from './movPersonalPDF';
 
 class MenuSchool extends Component {
+  constructor(){
+    super();
+    this.auth = new Authorization();
+    this.state = {
+      rol: ""
+    }
+  }
+
+  async componentWillMount() {
+    if (await this.auth.loggedIn()) {
+      const result = await this.auth.ObtainData();
+      const user = result.data;
+      console.log(user);
+        this.setState({
+          rol : user.rol.id
+        })
+      }
+      console.log(this.state.rol);
+  }
+
   render() {
+    const {rol} = this.state;
     return (
       <div>
         <Router>
-
-
           <div className="menu_gral">
-
             <ul>
               <li ><Link to="/Escuela">Escuela</Link></li>
               <li>
@@ -47,7 +66,9 @@ class MenuSchool extends Component {
                 </ul>
               </li>
               <li><Link to="/Escuela/Planillas/status">Status de Planillas</Link></li>
+              {rol === 3?
               <li><Link to="/Escuela/ListadoPlanillas">Listado Planillas</Link></li>
+              :<span></span>}
             </ul>
             <Switch>
               <Route exact path="/Escuela" component={MainSchool} />
