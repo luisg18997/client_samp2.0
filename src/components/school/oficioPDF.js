@@ -166,9 +166,9 @@ class OficioPDF extends Component {
   			return (<div className="loader"></div>);
   		} else {
         return(
-          <Fragment>
+          <div>
           {generatePDF(this.state.title, 'oficio', this.pdf())}
-          </Fragment>
+          </div>
         )
       }
     }

@@ -56,7 +56,14 @@ class ListOficioAprobado extends Component {
         ],
       },
       isLoaded: false,
+      user: {}
     };
+  }
+
+  handleViewPDF(e, identification) {
+    e.preventDefault();
+    console.log('ListOficio: ', identification);
+    this.props.history.replace('/Escuela/oficio/PDF', { cedula: identification,ubication_id: this.state.user.ubication.id});
   }
 
   async componentWillMount() {
@@ -74,12 +81,13 @@ class ListOficioAprobado extends Component {
          execunting_unit: form.execunting_unit,
          idac: form.idac_code,
          approval_date: form.approval_date,
-         button: <MDBBtn>Ver PDF</MDBBtn>,
+         button: <MDBBtn type='button' onClick={(e) => this.handleViewPDF(e, form.identification)}>Ver PDF</MDBBtn>,
        }));
      }
      this.setState({
        table,
        isLoaded: true,
+       user
      });
    }
   }
