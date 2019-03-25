@@ -12,6 +12,10 @@ class BusquedaCambioClave extends Component {
 		super();
 		this.state= {
 			email:"",
+			//focus
+			emailFocus: false,
+			//validate
+			emailValidate: false
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,6 +27,21 @@ class BusquedaCambioClave extends Component {
 			[event.target.name]: event.target.value
 		});
 		console.log(this.state);
+	}
+
+	async handleValidateEmail(data, name, focus, nameFocus,  validateName) {
+		const result = validateEmail(data, name, focus);
+		console.log(result);
+		await this.setState({
+			[nameFocus]: result,
+			[validateName]: !result
+		});
+		console.log('this.state: ', this.state);
+		return !result;
+	}
+
+	validateForm() {
+	  return this.state.emailValidate;
 	}
 
 	async handleSubmit(event){
@@ -43,11 +62,11 @@ class BusquedaCambioClave extends Component {
 			<hr></hr>
 			<form onSubmit={this.handleSubmit}>
 				<h3>Busqueda de Usuario</h3>
-				{Label(LabelRequired('Email'),'text','email',email, this.handleChange, true, (e) => validateEmail(e.target.value, 'Email'))}
+				{Label(LabelRequired('Email'),'email','email',email,this.handleChange, true, (e) => this.handleValidateEmail(e.target, 'Email', this.state.emailFocus, 'emailFocus', 'emailValidate'), this.state.emailFocus.toString())}
 				<br></br>
 	            <div  className="form-group col-md-12">
 	                <div className="row justify-content-center">
-	                  <MDBBtn color="light-blue" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+	                  <MDBBtn color="light-blue" type="submit" disabled={!this.validateForm()} className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
 	                  <MDBBtn color="light-blue" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
 	              </div>
 	            </div>

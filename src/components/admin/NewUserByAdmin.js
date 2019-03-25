@@ -35,7 +35,15 @@ class AddNewUserByAdmin extends Component {
       instituteList: "",
       coordinationList: "",
       isLoaded: false,
-      auth: false
+      auth: false,
+      //focus
+      nombreFocus: false,
+      apellidoFocus: false,
+      emailFocus: false,
+      //validate
+      nombreValidate: false,
+      apellidoValidate: false,
+      emailValidate: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -55,7 +63,7 @@ class AddNewUserByAdmin extends Component {
     }
   }
 
- 
+
  handleSubmit = async(event) => {
    event.preventDefault();
    const user = {
@@ -81,12 +89,33 @@ class AddNewUserByAdmin extends Component {
    }
  }
 
-
  handleChange = event => {
    this.setState({
      [event.target.name]: event.target.value
    });
    console.log(event.target.name,': ',event.target.value);
+ }
+
+ async handleValidateEmail(data, name, focus, nameFocus,  validateName) {
+   const result = validateEmail(data, name, focus);
+   console.log(result);
+   await this.setState({
+     [nameFocus]: result,
+     [validateName]: !result
+   });
+   console.log('this.state: ', this.state);
+   return !result;
+ }
+
+ async handleValidateText(data, name, focus, nameFocus,  validateName) {
+   const result = validateText(data, name, focus);
+   console.log(result);
+   await this.setState({
+     [nameFocus]: result,
+     [validateName]: !result
+   });
+   console.log('this.state: ', this.state);
+   return !result;
  }
 
  handleChangeSelectub(event){
@@ -183,6 +212,9 @@ async handleChangeCoordinationList(){
 	console.log("coordinationList: ", this.state.coordinationList)
 }
 
+validateForm() {
+  return this.state.emailValidate && this.state.nombreValidate && this.state.apellidoValidate;
+}
   render() {
     const {
       nombre,
@@ -206,15 +238,15 @@ async handleChangeCoordinationList(){
         <br></br>
         <form onSubmit={this.handleSubmit}  style={{width: '590px', marginLeft:'150px',marginRight:' 300px'}} className="form-container">
         <div  className="form-group">
-          {Label(LabelRequired('Nombre'),'text','nombre', nombre,this.handleChange, true, (e) => validateText(e.target.value,'Nombre'))}
+          {Label(LabelRequired('Nombre'),'text','nombre', nombre,this.handleChange, true, (e) => this.handleValidateText(e.target,'Nombre', this.state.nombreFocus,'nombreFocus','nombreValidate'),this.state.nombreFocus.toString())}
       </div>
 
       <div className="form-group">
-        {Label(LabelRequired('Apellido'),'text','apellido', apellido,this.handleChange, true, (e) => validateText(e.target.value,'Apellido'))}
+        {Label(LabelRequired('Apellido'),'text','apellido', apellido,this.handleChange, true, (e) => this.handleValidateText(e.target,'Apellido', this.state.apellidoFocus, 'apellidoFocus', 'apellidoValidate'), this.state.apellidoFocus.toString())}
       </div>
 
       <div className="form-group">
-        {Label(LabelRequired('Email'),'email','email', email,this.handleChange, true , (e) => validateEmail(e.target.value, 'Email'))}
+        {Label(LabelRequired('Email'),'email','email', email,this.handleChange, true , (e) => this.handleValidateEmail(e.target, 'Email', this.state.emailFocus, 'emailFocus', 'emailValidate'), this.state.emailFocus.toString())}
       </div>
 
       <div className="form-group">
@@ -244,7 +276,7 @@ async handleChangeCoordinationList(){
       <br></br>
       <div  className="form-group col-md-14">
       <div className="row justify-content-center">
-      <MDBBtn color="info" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+      <MDBBtn color="info" type="submit" disabled={!this.validateForm()} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
       <MDBBtn color="info" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
       </div>
       </div>

@@ -21,7 +21,15 @@ class PreguntaSegList extends Component {
       newPassword: "",
       newPasswordConfirm: "",
       user : "",
-			isLoaded : false
+			isLoaded : false,
+			//focus
+			respuestaFocus: false,
+			newPasswordFocus: false,
+      newPasswordConfirmFocus: false,
+			//validate
+			respuestaValidate: false,
+			newPasswordValidate: false,
+      newPasswordConfirmValidate: false,
     }
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -54,6 +62,43 @@ class PreguntaSegList extends Component {
       [event.target.name]: event.target.value
     });
     console.log(this.state);
+  }
+
+	async handleValidateEmpty(data, name, focus, nameFocus, validateName) {
+    const result = await validateEmpty(data, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+	async handleValidatePassword(data, name, focus, nameFocus, validateName) {
+    const result = await validatePassword(data, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+	async handleValidatePasswordConfirm(data,password, name, focus, nameFocus, validateName) {
+    const result = await validatePasswordConfirm(data,password, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+  validateForm() {
+    return this.state.respuestaValidate || (this.state.newPasswordValidate && this.state.newPasswordConfirmValidate);
   }
 
   async handleSubmit(event) {
@@ -91,13 +136,13 @@ class PreguntaSegList extends Component {
 							<div className="grey-text">
                 {select(LabelRequired('Pregunta de Seguridad'), 'preguntaSeg', preguntaSeg, this.handleChange, this.state.questionList, true)}
 
-                {Label(LabelRequired('Respuesta'),'password', 'respuesta', respuesta,this.handleChange, true, (e) => validateEmpty(e.target.value,'Respuesta'))}
+                {Label(LabelRequired('Respuesta'),'password', 'respuesta', respuesta,this.handleChange, true, (e) => this.handleValidateEmpty(e.target,'Respuesta',this.state.respuestaFocus,'respuestaFocus','respuestaValidate'),this.state.respuestaFocus.toString())}
                 {oldPassword === '123456'?
                   <Fragment>
                     <p className="h2 text-center mb-6">Cambio de Clave</p>
-                    {Label(LabelRequired('Contraseña'),'password', 'newPassword', newPassword, this.handleChange, true, (e) => validatePassword(e.target.value, 'Contraseña'))}
+                    {Label(LabelRequired('Contraseña'),'password', 'newPassword', newPassword, this.handleChange, true, (e) => this.handleValidatePassword(e.target, 'Contraseña',this.state.newPasswordFocus,'newPasswordFocus','newPasswordValidate'),this.state.newPasswordFocus.toString())}
 
-                    {Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => validatePasswordConfirm(e.target.value,newPasswordConfirm,'Confirmar Contraseña'))}
+                    {Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => this.handleValidatePasswordConfirm(e.target,newPasswordConfirm,'Confirmar Contraseña',this.state.newPasswordConfirmFocus,'newPasswordConfirmFocus','newPasswordConfirmValidate'),this.state.newPasswordConfirmFocus.toString())}
                   </Fragment>
                   :<span></span>
                 }
@@ -105,7 +150,7 @@ class PreguntaSegList extends Component {
               <br></br>
               <div  className="form-group col-md-12">
                 <div className="row justify-content-center">
-                  <MDBBtn color="light-blue" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+                  <MDBBtn color="info" type="submit" disabled={!this.validateForm()} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
                   <MDBBtn color="light-blue" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
               </div>
             </div>

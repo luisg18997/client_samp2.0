@@ -32,7 +32,19 @@ class RegistroUsuario extends Component {
 			instituto: 0,
 			coordinationList: [],
 			coordinacion: 0,
-			isLoaded: false
+			isLoaded: false,
+			//focus
+      nombreFocus: false,
+      apellidoFocus: false,
+      emailFocus: false,
+			claveFocus: false,
+			confiClaveFocus: false,
+      //validate
+      nombreValidate: false,
+      apellidoValidate: false,
+      emailValidate: false,
+			claveValidate: false,
+			confiClaveValidate: false,
     }
     this.handleChangeSelectub = this.handleChangeSelectub.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -134,6 +146,54 @@ async handleSubmit(event) {
 		}
   }
 
+	async handleValidateEmail(data, name, focus, nameFocus,  validateName) {
+		const result = validateEmail(data, name, focus);
+		console.log(result);
+		await this.setState({
+			[nameFocus]: result,
+			[validateName]: !result
+		});
+		console.log('this.state: ', this.state);
+		return !result;
+	}
+
+	async handleValidateText(data, name, focus, nameFocus,  validateName) {
+		const result = validateText(data, name, focus);
+		console.log(result);
+		await this.setState({
+			[nameFocus]: result,
+			[validateName]: !result
+		});
+		console.log('this.state: ', this.state);
+		return !result;
+	}
+
+	async handleValidatePassword(data, name, focus, nameFocus, validateName) {
+		const result = await validatePassword(data, name, focus);
+		console.log(result);
+		await this.setState({
+			[nameFocus]: result,
+			[validateName]: !result
+		});
+		console.log('this.state: ', this.state);
+		return !result;
+	}
+
+	async handleValidatePasswordConfirm(data,password, name, focus, nameFocus, validateName) {
+		const result = await validatePasswordConfirm(data,password, name, focus);
+		console.log(result);
+		await this.setState({
+			[nameFocus]: result,
+			[validateName]: !result
+		});
+		console.log('this.state: ', this.state);
+		return !result;
+	}
+
+	validateForm() {
+	  return this.state.emailValidate && this.state.nombreValidate && this.state.apellidoValidate && this.state.claveValidate && this.state.confiClaveValidate;
+	}
+
 	render(){
 		const {
 			nombre,
@@ -157,15 +217,15 @@ async handleSubmit(event) {
 						<p className="h2 text-center mb-6">Registro de Usuario</p>
 						<form onSubmit={this.handleSubmit}>
 							<div className="grey-text">
-								{Label(LabelRequired('Nombre'),'text','nombre',nombre,this.handleChange,true, (e) => validateText(e.target.value,'Nombre'))}
+								{Label(LabelRequired('Nombre'),'text','nombre',nombre,this.handleChange,true, (e) => this.handleValidateText(e.target,'Nombre', this.state.nombreFocus,'nombreFocus','nombreValidate'),this.state.nombreFocus.toString())}
 
-								{Label(LabelRequired('Apellido'),'text','apellido',apellido,this.handleChange,true, (e) => validateText(e.target.value,'Apellido'))}
+								{Label(LabelRequired('Apellido'),'text','apellido',apellido,this.handleChange,true, (e) => this.handleValidateText(e.target,'Apellido', this.state.apellidoFocus, 'apellidoFocus', 'apellidoValidate'), this.state.apellidoFocus.toString())}
 
-								{Label(LabelRequired('Email'),'email','email',email,this.handleChange, true, (e) => validateEmail(e.target.value, 'Email'))}
+								{Label(LabelRequired('Email'),'email','email',email,this.handleChange, true, (e) => this.handleValidateEmail(e.target, 'Email', this.state.emailFocus, 'emailFocus', 'emailValidate'), this.state.emailFocus.toString())}
 
-								{Label(LabelRequired('Contraseña'),'password','clave',clave,this.handleChange, true, (e) => validatePassword(e.target.value, 'Contraseña'))}
+								{Label(LabelRequired('Contraseña'),'password','clave',clave,this.handleChange, true, (e) => this.handleValidatePassword(e.target, 'Contraseña',this.state.claveFocus,'claveFocus','claveValidate'),this.state.claveFocus.toString())}
 
-								{Label(LabelRequired('Confirmar Contraseña'),'password','confiClave',confiClave,this.handleChange, true, (e) => validatePasswordConfirm(e.target.value,clave,'Confirmar Contraseña'))}
+								{Label(LabelRequired('Confirmar Contraseña'),'password','confiClave',confiClave,this.handleChange, true, (e) => this.handleValidatePasswordConfirm(e.target,clave,'Confirmar Contraseña', this.state.confiClaveFocus,'confiClaveFocus','confiClaveValidate'),this.state.confiClaveFocus.toString())}
 
 								{select(LabelRequired('Ubicación'), 'ubicacion', ubicacion,this.handleChangeSelectub,this.state.ubicacionList, true)}
 								<br/>
@@ -181,7 +241,7 @@ async handleSubmit(event) {
 					<br></br>
 <div  className="form-group col-md-12">
 	<div className="row justify-content-center">
-		<MDBBtn color="info" type="submit" className="col-md-3" style={{marginRight:'100px'}} >Enviar</MDBBtn>
+		<MDBBtn color="info" type="submit" disabled={!this.validateForm()} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
 		<MDBBtn color="info" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
 </div>
 </div>
