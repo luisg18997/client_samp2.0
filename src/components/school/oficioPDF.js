@@ -1,10 +1,12 @@
 import React, { Component, Fragment} from 'react'
+import {UCV2, FHE } from '../../images/components/logos'
 import {
   getFormOfficial
 }
   from '../../connect_api/formData/formDataAPI';
 import { generatePDF } from '../util/generatePDF';
 import Authorization from '../redirectPrincipal';
+import moment from 'moment';
 
 class OficioPDF extends Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class OficioPDF extends Component {
       snombre: "",
       sapellido: "",
       fecha_reg: "",
+      fecha_hoy: "",
       tip_mov: "",
       idac: "",
       departamento: "",
@@ -73,6 +76,7 @@ class OficioPDF extends Component {
             formOficeMovPer :result.id,
             processFormID: result.process_form_id,
             isLoaded: true,
+            fecha_hoy: moment().format('YYYY-MM-DD'),
             user
           })
         }
@@ -83,6 +87,75 @@ class OficioPDF extends Component {
       return(
         <Fragment>
           <div>
+            <table  align="center" width="100">
+              <tr>
+                <td align="letf">
+                  <UCV2 />
+                </td>
+		            <td align="center" width="420">
+                  <h2><b>UNIVERSIDAD CENTRAL DE VENEZUELA
+                  <br/>
+                  FACULTAD  DE HUMANIDADES Y EDUCACIÓN
+                  <br/>ESCUELA {this.state.escuela.name}
+                  </b></h2>
+                </td>
+  		            <td><FHE />
+                </td>
+              </tr>
+            </table>
+            <table  align="center" width="565">
+              <tr>
+            		<td align="letf"><p>{this.state.codigo}</p></td>
+            		<td align="right"><p>Caracas de {this.state.fecha_hoy}</p></td>
+            	</tr>
+            	<br/>
+              <tr>
+                <td colSpan="2">
+                  <p>
+                    <b>Ciudadano
+                      <br/>
+                      Vicenzo Piero Lo Mónaco
+                      <br/>
+                      Decano Facultad de Humanidades y Educación
+                      <br/>
+                      Presente.-</b>
+                    <br/>
+                    <br/>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+		            <td colspan="2" width="30%">
+			              <p></p><p>  Por medio de la presente tiene por objeto solicitar {this.state.tip_mov} del profesor
+                      <b>{this.state.nombre} {this.state.snombre} {this.state.apellido} {this.state.sapellido}; C.I.: {this.state.cedula}</b>,
+                        {this.state.dedicacion}, a partir del {this.state.fecha_ini} hasta {this.state.fecha_fin},
+                        para la Cátedra de {this.state.catedra.name}, del Departamento de {this.state.departamento.name},
+                        dicha  contratación será cubierta con la partida presupuestaria identificada con el IDAC
+                        <b>{this.state.idac.code}</b>.
+                      </p>
+		           </td>
+	           </tr>
+	            <tr>
+		             <td colspan="2">
+                   <p>Sin otro particular al cual hacer referencia, me despido,</p>
+                 </td>
+	           </tr>
+	            <tr>
+		              <td colspan="2" align="center">
+                    <p>Atentamente</p>
+                  </td>
+	            </tr>
+	             <tr align='center'>
+		               <td colspan="2">
+                     <p>___________________
+                       <br/>
+                       <b><br/>
+                       Director (e).
+                       <br/>Escuela {this.state.escuela.name}.</b>
+                     </p>
+                   </td>
+	             </tr>
+            </table>
           </div>
         </Fragment>
       )

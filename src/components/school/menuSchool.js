@@ -15,6 +15,7 @@ import ListStatusPlanillas from './listPlanillasStatus';
 import ListPlanillas from './ListadoPlanillas';
 import OficioRev from './oficioRev';
 import MovPersonalRev from './movPersonalRev';
+import OficioPDF from './oficioPDF';
 import MovPersonalPDF from './movPersonalPDF';
 
 class MenuSchool extends Component {
@@ -56,12 +57,14 @@ class MenuSchool extends Component {
               <Route path="/Escuela/Oficio/Aprobados" component={ListOficioAprobado} />
               <Route path="/Escuela/Oficio/Rechazados" component={ListOficioRechazado} />
               <Route path="/Escuela/MovPersonal/Nuevo" component={MovPersonal} />
+              <Route path="/Escuela/MovPersonal/Correcion" component={MovPersonal} />
               <Route path="/Escuela/MovPersonal/Aprobados" component={ListMovPersonalAprobado} />
               <Route path="/Escuela/MovPersonal/Rechazados" component={ListMovPersonalRechazado} />
               <Route path="/Escuela/Planillas/status" component={ListStatusPlanillas} />
               <Route path="/Escuela/ListadoPlanillas" component={ListPlanillas} />
               <Route path="/Escuela/Oficio/revision" component={OficioRev} />
               <Route path="/Escuela/MovPersonal/revision" component={MovPersonalRev} />
+              <Route path="/Escuela/Oficio/PDF" component={OficioPDF} />
               <Route path="/Escuela/MovPersonal/PDF" component={MovPersonalPDF} />
             </Switch>
           </div>
