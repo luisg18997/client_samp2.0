@@ -59,19 +59,19 @@ class OficioPDF extends Component {
             snombre: result.second_name,
             apellido: result.surname,
             sapellido: result.second_surname,
-            tip_mov: result.movement_type,
+            tip_mov: result.movement_type.description,
             idac: result.idac_code.code,
             escuela: result.school,
-            instituto : result.institute,
-            coordinacion : result.coordination,
-            departamento: result.departament,
-            catedra: result.chair,
-            unidad_ejec: result.execunting_unit,
+            instituto : result.institute.name,
+            coordinacion : result.coordination.name,
+            departamento: result.departament.name,
+            catedra: result.chair.name,
+            unidad_ejec: result.execunting_unit.description,
             fecha_ini: result.start_date,
             fecha_fin: result.finish_date,
             fecha_reg : result.registration_date,
             codigo: result.code_form,
-            dedicacion: result.dedication_type,
+            dedicacion: result.dedication_type.description,
             formOficeID: result.official_form_id,
             formOficeMovPer :result.id,
             processFormID: result.process_form_id,
@@ -86,75 +86,80 @@ class OficioPDF extends Component {
     pdf = () => {
       return(
         <Fragment>
-          <div>
+          <div id="oficio" style={{
+            visibility: "hidden"
+          }}>
             <table  align="center" width="100">
-              <tr>
-                <td align="letf">
-                  <UCV2 />
-                </td>
-		            <td align="center" width="420">
-                  <h2><b>UNIVERSIDAD CENTRAL DE VENEZUELA
-                  <br/>
-                  FACULTAD  DE HUMANIDADES Y EDUCACIÓN
-                  <br/>ESCUELA {this.state.escuela.name}
-                  </b></h2>
-                </td>
-  		            <td><FHE />
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td align="letf">
+                    <UCV2 />
+                  </td>
+  		            <td align="center" width="420">
+                    <h2><b>UNIVERSIDAD CENTRAL DE VENEZUELA
+                    <br/>
+                    FACULTAD  DE HUMANIDADES Y EDUCACIÓN
+                    <br/>ESCUELA {this.state.escuela.name}
+                    </b></h2>
+                  </td>
+    		            <td><FHE />
+                  </td>
+                </tr>
+              </tbody>
             </table>
             <table  align="center" width="565">
-              <tr>
-            		<td align="letf"><p>{this.state.codigo}</p></td>
-            		<td align="right"><p>Caracas de {this.state.fecha_hoy}</p></td>
-            	</tr>
-            	<br/>
-              <tr>
-                <td colSpan="2">
-                  <p>
-                    <b>Ciudadano
+              <tbody>
+                <tr>
+              		<td align="letf"><p>{this.state.codigo}</p></td>
+              		<td align="right"><p>Caracas de {this.state.fecha_hoy}</p></td>
+              	</tr>
+                <tr>
+                  <td colSpan="2">
+                    <p>
+                      <b>Ciudadano
+                        <br/>
+                        Vicenzo Piero Lo Mónaco
+                        <br/>
+                        Decano Facultad de Humanidades y Educación
+                        <br/>
+                        Presente.-</b>
                       <br/>
-                      Vicenzo Piero Lo Mónaco
                       <br/>
-                      Decano Facultad de Humanidades y Educación
-                      <br/>
-                      Presente.-</b>
-                    <br/>
-                    <br/>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-		            <td colspan="2" width="30%">
-			              <p></p><p>  Por medio de la presente tiene por objeto solicitar {this.state.tip_mov} del profesor
-                      <b>{this.state.nombre} {this.state.snombre} {this.state.apellido} {this.state.sapellido}; C.I.: {this.state.cedula}</b>,
-                        {this.state.dedicacion}, a partir del {this.state.fecha_ini} hasta {this.state.fecha_fin},
-                        para la Cátedra de {this.state.catedra.name}, del Departamento de {this.state.departamento.name},
-                        dicha  contratación será cubierta con la partida presupuestaria identificada con el IDAC
-                        <b>{this.state.idac.code}</b>.
-                      </p>
-		           </td>
-	           </tr>
-	            <tr>
-		             <td colspan="2">
-                   <p>Sin otro particular al cual hacer referencia, me despido,</p>
-                 </td>
-	           </tr>
-	            <tr>
-		              <td colspan="2" align="center">
-                    <p>Atentamente</p>
+                    </p>
                   </td>
-	            </tr>
-	             <tr align='center'>
-		               <td colspan="2">
-                     <p>___________________
-                       <br/>
-                       <b><br/>
-                       Director (e).
-                       <br/>Escuela {this.state.escuela.name}.</b>
-                     </p>
+                </tr>
+                <tr>
+  		            <td colSpan="2" width="30%">
+  			              <p align='center'>  Por medio de la presente tiene por objeto solicitar {this.state.tip_mov} del profesor
+                          <b> {this.state.nombre} {this.state.snombre} {this.state.apellido} {this.state.sapellido}, C.I.: {this.state.cedula}</b>,
+                           {this.state.dedicacion}, a partir del {this.state.fecha_ini} hasta {this.state.fecha_fin},
+                           para la Cátedra de {this.state.catedra.name}, del Departamento de {this.state.departamento.name},
+                          dicha  contratación será cubierta con la partida presupuestaria identificada con el IDAC
+                          <b>{this.state.idac.code}</b>.
+                        </p>
+  		           </td>
+  	           </tr>
+  	            <tr>
+  		             <td colSpan="2">
+                     <p>Sin otro particular al cual hacer referencia, me despido,</p>
                    </td>
-	             </tr>
+  	           </tr>
+  	            <tr>
+  		              <td colSpan="2" align="center">
+                      <p>Atentamente</p>
+                    </td>
+  	            </tr>
+  	             <tr align='center'>
+  		               <td colSpan="2">
+                       <p>___________________
+                         <br/>
+                         <b><br/>
+                         Director (e).
+                         <br/>Escuela {this.state.escuela.name}.</b>
+                       </p>
+                     </td>
+  	             </tr>
+              </tbody>
             </table>
           </div>
         </Fragment>

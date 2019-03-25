@@ -14,7 +14,7 @@ export const generatePDF = (title, idName, contHtml) => {
       language={'es-ve'}>
         <Html sourceById={idName} />
       </PDF>
-      {contHtml()}
+      {contHtml}
     </Fragment>
   )
 }

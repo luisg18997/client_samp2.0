@@ -59,6 +59,12 @@ class ListMovPersonalAprobado extends Component {
     };
   }
 
+  handleViewPDF(e, identification) {
+    e.preventDefault();
+    console.log('ListOficio: ', identification);
+    this.props.history.replace('/Escuela/movPersonal/PDF', { cedula: identification,ubication_id: this.state.user.ubication.id});
+  }
+
   async componentWillMount() {
     if (await this.auth.loggedIn()) {
       const resultUser = await this.auth.ObtainData();
@@ -74,7 +80,7 @@ class ListMovPersonalAprobado extends Component {
          execunting_unit: form.execunting_unit,
          idac: form.idac_code,
          approval_date: form.approval_date,
-         button: <MDBBtn>Ver PDF</MDBBtn>,
+         button: <MDBBtn type='button' onClick={(e) => this.handleViewPDF(e, form.identification)}>Ver PDF</MDBBtn>,
        }));
      }
      this.setState({
