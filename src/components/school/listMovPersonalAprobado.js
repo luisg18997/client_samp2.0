@@ -86,6 +86,7 @@ class ListMovPersonalAprobado extends Component {
      this.setState({
        table,
        isLoaded: true,
+	user
      });
    }
   }

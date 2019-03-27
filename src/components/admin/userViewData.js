@@ -77,8 +77,8 @@ import {
 			return (<div className="loader"></div>);
 		} else {
         return (
-        <div className="content">
-          <Container  className="mt-4">
+        <div className="contentd">
+          <Container   className="mt-4">
             <Row className="mt-2">
               <form>
                 <p className="h2 text-center mb-6">Datos de Usuario</p>

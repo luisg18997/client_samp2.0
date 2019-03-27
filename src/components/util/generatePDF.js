@@ -1,5 +1,5 @@
 import React, { Fragment} from 'react'
-import PDF, { Html } from 'jspdf-react'
+import PDF, { Html, AddPage, Text } from 'jspdf-react'
 
 export const generatePDF = (title, idName, contHtml) => {
   const properties = { title };
@@ -12,6 +12,8 @@ export const generatePDF = (title, idName, contHtml) => {
       previewHeight={window.innerHeight}
       DisplayDocTitle={true}
       language={'es-ve'}>
+	<Text x={5} y={5} size={19}>Hola</Text>
+	<AddPage />
         <Html sourceById={idName} />
       </PDF>
       {contHtml}

@@ -6,6 +6,7 @@ import {
   from '../../connect_api/formData/formDataAPI';
 import {UCV2, FHE } from '../../images/components/logos'
 import Authorization from '../redirectPrincipal';
+import PDF, { Html, Text, AddPage } from 'jspdf-react'
 
 class movPersonalPDF extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ class movPersonalPDF extends Component {
           apellido: result.surname,
           sapellido: result.second_surname,
           tip_mov: result.movement_type.toUpperCase(),
-          idac: result.idac_code,
+          idac: result.idac_code.code,
           escuela: result.school,
           instituto : result.institute,
           coordinacion : result.coordination,
@@ -123,21 +124,24 @@ class movPersonalPDF extends Component {
   pdf = () => {
     return(
       <Fragment>
-        <div id="MovPersonal" style={{
-          visibility: "hidden"
-        }}>
-          <table align="center" width="100">
-  	         <tr align="center">
-               <td width="100" align="letf"><UCV2 /></td>
-               <td width="320"><b>UNIVERSIDAD CENTRAL DE VENEZUELA</b><br /><br />
-          	     <b>FACULTAD DE HUMANIDADES Y EDUCACION</b></td>
-               <td width="250"><b>Solicitud de Movimiento de Personal</b><br/><br/>
+        <div id="MovPersonal">
+          <table width="100" align="center">
+  	      <tbody>
+		<tr align="center">
+               <td colSpan='2' width="25%" align="letf"><div><UCV2 /></div></td>
+               <td colSpan='2' width="25%"><h4><b>UNIVERSIDAD CENTRAL DE VENEZUELA</b><br/><br/>
+          	     <b>FACULTAD DE HUMANIDADES Y EDUCACION</b></h4>
+		</td>
+               <td colSpan='2' width="250"><b>Solicitud de Movimiento de Personal</b><br/><br/>
           	     Numero:<strong>{this.state.codigo}</strong></td>
-               <td width="110"><FHE /></td>
+               <td colSpan='2' width="110">{' '}
+              <FHE /></td>
             </tr>
+		</tbody>
           </table>
           <table border="3">
-            <tr>
+            <tbody>
+		<tr>
                 <td colSpan='3'>
                   <b>Escuela: {this.state.escuela}</b>
                 </td>
@@ -160,7 +164,7 @@ class movPersonalPDF extends Component {
                 </td>
             </tr>
             <tr align="center">
-                <td colSpan='1.5'>
+                <td colSpan='2'>
                   <b>Tipo de Movimiento</b>
                 </td>
                 <td>
@@ -171,8 +175,8 @@ class movPersonalPDF extends Component {
                 </td>
             </tr>
             <tr align="center">
-                <td colSpan='1.5'>
-                  {this.state.tip_mov.description}
+                <td colSpan='2'>
+                  {this.state.tip_mov}
                 </td>
                 <td>
                   {this.state.dedicacion}
@@ -211,7 +215,7 @@ class movPersonalPDF extends Component {
                   {this.state.categoria}
                 </td>
             </tr>
-            <tr align="center">
+            <tr>
                 <td colSpan='4'>
                   <b>Justificación u Observaciones: </b> {this.state.observacion}
                   <br />
@@ -248,7 +252,7 @@ class movPersonalPDF extends Component {
               </td>
             </tr>
             <tr>
-              <td colSpan='2' width="50%">
+              <td colSpan='2' width="50%" aling='left'>
                 <b>Unidad Ejecutora:</b> {this.state.unidad_ejec}
                 <br/>
                 <b>Cógo Programa:</b>
@@ -266,21 +270,33 @@ class movPersonalPDF extends Component {
                 <b>Observaciones de Departamento de Presupuesto</b>
               </td>
             </tr>
+	    </tbody>
           </table>
-
-        </div>
+	</div>
       </Fragment>
     )
   }
 
   render(){
+const properties = { title : 'movPersonalPrueba' };
     if (!this.state.isLoaded) {
 			return (<div className="loader"></div>);
 		} else {
       return(
         <Fragment>
-        {generatePDF(this.state.title, 'oficio', this.pdf())}
-        </Fragment>
+      <PDF
+      properties={properties}
+      preview={true}
+      previewWidth={window.innerWidth}
+      previewHeight={window.innerHeight}
+      DisplayDocTitle={true}
+      language={'es-ve'}>
+	<Text x={0} y={1} size={10}>hola</Text>
+	<AddPage/>
+        <Html x={0} y={1} sourceById='MovPersonal' />
+      </PDF>
+      {this.pdf()}
+    </Fragment>
       )
     }
   }

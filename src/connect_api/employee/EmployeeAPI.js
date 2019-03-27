@@ -340,3 +340,24 @@ export const getEmployeesList = async(schoolID, instituteID, coordinationID) => 
   console.log('getEmployeesList: ', result);
   return result;
 }
+
+export const getEmployee = async(employeeID) => {
+  const result = await api.post('',{
+    param_id: employeeID,
+  })
+  .then((res) => {
+    if(res.data.messageError) {
+      console.log(res.data.messageError);
+      return res.data.messageError
+    } else {
+      console.log(res);
+      return res.data;
+    }
+  })
+  .catch((error) => {
+    console.log('The error in the call route getEmployee  is:', error.message);
+    return error;
+  })
+  console.log('getEmployee: ', result);
+  return result;
+}

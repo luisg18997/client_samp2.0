@@ -17,6 +17,15 @@ class OlvidoClave extends Component {
 			user: [],
 			answer: "",
 			answerValidate : false,
+			isLoaded : false,
+			//focus
+			respuestaFocus: false,
+			newPasswordFocus: false,
+      			newPasswordConfirmFocus: false,
+			//validate
+			respuestaValidate: false,
+			newPasswordValidate: false,
+      			newPasswordConfirmValidate: false,
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,6 +49,47 @@ class OlvidoClave extends Component {
 			[event.target.name]: event.target.value
 		});
 		console.log(this.state);
+	}
+
+	async handleValidateEmpty(data, name, focus, nameFocus, validateName) {
+    const result = await validateEmpty(data, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+	async handleValidatePassword(data, name, focus, nameFocus, validateName) {
+    const result = await validatePassword(data, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+	async handleValidatePasswordConfirm(data,password, name, focus, nameFocus, validateName) {
+    const result = await validatePasswordConfirm(data,password, name, focus);
+    console.log(result);
+    await this.setState({
+      [nameFocus]: result,
+      [validateName]: !result
+    });
+    console.log('this.state: ', this.state);
+    return !result;
+  }
+
+  validateForm1() {
+    return this.state.respuestaValidate;
+  }
+
+	validateForm2(){
+		return this.state.newPasswordValidate && this.state.newPasswordConfirmValidate
 	}
 
 	async handleValidateAnswer(value) {
@@ -90,11 +140,11 @@ answerValidate
 						<hr></hr>
 						{Label('Pregunta Secreta','text', 'pregunta', this.state.user.question.description)}
 
-						{Label(LabelRequired('Respuesta'),'password', 'answer', answer, this.handleChange, true, (e) => validateEmpty(e.target.value,'Respuesta'))}
+						{Label(LabelRequired('Respuesta'),'password', 'answer', answer, this.handleChange, true, (e) => this.handleValidateEmpty(e.target,'Respuesta',this.state.respuestaFocus,'respuestaFocus','respuestaValidate'),this.state.respuestaFocus.toString())}
 						<br></br>
 			            <div  className="form-group col-md-12">
 			                <div className="row justify-content-center">
-			                  <MDBBtn color="light-blue" type="button" className="col-md-3" onClick={()=>this.handleValidateAnswer(true)} style={{marginRight:'100px'}} >Enviar</MDBBtn>
+			                  <MDBBtn color="light-blue" type="button" className="col-md-3" disable={!this.validateForm1()} onClick={()=>this.handleValidateAnswer(true)} style={{marginRight:'100px'}} >Enviar</MDBBtn>
 			                  <MDBBtn color="light-blue" type="button" className="col-md-3" onClick={()=>this.handleValidateAnswer(false)}> Cancelar</MDBBtn>
 			              </div>
 			            </div>
@@ -102,12 +152,12 @@ answerValidate
 					<Fragment>
 						<h2> Cambio de Clave:</h2>
 						<hr></hr>
-	        	{Label(LabelRequired('Contraseña'),'password', 'newPassword', newPassword, this.handleChange, true, (e) => validatePassword(e.target.value, 'Contraseña'))}
+	        	{Label(LabelRequired('Contraseña'),'password', 'newPassword', newPassword, this.handleChange, true, (e) => this.handleValidatePassword(e.target, 'Contraseña',this.state.newPasswordFocus,'newPasswordFocus','newPasswordValidate'),this.state.newPasswordFocus.toString())}
 
-	        	{Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => validatePasswordConfirm(e.target.value,newPasswordConfirm,'Confirmar Contraseña'))}
+	        	{Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => this.handleValidatePasswordConfirm(e.target,newPassword,'Confirmar Contraseña',this.state.newPasswordConfirmFocus,'newPasswordConfirmFocus','newPasswordConfirmValidate'),this.state.newPasswordConfirmFocus.toString())}
 						<div  className="form-group col-md-12">
 								<div className="row justify-content-center">
-									<MDBBtn color="info" type="button" className="col-md-3" onClick={this.handleSubmit} style={{marginRight:'100px'}} >Enviar</MDBBtn>
+									<MDBBtn color="info" type="button" disabled={!this.validateForm2()} className="col-md-3" onClick={this.handleSubmit} style={{marginRight:'100px'}} >Enviar</MDBBtn>
 									<MDBBtn color="info" type="reset" className="col-md-3"> Restablecer</MDBBtn>
 							</div>
 						</div>

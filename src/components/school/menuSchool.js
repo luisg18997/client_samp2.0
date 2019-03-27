@@ -17,6 +17,7 @@ import ListPlanillas from './ListadoPlanillas';
 import OficioRev from './oficioRev';
 import MovPersonalRev from './movPersonalRev';
 import OficioPDF from './oficioPDF';
+import OficioAddE from './oficioUpdate';
 import MovPersonalPDF from './movPersonalPDF';
 
 class MenuSchool extends Component {
@@ -73,6 +74,7 @@ class MenuSchool extends Component {
             <Switch>
               <Route exact path="/Escuela" component={MainSchool} />
               <Route path="/Escuela/Oficio/Nuevo" component={FormOfice} />
+	      <Route path="/Escuela/Oficio/Existente" component={OficioAddE} />
               <Route path="/Escuela/Empleados" component={ListEmpleado} />
               <Route path="/Escuela/Oficios" component={listOficio} />
               <Route path="/Escuela/Oficio/Aprobados" component={ListOficioAprobado} />

@@ -12,11 +12,13 @@ import {
   getAllDedicationTypesList,
   getAllIdacCodesFilterVacantDateNotNullList,
   getAllDocumentationList,
-  getAllNacionalitiesList
+  getAllNacionalitiesList,
+  getEmployee
 } from '../../connect_api/employee/EmployeeAPI'
 import {
   getAllMovementTypeslist,
  addNewFormOfice,
+getFormOfficial,
  CodeOfice
 } from '../../connect_api/formData/formDataAPI'
 import Authorization from '../redirectPrincipal';
@@ -180,30 +182,61 @@ this.handleChangeIdac(ExecID);
 }
 
 async componentWillMount() {
-  if (await this.auth.loggedIn()) {
-    const result = await this.auth.ObtainData();
-    const user = result.data;
-    const schoolData= await getSchool(user.schoolID);
-    const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
-    this.handleChangeExecUnit(schoolData.codeFilter);
-    const generoList = await getAllGenderList();
-    const NacionalitiesList = await getAllNacionalitiesList();
-    const documentationList = await getAllDocumentationList();
-    const DedicationTypes = await getAllDedicationTypesList()
-    const tipoMovList = await getAllMovementTypeslist();
-    this.setState({
-      user,
-      schoolData,
-      departamentoList,
-      auth: true,
-      isLoaded : true,
-      generoList,
-      tipoMovList,
-      NacionalitiesList,
-      documentationList,
-      DedicationTypes,
-    })
-  }
+  	if (await this.auth.loggedIn()) {
+    		console.log("this.props: ", this.props);
+      		if (this.props.location.state === undefined) {
+        		this.props.history.replace('/Escuela')
+     	 	} else {
+			let result;
+			if(this.props.location.state.employee_id === undefined){
+				result = await getFormOfficial(this.props.location.state.cedula, this.props.location.state.ubication_id);
+			} else {
+				result = await getEmployee(this.props.location.state.employee_id);
+			}
+		    const resultUser = await this.auth.ObtainData();
+		    const user = resultUser.data;
+		    const schoolData= await getSchool(user.schoolID);
+		    const departamentoList = await getAllDepartamentBySchoolList(schoolData.ID)
+		    this.handleChangeExecUnit(schoolData.codeFilter);
+		    const generoList = await getAllGenderList();
+		    const NacionalitiesList = await getAllNacionalitiesList();
+		    const documentationList = await getAllDocumentationList();
+		    const DedicationTypes = await getAllDedicationTypesList()
+		    const tipoMovList = await getAllMovementTypeslist();
+		    const dept = {
+			target: {
+				value : result.departament.id
+				}
+			}
+		await this.handleChangeSelectdept(dept)
+
+		    this.setState({
+		      empleadoID : result.employee_id,
+            	      cedula: result.identification,
+            nombre : result.first_name,
+            snombre: result.second_name,
+            apellido: result.surname,
+            sapellido: result.second_surname,
+	idac: result.idac_code.id,
+            escuela: result.school.id,
+            instituto : result.institute.id,
+            coordinacion : result.coordination.id,
+            departamento: result.departament.id,
+            catedra: result.chair.id,
+            unidad_ejec: result.execunting_unit.id,
+		      user,
+		      schoolData,
+		      departamentoList,
+		      auth: true,
+		      isLoaded : true,
+		      generoList,
+		      tipoMovList,
+		      NacionalitiesList,
+		      documentationList,
+		      DedicationTypes,
+		    })
+		}
+  	}
 }
 
  handleChange = event => {

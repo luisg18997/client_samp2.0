@@ -142,7 +142,7 @@ class PreguntaSegList extends Component {
                     <p className="h2 text-center mb-6">Cambio de Clave</p>
                     {Label(LabelRequired('Contraseña'),'password', 'newPassword', newPassword, this.handleChange, true, (e) => this.handleValidatePassword(e.target, 'Contraseña',this.state.newPasswordFocus,'newPasswordFocus','newPasswordValidate'),this.state.newPasswordFocus.toString())}
 
-                    {Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => this.handleValidatePasswordConfirm(e.target,newPasswordConfirm,'Confirmar Contraseña',this.state.newPasswordConfirmFocus,'newPasswordConfirmFocus','newPasswordConfirmValidate'),this.state.newPasswordConfirmFocus.toString())}
+                    {Label(LabelRequired('Confirmar Contraseña'),'password', 'newPasswordConfirm', newPasswordConfirm, this.handleChange, true, (e) => this.handleValidatePasswordConfirm(e.target,newPassword,'Confirmar Contraseña',this.state.newPasswordConfirmFocus,'newPasswordConfirmFocus','newPasswordConfirmValidate'),this.state.newPasswordConfirmFocus.toString())}
                   </Fragment>
                   :<span></span>
                 }

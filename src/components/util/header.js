@@ -8,7 +8,6 @@ class Header extends Component {
 
       <div className="header">
 
-
         <nav
           className="navbar header-top fixed-top navbar-expand-lg  navbar-dark"
           style={{

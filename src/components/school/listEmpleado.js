@@ -62,7 +62,7 @@ class ListEmpleado extends Component {
   handleData(e, identification) {
     e.preventDefault();
     console.log('ListEmpleado: ', identification);
-    // this.props.history.push('/Escuela/Oficio', {cedula:identification});
+    this.props.history.replace('/Escuela/Oficio/Existente', {employee_id:identification});
   }
 
   async componentWillMount() {
@@ -79,7 +79,7 @@ class ListEmpleado extends Component {
           idac: emp.idac_code,
           dedication_type: emp.dedication_type,
           admission_date: emp.admission_date,
-          button: <MDBBtn onClick={e => this.handleData(e, emp.identification)}>Seleccionar</MDBBtn>,
+          button: <MDBBtn onClick={e => this.handleData(e, emp.id)}>Seleccionar</MDBBtn>,
         }));
       }
       this.setState({

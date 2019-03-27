@@ -243,6 +243,8 @@ async handleSubmit(event) {
 	<div className="row justify-content-center">
 		<MDBBtn color="info" type="submit" disabled={!this.validateForm()} className=" col-md-3" style={{marginRight:'100px'}}>Enviar</MDBBtn>
 		<MDBBtn color="info" type="reset" className="col-md-3" > Restablecer  </MDBBtn>
+   <Link to='/Registro'>Iniciar sesión
+</Link>
 </div>
 </div>
 			</form>
