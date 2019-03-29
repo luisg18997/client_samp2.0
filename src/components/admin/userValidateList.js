@@ -47,7 +47,7 @@ class UserValidateList extends Component {
       isLoaded: false,
       userList : [],
       rolList : [],
-      user: []
+      user: {}
     }
   }
 
